@@ -139,14 +139,14 @@ export const MENUITEMS = [
     Items: [
       {
         path: `${process.env.PUBLIC_URL}/Formations`,
-        icon: "home",
+        icon: "help-circle",
         type: "link",
         active: true,
         title: "Les formations disponibles",
       },
       {
         path: `${process.env.PUBLIC_URL}/Services`,
-        icon: "home",
+        icon: "layers",
         type: "link",
         active: true,
         title: "Les services disponibles",
