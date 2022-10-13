@@ -53,7 +53,7 @@ export default function Login() {
                   <div className="text-end pt-1">
                     <p className="mb-0">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/custompages/forgotPassword/`}
+                        to={`/react/custompages/forgotPassword/`}
                         className="text-primary ms-1"
                       >
                         Forgot Password?

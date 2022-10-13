@@ -21,7 +21,7 @@ export default function Errorpage400() {
               </h5>
               <div className="text-center">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/dashboard/`}
+                  to={`${process.env.PUBLIC_URL}/`}
                   className="btn btn-primary mt-5 mb-5"
                 >
                   <i className="fa fa-long-arrow-left"></i> Back to Home
