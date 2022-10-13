@@ -92,7 +92,7 @@ export default function Register() {
                     <p className="text-dark mb-0">
                       Already have account?
                       <Link
-                        to={`${process.env.PUBLIC_URL}/custompages/login`}
+                        to="/react"
                         className="text-primary ms-1"
                       >
                         Sign In
