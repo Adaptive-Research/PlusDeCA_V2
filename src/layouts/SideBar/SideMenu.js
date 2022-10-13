@@ -17,7 +17,7 @@ export const MENUITEMS = [
         title: "Les prochaines réunions",
       },
       {
-        path: `${process.env.PUBLIC_URL}/articles`,
+        path: `${process.env.PUBLIC_URL}/ArticlesReseau`,
         icon: "edit",
         type: "link",
         active: false,
@@ -43,17 +43,60 @@ export const MENUITEMS = [
   },
 
   {
-    menutitle: "MON ACTIVITE",
+    menutitle: "MON RESEAU",
     Items: [
+      {
+        path: `${process.env.PUBLIC_URL}/MesContacts`,
+        icon: "user-plus",
+        type: "link",
+        active: true,
+        title: "Mes contacts",
+      },
+      {
+        path: `${process.env.PUBLIC_URL}/MesMails`,
+        icon: "mail",
+        type: "link",
+        active: true,
+        title: "Mes mails",
+      },
       {
         path: `${process.env.PUBLIC_URL}/dashboard`,
         icon: "home",
         type: "link",
         active: true,
-        title: "Dashboard",
+        title: "Mon activité",
       },
+
+
+
     ],
   },
+
+  {
+    menutitle: "MES ACTIONS",
+    Items: [
+      {
+        path: `${process.env.PUBLIC_URL}/MesArticles`,
+        icon: "home",
+        type: "link",
+        active: true,
+        title: "Mes articles",
+      },
+      {
+        path: `${process.env.PUBLIC_URL}/MesGroupes`,
+        icon: "home",
+        type: "link",
+        active: true,
+        title: "Mes groupes",
+      },
+
+
+
+    ],
+  },
+
+
+
   {
     menutitle: "WIDGETS",
     Items: [
