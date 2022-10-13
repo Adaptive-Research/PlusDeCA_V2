@@ -1,6 +1,49 @@
 export const MENUITEMS = [
   {
-    menutitle: "MAIN",
+    menutitle: "JOURNAL",
+    Items: [
+      {
+        path: `${process.env.PUBLIC_URL}/news`,
+        icon: "globe",
+        type: "link",
+        active: false,
+        title: "Actualités du réseau",
+      },
+      {
+        path: `${process.env.PUBLIC_URL}/components/defaultCalendar`,
+        icon: "calendar",
+        type: "link",
+        active: false,
+        title: "Les prochaines réunions",
+      },
+      {
+        path: `${process.env.PUBLIC_URL}/articles`,
+        icon: "edit",
+        type: "link",
+        active: false,
+        title: "Les articles de nos entrepreneurs",
+      },
+      {
+        path: `${process.env.PUBLIC_URL}/found`,
+        icon: "eye",
+        type: "link",
+        active: false,
+        title: "Trouvé sur le net",
+      },
+      {
+        path: `${process.env.PUBLIC_URL}/entrepreneur`,
+        icon: "thumbs-up",
+        type: "link",
+        active: false,
+        title: "Un entrepreneur en lumière",
+      },
+
+
+    ],
+  },
+
+  {
+    menutitle: "MON ACTIVITE",
     Items: [
       {
         path: `${process.env.PUBLIC_URL}/dashboard`,

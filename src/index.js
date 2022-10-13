@@ -16,7 +16,7 @@ const Dashboard = React.lazy(()=> import("./components/Dashboard/Dashboard"));
 const Widgets = React.lazy(()=> import("./components/Widgets/Widgets"));
 
 
-/*
+
 //Components
 const CardDesign = React.lazy(() =>import("./components/Components/CardDesign/CardDesign"));
 const ContentScrollBar = React.lazy(()=>import("./components/Components/ContentScrollBar/ContentScrollBar"));
@@ -131,7 +131,7 @@ const Errorpage401 = React.lazy(()=>import("./components/ErrorPages/ErrorPages/4
 const Errorpage403 = React.lazy(()=>import("./components/ErrorPages/ErrorPages/403/403"));
 const Errorpage500 = React.lazy(()=>import("./components/ErrorPages/ErrorPages/500/500"));
 const Errorpage503 = React.lazy(()=>import("./components/ErrorPages/ErrorPages/503/503"));
-*/
+
 
 const Loaderimg = () => {
   return (
@@ -170,7 +170,7 @@ const Root = () => {
               element={<Widgets />}
             />
 
-            {/*
+          
             <Route>
               <Route
                 path={`${process.env.PUBLIC_URL}/components/cardsDesign`}
@@ -636,13 +636,13 @@ const Root = () => {
                 element={<FileManagerList />}
               />
             </Route>
-          */}
+          
 
 
           </Route>
 
 
-          {/*
+          
           <Route
             path={`${process.env.PUBLIC_URL}/pages/themeStyle`}
             element={<Switcherlayout />}
@@ -691,7 +691,7 @@ const Root = () => {
             />
             <Route path="*" element={<Errorpage400 />} />
           </Route>
-        */}
+        
 
 
 
