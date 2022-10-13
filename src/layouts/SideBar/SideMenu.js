@@ -53,7 +53,7 @@ export const MENUITEMS = [
     menutitle: "MES RENCONTRES",
     Items: [
       {
-        path: `${process.env.PUBLIC_URL}/MonPlanning`,
+        path: `${process.env.PUBLIC_URL}/components/FullCalendar`,
         icon: "calendar",
         type: "link",
         active: false,
@@ -105,7 +105,7 @@ export const MENUITEMS = [
         path: `${process.env.PUBLIC_URL}/dashboard`,
         icon: "home",
         type: "link",
-        active: false,
+        active: true,
         title: "Mon activité",
       },
 
