@@ -20,6 +20,12 @@ import axios from "axios";
 export function RightSidebar() {
   const [rightsidebartoogle, setSidebartoogleright] = useState(true);
   const [myProfile, setMyProfile] = useState("My Profile") ;
+  const [signout, setSignOut] = useState("Sign out") ;
+  const [settings, setSettings] = useState("Account Settings") ;
+  const [myMessages, setMyMessages] = useState("My Messages") ;
+  const [myMails, setMyMails] = useState("My Mails") ;
+
+
   function Outhover(toggle) {
     setSidebartoogleright(!toggle);
     document.querySelector(".sidebar-right").classList.remove("sidebar-open");
@@ -77,6 +83,19 @@ export function RightSidebar() {
     let t = FindTranslation(response.data,Page,VL, myProfile) ;
     if (t != "Not Found")
       setMyProfile(t) ;
+    t = FindTranslation(response.data,Page,VL, signout) ;
+      if (t != "Not Found")
+        setSignOut(t) ;
+    t = FindTranslation(response.data,Page,VL, settings) ;
+        if (t != "Not Found")
+          setSettings(t) ;
+    t = FindTranslation(response.data,Page,VL, myMessages) ;
+        if (t != "Not Found")
+          setMyMessages(t) ;                 
+    t = FindTranslation(response.data,Page,VL, myMails) ;
+        if (t != "Not Found")
+          setMyMails(t) ;          
+  
     })
   }
 
@@ -153,7 +172,7 @@ export function RightSidebar() {
                   <div className="d-flex">
                     <i className="fe fe-message-square me-3 tx-20 text-muted"></i>
                     <div className="pt-1">
-                      <h6 className="mb-0">My Messages</h6>
+                      <h6 className="mb-0">{myMessages}</h6>
                       <p className="tx-12 mb-0 text-muted">
                         Person message information
                       </p>
@@ -167,7 +186,7 @@ export function RightSidebar() {
                   <div className="d-flex">
                     <i className="fe fe-mail me-3 tx-20 text-muted"></i>
                     <div className="pt-1">
-                      <h6 className="mb-0">My Mails</h6>
+                      <h6 className="mb-0">{myMails}</h6>
                       <p className="tx-12 mb-0 text-muted">
                         Persons mail information
                       </p>
@@ -181,7 +200,7 @@ export function RightSidebar() {
                   <div className="d-flex">
                     <i className="fe fe-settings me-3 tx-20 text-muted"></i>
                     <div className="pt-1">
-                      <h6 className="mb-0">Account Settings</h6>
+                      <h6 className="mb-0">{settings}</h6>
                       <p className="tx-12 mb-0 text-muted">
                         Settings Information
                       </p>
@@ -195,13 +214,18 @@ export function RightSidebar() {
                   <div className="d-flex">
                     <i className="fe fe-power me-3 tx-20 text-muted"></i>
                     <div className="pt-1">
-                      <h6 className="mb-0">Sign Out</h6>
+                      <h6 className="mb-0">{signout}</h6>
                       <p className="tx-12 mb-0 text-muted">Account Signout</p>
                     </div>
                   </div>
                 </Link>
               </div>
             </Tab>
+
+
+
+
+
 
             <Tab eventKey="side2" title="Contacts">
               <div className="tab-pane" id="side2">
