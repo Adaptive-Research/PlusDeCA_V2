@@ -66,7 +66,7 @@ export default function Login() {
         } catch (e) {
           console.log(e);
         } finally {
-          navigate(`${process.env.PUBLIC_URL}/app/dashboard`);
+          navigate(`${process.env.PUBLIC_URL}/dashboard`);
         }
       }
 
