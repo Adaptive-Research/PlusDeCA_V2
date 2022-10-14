@@ -82,7 +82,7 @@ export default function Register() {
                   </label>
                   <div className="container-login100-form-btn">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/dashboard/`}
+                      to={`${process.env.PUBLIC_URL}/app/dashboard/`}
                       className="login100-form-btn btn-primary"
                     >
                       Register
