@@ -1,17 +1,147 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
+import axios from "axios";
+import { useNavigate } from "react-router";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
+import { checkDuplicate, checkEmail, getAllUsersEmail } from "../../../data/customlibs/utils";
 export default function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [emailMsg, setEmailMsg] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordMsg, setPasswordMsg] = useState("");
+  const [token, setToken] = useState([]);
+
+  const toLog = () => {
+    window.location.href = "https://plusdeca.fr";
+  }
+
+
+  getAllUsersEmail();
+
+
+  const changeInput = (e, type) => {
+    if (type === "email") {
+      setEmail(e.target.value);
+    } else if (type === "password") {
+      setPassword(e.target.value);
+    }
+  }
+
+  const changeValue = (e, type) => {
+    if (type === "email") {
+      e.target.value = "";
+    } else if (type === "password") {
+      e.target.value = "";
+    }
+  }
+
+
+
+  const requestLogin = async (mail, pass) => {
+
+    const url = process.env.REACT_APP_API_LOGIN_URL;
+    if (checkEmail(mail, pass)) {
+      const response = await axios.post(url, {
+        Submit: 1,
+        Email: mail,
+        Password: pass
+      }, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      })
+
+
+      if (response.data.includes("ERROR:")) {
+        console.log(`Error found: ${response.data}`);
+        setEmailMsg("Wrong email or password");
+        setPasswordMsg("Wrong email or password");
+        localStorage.setItem('logged', JSON.stringify(false));
+      } else {
+        console.log("User authenticated");
+
+        try {
+          let temp = response.data
+          setToken(elem => [token.push(temp)]);
+          localStorage.setItem('token', JSON.stringify(temp));
+          localStorage.setItem('userMail', mail);
+          localStorage.setItem('logged', JSON.stringify(true));
+        } catch (e) {
+          console.log(e);
+        } finally {
+          navigate(`${process.env.PUBLIC_URL}/app/dashboard`);
+        }
+      }
+
+    }
+
+  }
+
+
+
+  const inputsValidation = () => {
+    let emailCheck, passwordCheck;
+    if (email === "") {
+      setEmailMsg("Email is required");
+      emailCheck = false;
+    } else if (!checkEmail(email)) {
+      setEmailMsg("Email is not valid");
+      emailCheck = false;
+    } else if (!checkDuplicate(email)) {
+      setEmailMsg("Email is not registered");
+      emailCheck = false;
+    } else {
+      setEmailMsg("");
+      emailCheck = true;
+    }
+
+    if (password === "") {
+      setPasswordMsg("Password is required");
+      passwordCheck = false;
+    } else if (password.length < 8) {
+      setPasswordMsg("Password must be at least 8 characters");
+      passwordCheck = false;
+    } else {
+      setPasswordMsg("");
+      passwordCheck = true;
+    }
+
+    if (emailCheck && passwordCheck) {
+      requestLogin();
+    }
+
+  }
+
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    try {
+      inputsValidation();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      console.log("Login attempt");
+      setEmail("");
+      setPassword("");
+      console.clear();
+    }
+
+
+  }
+
+
   return (
     <div className="login-img">
       <div className="page">
         <div className="dropdown float-end custom-layout">
-                <div className="demo-icon nav-link icon mt-4 bg-primary" onClick={()=>custompagesswitcherdata.Swichermainright()}>
-                    <i className="fe fe-settings fa-spin text_primary"></i>
-                </div>
-            </div>
-        <div className="" onClick={()=>custompagesswitcherdata.Swichermainrightremove()}>
+          <div className="demo-icon nav-link icon mt-4 bg-primary" onClick={() => custompagesswitcherdata.Swichermainright()}>
+            <i className="fe fe-settings fa-spin text_primary"></i>
+          </div>
+        </div>
+        <div className="">
           <div className="col col-login mx-auto">
             <div className="text-center">
               <img
@@ -29,9 +159,11 @@ export default function Login() {
                   <div className="wrap-input100 validate-input">
                     <input
                       className="input100"
-                      type="text"
+                      type="email"
                       name="email"
-                      placeholder="Email"
+                      value={email}
+                      placeholder={emailMsg === "" ? "Email" : emailMsg}
+                      onChange={(e) => changeInput(e, "email")}
                     />
                     <span className="focus-input100"></span>
                     <span className="symbol-input100">
@@ -43,7 +175,9 @@ export default function Login() {
                       className="input100"
                       type="password"
                       name="pass"
-                      placeholder="Password"
+                      value={password}
+                      placeholder={passwordMsg === "" ? "Password" : passwordMsg}
+                      onChange={(e) => changeInput(e, "password")}
                     />
                     <span className="focus-input100"></span>
                     <span className="symbol-input100">
@@ -61,12 +195,12 @@ export default function Login() {
                     </p>
                   </div>
                   <div className="container-login100-form-btn">
-                    <Link
-                      to={`${process.env.PUBLIC_URL}/app/dashboard/`}
+                    <button
+                      onClick={handleSubmit}
                       className="login100-form-btn btn-primary"
                     >
                       Login
-                    </Link>
+                    </button>
                   </div>
                   <div className="text-center pt-3">
                     <p className="text-dark mb-0">
