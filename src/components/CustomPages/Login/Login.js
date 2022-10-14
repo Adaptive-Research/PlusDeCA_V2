@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
 import { checkDuplicate, checkEmail, getAllUsersEmail } from "../../../data/customlibs/utils";
+import { encrypt } from "../../../data/customlibs/hasher.js";
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -29,13 +30,6 @@ export default function Login() {
     }
   }
 
-  const changeValue = (e, type) => {
-    if (type === "email") {
-      e.target.value = "";
-    } else if (type === "password") {
-      e.target.value = "";
-    }
-  }
 
 
 
@@ -53,6 +47,7 @@ export default function Login() {
         }
       })
 
+      console.log(response.data);
 
       if (response.data.includes("ERROR:")) {
         console.log(`Error found: ${response.data}`);
@@ -109,7 +104,8 @@ export default function Login() {
     }
 
     if (emailCheck && passwordCheck) {
-      requestLogin();
+      console.log("All good");
+      requestLogin(email, encrypt(password));
     }
 
   }
@@ -126,7 +122,6 @@ export default function Login() {
       console.log("Login attempt");
       setEmail("");
       setPassword("");
-      console.clear();
     }
 
 

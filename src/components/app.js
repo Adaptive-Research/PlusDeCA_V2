@@ -7,38 +7,45 @@ import RightSidebar from "../layouts/RightSidebar/RightSidebar";
 import * as Switcherdata from "../data/Switcher/Switcherdata";
 import { Outlet } from "react-router-dom";
 import TabToTop from "../layouts/TabToTop/TabToTop";
+import Errorpage401 from "./ErrorPages/ErrorPages/401/401";
 
 export default function App() {
-  return (
-    <Fragment>
-      <div className="horizontalMenucontainer">
-        <TabToTop />
-        <div className="page">
-          <div className="page-main">
-            <Header />
-            <Sidebar />
 
-            <div className="main-content app-content ">
-              <div className="side-app">
-                <div
-                  className="main-container container-fluid"
-                  onClick={() => {
-                    Switcherdata.responsiveSidebarclose();
-                    Switcherdata.Horizontalmenudefultclose();
-                  }}
-                >
-                  <Outlet />
+  if (localStorage.getItem("logged") === "true") {
+    return (
+      <Fragment>
+        <div className="horizontalMenucontainer">
+          <TabToTop />
+          <div className="page">
+            <div className="page-main">
+              <Header />
+              <Sidebar />
+
+              <div className="main-content app-content ">
+                <div className="side-app">
+                  <div
+                    className="main-container container-fluid"
+                    onClick={() => {
+                      Switcherdata.responsiveSidebarclose();
+                      Switcherdata.Horizontalmenudefultclose();
+                    }}
+                  >
+                    <Outlet />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            
+
+            </div>
+            <RightSidebar />
+            <Switcher />
+            <Footer />
           </div>
-          <RightSidebar />
-          <Switcher />
-          <Footer />
         </div>
-      </div>
-    </Fragment>
-  );
+      </Fragment>
+    );
+  } else {
+    return <Errorpage401 />;
+  }
+
 }
