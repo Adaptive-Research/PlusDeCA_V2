@@ -5,6 +5,13 @@ import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
 import * as dashboard from "../../data/dashboard/dashboard";
 import { Link } from "react-router-dom";
 export default function Dashboard() {
+
+
+
+  if (localStorage.getItem('logged') === "true") {
+  console.log("User is logged");
+  }
+
   return (
     <div>
       <div className="page-header ">

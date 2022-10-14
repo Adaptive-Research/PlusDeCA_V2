@@ -82,7 +82,7 @@ export default function Register() {
                   </label>
                   <div className="container-login100-form-btn">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/dashboard/`}
+                      to={`${process.env.PUBLIC_URL}/app/dashboard/`}
                       className="login100-form-btn btn-primary"
                     >
                       Register
@@ -92,7 +92,7 @@ export default function Register() {
                     <p className="text-dark mb-0">
                       Already have account?
                       <Link
-                        to={`${process.env.PUBLIC_URL}/custompages/login`}
+                        to="/react"
                         className="text-primary ms-1"
                       >
                         Sign In

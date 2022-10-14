@@ -51,7 +51,7 @@ export default function ForgotPassword() {
                       </div>
                       <div className="submit">
                         <Link
-                          to={`${process.env.PUBLIC_URL}/dashboard/`}
+                          to={`${process.env.PUBLIC_URL}/app/dashboard/`}
                           className="btn btn-primary d-grid"
                         >
                           Submit
@@ -60,7 +60,7 @@ export default function ForgotPassword() {
                       <div className="text-center mt-4">
                         <p className="text-dark mb-0">
                           Forgot It?
-                          <Link className="text-primary ms-1" to="#">
+                          <Link className="text-primary ms-1" to="/react">
                             Send me Back
                           </Link>
                         </p>
