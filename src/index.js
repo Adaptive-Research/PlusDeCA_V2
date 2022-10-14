@@ -9,6 +9,7 @@ import Errorpage403 from "./components/ErrorPages/ErrorPages/403/403";
 import Errorpage500 from "./components/ErrorPages/ErrorPages/500/500";
 import Errorpage503 from "./components/ErrorPages/ErrorPages/503/503";
 import Errorpage400 from "./components/ErrorPages/ErrorPages/400/400";
+import FormValidation from "./components/Form/FormValidation/FormValidation";
 
 const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
 const Register = React.lazy(() => import("./components/CustomPages/Register/Register"));
@@ -45,6 +46,10 @@ const Root = () => {
             <BrowserRouter>
                 <React.Suspense fallback={<Loaderimg/>}>
                     <Routes>
+                        <Route
+                        path={`${process.env.PUBLIC_URL}/testFormValidation`}
+                        element={<FormValidation/>}
+                        />
                         <Route
                             path={`${process.env.PUBLIC_URL}/`}
                             element={<Login/>}
