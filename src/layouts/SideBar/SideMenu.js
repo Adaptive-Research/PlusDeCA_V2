@@ -138,6 +138,13 @@ export const MENUITEMS = [
     menutitle: "MES SERVICES",
     Items: [
       {
+        path: `${process.env.PUBLIC_URL}/Achats`,
+        icon: "command",
+        type: "link",
+        active: false,
+        title: "Les achats groupés",
+      },
+      {
         path: `${process.env.PUBLIC_URL}/Formations`,
         icon: "help-circle",
         type: "link",

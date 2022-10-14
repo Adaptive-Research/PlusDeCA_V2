@@ -12,12 +12,81 @@ import face2 from "../../assets/images/faces/2.jpg";
 import face13 from "../../assets/images/faces/13.jpg";
 import face14 from "../../assets/images/faces/14.jpg";
 import face15 from "../../assets/images/faces/15.jpg";
+
+import axios from "axios";
+
+
+
 export function RightSidebar() {
   const [rightsidebartoogle, setSidebartoogleright] = useState(true);
+  const [myProfile, setMyProfile] = useState("My Profile") ;
   function Outhover(toggle) {
     setSidebartoogleright(!toggle);
     document.querySelector(".sidebar-right").classList.remove("sidebar-open");
   }
+
+
+
+
+  //const storedToken = JSON.parse(localStorage.getItem('token'));
+  const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
+  const Page = "RightSidebar" ;
+  const VL = "FR" ;
+
+ 
+
+
+
+  function FindTranslation(data,Page, VL, Message ){
+    for(var x in data)
+    {
+      if (data[x].Page == Page)
+        if (data[x].ValueLangue == VL)
+          if (data[x].Message == Message)
+            return data[x].Traduction ;
+    }
+    
+    return "Not Found";
+  }
+
+
+
+  async function TranslateAll(url, Page,VL) 
+  {
+    const response = axios.post(url, {
+        Submit: 1,
+        Page: Page,
+        ValueLangue: VL
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then( function(response) {
+   
+    /*  
+    console.log(response.data);
+    console.log("status: "+response.status);
+    console.log("statusText"+response.statusText);
+    console.log(response.headers);
+    console.log(response.config);
+    console.log(response.data[0]) ;
+
+    console.log("myProfile: "+myProfile) ;
+    */ 
+
+    let t = FindTranslation(response.data,Page,VL, myProfile) ;
+    if (t != "Not Found")
+      setMyProfile(t) ;
+    })
+  }
+
+  
+  TranslateAll(url,Page,VL) ;
+
+  
+  
+
+
 
   return (
     <div className="sidebar sidebar-right sidebar-animate">
@@ -70,7 +139,7 @@ export function RightSidebar() {
                   <div className="d-flex">
                     <i className="fe fe-user me-3 tx-20 text-muted"></i>
                     <div className="pt-1">
-                      <h6 className="mb-0">My Profile</h6>
+                      <h6 className="mb-0">{myProfile}</h6>
                       <p className="tx-12 mb-0 text-muted">
                         Profile Personal information
                       </p>
