@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as profiledata from "../../../data/Pages/profiledata/profiledata";
 import user8 from "../../../assets/images/users/8.jpg";
 import user15 from "../../../assets/images/users/15.jpg";
@@ -12,12 +12,56 @@ import user6 from "../../../assets/images/users/6.jpg";
 import user3 from "../../../assets/images/users/3.jpg";
 import { Tabs, Tab, Breadcrumb, Card,Row,Col,Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
+import axios from "axios";
+import  { FindTranslation } from "../../../functions_Dan.js" ;
+
+
+
 export default function Profile() {
+
+  const sProfile = "Profile" ;
+
+
+  const [profile, setProfile] = useState(sProfile) ;
+
+
+
+  const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
+  const Page = "Profile" ;
+  const VL = "FR" ;
+
+  
+
+
+  async function TranslateAll(url, Page,VL) 
+  {
+    const response = axios.post(url, {
+        Submit: 1,
+        Page: Page,
+        ValueLangue: VL
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then( function(response) {
+   
+
+    let t = FindTranslation(response.data,Page,VL, sProfile) ;
+    if (t != "Not Found")
+      setProfile(t) ;
+  
+    })
+  }
+
+  
+  TranslateAll(url,Page,VL) ;
+
   return (
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Profile</h1>
+          <h1 className="page-title">{profile}</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item className="breadcrumb-item" href="#">
               Pages
@@ -26,7 +70,7 @@ export default function Profile() {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Profile
+              {profile}
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -140,7 +184,7 @@ export default function Profile() {
                       id=" tab-51"
                       className="tab-content tabesbody "
                     >
-                      <Tab eventKey="Profile" title="Profile">
+                      <Tab eventKey="Profile" title={profile}>
                         <div className="tab-pane profiletab show">
                           <div id="profile-log-switch">
                             <Card>

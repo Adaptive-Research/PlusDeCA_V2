@@ -7,11 +7,34 @@ import RightSidebar from "../layouts/RightSidebar/RightSidebar";
 import * as Switcherdata from "../data/Switcher/Switcherdata";
 import { Outlet } from "react-router-dom";
 import TabToTop from "../layouts/TabToTop/TabToTop";
-import Errorpage401 from "./ErrorPages/ErrorPages/401/401";
+import Login from "../components/CustomPages/Login/Login" ;
+
+
+//import Errorpage401 from "./ErrorPages/ErrorPages/401/401";
 
 export default function App() {
 
-  if (localStorage.getItem("logged") === "true") {
+  //console.log(process.env) ;
+
+
+  const lastLogin =  localStorage.getItem('lastLogin') ;
+  if (!lastLogin)
+    return <Login /> ;
+
+
+  let LastLogin = new Date(lastLogin) ;
+  const Now = new Date() ;
+
+  var Difference_In_Time = Now.getTime() - LastLogin.getTime();
+  var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+  if (Difference_In_Days >= 1)
+  {
+    console.log("Difference_In_Days") ;
+    console.log(Difference_In_Days) ;
+    return <Login /> ;
+  }
+  else
+  {
     return (
       <Fragment>
         <div className="horizontalMenucontainer">
@@ -44,8 +67,5 @@ export default function App() {
         </div>
       </Fragment>
     );
-  } else {
-    return <Errorpage401 />;
   }
-
 }

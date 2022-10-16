@@ -12,18 +12,26 @@ import face2 from "../../assets/images/faces/2.jpg";
 import face13 from "../../assets/images/faces/13.jpg";
 import face14 from "../../assets/images/faces/14.jpg";
 import face15 from "../../assets/images/faces/15.jpg";
+import  { FindTranslation } from "../../functions_Dan.js" ;
 
 import axios from "axios";
 
 
 
 export function RightSidebar() {
+  const sMyProfile = "My Profile" ;
+  const sSignOut = "Sign out" ;
+  const sAccountSettings = "Account Settings" ;
+  const sMyMessages = "My Messages" ;
+  const sMyMails = "My Mails" ;
+
+
   const [rightsidebartoogle, setSidebartoogleright] = useState(true);
-  const [myProfile, setMyProfile] = useState("My Profile") ;
-  const [signout, setSignOut] = useState("Sign out") ;
-  const [settings, setSettings] = useState("Account Settings") ;
-  const [myMessages, setMyMessages] = useState("My Messages") ;
-  const [myMails, setMyMails] = useState("My Mails") ;
+  const [myProfile, setMyProfile] = useState(sMyProfile) ;
+  const [signout, setSignOut] = useState(sSignOut) ;
+  const [settings, setSettings] = useState(sAccountSettings) ;
+  const [myMessages, setMyMessages] = useState(sMyMessages) ;
+  const [myMails, setMyMails] = useState(sMyMails) ;
 
 
   function Outhover(toggle) {
@@ -43,18 +51,7 @@ export function RightSidebar() {
 
 
 
-  function FindTranslation(data,Page, VL, Message ){
-    for(var x in data)
-    {
-      if (data[x].Page == Page)
-        if (data[x].ValueLangue == VL)
-          if (data[x].Message == Message)
-            return data[x].Traduction ;
-    }
-    
-    return "Not Found";
-  }
-
+  
 
 
   async function TranslateAll(url, Page,VL) 
@@ -80,20 +77,20 @@ export function RightSidebar() {
     console.log("myProfile: "+myProfile) ;
     */ 
 
-    let t = FindTranslation(response.data,Page,VL, myProfile) ;
-    if (t != "Not Found")
+    let t = FindTranslation(response.data,Page,VL, sMyProfile) ;
+    if (t !== "Not Found")
       setMyProfile(t) ;
-    t = FindTranslation(response.data,Page,VL, signout) ;
-      if (t != "Not Found")
+    t = FindTranslation(response.data,Page,VL, sSignOut) ;
+      if (t !== "Not Found")
         setSignOut(t) ;
-    t = FindTranslation(response.data,Page,VL, settings) ;
-        if (t != "Not Found")
+    t = FindTranslation(response.data,Page,VL, sAccountSettings) ;
+        if (t !== "Not Found")
           setSettings(t) ;
-    t = FindTranslation(response.data,Page,VL, myMessages) ;
-        if (t != "Not Found")
+    t = FindTranslation(response.data,Page,VL, sMyMessages) ;
+        if (t !== "Not Found")
           setMyMessages(t) ;                 
-    t = FindTranslation(response.data,Page,VL, myMails) ;
-        if (t != "Not Found")
+    t = FindTranslation(response.data,Page,VL, sMyMails) ;
+        if (t !== "Not Found")
           setMyMails(t) ;          
   
     })
@@ -450,6 +447,8 @@ export function RightSidebar() {
               </div>
             </Tab>
 
+
+
             <Tab eventKey="side3" title="Settings">
               <div className="tab-pane" id="side3">
                 <Link className="dropdown-item bg-gray-100 pd-y-10" to="#">
@@ -600,7 +599,7 @@ export function RightSidebar() {
                       />
                       <span className="custom-switch-indicator"></span>
                       <span className="custom-switch-description mg-l-10">
-                        Aloow All Notifications
+                        Allow All Notifications
                       </span>
                     </label>
                   </div>

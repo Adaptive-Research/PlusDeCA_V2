@@ -39,14 +39,9 @@ export default function FullCalendars() {
     ],
 
     events: [
-      { title: "Réunion du réseau", id: "1", bg: "bg-primary", border: "border-primary" },
+      { title: "Réunion d'entrepreneurs", id: "1", bg: "bg-primary", border: "border-primary" },
       { title: "Salon", id: "2", bg: " bg-success", border: "border-success" },
-      {
-        title: "Rendez-vous client",
-        id: "3",
-        bg: "bg-warning",
-        border: "border-warning",
-      },
+      { title: "Rendez-vous client", id: "3", bg: "bg-secondary", border: "border-info" },
       { title: "Webinaire", id: "4", bg: "bg-info", border: "border-info" },
       { title: "Autre", id: "5", bg: "bg-danger", border: "border-danger" },
     ],

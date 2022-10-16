@@ -6,6 +6,9 @@ import { useNavigate } from "react-router";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
 import { checkDuplicate, checkEmail, getAllUsersEmail } from "../../../data/customlibs/utils";
 import { encrypt } from "../../../data/customlibs/hasher.js";
+import { remove_linebreaks } from "../../../functions_Dan" ;
+
+
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -13,6 +16,13 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [passwordMsg, setPasswordMsg] = useState("");
   const [token, setToken] = useState([]);
+
+
+  localStorage.removeItem("token") ;
+  localStorage.removeItem("userMail") ;
+  localStorage.removeItem("logged") ;
+  localStorage.removeItem("lastLogin") ;
+
 
   const toLog = () => {
     window.location.href = "https://plusdeca.fr";
@@ -54,15 +64,24 @@ export default function Login() {
         setEmailMsg("Wrong email or password");
         setPasswordMsg("Wrong email or password");
         localStorage.setItem('logged', JSON.stringify(false));
-      } else {
+      } 
+      else {
         console.log("User authenticated");
 
         try {
           let temp = response.data
+          //console.log(temp) ;
+          temp = remove_linebreaks(temp) ; // le token contient des retours chariots, on doit les eliminer
+
+          const now = new Date();
+          
           setToken(elem => [token.push(temp)]);
-          localStorage.setItem('token', JSON.stringify(temp));
+          localStorage.setItem('token', temp);
           localStorage.setItem('userMail', mail);
           localStorage.setItem('logged', JSON.stringify(true));
+          localStorage.setItem('lastLogin', now.toString());
+
+
         } catch (e) {
           console.log(e);
         } finally {

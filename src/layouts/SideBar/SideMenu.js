@@ -64,11 +64,11 @@ export const MENUITEMS = [
         icon: "user-plus",
         type: "link",
         active: false,
-        title: "Mes réunions du réseau",
+        title: "Mes réunions d'entrepreneurs",
       },
       {
         path: `${process.env.PUBLIC_URL}/MesSalons`,
-        icon: "mail",
+        icon: "star",
         type: "link",
         active: false,
         title: "Mes salons",
@@ -103,7 +103,7 @@ export const MENUITEMS = [
       },
       {
         path: `${process.env.PUBLIC_URL}/dashboard`,
-        icon: "home",
+        icon: "activity",
         type: "link",
         active: true,
         title: "Mon activité",
@@ -857,5 +857,6 @@ export const MENUITEMS = [
       },
     ],
   },
+  
 
 ];
