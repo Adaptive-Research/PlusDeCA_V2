@@ -1,12 +1,9 @@
 import React, {Fragment} from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
-<<<<<<< HEAD
+
 import "./"
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-=======
-import {BrowserRouter, Route, Routes} from "react-router-dom";
->>>>>>> ae71cc2e22c19fa2f972fa73ecee42d73767bffa
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
