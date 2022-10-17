@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {Card} from "react-bootstrap";
 import axios from "axios";
@@ -20,8 +20,6 @@ export default function Login() {
 
     localStorage.removeItem("token");
     localStorage.removeItem("userMail");
-    localStorage.removeItem("logged");
-    localStorage.removeItem("lastLogin");
 
 
     const toLog = () => {
@@ -82,7 +80,7 @@ export default function Login() {
                 } catch (e) {
                     console.log(e);
                 } finally {
-                    navigate(`${process.env.PUBLIC_URL}/dashboard`);
+                    window.location.href = `${process.env.PUBLIC_URL}/dashboard`;
                 }
             }
 
@@ -133,7 +131,8 @@ export default function Login() {
         } catch (e) {
             console.log(e);
         } finally {
-            console.log("Login attempt");
+            console.log(`Login attempt and logged status: ${JSON.parse(localStorage.getItem('logged'))}`);
+            console.log("Last  login: " + localStorage.getItem('lastLogin'));
             setEmail("");
             setPassword("");
         }
@@ -141,6 +140,12 @@ export default function Login() {
 
     }
 
+
+    useEffect(() => {
+        window.onpopstate = function (event) {
+            window.location.href = `${process.env.PUBLIC_URL}/`;
+        }
+    })
 
     return (
         <div className="login-img">
