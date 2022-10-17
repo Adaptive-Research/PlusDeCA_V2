@@ -17,11 +17,17 @@ export default function Login() {
     const [passwordMsg, setPasswordMsg] = useState("");
     const [token, setToken] = useState([]);
 
+    const [reloadLogin, setReloadLogin] =  useState(true);
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("userMail");
-    localStorage.removeItem("logged");
-    localStorage.removeItem("lastLogin");
+
+    if (reloadLogin === true)
+    {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userMail");
+        localStorage.removeItem("logged");
+        localStorage.removeItem("lastLogin");
+        setReloadLogin(false) ;
+    }
 
 
     const toLog = () => {
@@ -78,11 +84,15 @@ export default function Login() {
                     localStorage.setItem('logged', JSON.stringify(true));
                     localStorage.setItem('lastLogin', now.toString());
 
+                    const lastLogin =  localStorage.getItem('lastLogin') ;
+                    console.log("lastLogin") ;
+                    console.log(lastLogin) ;
+
 
                 } catch (e) {
                     console.log(e);
                 } finally {
-                    navigate(`${process.env.PUBLIC_URL}/dashboard`);
+                    window.location.href = `${process.env.PUBLIC_URL}/dashboard` ;
                 }
             }
 

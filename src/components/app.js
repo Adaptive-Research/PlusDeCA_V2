@@ -14,12 +14,12 @@ import Login from "../components/CustomPages/Login/Login" ;
 
 export default function App() {
 
-  //console.log(process.env) ;
-
 
   const lastLogin =  localStorage.getItem('lastLogin') ;
   if (!lastLogin)
     return <Login /> ;
+
+  
 
 
   let LastLogin = new Date(lastLogin) ;
