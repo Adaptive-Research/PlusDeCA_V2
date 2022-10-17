@@ -18,7 +18,6 @@ export default function Login() {
     const [token, setToken] = useState([]);
 
 
-    localStorage.removeItem("token");
     localStorage.removeItem("userMail");
 
 
