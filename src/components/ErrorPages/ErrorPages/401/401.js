@@ -17,7 +17,7 @@ export default function Errorpage401() {
                 401<span className="fs-20">error</span>
               </h1>
               <h5 className="error-details text-dark">
-                Sorry, an error has occured, Requested page not found!
+                Sorry, Unauthorized Access!
               </h5>
               <div className="text-center">
                 <Link

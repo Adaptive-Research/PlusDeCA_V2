@@ -39,16 +39,11 @@ export default function FullCalendars() {
     ],
 
     events: [
-      { title: "Meeting", id: "1", bg: "bg-primary", border: "border-primary" },
-      { title: "Party", id: "2", bg: " bg-success", border: "border-success" },
-      {
-        title: "Long Event",
-        id: "3",
-        bg: "bg-warning",
-        border: "border-warning",
-      },
-      { title: "Lunch", id: "4", bg: "bg-info", border: "border-info" },
-      { title: "HoilDay", id: "5", bg: "bg-danger", border: "border-danger" },
+      { title: "Réunion d'entrepreneurs", id: "1", bg: "bg-primary", border: "border-primary" },
+      { title: "Salon", id: "2", bg: " bg-success", border: "border-success" },
+      { title: "Rendez-vous client", id: "3", bg: "bg-secondary", border: "border-info" },
+      { title: "Webinaire", id: "4", bg: "bg-info", border: "border-info" },
+      { title: "Autre", id: "5", bg: "bg-danger", border: "border-danger" },
     ],
   };
   const [state] = useState(initialstate1);
@@ -90,7 +85,7 @@ export default function FullCalendars() {
   const handleEvents = (events) => {};
 
   const handleDateSelect = (selectInfo) => {
-    let title = prompt("Please enter a new title for your event");
+    let title = prompt("Saisissez un titre pour cet évènement");
     let calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect();
@@ -109,23 +104,9 @@ export default function FullCalendars() {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Full Calendar</h1>
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Components
-            </Breadcrumb.Item>
-            <Breadcrumb.Item className="breadcrumb-item active breadcrumds" aria-current="page">
-              Full Calender
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <h1 className="page-title">Mon planning</h1>
         </div>
         <div className="ms-auto pageheader-btn">
-          <Link to="#" className="btn btn-primary btn-icon text-white me-3">
-            <span >
-              <i className="fe fe-plus"></i>&nbsp;
-            </span>
-            Add Account
-          </Link>
           <Link to="#" className="btn btn-success btn-icon text-white">
             <span>
               <i className="fe fe-log-in"></i>&nbsp;
@@ -137,17 +118,12 @@ export default function FullCalendars() {
       <Row>
         <Col md={12}>
           <Card>
-            <Card.Header>
-              <h3 className="card-title">
-                Calender With different Color Events
-              </h3>
-            </Card.Header>
             <Card.Body>
               <Row>
                 <Col md={3}>
                   <div id="external-events">
                     <h4>
-                      <strong>Draggable Events</strong>
+                      <strong>A placer sur le calendrier</strong>
                     </h4>
 
                     {state.events.map((event) => (

@@ -12,12 +12,97 @@ import face2 from "../../assets/images/faces/2.jpg";
 import face13 from "../../assets/images/faces/13.jpg";
 import face14 from "../../assets/images/faces/14.jpg";
 import face15 from "../../assets/images/faces/15.jpg";
+import  { FindTranslation } from "../../functions_Dan.js" ;
+
+import axios from "axios";
+
+
+
 export function RightSidebar() {
+  const sMyProfile = "My Profile" ;
+  const sSignOut = "Sign out" ;
+  const sAccountSettings = "Account Settings" ;
+  const sMyMessages = "My Messages" ;
+  const sMyMails = "My Mails" ;
+
+
   const [rightsidebartoogle, setSidebartoogleright] = useState(true);
+  const [myProfile, setMyProfile] = useState(sMyProfile) ;
+  const [signout, setSignOut] = useState(sSignOut) ;
+  const [settings, setSettings] = useState(sAccountSettings) ;
+  const [myMessages, setMyMessages] = useState(sMyMessages) ;
+  const [myMails, setMyMails] = useState(sMyMails) ;
+
+
   function Outhover(toggle) {
     setSidebartoogleright(!toggle);
     document.querySelector(".sidebar-right").classList.remove("sidebar-open");
   }
+
+
+
+
+  //const storedToken = JSON.parse(localStorage.getItem('token'));
+  const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
+  const Page = "RightSidebar" ;
+  const VL = "FR" ;
+
+ 
+
+
+
+  
+
+
+  async function TranslateAll(url, Page,VL) 
+  {
+    const response = axios.post(url, {
+        Submit: 1,
+        Page: Page,
+        ValueLangue: VL
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then( function(response) {
+   
+    /*  
+    console.log(response.data);
+    console.log("status: "+response.status);
+    console.log("statusText"+response.statusText);
+    console.log(response.headers);
+    console.log(response.config);
+    console.log(response.data[0]) ;
+
+    console.log("myProfile: "+myProfile) ;
+    */ 
+
+    let t = FindTranslation(response.data,Page,VL, sMyProfile) ;
+    if (t !== "Not Found")
+      setMyProfile(t) ;
+    t = FindTranslation(response.data,Page,VL, sSignOut) ;
+      if (t !== "Not Found")
+        setSignOut(t) ;
+    t = FindTranslation(response.data,Page,VL, sAccountSettings) ;
+        if (t !== "Not Found")
+          setSettings(t) ;
+    t = FindTranslation(response.data,Page,VL, sMyMessages) ;
+        if (t !== "Not Found")
+          setMyMessages(t) ;                 
+    t = FindTranslation(response.data,Page,VL, sMyMails) ;
+        if (t !== "Not Found")
+          setMyMails(t) ;          
+  
+    })
+  }
+
+  
+  TranslateAll(url,Page,VL) ;
+
+  
+  
+
+
 
   return (
     <div className="sidebar sidebar-right sidebar-animate">
@@ -70,7 +155,7 @@ export function RightSidebar() {
                   <div className="d-flex">
                     <i className="fe fe-user me-3 tx-20 text-muted"></i>
                     <div className="pt-1">
-                      <h6 className="mb-0">My Profile</h6>
+                      <h6 className="mb-0">{myProfile}</h6>
                       <p className="tx-12 mb-0 text-muted">
                         Profile Personal information
                       </p>
@@ -84,7 +169,7 @@ export function RightSidebar() {
                   <div className="d-flex">
                     <i className="fe fe-message-square me-3 tx-20 text-muted"></i>
                     <div className="pt-1">
-                      <h6 className="mb-0">My Messages</h6>
+                      <h6 className="mb-0">{myMessages}</h6>
                       <p className="tx-12 mb-0 text-muted">
                         Person message information
                       </p>
@@ -98,7 +183,7 @@ export function RightSidebar() {
                   <div className="d-flex">
                     <i className="fe fe-mail me-3 tx-20 text-muted"></i>
                     <div className="pt-1">
-                      <h6 className="mb-0">My Mails</h6>
+                      <h6 className="mb-0">{myMails}</h6>
                       <p className="tx-12 mb-0 text-muted">
                         Persons mail information
                       </p>
@@ -112,7 +197,7 @@ export function RightSidebar() {
                   <div className="d-flex">
                     <i className="fe fe-settings me-3 tx-20 text-muted"></i>
                     <div className="pt-1">
-                      <h6 className="mb-0">Account Settings</h6>
+                      <h6 className="mb-0">{settings}</h6>
                       <p className="tx-12 mb-0 text-muted">
                         Settings Information
                       </p>
@@ -126,13 +211,18 @@ export function RightSidebar() {
                   <div className="d-flex">
                     <i className="fe fe-power me-3 tx-20 text-muted"></i>
                     <div className="pt-1">
-                      <h6 className="mb-0">Sign Out</h6>
+                      <h6 className="mb-0">{signout}</h6>
                       <p className="tx-12 mb-0 text-muted">Account Signout</p>
                     </div>
                   </div>
                 </Link>
               </div>
             </Tab>
+
+
+
+
+
 
             <Tab eventKey="side2" title="Contacts">
               <div className="tab-pane" id="side2">
@@ -357,6 +447,8 @@ export function RightSidebar() {
               </div>
             </Tab>
 
+
+
             <Tab eventKey="side3" title="Settings">
               <div className="tab-pane" id="side3">
                 <Link className="dropdown-item bg-gray-100 pd-y-10" to="#">
@@ -507,7 +599,7 @@ export function RightSidebar() {
                       />
                       <span className="custom-switch-indicator"></span>
                       <span className="custom-switch-description mg-l-10">
-                        Aloow All Notifications
+                        Allow All Notifications
                       </span>
                     </label>
                   </div>

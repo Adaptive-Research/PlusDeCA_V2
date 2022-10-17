@@ -32,12 +32,15 @@ export function Header() {
   const Darkmode = () => {
     document.querySelector(".app").classList.toggle("dark-mode");
   };
+
   //leftsidemenu
   const openCloseSidebar = () => {
     document.querySelector(".app").classList.toggle("sidenav-toggled");
   };
+
   //rightsidebar
   const openCloseSidebarright = () => {
+    console.log('openCloseSidebarright') ;
     document.querySelector(".sidebar-right").classList.toggle("sidebar-open");
   };
 
@@ -45,11 +48,15 @@ export function Header() {
   const responsivesearch = () => {
     document.querySelector(".header-search").classList.toggle("show");
   };
+
+
   //swichermainright
   const swichermainright = () => {
     document.querySelector(".demo_changer").classList.toggle("active");
     document.querySelector(".demo_changer").style.right = "0px";
   };
+
+
   return (
     <Navbar expand="md" className="app-header header sticky">
       <Container fluid className="main-container">
@@ -352,6 +359,8 @@ export function Header() {
                       </Link>
                     </Dropdown.Menu>
                   </Dropdown>
+
+
                   <Dropdown className=" d-md-flex profile-1">
                     <Dropdown.Toggle
                       className="nav-link profile leading-none d-flex px-1"
@@ -365,6 +374,8 @@ export function Header() {
                         />
                       </span>
                     </Dropdown.Toggle>
+
+
                     <Dropdown.Menu
                       className="dropdown-menu-end dropdown-menu-arrow"
                       style={{ margin: 0 }}
@@ -406,7 +417,10 @@ export function Header() {
                         Sign out
                       </Dropdown.Item>
                     </Dropdown.Menu>
+
                   </Dropdown>
+
+
                   <div className="dropdown d-md-flex header-settings">
                     <Link
                       to="#"

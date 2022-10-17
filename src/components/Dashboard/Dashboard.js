@@ -4,7 +4,12 @@ import ReactApexChart from "react-apexcharts";
 import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
 import * as dashboard from "../../data/dashboard/dashboard";
 import { Link } from "react-router-dom";
+
+
 export default function Dashboard() {
+ 
+  const storedToken = localStorage.getItem('token') ;
+ 
   return (
     <div>
       <div className="page-header ">
