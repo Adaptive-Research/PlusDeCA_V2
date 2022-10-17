@@ -85,6 +85,7 @@ const WeatherIcons = React.lazy(() => import("./components/Icons/WeatherIcons/We
 //pages
 const Profile = React.lazy(() => import("./components/pages/Profile/Profile"));
 const EditProfile = React.lazy(() => import("./components/pages/EditProfile/EditProfile"));
+const EditCompany = React.lazy(() => import("./components/pages/EditCompany/EditCompany"));
 const MailInbox = React.lazy(() => import("./components/pages/MailInbox/MailInbox"));
 const MailCompose = React.lazy(() => import("./components/pages/MailCompose/MailCompose"));
 const Gallery = React.lazy(() => import("./components/pages/Gallery/Gallery"));
@@ -512,6 +513,14 @@ const Root = () => {
                                     path={`${process.env.PUBLIC_URL}/pages/editProfile`}
                                     element={<EditProfile/>}
                                 />
+
+
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/pages/editCompany`}
+                                    element={<EditCompany/>}
+                                />
+
+
 
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/pages/mailInbox`}
