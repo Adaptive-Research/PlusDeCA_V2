@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
+import "./"
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const Switcherlayout = React.lazy(()=>import("./components/switcherlayout"));

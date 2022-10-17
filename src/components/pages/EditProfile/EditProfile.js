@@ -29,6 +29,7 @@ export default function EditProfile() {
   console.log(idUser) ;
   
 
+  // les titres des champs
   const sProfile = "Profile" ;
   const sEditProfile = "Edit Profile" ;
   const sAboutMe = "About Me" ;
