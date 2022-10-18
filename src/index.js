@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import EditActivity from "./components/pages/editActivity/EditActivity";
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
@@ -513,6 +514,13 @@ const Root = () => {
                                     path={`${process.env.PUBLIC_URL}/pages/editProfile`}
                                     element={<EditProfile/>}
                                 />
+
+
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/pages/editActivity`}
+                                    element={<EditActivity/>}
+                                />
+
 
 
                                 <Route
