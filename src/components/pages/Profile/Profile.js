@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import * as profiledata from "../../../data/Pages/profiledata/profiledata";
 import user8 from "../../../assets/images/users/8.jpg";
 import user15 from "../../../assets/images/users/15.jpg";
@@ -15,7 +15,7 @@ import {Link} from "react-router-dom";
 
 import axios from "axios";
 import {FindTranslation} from "../../../functions_Dan.js";
-import {getAllEnterprises, getEnterprisesByUser} from "../../../data/customlibs/utils";
+import {getAllActivities, getAllEnterprises, getEnterprisesByUser} from "../../../data/customlibs/utils";
 
 
 export default function Profile() {
@@ -33,6 +33,10 @@ export default function Profile() {
     const Page = "Profile";
     const VL = "FR";
 
+
+    getEnterprisesByUser();
+    getAllEnterprises();
+    getAllActivities()
 
     async function TranslateAll(url, Page, VL) {
         const response = axios.post(url, {
@@ -56,19 +60,137 @@ export default function Profile() {
         })
     }
 
+    const renderActivities = (idCompany) => {
+        const allActivities = JSON.parse(localStorage.getItem("allActivities"));
+        let ans = [];
+
+        allActivities.forEach((element) => {
+            console.log(
+                `element id: ${element.idEntreprise} idCompany: ${idCompany}`
+            )
+            if (element.idEntreprise === idCompany) {
+                ans.push(element);
+                // return (
+                //     <Card>
+                //         <Card.Body className="bg-white">
+                //             <div className="media-heading">
+                //                 <h5>
+                //                     <strong>{element.TypeActivite}</strong>
+                //                 </h5>
+                //             </div>
+                //             <div className="table-responsive p-1">
+                //                 <Table
+                //                     className="table row table-borderless">
+                //                     <tbody
+                //                         className="col-lg-12 col-xl-6 p-0">
+                //                     <tr>
+                //                         <td>
+                //                             <strong>Activity Name
+                //                                 :</strong> {element.Nom}
+                //                         </td>
+                //                     </tr>
+                //                     <tr>
+                //                     </tr>
+                //                     </tbody>
+                //                     <tbody
+                //                         className="col-lg-12 col-xl-6 p-0">
+                //                     <tr>
+                //                         <td>
+                //                             <strong>Website
+                //                                 :</strong> {element.SiteWeb}
+                //                         </td>
+                //                     </tr>
+                //                     <tr>
+                //                         <td>
+                //                             <strong>Email :</strong>
+                //                             {element.Email}
+                //                         </td>
+                //                     </tr>
+                //                     <tr>
+                //                         <td>
+                //                             <strong>Phone :</strong> {element.Telephone}
+                //                         </td>
+                //                     </tr>
+                //                     </tbody>
+                //                 </Table>
+                //             </div>
+                //
+                //         </Card.Body>
+                //     </Card>
+                // )
+            }
+        });
+
+        localStorage.setItem("activities", JSON.stringify(ans));
+        console.log(ans);
+        return ans;
+    }
+
+
+    const displayActivities = () => {
+        const ans = JSON.parse(localStorage.getItem("activities"));
+
+        if (ans.length > 0) {
+            return ans.map((element) => {
+                return (
+                    <Card>
+                        <Card.Body className="bg-white">
+                            <div className="media-heading">
+                                <h5>
+                                    <strong>{element.TypeActivite}</strong>
+                                </h5>
+                            </div>
+                            <div className="table-responsive p-1">
+                                <Table
+                                    className="table row table-borderless">
+                                    <tbody
+                                        className="col-lg-12 col-xl-6 p-0">
+                                    <tr>
+                                        <td>
+                                            <strong>Activity Name
+                                                :</strong> {element.Nom}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+                                    </tbody>
+                                    <tbody
+                                        className="col-lg-12 col-xl-6 p-0">
+                                    <tr>
+                                        <td>
+                                            <strong>Website
+                                                :</strong> {element.SiteWeb}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Email :</strong>
+                                            {element.Email}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Phone :</strong> {element.Telephone}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </Table>
+                            </div>
+
+                        </Card.Body>
+                    </Card>
+                )
+            });
+        } else {
+            return false
+        }
+    }
+
 
     const renderCompanies = () => {
 
         const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
         const allCompanies = JSON.parse(localStorage.getItem("allEnterprises"));
-        console.log(
-            `
-            myCompanies: ${myCompanies.map((e) => e.NomEntreprise)}
-            
-            allCompanies: ${allCompanies.map((e) => e.Nom)}
-            
-            `
-        )
         const ansArray = [];
 
         allCompanies.forEach((element) => {
@@ -82,8 +204,6 @@ export default function Profile() {
             });
 
         });
-
-        console.log(ansArray);
 
         return ansArray.map((company, index) => {
             return (
@@ -135,24 +255,26 @@ export default function Profile() {
                                 </tbody>
                                 <tbody
                                     className="col-lg-12 col-xl-4 p-0"
-                                ><tr>
+                                >
+                                <tr>
                                     <td>
-                                        <button className="btn btn-primary me-1">
-                                            <i className="fa fa-book"></i>  activities
+                                        <button className="btn btn-primary me-1"
+                                                onClick={() => renderActivities(company.id)}>
+                                            <i className="fa fa-book"></i> activities
                                         </button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <button className="btn btn-danger me-1">
-                                            <i className="fa fa-trash"></i>  delete
+                                            <i className="fa fa-trash"></i> delete
                                         </button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <button className="btn btn-warning me-1">
-                                            <i className="fa fa-edit"></i>  edit
+                                            <i className="fa fa-edit"></i> edit
                                         </button>
                                     </td>
                                 </tr>
@@ -167,14 +289,11 @@ export default function Profile() {
     }
 
 
-    useEffect(
-        () => {
-            TranslateAll(url, Page, VL);
-            getEnterprisesByUser();
-            getAllEnterprises();
 
-        }
-    )
+
+
+
+    TranslateAll(url, Page, VL);
 
     return (
         <div>
@@ -256,6 +375,12 @@ export default function Profile() {
                                                 className="btn btn-warning me-1"
                                             >
                                                 Add Company
+                                            </Link>
+                                            <Link
+                                                to={`${process.env.PUBLIC_URL}/pages/editActivity/`}
+                                                className="btn btn-gray me-1"
+                                            >
+                                                Add Activity
                                             </Link>
                                         </div>
 
@@ -411,6 +536,27 @@ export default function Profile() {
                                                         <Row>
                                                             <Col lg={10} xl={8} md={12} sm={12}>
                                                                 {renderCompanies()}
+                                                            </Col>
+
+
+                                                            <Col>
+                                                                {!displayActivities() ? (
+                                                                    (
+                                                                    <Card>
+                                                                    <Card.Body className="bg-white">
+                                                                    <div className="media-heading">
+                                                                    <h5>
+                                                                    <strong>No activities</strong>
+                                                                    </h5>
+
+                                                                        <button className="btn btn-primary me-2²">
+                                                                            <i className="fa fa-crop" >Add</i>
+                                                                        </button>
+                                                                    </div>
+                                                                    </Card.Body>
+                                                                    </Card>
+                                                                    )
+                                                                ) : displayActivities()}
                                                             </Col>
 
 
