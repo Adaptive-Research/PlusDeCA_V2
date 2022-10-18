@@ -1,0 +1,541 @@
+
+.bg-primary-4-50 { background: #ecedfe !important; }
+.bg-primary-4-100 { background: #d9dcfe !important; }  
+.bg-primary-4-150 { background: #c6cbfd !important; }
+.bg-primary-4-200 { background: #b4bafd !important; }  
+.bg-primary-4-250 { background: #a1a9fd !important; }
+.bg-primary-4-300 { background: #8e97fc !important; }  
+.bg-primary-4-350 { background: #7c86fc !important; }
+.bg-primary-4-400 { background: #6975fb !important; }  
+.bg-primary-4-450 { background: #5664fb !important; }
+.bg-primary-4-500 { background: #4453fb !important; }  
+.bg-primary-4-550 { background: #3d4ae1 !important; }
+.bg-primary-4-600 { background: #3642c8 !important; }  
+.bg-primary-4-650 { background: #2f3aaf !important; }
+.bg-primary-4-700 { background: #283196 !important; }  
+.bg-primary-4-750 { background: #22297d !important; }
+.bg-primary-4-800 { background: #1b2164 !important; }  
+.bg-primary-4-850 { background: #14184b !important; }
+.bg-primary-4-900 { background: #0d1032 !important; }  
+.bg-primary-4-950 { background: #060819 !important; }
+
+.bg-blue2-50 { background: #e6f0fe !important; }
+.bg-blue2-100 { background: #cee2fe !important; }  
+.bg-blue2-150 { background: #b6d3fe !important; }
+.bg-blue2-200 { background: #9ec5fe !important; }  
+.bg-blue2-250 { background: #86b6fe !important; }
+.bg-blue2-300 { background: #6da8fd !important; }  
+.bg-blue2-350 { background: #5599fd !important; }
+.bg-blue2-400 { background: #3d8bfd !important; }  
+.bg-blue2-450 { background: #257cfd !important; }
+.bg-blue2-500 { background: #0d6efd !important; }  
+.bg-blue2-550 { background: #0b63e3 !important; }
+.bg-blue2-600 { background: #0a58ca !important; }  
+.bg-blue2-650 { background: #094db1 !important; }
+.bg-blue2-700 { background: #074297 !important; }  
+.bg-blue2-750 { background: #06377e !important; }
+.bg-blue2-800 { background: #052c65 !important; }  
+.bg-blue2-850 { background: #03214b !important; }
+.bg-blue2-900 { background: #021632 !important; }  
+.bg-blue2-950 { background: #010b19 !important; }
+
+.bg-indigo-50 { background: #eff1fa !important; }
+.bg-indigo-100 { background: #e0e3f5 !important; }  
+.bg-indigo-150 { background: #d0d5f0 !important; }
+.bg-indigo-200 { background: #c1c7eb !important; }  
+.bg-indigo-250 { background: #b2b9e6 !important; }
+.bg-indigo-300 { background: #a2abe1 !important; }  
+.bg-indigo-350 { background: #939ddc !important; }
+.bg-indigo-400 { background: #838fd7 !important; }  
+.bg-indigo-450 { background: #7481d2 !important; }
+.bg-indigo-500 { background: #6574cd !important; }  
+.bg-indigo-550 { background: #5a68b8 !important; }
+.bg-indigo-600 { background: #505ca4 !important; }  
+.bg-indigo-650 { background: #46518f !important; }
+.bg-indigo-700 { background: #3c457b !important; }  
+.bg-indigo-750 { background: #282e52 !important; }
+.bg-indigo-800 { background: #1e223d !important; }  
+.bg-indigo-850 { background: #141729 !important; }
+.bg-indigo-900 { background: #0a0b14 !important; }  
+.bg-indigo-950 { background: #0a0b14 !important; }
+
+.bg-cyan-50 { background: #e5f2f6 !important; }
+.bg-cyan-100 { background: #cce5ed  !important; }  
+.bg-cyan-150 { background: #b2d8e4 !important; }
+.bg-cyan-200 { background: #99cbdb !important; }  
+.bg-cyan-250 { background: #7fbed3 !important; }
+.bg-cyan-300 { background: #66b1ca !important; }  
+.bg-cyan-350 { background: #4ca4c1 !important; }
+.bg-cyan-400 { background: #3297b8 !important; }  
+.bg-cyan-450 { background: #198aaf !important; }
+.bg-cyan-500 { background: #007ea7 !important; }  
+.bg-cyan-550 { background: #007196 !important; }
+.bg-cyan-600 { background: #006485 !important; }  
+.bg-cyan-650 { background: #005874 !important; }
+.bg-cyan-700 { background: #004b64 !important; }  
+.bg-cyan-750 { background: #003f53 !important; }
+.bg-cyan-800 { background: #003242 !important; }  
+.bg-cyan-850 { background: #002532 !important; }
+.bg-cyan-900 { background: #001921 !important; }  
+.bg-cyan-950 { background: #000c10 !important; }
+
+.bg-azure-50 { background: #ecf6fd !important; }
+.bg-azure-100 { background: #d9eefc !important; }  
+.bg-azure-150 { background: #c7e5fb !important; }
+.bg-azure-200 { background: #b4ddf9 !important; }  
+.bg-azure-250 { background: #a2d4f8 !important; }
+.bg-azure-300 { background: #8fccf7 !important; }  
+.bg-azure-350 { background: #7cc3f5 !important; }
+.bg-azure-400 { background: #6abbf4 !important; }  
+.bg-azure-450 { background: #57b2f3 !important; }
+.bg-azure-500 { background: #45aaf2 !important; }  
+.bg-azure-550 { background: #3e99d9 !important; }
+.bg-azure-600 { background: #3788c1 !important; }  
+.bg-azure-650 { background: #3076a9 !important; }
+.bg-azure-700 { background: #296691 !important; }  
+.bg-azure-750 { background: #225579 !important; }
+.bg-azure-800 { background: #1b4460 !important; }  
+.bg-azure-850 { background: #143348 !important; }
+.bg-azure-900 { background: #0d2230 !important; }  
+.bg-azure-950 { background: #061118 !important; }
+
+.bg-teal-50 { background: #e8f7f5 !important; }
+.bg-teal-100 { background: #d1efeb !important; }  
+.bg-teal-150 { background: #bae7e2 !important; }
+.bg-teal-200 { background: #a4dfd8 !important; }  
+.bg-teal-250 { background: #8dd7cf !important; }
+.bg-teal-300 { background: #76cfc5 !important; }  
+.bg-teal-350 { background: #60c7bb !important; }
+.bg-teal-400 { background: #49bfb2 !important; }  
+.bg-teal-450 { background: #32b7a8 !important; }
+.bg-teal-500 { background: #1caf9f !important; }  
+.bg-teal-550 { background: #199d8f !important; }
+.bg-teal-600 { background: #168c7f !important; }  
+.bg-teal-650 { background: #137a6f !important; }
+.bg-teal-700 { background: #10695f !important; }  
+.bg-teal-750 { background: #0e574f !important; }
+.bg-teal-800 { background: #0b463f !important; }  
+.bg-teal-850 { background: #08342f !important; }
+.bg-teal-900 { background: #05231f !important; }  
+.bg-teal-950 { background: #02110f !important; }
+
+.bg-green2-50 { background: #edf9ec !important; }
+.bg-green2-100 { background: #dbf4da !important; }  
+.bg-green2-150 { background: #c9efc8 !important; }
+.bg-green2-200 { background: #b8eab5 !important; }  
+.bg-green2-250 { background: #a6e5a3 !important; }
+.bg-green2-300 { background: #94e091 !important; }  
+.bg-green2-350 { background: #83db7e !important; }
+.bg-green2-400 { background: #71d66c !important; }  
+.bg-green2-450 { background: #5fd15a !important; }
+.bg-green2-500 { background: #4ecc48 !important; }  
+.bg-green2-550 { background: #46b740 !important; }
+.bg-green2-600 { background: #3ea339 !important; }  
+.bg-green2-650 { background: #368e32 !important; }
+.bg-green2-700 { background: #2e7a2b !important; }  
+.bg-green2-750 { background: #276624 !important; }
+.bg-green2-800 { background: #1f511c !important; }  
+.bg-green2-850 { background: #173d15 !important; }
+.bg-green2-900 { background: #0f280e !important; }  
+.bg-green2-950 { background: #071407 !important; }
+
+.bg-lime-50 { background: #f1faea  !important; }
+.bg-lime-100 { background: #e4f6d6 !important; }  
+.bg-lime-150 { background: #d7f1c2 !important; }
+.bg-lime-200 { background: #caedae !important; }  
+.bg-lime-250 { background: #bde89a !important; }
+.bg-lime-300 { background: #afe485 !important; }  
+.bg-lime-350 { background: #a2df71 !important; }
+.bg-lime-400 { background: #95db5d !important; }  
+.bg-lime-450 { background: #88d649 !important; }
+.bg-lime-500 { background: #7bd235 !important; }  
+.bg-lime-550 { background: #6ebd2f !important; }
+.bg-lime-600 { background: #62a82a !important; }  
+.bg-lime-650 { background: #569325 !important; }
+.bg-lime-700 { background: #497e1f !important; }  
+.bg-lime-750 { background: #3d691a !important; }
+.bg-lime-800 { background: #315415 !important; }  
+.bg-lime-850 { background: #243f0f !important; }
+.bg-lime-900 { background: #182a0a !important; }  
+.bg-lime-950 { background: #0c1505 !important; }
+
+.bg-success-50 { background: #e6f6f4 !important; }
+.bg-success-100 { background: #cdeee9 !important; }  
+.bg-success-150 { background: #b5e6df !important; }
+.bg-success-200 { background: #9cded4 !important; }  
+.bg-success-250 { background: #84d6ca !important; }
+.bg-success-300 { background: #6bcdbf !important; }  
+.bg-success-350 { background: #52c5b4 !important; }
+.bg-success-400 { background: #3abdaa !important; }  
+.bg-success-450 { background: #21b59f !important; }
+.bg-success-500 { background: #09ad95 !important; }  
+.bg-success-550 { background: #089b86 !important; }
+.bg-success-600 { background: #078a77 !important; }  
+.bg-success-650 { background: #067968 !important; }
+.bg-success-700 { background: #056759 !important; }  
+.bg-success-750 { background: #04564a !important; }
+.bg-success-800 { background: #03453b !important; }  
+.bg-success-850 { background: #02332c !important; }
+.bg-success-900 { background: #01221d !important; }  
+.bg-success-950 { background: #00110e !important; }
+
+.bg-primary-3-50 { background: #eef4ea !important; }
+.bg-primary-3-100 { background: #ddead6 !important; }  
+.bg-primary-3-150 { background: #cce0c2 !important; }
+.bg-primary-3-200 { background: #bbd5ad !important; }  
+.bg-primary-3-250 { background: #aacb99 !important; }
+.bg-primary-3-300 { background: #99c185 !important; }  
+.bg-primary-3-350 { background: #88b670 !important; }
+.bg-primary-3-400 { background: #77ac5c !important; }  
+.bg-primary-3-450 { background: #66a248 !important; }
+.bg-primary-3-500 { background: #569834 !important; }  
+.bg-primary-3-550 { background: #4d882e !important; }
+.bg-primary-3-600 { background: #447929 !important; }  
+.bg-primary-3-650 { background: #3c6a24 !important; }
+.bg-primary-3-700 { background: #335b1f !important; }  
+.bg-primary-3-750 { background: #2b4c1a !important; }
+.bg-primary-3-800 { background: #223c14 !important; }  
+.bg-primary-3-850 { background: #192d0f !important; }
+.bg-primary-3-900 { background: #111e0a !important; }  
+.bg-primary-3-950 { background: #080f05 !important; }
+
+.bg-primary-2-50 { background: #fae9ec !important; }
+.bg-primary-2-100 { background: #f6d4da !important; }  
+.bg-primary-2-150 { background: #f2bfc7 !important; }
+.bg-primary-2-200 { background: #eeaab5 !important; }  
+.bg-primary-2-250 { background: #ea95a2 !important; }
+.bg-primary-2-300 { background: #e57f90 !important; }  
+.bg-primary-2-350 { background: #e16a7d !important; }
+.bg-primary-2-400 { background: #dd556a !important; }  
+.bg-primary-2-450 { background: #d94058 !important; }
+.bg-primary-2-500 { background: #d52b46 !important; }  
+.bg-primary-2-550 { background: #bf263f !important; }
+.bg-primary-2-600 { background: #aa2238 !important; }  
+.bg-primary-2-650 { background: #951e31 !important; }
+.bg-primary-2-700 { background: #7f192a !important; }  
+.bg-primary-2-750 { background: #6a1523 !important; }
+.bg-primary-2-800 { background: #55111c !important; }  
+.bg-primary-2-850 { background: #3f0c15 !important; }
+.bg-primary-2-900 { background: #2a080e !important; }  
+.bg-primary-2-950 { background: #150407 !important; }
+
+.bg-primary-5-50 { background: #fdedea !important; }
+.bg-primary-5-100 { background: #fcdcd5 !important; }  
+.bg-primary-5-150 { background: #fbcbc0 !important; }
+.bg-primary-5-200 { background: #fabaab !important; }  
+.bg-primary-5-250 { background: #f9a997 !important; }
+.bg-primary-5-300 { background: #f79782 !important; }  
+.bg-primary-5-350 { background: #f6866d !important; }
+.bg-primary-5-400 { background: #f57558 !important; }  
+.bg-primary-5-450 { background: #f46443 !important; }
+.bg-primary-5-500 { background: #f3532f !important; }  
+.bg-primary-5-550 { background: #da4a2a !important; }
+.bg-primary-5-600 { background: #c24225 !important; }  
+.bg-primary-5-650 { background: #aa3a20 !important; }
+.bg-primary-5-700 { background: #91311c !important; }  
+.bg-primary-5-750 { background: #792917 !important; }
+.bg-primary-5-800 { background: #612112 !important; }  
+.bg-primary-5-850 { background: #48180e !important; }
+.bg-primary-5-900 { background: #301009 !important; }  
+.bg-primary-5-950 { background: #180804 !important; }
+
+.bg-pink-50 { background: #feedf4 !important; }
+.bg-pink-100 { background: #fedcea !important; }  
+.bg-pink-150 { background: #fecbdf !important; }
+.bg-pink-200 { background: #fdb9d5 !important; }  
+.bg-pink-250 { background: #fda8ca !important; }
+.bg-pink-300 { background: #fd97c0 !important; }  
+.bg-pink-350 { background: #fc85b5 !important; }
+.bg-pink-400 { background: #fc74ab !important; }  
+.bg-pink-450 { background: #fc63a0 !important; }
+.bg-pink-500 { background: #fc5296 !important; }  
+.bg-pink-550 { background: #e24987 !important; }
+.bg-pink-600 { background: #c94178 !important; }  
+.bg-pink-650 { background: #b03969 !important; }
+.bg-pink-700 { background: #97315a !important; }  
+.bg-pink-750 { background: #7e294b !important; }
+.bg-pink-800 { background: #64203c !important; }  
+.bg-pink-850 { background: #4b182d !important; }
+.bg-pink-900 { background: #32101e !important; }  
+.bg-pink-950 { background: #19080f !important; }
+
+.bg-danger-50 { background: #fee9ec !important; }
+.bg-danger-100 { background: #fdd3da !important; }  
+.bg-danger-150 { background: #fcbdc8 !important; }
+.bg-danger-200 { background: #fca8b6 !important; }  
+.bg-danger-250 { background: #fb92a4 !important; }
+.bg-danger-300 { background: #fa7c91 !important; }  
+.bg-danger-350 { background: #fa677f !important; }
+.bg-danger-400 { background: #f9516d !important; }  
+.bg-danger-450 { background: #f83b5b !important; }
+.bg-danger-500 { background: #f82649 !important; }  
+.bg-danger-550 { background: #df2241 !important; }
+.bg-danger-600 { background: #c61e3a !important; }  
+.bg-danger-650 { background: #ad1a33 !important; }
+.bg-danger-700 { background: #94162b !important; }  
+.bg-danger-750 { background: #7c1324 !important; }
+.bg-danger-800 { background: #630f1d !important; }  
+.bg-danger-850 { background: #4a0b15 !important; }
+.bg-danger-900 { background: #31070e !important; }  
+.bg-danger-950 { background: #180307 !important; }
+
+.bg-red2-50 { background:  #fcebe9 !important; }
+.bg-red2-100 { background: #fad7d3 !important; }  
+.bg-red2-150 { background: #f7c3be !important; }
+.bg-red2-200 { background: #f5afa8 !important; }  
+.bg-red2-250 { background: #f39b93 !important; }
+.bg-red2-300 { background: #f0877d !important; }  
+.bg-red2-350 { background: #ee7367 !important; }
+.bg-red2-400 { background: #eb5f52 !important; }  
+.bg-red2-450 { background: #e94b3c !important; }
+.bg-red2-500 { background: #e73827 !important; }  
+.bg-red2-550 { background: #cf3223 !important; }
+.bg-red2-600 { background: #b82c1f !important; }  
+.bg-red2-650 { background: #a1271b !important; }
+.bg-red2-700 { background: #8a2117 !important; }  
+.bg-red2-750 { background: #731c13 !important; }  
+.bg-red2-800 { background: #5c160f !important; }  
+.bg-red2-850 { background: #45100b !important; }
+.bg-red2-900 { background: #2e0b07 !important; }  
+.bg-red2-950 { background: #170503 !important; }
+
+.bg-secondary-50 { background: #fef0e9 !important; }
+.bg-secondary-100 { background: #fee1d3 !important; }  
+.bg-secondary-150 { background: #fdd2bd !important; }
+.bg-secondary-200 { background: #fdc3a7 !important; }  
+.bg-secondary-250 { background: #fdb592 !important; }
+.bg-secondary-300 { background: #fca67c !important; }  
+.bg-secondary-350 { background: #fc9766 !important; }
+.bg-secondary-400 { background: #fb8850 !important; }  
+.bg-secondary-450 { background: #fb793a !important; }
+.bg-secondary-500 { background: #fb6b25 !important; }  
+.bg-secondary-550 { background: #e16021 !important; }
+.bg-secondary-600 { background: #c8551d !important; }  
+.bg-secondary-650 { background: #af4a19 !important; }
+.bg-secondary-700 { background: #964016 !important; }  
+.bg-secondary-750 { background: #7d3512 !important; }  
+.bg-secondary-800 { background: #642a0e !important; }  
+.bg-secondary-850 { background: #4b200b !important; }
+.bg-secondary-900 { background: #321507 !important; }  
+.bg-secondary-950 { background: #190a03 !important; }
+
+.bg-warning-50 { background: #fef7ea !important; }
+.bg-warning-100 { background: #fdf0d5 !important; }  
+.bg-warning-150 { background: #fce9c1 !important; }
+.bg-warning-200 { background: #fbe2ac !important; }  
+.bg-warning-250 { background: #fbdb98 !important; }
+.bg-warning-300 { background: #fad383 !important; }  
+.bg-warning-350 { background: #f9cc6e !important; }
+.bg-warning-400 { background: #f8c55a !important; }  
+.bg-warning-450 { background: #f7be45 !important; }
+.bg-warning-500 { background: #f7b731 !important; }  
+.bg-warning-550 { background: #dea42c !important; }
+.bg-warning-600 { background: #c59227 !important; }  
+.bg-warning-650 { background: #ac8022 !important; }
+.bg-warning-700 { background: #946d1d !important; }  
+.bg-warning-750 { background: #7b5b18 !important; }  
+.bg-warning-800 { background: #624913 !important; }  
+.bg-warning-850 { background: #4a360e !important; }
+.bg-warning-900 { background: #312409 !important; }  
+.bg-warning-950 { background: #181204 !important; }
+
+.bg-orange-50 { background: #fef1e5 !important; }
+.bg-orange-100 { background: #fee3cc !important; }  
+.bg-orange-150 { background: #fed5b3 !important; }
+.bg-orange-200 { background: #fdc79a !important; }  
+.bg-orange-250 { background: #fdb981 !important; }
+.bg-orange-300 { background: #fdab67 !important; }  
+.bg-orange-350 { background: #fc9d4e !important; }
+.bg-orange-400 { background: #fc8f35 !important; }  
+.bg-orange-450 { background: #fc811c !important; }
+.bg-orange-500 { background: #fc7303 !important; }  
+.bg-orange-550 { background: #e26702 !important; }
+.bg-orange-600 { background: #c95c02 !important; }  
+.bg-orange-650 { background: #b05002 !important; }
+.bg-orange-700 { background: #974501 !important; }  
+.bg-orange-750 { background: #7e3901 !important; }  
+.bg-orange-800 { background: #642e01 !important; }  
+.bg-orange-850 { background: #4b2200 !important; }
+.bg-orange-900 { background: #321700 !important; }  
+.bg-orange-950 { background: #190b00 !important; }
+
+.bg-light-orange-50 { background: #fef7ea !important; }
+.bg-light-orange-100 { background: #feefd6 !important; }  
+.bg-light-orange-150 { background: #fde7c2 !important; }
+.bg-light-orange-200 { background: #fddfad !important; }  
+.bg-light-orange-250 { background: #fdd799 !important; }
+.bg-light-orange-300 { background: #fccf85 !important; }  
+.bg-light-orange-350 { background: #fcc770 !important; }
+.bg-light-orange-400 { background: #fbbf5c !important; }  
+.bg-light-orange-450 { background: #fbb748 !important; }
+.bg-light-orange-500 { background: #fbb034 !important; }  
+.bg-light-orange-550 { background: #e19e2e !important; }
+.bg-light-orange-600 { background: #c88c29 !important; }  
+.bg-light-orange-650 { background: #af7b24 !important; }
+.bg-light-orange-700 { background: #96691f !important; }  
+.bg-light-orange-750 { background: #7d581a !important; }  
+.bg-light-orange-800 { background: #644614 !important; }  
+.bg-light-orange-850 { background: #4b340f !important; }
+.bg-light-orange-900 { background: #32230a !important; }  
+.bg-light-orange-950 { background: #191105 !important; }
+
+.bg-yellow-50 { background: #ffffe5 !important; }
+.bg-yellow-100 { background: #ffffcc !important; }  
+.bg-yellow-150 { background: #ffffb2 !important; }
+.bg-yellow-200 { background: #ffff99 !important; }  
+.bg-yellow-250 { background: #ffff7f !important; }
+.bg-yellow-300 { background: #ffff66 !important; }  
+.bg-yellow-350 { background: #ffff4c !important; }
+.bg-yellow-400 { background: #ffff32!important; }  
+.bg-yellow-450 { background: #ffff19 !important; }
+.bg-yellow-500 { background: #ffff00 !important; }  
+.bg-yellow-550 { background: #e5e500 !important; }
+.bg-yellow-600 { background: #cccc00 !important; }  
+.bg-yellow-650 { background: #b2b200 !important; }
+.bg-yellow-700 { background: #999900 !important; }  
+.bg-yellow-750 { background: #7f7f00 !important; }  
+.bg-yellow-800 { background: #666600 !important; }  
+.bg-yellow-850 { background: #4c4c00!important; }
+.bg-yellow-900 { background: #333300 !important; }  
+.bg-yellow-950 { background: #191900!important; }
+
+.bg-red-50 { background: #ffe5e5 !important; }
+.bg-red-100 { background: #ffcccc !important; }  
+.bg-red-150 { background: #ffb2b2 !important; }
+.bg-red-200 { background: #ff9999 !important; }  
+.bg-red-250 { background: #ff7f7f !important; }
+.bg-red-300 { background: #ff6666 !important; }  
+.bg-red-350 { background: #ff4c4c!important; }
+.bg-red-400 { background: #ff3232 !important; }  
+.bg-red-450 { background: #ff1919 !important; }
+.bg-red-500 { background: #ff0000 !important; }  
+.bg-red-550 { background: #e50000 !important; }
+.bg-red-600 { background: #cc0000 !important; }  
+.bg-red-650 { background: #b20000!important; }
+.bg-red-700 { background: #990000 !important; }  
+.bg-red-750 { background: #7f0000 !important; }  
+.bg-red-800 { background: #660000!important; }  
+.bg-red-850 { background: #4c0000 !important; }
+.bg-red-900 { background: #330000!important; }  
+.bg-red-950 { background: #190000 !important; }
+
+.bg-green-50 { background: #e5f2e5 !important; }
+.bg-green-100 { background: #cce5cc !important; }  
+.bg-green-150 { background: #b2d8b2 !important; }
+.bg-green-200 { background: #99cc99 !important; }  
+.bg-green-250 { background: #7fbf7f !important; }
+.bg-green-300 { background: #66b266 !important; }  
+.bg-green-350 { background: #4ca64c !important; }
+.bg-green-400 { background: #329932 !important; }  
+.bg-green-450 { background: #198c19 !important; }
+.bg-green-500 { background: #008000 !important; }  
+.bg-green-550 { background: #007300 !important; }
+.bg-green-600 { background: #006600 !important; }  
+.bg-green-650 { background: #005900 !important; }  
+.bg-green-700 { background: #004c00 !important; }
+.bg-green-750 { background: #004000 !important; }  
+.bg-green-800 { background: #003300 !important; }  
+.bg-green-850 { background: #002600 !important; }  
+.bg-green-900 { background: #001900 !important; }
+.bg-green-950 { background: #000c00 !important; }  
+
+.bg-blue-50 { background: #e5e5ff !important; }
+.bg-blue-100 { background: #ccccff !important; }  
+.bg-blue-150 { background: #b2b2ff !important; }
+.bg-blue-200 { background: #9999ff !important; }  
+.bg-blue-250 { background: #7f7fff !important; }
+.bg-blue-300 { background: #6666ff !important; }  
+.bg-blue-350 { background: #4c4cff !important; }
+.bg-blue-400 { background: #3232ff !important; }  
+.bg-blue-450 { background: #1919ff !important; }
+.bg-blue-500 { background: #0000ff !important; }  
+.bg-blue-550 { background: #0000e5 !important; }
+.bg-blue-600 { background: #0000cc !important; }  
+.bg-blue-650 { background: #0000b2 !important; }  
+.bg-blue-700 { background: #000099 !important; }
+.bg-blue-750 { background: #00007f !important; }  
+.bg-blue-800 { background: #000066 !important; }  
+.bg-blue-850 { background: #00004c !important; }  
+.bg-blue-900 { background: #000033 !important; }
+.bg-blue-950 { background: #000019 !important; }  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
