@@ -112,6 +112,22 @@ const getEnterprisesByUser = () => {
 }
 
 
+const getAllActivities = () => {
+    // retrieve all activities in server
+    // search and store activities created by active user
+    // return them in array
+    const url = process.env.REACT_APP_API_SHOW_ACTIVITY_URL;
+    const response = axios.get(url).then(
+        (response) => {
+            const data = response.data;
+            const allActivities = [];
+            data.forEach((element) => {
+                allActivities.push(element);
+            });
+            localStorage.setItem('allActivities', JSON.stringify(allActivities));
+            return allActivities;
+        })
+}
 
 
 export {
@@ -122,5 +138,6 @@ export {
     toLog,
     getUserId,
     getAllEnterprises,
-    getEnterprisesByUser
+    getEnterprisesByUser,
+    getAllActivities
 };
