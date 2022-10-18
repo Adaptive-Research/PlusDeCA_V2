@@ -48,6 +48,7 @@ const checkDuplicate = (mail) => {
     } else {
         return false;
     }
+    localStorage.removeItem("fin");
 }
 
 const toLog = () => {
@@ -58,7 +59,7 @@ const toLog = () => {
 const getUserId = (token) => {
     // return the user id from the login token
     // user id is  a number sequence before ";"
-    const userToken = JSON.parse(localStorage.token);
+    const userToken = localStorage.getItem("token");
     const newArr = userToken.split(";");
     const usrId = newArr[0];
     return usrId;
@@ -74,15 +75,12 @@ const getAllEnterprises = () => {
     const response = axios.get(url).then(
         (response) => {
             const data = response.data;
-            const userEnterprises = [];
+            const allEnterprises = [];
             data.forEach((element) => {
-                if (element.id === personalId) {
-                    userEnterprises.push(element);
-                }
+                    allEnterprises.push(element);
             });
-            console.log(userEnterprises);
-            localStorage.setItem('userEnterprises', JSON.stringify(userEnterprises));
-            return userEnterprises;
+            localStorage.setItem('allEnterprises', JSON.stringify(allEnterprises));
+            return allEnterprises;
         })
 }
 
@@ -94,7 +92,7 @@ const getEnterprisesByUser = () => {
     const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_FOR_USER_URL;
     const userId = getUserId();
     const response = axios.post(url, {
-        token: JSON.parse(localStorage.token),
+        token: localStorage.getItem("token"),
         Submit: 1,
         idUtilisateur: userId
     }, {
@@ -112,6 +110,8 @@ const getEnterprisesByUser = () => {
             return userEnterprises;
         })
 }
+
+
 
 
 export {
