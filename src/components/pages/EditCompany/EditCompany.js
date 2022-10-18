@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import {Card, Col, FormGroup, Row,} from "react-bootstrap";
 
 import axios from "axios";
+import {useNavigate} from "react-router";
 
 
 export default function EditCompany() {
@@ -20,6 +21,7 @@ export default function EditCompany() {
     const [phone, setPhone] = useState("");
     const [phoneMsg, setPhoneMsg] = useState("");
     const [responseMsg, setResponseMsg] = useState("Editer entreprise");
+    const navigate = useNavigate();
 
     const token = localStorage.getItem("token");
 
@@ -102,6 +104,10 @@ export default function EditCompany() {
         } finally {
             console.log("attempted to create company")
         }
+    }
+
+    const returnBack = () => {
+        navigate(-1);
     }
 
 
@@ -191,7 +197,7 @@ export default function EditCompany() {
                                 Enregistrer
                             </button>
 
-                            <button className="btn btn-danger">
+                            <button className="btn btn-danger" onClick={returnBack}>
                                 Annuler
                             </button>
                         </Card.Footer>
