@@ -10,12 +10,31 @@ import TabToTop from "../layouts/TabToTop/TabToTop";
 import Login from "../components/CustomPages/Login/Login" ;
 
 
+//import Errorpage401 from "./ErrorPages/ErrorPages/401/401";
+
 export default function App() {
 
-  console.log(localStorage.getItem("logged"));
+
+  const lastLogin =  localStorage.getItem('lastLogin') ;
+  if (!lastLogin)
+    return <Login /> ;
 
 
-  if (localStorage.getItem("logged") === "true"){
+
+
+  let LastLogin = new Date(lastLogin) ;
+  const Now = new Date() ;
+
+  var Difference_In_Time = Now.getTime() - LastLogin.getTime();
+  var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+  if (Difference_In_Days >= 1)
+  {
+    console.log("Difference_In_Days") ;
+    console.log(Difference_In_Days) ;
+    return <Login /> ;
+  }
+  else
+  {
     return (
         <Fragment>
           <div className="horizontalMenucontainer">
@@ -48,11 +67,5 @@ export default function App() {
           </div>
         </Fragment>
     );
-  } else {
-    return (
-        <Login />
-    );
   }
-
-
 }
