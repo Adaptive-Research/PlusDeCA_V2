@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as profiledata from "../../../data/Pages/profiledata/profiledata";
 import user8 from "../../../assets/images/users/8.jpg";
 import user15 from "../../../assets/images/users/15.jpg";
@@ -15,12 +15,14 @@ import {Link} from "react-router-dom";
 
 import axios from "axios";
 import {FindTranslation} from "../../../functions_Dan.js";
+import {getAllEnterprises, getEnterprisesByUser} from "../../../data/customlibs/utils";
 
 
 export default function Profile() {
 
     const sProfile = "Profile";
     const sCompany = "Company";
+    const token = localStorage.getItem("token");
 
 
     const [profile, setProfile] = useState(sProfile);
@@ -45,17 +47,134 @@ export default function Profile() {
 
 
             let t = FindTranslation(response.data, Page, VL, sProfile);
-            if (t != "Not Found")
+            if (t !== "Not Found")
                 setProfile(t);
             t = FindTranslation(response.data, Page, VL, sCompany);
-            if (t != "Not Found")
+            if (t !== "Not Found")
                 setCompany(t);
 
         })
     }
 
 
-    TranslateAll(url, Page, VL);
+    const renderCompanies = () => {
+
+        const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
+        const allCompanies = JSON.parse(localStorage.getItem("allEnterprises"));
+        console.log(
+            `
+            myCompanies: ${myCompanies.map((e) => e.NomEntreprise)}
+            
+            allCompanies: ${allCompanies.map((e) => e.Nom)}
+            
+            `
+        )
+        const ansArray = [];
+
+        allCompanies.forEach((element) => {
+            let found = false;
+            myCompanies.forEach((element2) => {
+                if (element.id === element2.idEntreprise) {
+
+                    found = true;
+                    ansArray.push(element);
+                }
+            });
+
+        });
+
+        console.log(ansArray);
+
+        return ansArray.map((company, index) => {
+            return (
+                <Card>
+                    <Card.Body className="bg-white">
+                        <div className="media-heading">
+                            <h5>
+                                <strong>{company.Nom}</strong>
+                            </h5>
+                        </div>
+                        <div className="table-responsive p-1">
+                            <Table
+                                className="table row table-borderless">
+                                <tbody
+                                    className="col-lg-12 col-xl-4 p-0">
+                                <tr>
+                                    <td>
+                                        <strong>Siret
+                                            :</strong> {company.Siret}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong> personal id
+                                            :</strong> {company.id}
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tbody
+                                    className="col-lg-12 col-xl-4 p-0">
+                                <tr>
+                                    <td>
+                                        <strong>Website
+                                            :</strong> {company.SiteWeb}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Email :</strong>
+                                        {company.Email}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Phone :</strong> {company.Telephone}
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                                <tbody
+                                    className="col-lg-12 col-xl-4 p-0"
+                                ><tr>
+                                    <td>
+                                        <button className="btn btn-primary me-1">
+                                            <i className="fa fa-book"></i>  activities
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button className="btn btn-danger me-1">
+                                            <i className="fa fa-trash"></i>  delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button className="btn btn-warning me-1">
+                                            <i className="fa fa-edit"></i>  edit
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </Table>
+                        </div>
+                    </Card.Body>
+                </Card>
+            )
+        })
+    }
+
+
+    useEffect(
+        () => {
+            TranslateAll(url, Page, VL);
+            getEnterprisesByUser();
+            getAllEnterprises();
+
+        }
+    )
 
     return (
         <div>
@@ -92,7 +211,6 @@ export default function Profile() {
 
             <Row id="user-profile">
                 <Col lg={12}>
-
                     <Card className=" bg-transparent shadow-none border-0">
                         <Card.Body className=" bg-white">
                             <div className="wideget-user">
@@ -137,7 +255,7 @@ export default function Profile() {
                                                 to={`${process.env.PUBLIC_URL}/pages/editCompany/`}
                                                 className="btn btn-warning me-1"
                                             >
-                                                Edit Company
+                                                Add Company
                                             </Link>
                                         </div>
 
@@ -292,298 +410,213 @@ export default function Profile() {
 
                                                         <Row>
                                                             <Col lg={10} xl={8} md={12} sm={12}>
-                                                                <Card>
-                                                                    <Card.Body className="bg-white">
-                                                                        <div className="media-heading">
-                                                                            <h5>
-                                                                                <strong>Company</strong>
-                                                                            </h5>
-                                                                        </div>
-                                                                        <div className="table-responsive p-1">
-                                                                            <Table
-                                                                                className="table row table-borderless">
-                                                                                <tbody
-                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Company Name
-                                                                                            :</strong> Adaptive Research
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Location
-                                                                                            :</strong> Nemours
-                                                                                    </td>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                                <tbody
-                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Website
-                                                                                            :</strong> www.adaptive-research.eu
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Email :</strong>
-                                                                                        ddupard@adaptive-research.eu
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Phone :</strong> +125
-                                                                                        254 3562
-                                                                                    </td>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                            </Table>
-                                                                        </div>
-
-
-                                                                        <Row className="row profie-img">
-                                                                            <Col md={12}>
-                                                                                <div className="media-heading">
-                                                                                    <h5>
-                                                                                        <strong>Valeurs</strong>
-                                                                                    </h5>
-                                                                                </div>
-                                                                                <p>
-                                                                                    Chez Adaptive Research, nous pensons
-                                                                                    que la technologie doit faciliter
-                                                                                    nos activités quotidiennes
-                                                                                    d'entrepreneurs
-                                                                                </p>
-                                                                                <p className="mb-0">
-                                                                                    because it is pleasure, but because
-                                                                                    those
-                                                                                    who do not know how to pursue
-                                                                                    pleasure
-                                                                                    rationally encounter but because
-                                                                                    those who
-                                                                                    do not know how to pursue
-                                                                                    consequences
-                                                                                    that are extremely painful. Nor
-                                                                                    again is
-                                                                                    there anyone who loves or pursues or
-                                                                                    desires to obtain pain of itself,
-                                                                                    because
-                                                                                    it is pain, but because occasionally
-                                                                                    circumstances occur in which toil
-                                                                                    and pain
-                                                                                    can procure him some great pleasure.
-                                                                                </p>
-                                                                            </Col>
-                                                                        </Row>
-                                                                    </Card.Body>
-                                                                </Card>
+                                                                {renderCompanies()}
                                                             </Col>
 
 
-                                                            <Col>
-                                                                <Card>
-                                                                    <Card.Body className="bg-white">
-                                                                        <div className="media-heading">
-                                                                            <h5>
-                                                                                <strong>Activity</strong>
-                                                                            </h5>
-                                                                        </div>
-                                                                        <div className="table-responsive p-1">
-                                                                            <Table
-                                                                                className="table row table-borderless">
-                                                                                <tbody
-                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Activity Name
-                                                                                            :</strong> SEO
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                                <tbody
-                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Website
-                                                                                            :</strong> www.PlusVisible.fr
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Email :</strong>
-                                                                                        ddupard@PlusVisible.fr
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Phone :</strong> +125
-                                                                                        254 3562
-                                                                                    </td>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                            </Table>
-                                                                        </div>
+                                                            {/*<Col>*/}
+                                                            {/*    <Card>*/}
+                                                            {/*        <Card.Body className="bg-white">*/}
+                                                            {/*            <div className="media-heading">*/}
+                                                            {/*                <h5>*/}
+                                                            {/*                    <strong>Activity</strong>*/}
+                                                            {/*                </h5>*/}
+                                                            {/*            </div>*/}
+                                                            {/*            <div className="table-responsive p-1">*/}
+                                                            {/*                <Table*/}
+                                                            {/*                    className="table row table-borderless">*/}
+                                                            {/*                    <tbody*/}
+                                                            {/*                        className="col-lg-12 col-xl-6 p-0">*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Activity Name*/}
+                                                            {/*                                :</strong> SEO*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    </tbody>*/}
+                                                            {/*                    <tbody*/}
+                                                            {/*                        className="col-lg-12 col-xl-6 p-0">*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Website*/}
+                                                            {/*                                :</strong> www.PlusVisible.fr*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Email :</strong>*/}
+                                                            {/*                            ddupard@PlusVisible.fr*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Phone :</strong> +125*/}
+                                                            {/*                            254 3562*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    </tbody>*/}
+                                                            {/*                </Table>*/}
+                                                            {/*            </div>*/}
 
-                                                                    </Card.Body>
-                                                                </Card>
+                                                            {/*        </Card.Body>*/}
+                                                            {/*    </Card>*/}
 
-                                                                <Card>
-                                                                    <Card.Body className="bg-white">
-                                                                        <div className="media-heading">
-                                                                            <h5>
-                                                                                <strong>Activity</strong>
-                                                                            </h5>
-                                                                        </div>
-                                                                        <div className="table-responsive p-1">
-                                                                            <Table
-                                                                                className="table row table-borderless">
-                                                                                <tbody
-                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Activity Name
-                                                                                            :</strong> réseau
-                                                                                        d'entrepreneurs
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                                <tbody
-                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Website
-                                                                                            :</strong> www.PlusDeCA.fr
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Email :</strong>
-                                                                                        ddupard@PlusDeCA.fr
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Phone :</strong> +125
-                                                                                        254 3562
-                                                                                    </td>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                            </Table>
-                                                                        </div>
+                                                            {/*    <Card>*/}
+                                                            {/*        <Card.Body className="bg-white">*/}
+                                                            {/*            <div className="media-heading">*/}
+                                                            {/*                <h5>*/}
+                                                            {/*                    <strong>Activity</strong>*/}
+                                                            {/*                </h5>*/}
+                                                            {/*            </div>*/}
+                                                            {/*            <div className="table-responsive p-1">*/}
+                                                            {/*                <Table*/}
+                                                            {/*                    className="table row table-borderless">*/}
+                                                            {/*                    <tbody*/}
+                                                            {/*                        className="col-lg-12 col-xl-6 p-0">*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Activity Name*/}
+                                                            {/*                                :</strong> réseau*/}
+                                                            {/*                            d'entrepreneurs*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    </tbody>*/}
+                                                            {/*                    <tbody*/}
+                                                            {/*                        className="col-lg-12 col-xl-6 p-0">*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Website*/}
+                                                            {/*                                :</strong> www.PlusDeCA.fr*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Email :</strong>*/}
+                                                            {/*                            ddupard@PlusDeCA.fr*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Phone :</strong> +125*/}
+                                                            {/*                            254 3562*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    </tbody>*/}
+                                                            {/*                </Table>*/}
+                                                            {/*            </div>*/}
 
-                                                                    </Card.Body>
-                                                                </Card>
+                                                            {/*        </Card.Body>*/}
+                                                            {/*    </Card>*/}
 
 
-                                                                <Card>
-                                                                    <Card.Body className="bg-white">
-                                                                        <div className="media-heading">
-                                                                            <h5>
-                                                                                <strong>Activity</strong>
-                                                                            </h5>
-                                                                        </div>
-                                                                        <div className="table-responsive p-1">
-                                                                            <Table
-                                                                                className="table row table-borderless">
-                                                                                <tbody
-                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Activity Name
-                                                                                            :</strong> Laboratoire de
-                                                                                        recherche
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                                <tbody
-                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Website
-                                                                                            :</strong> www.adaptive-research.eu
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Email :</strong>
-                                                                                        ddupard@adaptive-research.eu
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Phone :</strong> +125
-                                                                                        254 3562
-                                                                                    </td>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                            </Table>
-                                                                        </div>
+                                                            {/*    <Card>*/}
+                                                            {/*        <Card.Body className="bg-white">*/}
+                                                            {/*            <div className="media-heading">*/}
+                                                            {/*                <h5>*/}
+                                                            {/*                    <strong>Activity</strong>*/}
+                                                            {/*                </h5>*/}
+                                                            {/*            </div>*/}
+                                                            {/*            <div className="table-responsive p-1">*/}
+                                                            {/*                <Table*/}
+                                                            {/*                    className="table row table-borderless">*/}
+                                                            {/*                    <tbody*/}
+                                                            {/*                        className="col-lg-12 col-xl-6 p-0">*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Activity Name*/}
+                                                            {/*                                :</strong> Laboratoire de*/}
+                                                            {/*                            recherche*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    </tbody>*/}
+                                                            {/*                    <tbody*/}
+                                                            {/*                        className="col-lg-12 col-xl-6 p-0">*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Website*/}
+                                                            {/*                                :</strong> www.adaptive-research.eu*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Email :</strong>*/}
+                                                            {/*                            ddupard@adaptive-research.eu*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Phone :</strong> +125*/}
+                                                            {/*                            254 3562*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    </tbody>*/}
+                                                            {/*                </Table>*/}
+                                                            {/*            </div>*/}
 
-                                                                    </Card.Body>
-                                                                </Card>
+                                                            {/*        </Card.Body>*/}
+                                                            {/*    </Card>*/}
 
-                                                                <Card>
-                                                                    <Card.Body className="bg-white">
-                                                                        <div className="media-heading">
-                                                                            <h5>
-                                                                                <strong>Activity</strong>
-                                                                            </h5>
-                                                                        </div>
-                                                                        <div className="table-responsive p-1">
-                                                                            <Table
-                                                                                className="table row table-borderless">
-                                                                                <tbody
-                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Activity Name</strong>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        Développement à bas coût
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Email :</strong>
-                                                                                        ddupard@devmoinscher.fr
-                                                                                    </td>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                                <tbody
-                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Website :</strong>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        www.DevMoinsCher.fr
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <strong>Phone :</strong> +125
-                                                                                        254 3562
-                                                                                    </td>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                            </Table>
-                                                                        </div>
+                                                            {/*    <Card>*/}
+                                                            {/*        <Card.Body className="bg-white">*/}
+                                                            {/*            <div className="media-heading">*/}
+                                                            {/*                <h5>*/}
+                                                            {/*                    <strong>Activity</strong>*/}
+                                                            {/*                </h5>*/}
+                                                            {/*            </div>*/}
+                                                            {/*            <div className="table-responsive p-1">*/}
+                                                            {/*                <Table*/}
+                                                            {/*                    className="table row table-borderless">*/}
+                                                            {/*                    <tbody*/}
+                                                            {/*                        className="col-lg-12 col-xl-6 p-0">*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Activity Name</strong>*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            Développement à bas coût*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Email :</strong>*/}
+                                                            {/*                            ddupard@devmoinscher.fr*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    </tbody>*/}
+                                                            {/*                    <tbody*/}
+                                                            {/*                        className="col-lg-12 col-xl-6 p-0">*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Website :</strong>*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            www.DevMoinsCher.fr*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    <tr>*/}
+                                                            {/*                        <td>*/}
+                                                            {/*                            <strong>Phone :</strong> +125*/}
+                                                            {/*                            254 3562*/}
+                                                            {/*                        </td>*/}
+                                                            {/*                    </tr>*/}
+                                                            {/*                    </tbody>*/}
+                                                            {/*                </Table>*/}
+                                                            {/*            </div>*/}
 
-                                                                    </Card.Body>
-                                                                </Card>
+                                                            {/*        </Card.Body>*/}
+                                                            {/*    </Card>*/}
 
-                                                            </Col>
+                                                            {/*</Col>*/}
 
                                                         </Row>
                                                     </div>
