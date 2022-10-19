@@ -20,7 +20,7 @@ export default function EditCompany() {
     const [emailMsg, setEmailMsg] = useState("");
     const [phone, setPhone] = useState("");
     const [phoneMsg, setPhoneMsg] = useState("");
-    const [responseMsg, setResponseMsg] = useState("Editer entreprise");
+    const [responseMsg, setResponseMsg] = useState("Ajouter entreprise");
     const navigate = useNavigate();
 
     const token = localStorage.getItem("token");
