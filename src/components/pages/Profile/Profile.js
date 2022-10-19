@@ -16,6 +16,7 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import {FindTranslation} from "../../../functions_Dan.js";
 import {getAllActivities, getAllEnterprises, getEnterprisesByUser} from "../../../data/customlibs/utils";
+import {useNavigate} from "react-router";
 
 
 export default function Profile() {
@@ -23,11 +24,16 @@ export default function Profile() {
     const sProfile = "Profile";
     const sCompany = "Company";
     const token = localStorage.getItem("token");
-
+    const navigate = useNavigate();
 
     const [profile, setProfile] = useState(sProfile);
     const [company, setCompany] = useState(sCompany);
-
+    const [siret, setSiret] = useState("");
+    const [name, setName] = useState("");
+    const [webSite, setWebSite] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [defDisplay, setDefDisplay] = useState("block");
 
     const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL;
     const Page = "Profile";
@@ -37,6 +43,51 @@ export default function Profile() {
     getEnterprisesByUser();
     getAllEnterprises();
     getAllActivities()
+
+
+    console.log(token);
+
+    const ans = JSON.parse(localStorage.getItem("activities"));
+
+
+    const deleteActivity = (id) => {
+        const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
+        const response = axios.post(url, {
+            token: token,
+            Submit: 1,
+            id: id
+        }, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        }).then((response) => {
+            console.log(response.data);
+            window.location.reload();
+        })
+    }
+
+
+    const deleteCompany = (id) => {
+        const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
+        const response = axios.post(
+            url, {
+                token: token,
+                Submit: 1,
+                id: id
+            }, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            }
+        ).then(
+            (response) => {
+                console.log(response.data);
+                //window.location.reload();
+            }
+        )
+
+    }
+
 
     async function TranslateAll(url, Page, VL) {
         const response = axios.post(url, {
@@ -70,120 +121,10 @@ export default function Profile() {
             )
             if (element.idEntreprise === idCompany) {
                 ans.push(element);
-                // return (
-                //     <Card>
-                //         <Card.Body className="bg-white">
-                //             <div className="media-heading">
-                //                 <h5>
-                //                     <strong>{element.TypeActivite}</strong>
-                //                 </h5>
-                //             </div>
-                //             <div className="table-responsive p-1">
-                //                 <Table
-                //                     className="table row table-borderless">
-                //                     <tbody
-                //                         className="col-lg-12 col-xl-6 p-0">
-                //                     <tr>
-                //                         <td>
-                //                             <strong>Activity Name
-                //                                 :</strong> {element.Nom}
-                //                         </td>
-                //                     </tr>
-                //                     <tr>
-                //                     </tr>
-                //                     </tbody>
-                //                     <tbody
-                //                         className="col-lg-12 col-xl-6 p-0">
-                //                     <tr>
-                //                         <td>
-                //                             <strong>Website
-                //                                 :</strong> {element.SiteWeb}
-                //                         </td>
-                //                     </tr>
-                //                     <tr>
-                //                         <td>
-                //                             <strong>Email :</strong>
-                //                             {element.Email}
-                //                         </td>
-                //                     </tr>
-                //                     <tr>
-                //                         <td>
-                //                             <strong>Phone :</strong> {element.Telephone}
-                //                         </td>
-                //                     </tr>
-                //                     </tbody>
-                //                 </Table>
-                //             </div>
-                //
-                //         </Card.Body>
-                //     </Card>
-                // )
             }
         });
-
         localStorage.setItem("activities", JSON.stringify(ans));
-        console.log(ans);
-        return ans;
-    }
-
-
-    const displayActivities = () => {
-        const ans = JSON.parse(localStorage.getItem("activities"));
-
-        if (ans.length > 0) {
-            return ans.map((element) => {
-                return (
-                    <Card>
-                        <Card.Body className="bg-white">
-                            <div className="media-heading">
-                                <h5>
-                                    <strong>{element.TypeActivite}</strong>
-                                </h5>
-                            </div>
-                            <div className="table-responsive p-1">
-                                <Table
-                                    className="table row table-borderless">
-                                    <tbody
-                                        className="col-lg-12 col-xl-6 p-0">
-                                    <tr>
-                                        <td>
-                                            <strong>Activity Name
-                                                :</strong> {element.Nom}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                    </tr>
-                                    </tbody>
-                                    <tbody
-                                        className="col-lg-12 col-xl-6 p-0">
-                                    <tr>
-                                        <td>
-                                            <strong>Website
-                                                :</strong> {element.SiteWeb}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Email :</strong>
-                                            {element.Email}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Phone :</strong> {element.Telephone}
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </Table>
-                            </div>
-
-                        </Card.Body>
-                    </Card>
-                )
-            });
-        } else {
-            return false
-        }
+        return window.location.reload();
     }
 
 
@@ -192,6 +133,7 @@ export default function Profile() {
         const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
         const allCompanies = JSON.parse(localStorage.getItem("allEnterprises"));
         const ansArray = [];
+
 
         allCompanies.forEach((element) => {
             let found = false;
@@ -205,9 +147,10 @@ export default function Profile() {
 
         });
 
+
         return ansArray.map((company, index) => {
             return (
-                <Card>
+                <Card className={defDisplay}>
                     <Card.Body className="bg-white">
                         <div className="media-heading">
                             <h5>
@@ -266,14 +209,23 @@ export default function Profile() {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button className="btn btn-danger me-1">
+                                        <button className="btn btn-danger me-1"
+                                                onClick={() => deleteCompany(company.id)}>
                                             <i className="fa fa-trash"></i> delete
                                         </button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button className="btn btn-warning me-1">
+                                        <button className="btn btn-warning me-1"
+                                                onClick={() => {
+                                                    const companyDetails = [company.id, company.Nom, company.Siret, company.Email, company.Telephone, company.SiteWeb];
+                                                    localStorage.setItem("targetCompany", JSON.stringify(companyDetails));
+
+                                                    navigate(`${process.env.PUBLIC_URL}/pages/updateCompany`)
+                                                }}
+
+                                        >
                                             <i className="fa fa-edit"></i> edit
                                         </button>
                                     </td>
@@ -287,10 +239,6 @@ export default function Profile() {
             )
         })
     }
-
-
-
-
 
 
     TranslateAll(url, Page, VL);
@@ -540,23 +488,131 @@ export default function Profile() {
 
 
                                                             <Col>
-                                                                {!displayActivities() ? (
-                                                                    (
-                                                                    <Card>
-                                                                    <Card.Body className="bg-white">
-                                                                    <div className="media-heading">
-                                                                    <h5>
-                                                                    <strong>No activities</strong>
-                                                                    </h5>
+                                                                {
+                                                                    (() => {
+                                                                            const ans = JSON.parse(localStorage.getItem("activities"));
+                                                                            if (ans.length > 0) {
+                                                                                return (
+                                                                                    ans.map((element) => {
+                                                                                            return (
+                                                                                                <Card>
+                                                                                                    <Card.Body
+                                                                                                        className="bg-white">
+                                                                                                        <div
+                                                                                                            className="media-heading">
+                                                                                                            <h5>
+                                                                                                                <strong>{element.TypeActivite}</strong>
+                                                                                                            </h5>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            className="table-responsive p-1">
+                                                                                                            <Table
+                                                                                                                className="table row table-borderless">
+                                                                                                                <tbody
+                                                                                                                    className="col-lg-12 col-xl-6 p-0">
+                                                                                                                <tr>
+                                                                                                                    <td>
+                                                                                                                        <strong>Activity
+                                                                                                                            Name
+                                                                                                                            :</strong> {element.Nom}
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                                <tr>
+                                                                                                                    <td>
+                                                                                                                        <strong>Activity
+                                                                                                                            Description
+                                                                                                                            :</strong> {element.Description}
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                                </tbody>
+                                                                                                                <tbody
+                                                                                                                    className="col-lg-12 col-xl-6 p-0">
+                                                                                                                <tr>
+                                                                                                                    <td>
+                                                                                                                        <strong>Website
+                                                                                                                            :</strong> {element.SiteWeb}
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                                <tr>
+                                                                                                                    <td>
+                                                                                                                        <strong>Email
+                                                                                                                            :</strong>
+                                                                                                                        {element.Email}
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                                <tr>
+                                                                                                                    <td>
+                                                                                                                        <strong>Phone
+                                                                                                                            :</strong> {element.Telephone}
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                                </tbody>
+                                                                                                                <tbody
+                                                                                                                    className="col-lg-12 col-xl-4 p-0"
+                                                                                                                >
+                                                                                                                <tr>
+                                                                                                                    <td>
+                                                                                                                        <button
+                                                                                                                            className="btn btn-danger me-1"
+                                                                                                                            onClick={() => deleteActivity(element.id)}>
+                                                                                                                            <i className="fa fa-trash"></i> delete
+                                                                                                                        </button>
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                                <tr>
+                                                                                                                    <td>
+                                                                                                                        <button
+                                                                                                                            className="btn btn-warning me-1"
+                                                                                                                            onClick={() => {
+                                                                                                                                const targetActivity = [element.id, element.Nom, element.Description, element.SiteWeb, element.Email, element.Telephone, element.TypeActivite];
+                                                                                                                                console.log(targetActivity);
+                                                                                                                                localStorage.setItem("activityDetails", JSON.stringify(targetActivity));
+                                                                                                                                navigate(`${process.env.PUBLIC_URL}/pages/updateActivity`)
 
-                                                                        <button className="btn btn-primary me-2²">
-                                                                            <i className="fa fa-crop" >Add</i>
-                                                                        </button>
-                                                                    </div>
-                                                                    </Card.Body>
-                                                                    </Card>
-                                                                    )
-                                                                ) : displayActivities()}
+                                                                                                                            }}
+                                                                                                                        >
+                                                                                                                            <i className="fa fa-edit"></i> edit
+                                                                                                                        </button>
+                                                                                                                    </td>
+                                                                                                                </tr>
+
+                                                                                                                </tbody>
+                                                                                                            </Table>
+                                                                                                        </div>
+
+                                                                                                    </Card.Body>
+                                                                                                </Card>
+                                                                                            )
+                                                                                        }
+                                                                                    ))
+                                                                            } else {
+                                                                                return (
+                                                                                    <Card>
+                                                                                        <Card.Body className="bg-white">
+                                                                                            <div
+                                                                                                className="media-heading">
+                                                                                                <h5>
+                                                                                                    <strong>No
+                                                                                                        activities</strong>
+                                                                                                </h5>
+
+                                                                                                <button
+                                                                                                    className="btn btn-primary me-2²"
+                                                                                                    onClick={() => {
+                                                                                                        navigate(`${process.env.PUBLIC_URL}/pages/editActivity/`)
+                                                                                                    }
+                                                                                                    }
+                                                                                                >
+                                                                                                    <i className="fa fa-crop">Add</i>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </Card.Body>
+                                                                                    </Card>
+                                                                                )
+                                                                            }
+                                                                        }
+                                                                    )()
+                                                                }
                                                             </Col>
 
 
