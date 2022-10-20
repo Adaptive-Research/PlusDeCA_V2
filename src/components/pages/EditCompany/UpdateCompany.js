@@ -50,8 +50,8 @@ export default function UpdateCompany() {
         if (response.data.includes("ERROR:")) {
             console.log(`Error: ${response.data}`);
         } else {
-            console.log("enterprise added");
             setResponseMsg("Entreprise modifiée");
+            localStorage.removeItem("targetCompany");
         }
 
     }
