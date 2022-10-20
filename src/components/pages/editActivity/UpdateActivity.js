@@ -11,10 +11,9 @@ import {getEnterprisesByUser} from "../../../data/customlibs/utils";
 export default function UpdateActivity() {
 
     const activityDetails = JSON.parse(localStorage.getItem("activityDetails"));
-    console.log(activityDetails);
 
     let idCompany;
-    const [enterprise, setEnterprise] = useState("");
+    const [enterprise, setEnterprise] = useState(activityDetails[7]);
     const [activity, setActivity] = useState(activityDetails[6]);
     const [activityMsg, setActivityMsg] = useState("");
     const [name, setName] = useState(activityDetails[1]);
@@ -35,8 +34,6 @@ export default function UpdateActivity() {
 
     getEnterprisesByUser();
 
-    console.log(JSON.parse(localStorage.getItem("userEnterprises")));
-
     const getEnterpriseName = () => {
         const storedEnterprise = JSON.parse(localStorage.getItem('userEnterprises'));
         // return each element id and name via html option tag
@@ -49,17 +46,19 @@ export default function UpdateActivity() {
 
 
     const requestActivityUpdate = async () => {
-        const url = process.env.REACT_APP_API_;
+        const url = "http://78.249.128.56:8001/API/Modifier-Activite";
         const token = localStorage.getItem("token");
         console.log(
             `
             token: ${token},
             submit: 1,
             idEntreprise: ${enterprise},
+            id: ${activityDetails[0]},
                         
                        `
         )
         const response = await axios.post(url, {
+            id: activityDetails[0],
             token: token,
             Submit: 1,
             idEntreprise: enterprise,
@@ -68,7 +67,8 @@ export default function UpdateActivity() {
             Description: description,
             SiteWeb: webSite,
             Email: email,
-            Telephone: phone
+            Telephone: phone,
+            debug: 1
         }, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -78,8 +78,8 @@ export default function UpdateActivity() {
         if (response.data.includes("ERROR:")) {
             console.log(`Error: ${response.data}`);
         } else {
-            console.log("activity added");
-            setResponseMsg("Activité ajoutée");
+            setResponseMsg("Activité modifiée");
+            localStorage.removeItem('activityDetails');
         }
 
     }
@@ -129,7 +129,8 @@ export default function UpdateActivity() {
         } catch (e) {
             console.log(e);
         } finally {
-            console.log("attempted to create activity")
+            console.log("attempted to update activity")
+            console.log(JSON.parse(localStorage.getItem('activityDetails')));
         }
     }
 
