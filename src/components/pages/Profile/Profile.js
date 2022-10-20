@@ -490,7 +490,7 @@ export default function Profile() {
                                                             <Col>
                                                                 {
                                                                     (() => {
-                                                                            const ans = JSON.parse(localStorage.getItem("activities"));
+                                                                            let ans = JSON.parse(localStorage.getItem("activities"));
                                                                             if (ans.length > 0) {
                                                                                 return (
                                                                                     ans.map((element) => {
@@ -610,7 +610,6 @@ export default function Profile() {
                                                                                     </Card>
                                                                                 )
                                                                             }
-                                                                            localStorage.removeItem("activities");
                                                                         }
                                                                     )()
                                                                 }

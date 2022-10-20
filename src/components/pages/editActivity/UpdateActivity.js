@@ -79,7 +79,6 @@ export default function UpdateActivity() {
             console.log(`Error: ${response.data}`);
         } else {
             setResponseMsg("Activité modifiée");
-            localStorage.removeItem('activityDetails');
         }
 
     }

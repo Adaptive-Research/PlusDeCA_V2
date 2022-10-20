@@ -51,7 +51,6 @@ export default function UpdateCompany() {
             console.log(`Error: ${response.data}`);
         } else {
             setResponseMsg("Entreprise modifiée");
-            localStorage.removeItem("targetCompany");
         }
 
     }
