@@ -33,8 +33,6 @@ export default function EditActivity() {
 
     getEnterprisesByUser();
 
-    console.log(JSON.parse(localStorage.getItem("userEnterprises")));
-
     const getEnterpriseName = () => {
         const storedEnterprise = JSON.parse(localStorage.getItem('userEnterprises'));
         // return each element id and name via html option tag
