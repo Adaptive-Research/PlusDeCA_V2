@@ -5,50 +5,143 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
 import { Link } from "react-router-dom";
 import {Breadcrumb, Card,Row,Col} from "react-bootstrap"
+import {EventData} from "./EventData"
+import axios from "axios";
+import  { FindTranslation, getIDFromToken } from "../../../functions_Dan.js" ;
+
+
+
 export default function FullCalendars() {
+
+  const [reloadInfos, setReloadInfos] = useState(true) ;
+  const [dataEvents, setDataEvents] = useState() ;
+
+
+
+
+  
+  console.log("FullCalendar component") ;
+
+
+  const storedToken = localStorage.getItem('token') ;
+  const idUser = getIDFromToken(storedToken) ;
+  //console.log(storedToken) ;  
+  //console.log(idUser) ;
+
+
+
+
+
   let eventGuid = 0;
+
+  // une date iso a le format suivant:     2022-10-18T14:43:00.189Z
+  // la ligne ci-desssous efface tout ce qui est apres T pour ne garder que YYYY-MM-DD
   let todayStr = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
-  const INITIAL_EVENTS = [
-    {
-      id: createEventId(),
-      title: "Meeting",
-      start: todayStr,
-    },
-    {
-      id: createEventId(),
-      title: "Meeting Time",
-      start: todayStr + "T16:00:00",
-    },
-  ];
+
+
+
+  
+
+  async function GetInfo(url,t) 
+  {
+    console.log("GetInfo") ;
+    console.log(url) ;
+    console.log(t) ;
+
+
+    const response = axios.post(url, {
+        Submit: 1,
+        token: t,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then( function(response) {
+   
+      console.log("response.data") ;
+      console.log(response.data) ;
+
+      let pos = response.data.indexOf("ERROR") ;
+      if (pos !== 0)
+      { 
+        
+        let ed = [] ;
+        
+        for (let i = 0 ; i < response.data.length; i++)
+        {
+          let Event_Start = response.data[i].Event_Start ;
+          let Event_End = response.data[i].Event_End ;
+
+
+          // les 2 lignes ci-dessous servent a mettre au format ISO:    2022-10-18T14:43:00
+          Event_Start = Event_Start.replace(" ","T") ;
+          Event_End = Event_End.replace(" ","T") ;
+
+
+          let s = {"id" : String(response.data[i].id) ,"title" : String(response.data[i].Event_Name), "start" : String(Event_Start) } ;
+          ed.push(s) ;
+        }
+        console.log("ed") ; 
+        console.log(ed) ;
+
+        setDataEvents(ed) ;
+        setReloadInfos(false) ;
+      
+
+      }
+    })
+  }
+
+
+  // on charge les data
+  const url2 = process.env.REACT_APP_API_SHOW_EVENT_URL ;
+  if (reloadInfos === true)
+    GetInfo(url2,storedToken) ;
+  
+  console.log("dataEvents") ; 
+  console.log(dataEvents) ;
 
   function createEventId() {
     return String(eventGuid++);
   }
-  const initialstate1 = {
-    calendarEvents: [
-      {
-        title: "Atlanta Monster",
-        start: new Date("2019-04-04 00:00"),
-        id: "1001",
-      },
-      {
-        title: "My Favorite Murder",
-        start: new Date("2019-04-05 00:00"),
-        id: "1002",
-      },
-    ],
 
+  const initialstate1 = {
+    
+    
     events: [
-      { title: "Réunion d'entrepreneurs", id: "1", bg: "bg-blue2-800", border: "border-primary" },
-      { title: "Salon", id: "2", bg: " bg-blue2-700", border: "border-success" },
+      { title: "Réunion d'entrepreneurs", id: "1", bg: "bg-blue-700", border: "border-primary" },
+      { title: "Salon", id: "2", bg: " bg-red2-700", border: "border-success" },
       { title: "Rendez-vous client", id: "3", bg: "bg-blue2-600", border: "border-info" },
-      { title: "Webinaire", id: "4", bg: "bg-blue2-500", border: "border-info" },
+      { title: "Webinaire", id: "4", bg: "bg-orange-600", border: "border-info" },
       { title: "Autre", id: "5", bg: "bg-green2-700", border: "border-danger" },
     ],
   };
   const [state] = useState(initialstate1);
 
+
+
   useEffect(() => {
+
+    const INITIAL_EVENTS = [
+      {
+        id: "1",
+        title: "Naissance",
+        start: '1968-02-16T10:00:00',
+      },
+    ];
+  
+    console.log("INITIAL_EVENTS") ;
+    console.log(INITIAL_EVENTS) ;
+  
+    if (reloadInfos === true)
+      setDataEvents(INITIAL_EVENTS) ;
+  
+  
+  
+  
+  
+      
+   
     let draggableEl = document.getElementById("external-events");
     new Draggable(draggableEl, {
       itemSelector: ".fc-event",
@@ -63,7 +156,10 @@ export default function FullCalendars() {
         };
       },
     });
+
   }, []);
+
+
 
   function renderEventContent(eventInfo) {
     return (
@@ -73,17 +169,19 @@ export default function FullCalendars() {
       </>
     );
   }
+
+
+  // utilise quand on clique sur un evenement
   const handleEventClick = (clickInfo) => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete the event '${clickInfo.event.title}'`
-      )
-    ) {
-      clickInfo.event.remove();
-    }
+    console.log('handleEventClick') ;
+    document.querySelector(".EventData").classList.toggle("open");
   };
+
+
   const handleEvents = (events) => {};
 
+
+  // c'est utilise quand on selectionne une date
   const handleDateSelect = (selectInfo) => {
     let title = prompt("Saisissez un titre pour cet évènement");
     let calendarApi = selectInfo.view.calendar;
@@ -100,21 +198,18 @@ export default function FullCalendars() {
       });
     }
   };
+
+  //rightsidebar
+  const openCloseEventData = () => {
+    console.log('openCloseEventData') ;
+    document.querySelector(".EventData").classList.toggle("open");
+  };
+
+
+
   return (
     <div>
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Mon planning</h1>
-        </div>
-        <div className="ms-auto pageheader-btn">
-          <Link to="#" className="btn btn-success btn-icon text-white">
-            <span>
-              <i className="fe fe-log-in"></i>&nbsp;
-            </span>
-            Export
-          </Link>
-        </div>
-      </div>
+    
       <Row>
         <Col md={12}>
           <Card>
@@ -136,6 +231,7 @@ export default function FullCalendars() {
                         <div className="fc-event-main">{event.title}</div>
                       </div>
                     ))}
+                    <EventData />
                   </div>
                 </Col>
                 <Col md={9} >
@@ -157,7 +253,7 @@ export default function FullCalendars() {
                       selectMirror={true}
                       dayMaxEvents={true}
                       weekends={state.weekendsVisible}
-                      initialEvents={INITIAL_EVENTS}
+                      events={dataEvents}
                       select={handleDateSelect}
                       eventContent={renderEventContent}
                       eventClick={handleEventClick}

@@ -1,0 +1,39 @@
+
+
+.EventData {
+    display:none ;
+    -webkit-transform: translate(100%, 0);
+    -moz-transform: translate(100%, 0);
+    -ms-transform: translate(100%, 0);
+    -o-transform: translate(100%, 0);
+    transform: translate(100%, 0);
+}
+
+.EventData.open {
+    display:flex ;
+    background-color: #ffffb2 ;
+    right: 100px;
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+
+
+.Dan_icon {
+    color: #495584;
+    font-size: 23px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+}
+
+
+
+.Dan_color{
+    background-color: #feefd6 !important;
+}
+

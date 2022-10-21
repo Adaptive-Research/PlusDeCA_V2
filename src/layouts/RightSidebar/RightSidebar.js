@@ -21,13 +21,11 @@ import axios from "axios";
 export function RightSidebar() {
 
 
-  console.log(process.env) ;
-
   const storedToken = localStorage.getItem('token') ;
-  console.log(storedToken) ;
-
   const idUser = getIDFromToken(storedToken) ;
-  console.log(idUser) ;
+  //console.log(storedToken) ;  
+  //console.log(idUser) ;
+
 
 
   // les titres des champs
