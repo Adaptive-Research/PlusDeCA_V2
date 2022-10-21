@@ -20,11 +20,14 @@ import {useNavigate} from "react-router";
 
 
 export default function Profile() {
-
+    console.log("profile") ;
 
     const sProfile = "Profile";
     const sCompany = "Company";
     const token = localStorage.getItem("token");
+    console.log(token);
+
+
     const navigate = useNavigate();
 
     const [profile, setProfile] = useState(sProfile);
@@ -36,20 +39,67 @@ export default function Profile() {
     const [phone, setPhone] = useState("");
     const [defDisplay, setDefDisplay] = useState("block");
 
+    // pour le reload des infos
+    const [reloadInfos, setReloadInfos] = useState(true) ;
+
     const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL;
     const Page = "Profile";
     const VL = "FR";
 
-    getEnterprisesByUser();
-    getAllEnterprises();
-    getAllActivities()
-
-    useEffect(() => {
-
-    });
+    
+  
 
 
-    console.log(token);
+
+
+
+
+
+
+
+
+    const ftest = (id) => {
+        const url = process.env.REACT_APP_API_SHOW_ENTERPRISESACTIVITES_FOR_USER_URL;
+        const response = axios.post(
+            url, {
+                token: token,
+                Submit: 1,
+                debug:1,
+                idUtilisateur: id
+            }, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            }
+        ).then(
+            (response) => {
+                console.log("ftest") ;
+                console.log(response.data);
+                //window.location.reload();
+            }
+        )
+
+    }
+
+    if (reloadInfos === true)
+    {
+        ftest("17") ;
+        getEnterprisesByUser();
+        getAllEnterprises();
+        getAllActivities()
+
+        setReloadInfos(false) ;
+    }
+
+
+
+
+
+
+
+
+
+
 
     const ans = JSON.parse(localStorage.getItem("activities"));
 

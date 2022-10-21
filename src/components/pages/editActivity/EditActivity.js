@@ -33,6 +33,7 @@ export default function EditActivity() {
 
     getEnterprisesByUser();
 
+    
     console.log(JSON.parse(localStorage.getItem("userEnterprises")));
 
     const getEnterpriseName = () => {
@@ -60,6 +61,7 @@ export default function EditActivity() {
         const response = await axios.post(url, {
             token: token,
             Submit: 1,
+            debug:1,
             idEntreprise: enterprise,
             TypeActivite: activity,
             Nom: name,
