@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import * as profiledata from "../../../data/Pages/profiledata/profiledata";
 import user8 from "../../../assets/images/users/8.jpg";
 import user15 from "../../../assets/images/users/15.jpg";
@@ -44,10 +44,6 @@ export default function Profile() {
     getAllEnterprises();
     getAllActivities()
 
-    useEffect(() => {
-
-    });
-
 
     console.log(token);
 
@@ -86,7 +82,7 @@ export default function Profile() {
         ).then(
             (response) => {
                 console.log(response.data);
-                //window.location.reload();
+                window.location.reload();
             }
         )
 
@@ -113,22 +109,6 @@ export default function Profile() {
                 setCompany(t);
 
         })
-    }
-
-    const renderActivities = (idCompany) => {
-        const allActivities = JSON.parse(localStorage.getItem("allActivities"));
-        let ans = [];
-
-        allActivities.forEach((element) => {
-            console.log(
-                `element id: ${element.idEntreprise} idCompany: ${idCompany}`
-            )
-            if (element.idEntreprise === idCompany) {
-                ans.push(element);
-            }
-        });
-        localStorage.setItem("activities", JSON.stringify(ans));
-        return window.location.reload();
     }
 
 
@@ -209,7 +189,8 @@ export default function Profile() {
                                     <tr>
                                         <td>
                                             <button className="btn btn-primary me-1"
-                                                    onClick={() => renderActivities(company.id)}>
+                                                    onClick={() => renderActivities(company.id)}
+                                            >
                                                 <i className="fa fa-book fs-18"></i>
                                             </button>
                                         </td>
@@ -249,6 +230,25 @@ export default function Profile() {
 
 
     }
+
+
+
+
+
+    const renderActivities = (idCompany) => {
+        const allActivities = JSON.parse(localStorage.getItem("allActivities"));
+        let ans = [];
+
+
+        allActivities.forEach((element) => {
+            if (element.idEntreprise === idCompany) {
+                ans.push(element);
+            }
+        });
+        localStorage.setItem("activities", JSON.stringify(ans));
+        window.location.reload();
+    }
+
 
 
     TranslateAll(url, Page, VL);
@@ -492,7 +492,7 @@ export default function Profile() {
 
 
                                                         <Row>
-                                                            <Col lg={6} xl={5} md={12} sm={12}>
+                                                            <Col lg={6} xl={6} md={12} sm={12}>
                                                                 {renderCompanies()}
                                                             </Col>
 
