@@ -1,7 +1,7 @@
 import React , { useState } from "react";
 //import * as formelement from "../../../data/Form/formelement/formelement";
 //import * as editprofile from "../../../data/Pages/editprofile/editprofile";
-import { Link } from "react-router-dom";
+import {useNavigate} from "react-router";
 import {
   Col,
   Row,
@@ -27,7 +27,7 @@ export default function EditProfile() {
 
   const idUser = getIDFromToken(storedToken) ;
   console.log(idUser) ;
-  
+
 
   const sProfile = "Profile" ;
   const sEditProfile = "Edit Profile" ;
@@ -35,9 +35,9 @@ export default function EditProfile() {
   const sContactNumber = "Contact Number" ;
   const sEmailAddress = "Email Address" ;
   const sFirstName = "First Name" ;
-  const sLastName = "Last Name" ;  
-  const sVisibility = "Visible by everyone" ;  
-
+  const sLastName = "Last Name" ;
+  const sVisibility = "Visible by everyone" ;
+  const navigate = useNavigate() ;
 
   // pour les titres
   const [profile, setProfile] = useState(sProfile) ;
@@ -59,14 +59,14 @@ export default function EditProfile() {
   const [bio, setBio] = useState("") ;
   const [bioVisible, setBioVisible] = useState(false) ;
 
-  
+
   // pour le reload des infos
   const [reloadInfos, setReloadInfos] = useState(true) ;
   const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
 
 
-  async function TranslateAll(url, Page,VL) 
+  async function TranslateAll(url, Page,VL)
   {
     const response = axios.post(url, {
         Submit: 1,
@@ -77,7 +77,7 @@ export default function EditProfile() {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     }).then( function(response) {
-   
+
       console.log(response.data) ;
 
       let t = FindTranslation(response.data,Page,VL, sProfile) ;
@@ -87,32 +87,32 @@ export default function EditProfile() {
       t = FindTranslation(response.data,Page,VL, sEditProfile) ;
       if (t !== "Not Found")
         setEditProfile(t) ;
-      
+
       t = FindTranslation(response.data,Page,VL, sAboutMe) ;
       if (t !== "Not Found")
         setAboutMe(t) ;
-      
+
       t = FindTranslation(response.data,Page,VL, sContactNumber) ;
       if (t !== "Not Found")
         setContactNumber(t) ;
-      
+
       t = FindTranslation(response.data,Page,VL, sEmailAddress) ;
       if (t !== "Not Found")
         setEmailAddress(t) ;
-      
+
       t = FindTranslation(response.data,Page,VL, sFirstName) ;
       if (t !== "Not Found")
         setFirstName(t) ;
-    
+
       t = FindTranslation(response.data,Page,VL, sLastName) ;
       if (t !== "Not Found")
         setLastName(t) ;
 
       t = FindTranslation(response.data,Page,VL, sVisibility) ;
       if (t !== "Not Found")
-        setVisibility(t) ;        
-  
-      setReloadTraductions(false) ;  
+        setVisibility(t) ;
+
+      setReloadTraductions(false) ;
     })
   }
 
@@ -127,7 +127,7 @@ export default function EditProfile() {
 
 
 
-  async function GetInfo(url,t,id) 
+  async function GetInfo(url,t,id)
   {
     console.log("GetInfo") ;
     console.log(url) ;
@@ -144,12 +144,14 @@ export default function EditProfile() {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     }).then( function(response) {
-   
+
       console.log("response.data") ;
       console.log(response.data) ;
       let pos = response.data.indexOf("ERROR") ;
       if (pos !== 0)
-      { 
+      {
+        const profileDetails = response.data[0];
+        localStorage.setItem('profileDetails', JSON.stringify(profileDetails));
         setPrenom(response.data[0].Prenom) ;
         setNom(response.data[0].Nom) ;
         setEmail(response.data[0].Email) ;
@@ -160,7 +162,7 @@ export default function EditProfile() {
         if (response.data[0].BioVisible === "1")
           setBioVisible(true) ;
 
-        setTelephoneVisible(false) ;  
+        setTelephoneVisible(false) ;
         if (response.data[0].TelephoneVisible === "1")
           setTelephoneVisible(true) ;
 
@@ -169,7 +171,7 @@ export default function EditProfile() {
           setEmailVisible(true) ;
 
 
-        setReloadInfos(false) ;  
+        setReloadInfos(false) ;
       }
     })
   }
@@ -205,7 +207,7 @@ export default function EditProfile() {
 
     if (response.data.includes("ERROR:")) {
       console.log(`Error found: ${response.data}`);
-    } 
+    }
     else {
       console.log("Saved");
     }
@@ -222,15 +224,15 @@ export default function EditProfile() {
       console.log("Save") ;
 
       let bv = 0 ;
-      if (bioVisible === true) 
+      if (bioVisible === true)
         bv = 1 ;
       let tv = 0 ;
-      if (telephoneVisible === true) 
+      if (telephoneVisible === true)
         tv = 1 ;
       let ev = 0 ;
-      if (emailVisible === true) 
+      if (emailVisible === true)
         ev = 1 ;
-    
+
 
       SaveData(storedToken,prenom,nom,email,ev,telephone,tv,bio,bv) ;
     } catch (e) {
@@ -244,7 +246,8 @@ export default function EditProfile() {
   const handleCancel = (event) => {
     event.preventDefault();
     console.log("Cancel") ;
-    setReloadInfos(true) ;  
+    setReloadInfos(true) ;
+    navigate(-1);
   }
 
 
@@ -338,7 +341,7 @@ export default function EditProfile() {
         </Col>
 
 
-        
+
         <Col lg={12} xl={4} md={12} sm={12}>
 
 
@@ -347,7 +350,7 @@ export default function EditProfile() {
               <Card.Title>{visibility}</Card.Title>
             </Card.Header>
             <Card.Body>
-              
+
               <div className="form-group mg-b-10">
                 <label className="custom-switch ps-0">
                   <input
@@ -417,7 +420,7 @@ export default function EditProfile() {
         </Col>
 
       </Row>
-   
+
     </div>
   );
 }
