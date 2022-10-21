@@ -1,39 +1,43 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Tabs, Tab } from "react-bootstrap";
-import face6 from "../../assets/images/faces/6.jpg";
-import face9 from "../../assets/images/faces/9.jpg";
-import face11 from "../../assets/images/faces/11.jpg";
-import face10 from "../../assets/images/faces/10.jpg";
-import face12 from "../../assets/images/faces/12.jpg";
-import face4 from "../../assets/images/faces/4.jpg";
-import face7 from "../../assets/images/faces/7.jpg";
-import face2 from "../../assets/images/faces/2.jpg";
-import face13 from "../../assets/images/faces/13.jpg";
-import face14 from "../../assets/images/faces/14.jpg";
-import face15 from "../../assets/images/faces/15.jpg";
-import  { FindTranslation } from "../../functions_Dan.js" ;
-import {useNavigate} from "react-router";
+import  { FindTranslation, getIDFromToken  } from "../../functions_Dan.js" ;
 
 import axios from "axios";
 
 
 
-export function RightSidebar() {
+export function CalendarInfos() {
+
+  console.log(process.env) ;
+
+  const storedToken = localStorage.getItem('token') ;
+  console.log(storedToken) ;
+
+  const idUser = getIDFromToken(storedToken) ;
+  console.log(idUser) ;
+
+
+
+  // les titres des champs
   const sMyProfile = "My Profile" ;
   const sSignOut = "Sign out" ;
   const sAccountSettings = "Account Settings" ;
   const sMyMessages = "My Messages" ;
   const sMyMails = "My Mails" ;
-  const navigate = useNavigate();
 
 
+  // pour les titres
   const [rightsidebartoogle, setSidebartoogleright] = useState(true);
   const [myProfile, setMyProfile] = useState(sMyProfile) ;
   const [signout, setSignOut] = useState(sSignOut) ;
   const [settings, setSettings] = useState(sAccountSettings) ;
   const [myMessages, setMyMessages] = useState(sMyMessages) ;
   const [myMails, setMyMails] = useState(sMyMails) ;
+
+  // pour le reload des infos
+  const [reloadTraductions, setReloadTraductions] = useState(true) ;
+
 
 
   function Outhover(toggle) {
@@ -44,19 +48,15 @@ export function RightSidebar() {
 
 
 
-  //const storedToken = JSON.parse(localStorage.getItem('token'));
-  const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
-  const Page = "RightSidebar" ;
-  const VL = "FR" ;
+
+ 
 
 
 
+  
 
 
-
-
-
-  async function TranslateAll(url, Page,VL)
+  async function TranslateAll(url, Page,VL) 
   {
     const response = axios.post(url, {
         Submit: 1,
@@ -67,17 +67,7 @@ export function RightSidebar() {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     }).then( function(response) {
-
-    /*
-    console.log(response.data);
-    console.log("status: "+response.status);
-    console.log("statusText"+response.statusText);
-    console.log(response.headers);
-    console.log(response.config);
-    console.log(response.data[0]) ;
-
-    console.log("myProfile: "+myProfile) ;
-    */
+   
 
     let t = FindTranslation(response.data,Page,VL, sMyProfile) ;
     if (t !== "Not Found")
@@ -90,19 +80,25 @@ export function RightSidebar() {
           setSettings(t) ;
     t = FindTranslation(response.data,Page,VL, sMyMessages) ;
         if (t !== "Not Found")
-          setMyMessages(t) ;
+          setMyMessages(t) ;                 
     t = FindTranslation(response.data,Page,VL, sMyMails) ;
         if (t !== "Not Found")
-          setMyMails(t) ;
+          setMyMails(t) ;          
 
+    setReloadTraductions(false) ;               
     })
   }
 
 
-  TranslateAll(url,Page,VL) ;
+  const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
+  const Page = "RightSidebar" ;
+  const VL = "FR" ;
 
+  if (reloadTraductions === true)
+    TranslateAll(url,Page,VL) ;
 
-
+  
+  
 
 
 
@@ -208,9 +204,6 @@ export function RightSidebar() {
                 </Link>
                 <Link
                   className="dropdown-item d-flex border-bottom"
-                  onClick={() => {
-                    localStorage.clear();
-                  }}
                   to={`${process.env.PUBLIC_URL}/custompages/login`}
                 >
                   <div className="d-flex">
@@ -227,230 +220,6 @@ export function RightSidebar() {
 
 
 
-
-
-            <Tab eventKey="side2" title="Contacts">
-              <div className="tab-pane" id="side2">
-                <div className="list-group list-group-flush ">
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        className="avatar avatar-md brround cover-image "
-                        src={face9}
-                        alt=""
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Mozelle Belt</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        mozellebelt@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face11}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Florinda Carasco</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        florindacarasco@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face10}
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Alina Bernier</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        alinaaernier@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face2}
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Zula Mclaughin</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        zulamclaughin@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face13}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Isidro Heide</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        isidroheide@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face12}
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Mozelle Belt</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        mozellebelt@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face4}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Florinda Carasco</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        florindacarasco@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face7}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Alina Bernier</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        alinabernier@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face2}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Zula Mclaughin</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        zulamclaughin@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face14}
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Isidro Heide</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        isidroheide@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face11}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Florinda Carasco</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        florindacarasco@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face9}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Alina Bernier</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        alinabernier@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face15}
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Zula Mclaughin</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        zulamclaughin@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face4}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Isidro Heide</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        isidroheide@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Tab>
 
 
 

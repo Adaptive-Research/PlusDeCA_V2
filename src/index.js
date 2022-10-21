@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import EditActivity from "./components/pages/editActivity/EditActivity";
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
@@ -85,6 +86,7 @@ const WeatherIcons = React.lazy(() => import("./components/Icons/WeatherIcons/We
 //pages
 const Profile = React.lazy(() => import("./components/pages/Profile/Profile"));
 const EditProfile = React.lazy(() => import("./components/pages/EditProfile/EditProfile"));
+const EditCompany = React.lazy(() => import("./components/pages/EditCompany/EditCompany"));
 const MailInbox = React.lazy(() => import("./components/pages/MailInbox/MailInbox"));
 const MailCompose = React.lazy(() => import("./components/pages/MailCompose/MailCompose"));
 const Gallery = React.lazy(() => import("./components/pages/Gallery/Gallery"));
@@ -96,6 +98,8 @@ const Invoice = React.lazy(() => import("./components/pages/Invoice/Invoice"));
 const PricingTables = React.lazy(() => import("./components/pages/PricingTables/PricingTables"));
 const Empty = React.lazy(() => import("./components/pages/Empty/Empty"));
 const UnderConstruction = React.lazy(() => import("./components/pages/UnderConstruction/UnderConstruction"));
+const UpdateCompany = React.lazy(() => import("./components/pages/EditCompany/UpdateCompany"));
+const UpdateActivity = React.lazy(() => import("./components/pages/editActivity/UpdateActivity"));
 //Blog
 const Blog = React.lazy(() => import("./components/pages/Blog/Blog/Blog"));
 const BlogDetails = React.lazy(() => import("./components/pages/Blog/BlogDetails/BlogDetails"));
@@ -512,6 +516,31 @@ const Root = () => {
                                     path={`${process.env.PUBLIC_URL}/pages/editProfile`}
                                     element={<EditProfile/>}
                                 />
+
+
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/pages/editActivity`}
+                                    element={<EditActivity/>}
+                                />
+
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/pages/updateActivity`}
+                                    element={<UpdateActivity/>}
+                                />
+
+
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/pages/editCompany`}
+                                    element={<EditCompany/>}
+                                />
+
+
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/pages/updateCompany`}
+                                    element={<UpdateCompany/>}
+                                />
+
+
 
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/pages/mailInbox`}
