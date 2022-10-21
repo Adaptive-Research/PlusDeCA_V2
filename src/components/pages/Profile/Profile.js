@@ -40,11 +40,12 @@ export default function Profile() {
     const Page = "Profile";
     const VL = "FR";
 
+    getEnterprisesByUser();
+    getAllEnterprises();
+    getAllActivities()
 
     useEffect(() => {
-        getEnterprisesByUser();
-        getAllEnterprises();
-        getAllActivities()
+        
     });
 
 
@@ -135,12 +136,12 @@ export default function Profile() {
 
         const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
         const allCompanies = JSON.parse(localStorage.getItem("allEnterprises"));
-        const ansArray = [];
+
+        if (allCompanies !== null)
+        {
+            const ansArray = [];
 
 
-        if (myCompanies !== null || allCompanies !== null) {
-            navigate(`${process.env.PUBLIC_URL}/custompages/errorpages/errorpage500`)
-        } else {
             allCompanies.forEach((element) => {
                 let found = false;
                 myCompanies.forEach((element2) => {
@@ -243,9 +244,10 @@ export default function Profile() {
                         </Card.Body>
                     </Card>
                 )
+            
             })
         }
-
+    
 
     }
 
