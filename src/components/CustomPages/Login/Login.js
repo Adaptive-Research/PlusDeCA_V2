@@ -4,7 +4,7 @@ import {Card} from "react-bootstrap";
 import axios from "axios";
 import {useNavigate} from "react-router";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
-import {checkDuplicate, checkEmail, getAllUsersEmail} from "../../../data/customlibs/utils";
+import {checkDuplicate, checkEmail, getAllUsersEmail, getUserId} from "../../../data/customlibs/utils";
 import {encrypt} from "../../../data/customlibs/hasher.js";
 import {remove_linebreaks} from "../../../functions_Dan";
 
