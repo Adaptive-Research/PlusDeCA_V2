@@ -15,7 +15,7 @@ import {Link} from "react-router-dom";
 
 import axios from "axios";
 import {FindTranslation} from "../../../functions_Dan.js";
-import {getAllActivities, getAllEnterprises, getEnterprisesByUser} from "../../../data/customlibs/utils";
+import {getAllActivities, getAllEnterprises, getEnterprisesByUser, getUserId} from "../../../data/customlibs/utils";
 import {useNavigate} from "react-router";
 
 
@@ -39,6 +39,7 @@ export default function Profile() {
     const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL;
     const Page = "Profile";
     const VL = "FR";
+    const activeId = getUserId();
 
     getEnterprisesByUser();
     getAllEnterprises();
@@ -49,6 +50,50 @@ export default function Profile() {
 
     const ans = JSON.parse(localStorage.getItem("activities"));
 
+
+/*    const getInfosCompanyAndActivity = (id) => {
+        const url = process.env.REACT_APP_API_SHOW_ENTERPRISE_AND_ACTIVITY_FOR_USER_URL;
+
+        const response = axios.post(url, {
+            token: token,
+            Submit: 1,
+            idUtilisateur: id,
+            debug: 1
+        }, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        }).then((response) => {
+            console.log(response.data);
+        })
+        return response;
+    };
+
+    getInfosCompanyAndActivity(activeId);*/
+
+        const ftest = (id) => {
+            const url = "http://78.249.128.56:8001/API/getListe-EntreprisesEtActivites-Pour-Utilisateur";
+            const response = axios.post(
+                url, {
+                    token: token,
+                    Submit: 1,
+                    idUtilisateur: id
+                }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+                }
+            ).then(
+                (response) => {
+                    console.log("ftest") ;
+                    console.log(response.data);
+                    //window.location.reload();
+                }
+            )
+
+        }
+
+        ftest("17") ;
 
     const deleteActivity = (id) => {
         const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
@@ -153,17 +198,21 @@ export default function Profile() {
                                             <strong>Siret
                                                 :</strong> {company.Siret}
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong> personal id
-                                                :</strong> {company.id}
-                                        </td>
-                                    </tr>
-                                    <tr>
+
                                         <td>
                                             <strong>Website
                                                 :</strong> {company.SiteWeb}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <strong>Phone :</strong> {company.Telephone}
+                                        </td>
+
+                                        <td>
+                                            <strong>Email :</strong>
+                                            {company.Email}
                                         </td>
                                     </tr>
 
@@ -172,13 +221,8 @@ export default function Profile() {
                                         className="col-lg-12 col-xl-4 p-0">
                                     <tr>
                                         <td>
-                                            <strong>Email :</strong>
-                                            {company.Email}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Phone :</strong> {company.Telephone}
+                                            <strong> personal id
+                                                :</strong> {company.id}
                                         </td>
                                     </tr>
 
@@ -194,16 +238,12 @@ export default function Profile() {
                                                 <i className="fa fa-book fs-18"></i>
                                             </button>
                                         </td>
-                                    </tr>
-                                    <tr>
                                         <td>
                                             <button className="btn btn-danger me-1"
                                                     onClick={() => deleteCompany(company.id)}>
                                                 <i className="fa fa-trash fs-18"></i>
                                             </button>
                                         </td>
-                                    </tr>
-                                    <tr>
                                         <td>
                                             <button className="btn btn-warning me-1"
                                                     onClick={() => {
@@ -217,7 +257,6 @@ export default function Profile() {
                                             </button>
                                         </td>
                                     </tr>
-
                                     </tbody>
                                 </Table>
                             </div>
@@ -230,9 +269,6 @@ export default function Profile() {
 
 
     }
-
-
-
 
 
     const renderActivities = (idCompany) => {
@@ -248,7 +284,6 @@ export default function Profile() {
         localStorage.setItem("activities", JSON.stringify(ans));
         window.location.reload();
     }
-
 
 
     TranslateAll(url, Page, VL);
@@ -492,159 +527,159 @@ export default function Profile() {
 
 
                                                         <Row>
-                                                            <Col lg={6} xl={6} md={12} sm={12}>
+                                                            <Col lg={6} xl={10} md={12} sm={12}>
                                                                 {renderCompanies()}
                                                             </Col>
 
 
-                                                            <Col>
-                                                                {
-                                                                    (() => {
-                                                                            let ans = JSON.parse(localStorage.getItem("activities"));
-                                                                            if (ans !== null) {
-                                                                                if (ans.length > 0) {
-                                                                                    return (
-                                                                                        ans.map((element) => {
-                                                                                                return (
-                                                                                                    <Card>
-                                                                                                        <Card.Body
-                                                                                                            className="bg-white">
-                                                                                                            <div
-                                                                                                                className="media-heading">
-                                                                                                                <h5>
-                                                                                                                    <strong>{element.TypeActivite}</strong>
-                                                                                                                </h5>
-                                                                                                            </div>
-                                                                                                            <div
-                                                                                                                className="table-responsive p-1">
-                                                                                                                <Table
-                                                                                                                    className="table row table-borderless">
-                                                                                                                    <tbody
-                                                                                                                        className="col-lg-12 col-xl-4 p-0">
+                                                            {/*<Col>*/}
+                                                            {/*    {*/}
+                                                            {/*        (() => {*/}
+                                                            {/*                let ans = JSON.parse(localStorage.getItem("activities"));*/}
+                                                            {/*                if (ans !== null) {*/}
+                                                            {/*                    if (ans.length > 0) {*/}
+                                                            {/*                        return (*/}
+                                                            {/*                            ans.map((element) => {*/}
+                                                            {/*                                    return (*/}
+                                                            {/*                                        <Card>*/}
+                                                            {/*                                            <Card.Body*/}
+                                                            {/*                                                className="bg-white">*/}
+                                                            {/*                                                <div*/}
+                                                            {/*                                                    className="media-heading">*/}
+                                                            {/*                                                    <h5>*/}
+                                                            {/*                                                        <strong>{element.TypeActivite}</strong>*/}
+                                                            {/*                                                    </h5>*/}
+                                                            {/*                                                </div>*/}
+                                                            {/*                                                <div*/}
+                                                            {/*                                                    className="table-responsive p-1">*/}
+                                                            {/*                                                    <Table*/}
+                                                            {/*                                                        className="table row table-borderless">*/}
+                                                            {/*                                                        <tbody*/}
+                                                            {/*                                                            className="col-lg-12 col-xl-4 p-0">*/}
 
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Website
-                                                                                                                                :</strong> {element.SiteWeb}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Email
-                                                                                                                                :</strong>
-                                                                                                                            {element.Email}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Phone
-                                                                                                                                :</strong> {element.Telephone}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    </tbody>
-                                                                                                                    <tbody
-                                                                                                                        className="col-lg-12 col-xl-4 p-0">
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Activity
-                                                                                                                                Name
-                                                                                                                                :</strong> {element.Nom}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Activity
-                                                                                                                                Description
-                                                                                                                                :</strong> {element.Description}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    </tbody>
-                                                                                                                    <tbody
-                                                                                                                        className="col-lg-12 col-xl-4 p-0"
-                                                                                                                    >
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <button
-                                                                                                                                className="btn btn-danger me-1"
-                                                                                                                                onClick={() => deleteActivity(element.id)}>
-                                                                                                                                <i className="fa fa-trash fs-18"></i>
-                                                                                                                            </button>
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <button
-                                                                                                                                className="btn btn-warning me-1"
-                                                                                                                                onClick={() => {
-                                                                                                                                    const targetActivity = [element.id, element.Nom, element.Description, element.SiteWeb, element.Email, element.Telephone, element.TypeActivite, element.idEntreprise];
-                                                                                                                                    console.log(targetActivity);
-                                                                                                                                    localStorage.setItem("activityDetails", JSON.stringify(targetActivity));
-                                                                                                                                    navigate(`${process.env.PUBLIC_URL}/pages/updateActivity`)
+                                                            {/*                                                        <tr>*/}
+                                                            {/*                                                            <td>*/}
+                                                            {/*                                                                <strong>Website*/}
+                                                            {/*                                                                    :</strong> {element.SiteWeb}*/}
+                                                            {/*                                                            </td>*/}
+                                                            {/*                                                        </tr>*/}
+                                                            {/*                                                        <tr>*/}
+                                                            {/*                                                            <td>*/}
+                                                            {/*                                                                <strong>Email*/}
+                                                            {/*                                                                    :</strong>*/}
+                                                            {/*                                                                {element.Email}*/}
+                                                            {/*                                                            </td>*/}
+                                                            {/*                                                        </tr>*/}
+                                                            {/*                                                        <tr>*/}
+                                                            {/*                                                            <td>*/}
+                                                            {/*                                                                <strong>Phone*/}
+                                                            {/*                                                                    :</strong> {element.Telephone}*/}
+                                                            {/*                                                            </td>*/}
+                                                            {/*                                                        </tr>*/}
+                                                            {/*                                                        </tbody>*/}
+                                                            {/*                                                        <tbody*/}
+                                                            {/*                                                            className="col-lg-12 col-xl-4 p-0">*/}
+                                                            {/*                                                        <tr>*/}
+                                                            {/*                                                            <td>*/}
+                                                            {/*                                                                <strong>Activity*/}
+                                                            {/*                                                                    Name*/}
+                                                            {/*                                                                    :</strong> {element.Nom}*/}
+                                                            {/*                                                            </td>*/}
+                                                            {/*                                                        </tr>*/}
+                                                            {/*                                                        <tr>*/}
+                                                            {/*                                                            <td>*/}
+                                                            {/*                                                                <strong>Activity*/}
+                                                            {/*                                                                    Description*/}
+                                                            {/*                                                                    :</strong> {element.Description}*/}
+                                                            {/*                                                            </td>*/}
+                                                            {/*                                                        </tr>*/}
+                                                            {/*                                                        </tbody>*/}
+                                                            {/*                                                        <tbody*/}
+                                                            {/*                                                            className="col-lg-12 col-xl-4 p-0"*/}
+                                                            {/*                                                        >*/}
+                                                            {/*                                                        <tr>*/}
+                                                            {/*                                                            <td>*/}
+                                                            {/*                                                                <button*/}
+                                                            {/*                                                                    className="btn btn-danger me-1"*/}
+                                                            {/*                                                                    onClick={() => deleteActivity(element.id)}>*/}
+                                                            {/*                                                                    <i className="fa fa-trash fs-18"></i>*/}
+                                                            {/*                                                                </button>*/}
+                                                            {/*                                                            </td>*/}
+                                                            {/*                                                        </tr>*/}
+                                                            {/*                                                        <tr>*/}
+                                                            {/*                                                            <td>*/}
+                                                            {/*                                                                <button*/}
+                                                            {/*                                                                    className="btn btn-warning me-1"*/}
+                                                            {/*                                                                    onClick={() => {*/}
+                                                            {/*                                                                        const targetActivity = [element.id, element.Nom, element.Description, element.SiteWeb, element.Email, element.Telephone, element.TypeActivite, element.idEntreprise];*/}
+                                                            {/*                                                                        console.log(targetActivity);*/}
+                                                            {/*                                                                        localStorage.setItem("activityDetails", JSON.stringify(targetActivity));*/}
+                                                            {/*                                                                        navigate(`${process.env.PUBLIC_URL}/pages/updateActivity`)*/}
 
-                                                                                                                                }}
-                                                                                                                            >
-                                                                                                                                <i className="fa fa-edit fs-18"></i>
-                                                                                                                            </button>
-                                                                                                                        </td>
-                                                                                                                    </tr>
+                                                            {/*                                                                    }}*/}
+                                                            {/*                                                                >*/}
+                                                            {/*                                                                    <i className="fa fa-edit fs-18"></i>*/}
+                                                            {/*                                                                </button>*/}
+                                                            {/*                                                            </td>*/}
+                                                            {/*                                                        </tr>*/}
 
-                                                                                                                    </tbody>
-                                                                                                                </Table>
-                                                                                                            </div>
+                                                            {/*                                                        </tbody>*/}
+                                                            {/*                                                    </Table>*/}
+                                                            {/*                                                </div>*/}
 
-                                                                                                        </Card.Body>
-                                                                                                    </Card>
-                                                                                                )
-                                                                                            }
-                                                                                        ))
-                                                                                } else {
-                                                                                    return (
-                                                                                        <Card>
-                                                                                            <Card.Body
-                                                                                                className="bg-white">
-                                                                                                <div
-                                                                                                    className="media-heading">
-                                                                                                    <h5>
-                                                                                                        <strong>No
-                                                                                                            activities</strong>
-                                                                                                    </h5>
+                                                            {/*                                            </Card.Body>*/}
+                                                            {/*                                        </Card>*/}
+                                                            {/*                                    )*/}
+                                                            {/*                                }*/}
+                                                            {/*                            ))*/}
+                                                            {/*                    } else {*/}
+                                                            {/*                        return (*/}
+                                                            {/*                            <Card>*/}
+                                                            {/*                                <Card.Body*/}
+                                                            {/*                                    className="bg-white">*/}
+                                                            {/*                                    <div*/}
+                                                            {/*                                        className="media-heading">*/}
+                                                            {/*                                        <h5>*/}
+                                                            {/*                                            <strong>No*/}
+                                                            {/*                                                activities</strong>*/}
+                                                            {/*                                        </h5>*/}
 
-                                                                                                    <button
-                                                                                                        className="btn btn-primary me-2²"
-                                                                                                        onClick={() => {
-                                                                                                            navigate(`${process.env.PUBLIC_URL}/pages/editActivity/`)
-                                                                                                        }
-                                                                                                        }
-                                                                                                    >
-                                                                                                        <i className="fa fa-crop">Add</i>
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                            </Card.Body>
-                                                                                        </Card>
-                                                                                    )
-                                                                                }
-                                                                            } else {
-                                                                                return (
-                                                                                    <Card>
-                                                                                        <Card.Body
-                                                                                            className="bg-white">
-                                                                                            <div
-                                                                                                className="media-heading">
-                                                                                                <h5>
-                                                                                                    <strong>No
-                                                                                                        activities</strong>
-                                                                                                </h5>
+                                                            {/*                                        <button*/}
+                                                            {/*                                            className="btn btn-primary me-2²"*/}
+                                                            {/*                                            onClick={() => {*/}
+                                                            {/*                                                navigate(`${process.env.PUBLIC_URL}/pages/editActivity/`)*/}
+                                                            {/*                                            }*/}
+                                                            {/*                                            }*/}
+                                                            {/*                                        >*/}
+                                                            {/*                                            <i className="fa fa-crop">Add</i>*/}
+                                                            {/*                                        </button>*/}
+                                                            {/*                                    </div>*/}
+                                                            {/*                                </Card.Body>*/}
+                                                            {/*                            </Card>*/}
+                                                            {/*                        )*/}
+                                                            {/*                    }*/}
+                                                            {/*                } else {*/}
+                                                            {/*                    return (*/}
+                                                            {/*                        <Card>*/}
+                                                            {/*                            <Card.Body*/}
+                                                            {/*                                className="bg-white">*/}
+                                                            {/*                                <div*/}
+                                                            {/*                                    className="media-heading">*/}
+                                                            {/*                                    <h5>*/}
+                                                            {/*                                        <strong>No*/}
+                                                            {/*                                            activities</strong>*/}
+                                                            {/*                                    </h5>*/}
 
-                                                                                                refresh your activities
-                                                                                            </div>
-                                                                                        </Card.Body>
-                                                                                    </Card>
-                                                                                )
-                                                                            }
-                                                                        }
-                                                                    )()
-                                                                }
-                                                            </Col>
+                                                            {/*                                    refresh your activities*/}
+                                                            {/*                                </div>*/}
+                                                            {/*                            </Card.Body>*/}
+                                                            {/*                        </Card>*/}
+                                                            {/*                    )*/}
+                                                            {/*                }*/}
+                                                            {/*            }*/}
+                                                            {/*        )()*/}
+                                                            {/*    }*/}
+                                                            {/*</Col>*/}
                                                         </Row>
                                                     </div>
                                                 </div>
