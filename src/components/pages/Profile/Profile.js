@@ -232,9 +232,6 @@ export default function Profile() {
     }
 
 
-
-
-
     const renderActivities = (idCompany) => {
         const allActivities = JSON.parse(localStorage.getItem("allActivities"));
         let ans = [];
@@ -248,7 +245,6 @@ export default function Profile() {
         localStorage.setItem("activities", JSON.stringify(ans));
         window.location.reload();
     }
-
 
 
     TranslateAll(url, Page, VL);
