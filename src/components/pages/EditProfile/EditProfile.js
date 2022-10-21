@@ -20,13 +20,11 @@ import  { FindTranslation, getIDFromToken } from "../../../functions_Dan.js" ;
 
 export default function EditProfile() {
 
-  console.log(process.env) ;
-
   const storedToken = localStorage.getItem('token') ;
-  console.log(storedToken) ;
-
   const idUser = getIDFromToken(storedToken) ;
-  console.log(idUser) ;
+  //console.log(storedToken) ;  
+  //console.log(idUser) ;
+
 
 
   const sProfile = "Profile" ;

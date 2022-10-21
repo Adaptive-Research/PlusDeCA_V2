@@ -125,6 +125,13 @@ export const MENUITEMS = [
         title: "Mes articles",
       },
       {
+        path: `${process.env.PUBLIC_URL}/MesInterviews`,
+        icon: "mic",
+        type: "link",
+        active: false,
+        title: "Mes interviews",
+      },
+      {
         path: `${process.env.PUBLIC_URL}/MesGroupes`,
         icon: "users",
         type: "link",

@@ -20,6 +20,14 @@ import axios from "axios";
 
 
 export function RightSidebar() {
+  const storedToken = localStorage.getItem('token') ;
+  const idUser = getIDFromToken(storedToken) ;
+  //console.log(storedToken) ;  
+  //console.log(idUser) ;
+
+
+
+  // les titres des champs
   const sMyProfile = "My Profile" ;
   const sSignOut = "Sign out" ;
   const sAccountSettings = "Account Settings" ;
