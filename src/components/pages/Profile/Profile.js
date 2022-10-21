@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as profiledata from "../../../data/Pages/profiledata/profiledata";
 import user8 from "../../../assets/images/users/8.jpg";
 import user15 from "../../../assets/images/users/15.jpg";
@@ -21,6 +21,7 @@ import {useNavigate} from "react-router";
 
 export default function Profile() {
 
+
     const sProfile = "Profile";
     const sCompany = "Company";
     const token = localStorage.getItem("token");
@@ -40,9 +41,11 @@ export default function Profile() {
     const VL = "FR";
 
 
-    getEnterprisesByUser();
-    getAllEnterprises();
-    getAllActivities()
+    useEffect(() => {
+        getEnterprisesByUser();
+        getAllEnterprises();
+        getAllActivities()
+    });
 
 
     console.log(token);
@@ -135,109 +138,115 @@ export default function Profile() {
         const ansArray = [];
 
 
-        allCompanies.forEach((element) => {
-            let found = false;
-            myCompanies.forEach((element2) => {
-                if (element.id === element2.idEntreprise) {
+        if (myCompanies !== null || allCompanies !== null) {
+            navigate(`${process.env.PUBLIC_URL}/custompages/errorpages/errorpage500`)
+        } else {
+            allCompanies.forEach((element) => {
+                let found = false;
+                myCompanies.forEach((element2) => {
+                    if (element.id === element2.idEntreprise) {
 
-                    found = true;
-                    ansArray.push(element);
-                }
+                        found = true;
+                        ansArray.push(element);
+                    }
+                });
+
             });
 
-        });
+
+            return ansArray.map((company, index) => {
+                return (
+                    <Card className={defDisplay}>
+                        <Card.Body className="bg-white">
+                            <div className="media-heading">
+                                <h5>
+                                    <strong>{company.Nom}</strong>
+                                </h5>
+                            </div>
+                            <div className="table-responsive p-1">
+                                <Table
+                                    className="table row table-borderless">
+                                    <tbody
+                                        className="col-lg-12 col-xl-4 p-0">
+                                    <tr>
+                                        <td>
+                                            <strong>Siret
+                                                :</strong> {company.Siret}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong> personal id
+                                                :</strong> {company.id}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody
+                                        className="col-lg-12 col-xl-4 p-0">
+                                    <tr>
+                                        <td>
+                                            <strong>Website
+                                                :</strong> {company.SiteWeb}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Email :</strong>
+                                            {company.Email}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Phone :</strong> {company.Telephone}
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                    <tbody
+                                        className="col-lg-12 col-xl-4 p-0"
+                                    >
+                                    <tr>
+                                        <td>
+                                            <button className="btn btn-primary me-1"
+                                                    onClick={() => renderActivities(company.id)}>
+                                                <i className="fa fa-book"></i> activities
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button className="btn btn-danger me-1"
+                                                    onClick={() => deleteCompany(company.id)}>
+                                                <i className="fa fa-trash"></i> delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button className="btn btn-warning me-1"
+                                                    onClick={() => {
+                                                        const companyDetails = [company.id, company.Nom, company.Siret, company.Email, company.Telephone, company.SiteWeb];
+                                                        localStorage.setItem("targetCompany", JSON.stringify(companyDetails));
+
+                                                        navigate(`${process.env.PUBLIC_URL}/pages/updateCompany`)
+                                                    }}
+
+                                            >
+                                                <i className="fa fa-edit"></i> edit
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                )
+            })
+        }
 
 
-        return ansArray.map((company, index) => {
-            return (
-                <Card className={defDisplay}>
-                    <Card.Body className="bg-white">
-                        <div className="media-heading">
-                            <h5>
-                                <strong>{company.Nom}</strong>
-                            </h5>
-                        </div>
-                        <div className="table-responsive p-1">
-                            <Table
-                                className="table row table-borderless">
-                                <tbody
-                                    className="col-lg-12 col-xl-4 p-0">
-                                <tr>
-                                    <td>
-                                        <strong>Siret
-                                            :</strong> {company.Siret}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong> personal id
-                                            :</strong> {company.id}
-                                    </td>
-                                </tr>
-                                </tbody>
-                                <tbody
-                                    className="col-lg-12 col-xl-4 p-0">
-                                <tr>
-                                    <td>
-                                        <strong>Website
-                                            :</strong> {company.SiteWeb}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong>Email :</strong>
-                                        {company.Email}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong>Phone :</strong> {company.Telephone}
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                                <tbody
-                                    className="col-lg-12 col-xl-4 p-0"
-                                >
-                                <tr>
-                                    <td>
-                                        <button className="btn btn-primary me-1"
-                                                onClick={() => renderActivities(company.id)}>
-                                            <i className="fa fa-book"></i> activities
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button className="btn btn-danger me-1"
-                                                onClick={() => deleteCompany(company.id)}>
-                                            <i className="fa fa-trash"></i> delete
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button className="btn btn-warning me-1"
-                                                onClick={() => {
-                                                    const companyDetails = [company.id, company.Nom, company.Siret, company.Email, company.Telephone, company.SiteWeb];
-                                                    localStorage.setItem("targetCompany", JSON.stringify(companyDetails));
-
-                                                    navigate(`${process.env.PUBLIC_URL}/pages/updateCompany`)
-                                                }}
-
-                                        >
-                                            <i className="fa fa-edit"></i> edit
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </Table>
-                        </div>
-                    </Card.Body>
-                </Card>
-            )
-        })
     }
 
 
@@ -491,104 +500,132 @@ export default function Profile() {
                                                                 {
                                                                     (() => {
                                                                             let ans = JSON.parse(localStorage.getItem("activities"));
-                                                                            if (ans.length > 0) {
-                                                                                return (
-                                                                                    ans.map((element) => {
-                                                                                            return (
-                                                                                                <Card>
-                                                                                                    <Card.Body
-                                                                                                        className="bg-white">
-                                                                                                        <div
-                                                                                                            className="media-heading">
-                                                                                                            <h5>
-                                                                                                                <strong>{element.TypeActivite}</strong>
-                                                                                                            </h5>
-                                                                                                        </div>
-                                                                                                        <div
-                                                                                                            className="table-responsive p-1">
-                                                                                                            <Table
-                                                                                                                className="table row table-borderless">
-                                                                                                                <tbody
-                                                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                                                <tr>
-                                                                                                                    <td>
-                                                                                                                        <strong>Activity
-                                                                                                                            Name
-                                                                                                                            :</strong> {element.Nom}
-                                                                                                                    </td>
-                                                                                                                </tr>
-                                                                                                                <tr>
-                                                                                                                    <td>
-                                                                                                                        <strong>Activity
-                                                                                                                            Description
-                                                                                                                            :</strong> {element.Description}
-                                                                                                                    </td>
-                                                                                                                </tr>
-                                                                                                                </tbody>
-                                                                                                                <tbody
-                                                                                                                    className="col-lg-12 col-xl-6 p-0">
-                                                                                                                <tr>
-                                                                                                                    <td>
-                                                                                                                        <strong>Website
-                                                                                                                            :</strong> {element.SiteWeb}
-                                                                                                                    </td>
-                                                                                                                </tr>
-                                                                                                                <tr>
-                                                                                                                    <td>
-                                                                                                                        <strong>Email
-                                                                                                                            :</strong>
-                                                                                                                        {element.Email}
-                                                                                                                    </td>
-                                                                                                                </tr>
-                                                                                                                <tr>
-                                                                                                                    <td>
-                                                                                                                        <strong>Phone
-                                                                                                                            :</strong> {element.Telephone}
-                                                                                                                    </td>
-                                                                                                                </tr>
-                                                                                                                </tbody>
-                                                                                                                <tbody
-                                                                                                                    className="col-lg-12 col-xl-4 p-0"
-                                                                                                                >
-                                                                                                                <tr>
-                                                                                                                    <td>
-                                                                                                                        <button
-                                                                                                                            className="btn btn-danger me-1"
-                                                                                                                            onClick={() => deleteActivity(element.id)}>
-                                                                                                                            <i className="fa fa-trash"></i> delete
-                                                                                                                        </button>
-                                                                                                                    </td>
-                                                                                                                </tr>
-                                                                                                                <tr>
-                                                                                                                    <td>
-                                                                                                                        <button
-                                                                                                                            className="btn btn-warning me-1"
-                                                                                                                            onClick={() => {
-                                                                                                                                const targetActivity = [element.id, element.Nom, element.Description, element.SiteWeb, element.Email, element.Telephone, element.TypeActivite, element.idEntreprise];
-                                                                                                                                console.log(targetActivity);
-                                                                                                                                localStorage.setItem("activityDetails", JSON.stringify(targetActivity));
-                                                                                                                                navigate(`${process.env.PUBLIC_URL}/pages/updateActivity`)
+                                                                            if (ans !== null) {
+                                                                                if (ans.length > 0) {
+                                                                                    return (
+                                                                                        ans.map((element) => {
+                                                                                                return (
+                                                                                                    <Card>
+                                                                                                        <Card.Body
+                                                                                                            className="bg-white">
+                                                                                                            <div
+                                                                                                                className="media-heading">
+                                                                                                                <h5>
+                                                                                                                    <strong>{element.TypeActivite}</strong>
+                                                                                                                </h5>
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                className="table-responsive p-1">
+                                                                                                                <Table
+                                                                                                                    className="table row table-borderless">
+                                                                                                                    <tbody
+                                                                                                                        className="col-lg-12 col-xl-6 p-0">
+                                                                                                                    <tr>
+                                                                                                                        <td>
+                                                                                                                            <strong>Activity
+                                                                                                                                Name
+                                                                                                                                :</strong> {element.Nom}
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                    <tr>
+                                                                                                                        <td>
+                                                                                                                            <strong>Activity
+                                                                                                                                Description
+                                                                                                                                :</strong> {element.Description}
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                    </tbody>
+                                                                                                                    <tbody
+                                                                                                                        className="col-lg-12 col-xl-6 p-0">
+                                                                                                                    <tr>
+                                                                                                                        <td>
+                                                                                                                            <strong>Website
+                                                                                                                                :</strong> {element.SiteWeb}
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                    <tr>
+                                                                                                                        <td>
+                                                                                                                            <strong>Email
+                                                                                                                                :</strong>
+                                                                                                                            {element.Email}
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                    <tr>
+                                                                                                                        <td>
+                                                                                                                            <strong>Phone
+                                                                                                                                :</strong> {element.Telephone}
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                    </tbody>
+                                                                                                                    <tbody
+                                                                                                                        className="col-lg-12 col-xl-4 p-0"
+                                                                                                                    >
+                                                                                                                    <tr>
+                                                                                                                        <td>
+                                                                                                                            <button
+                                                                                                                                className="btn btn-danger me-1"
+                                                                                                                                onClick={() => deleteActivity(element.id)}>
+                                                                                                                                <i className="fa fa-trash"></i> delete
+                                                                                                                            </button>
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                    <tr>
+                                                                                                                        <td>
+                                                                                                                            <button
+                                                                                                                                className="btn btn-warning me-1"
+                                                                                                                                onClick={() => {
+                                                                                                                                    const targetActivity = [element.id, element.Nom, element.Description, element.SiteWeb, element.Email, element.Telephone, element.TypeActivite, element.idEntreprise];
+                                                                                                                                    console.log(targetActivity);
+                                                                                                                                    localStorage.setItem("activityDetails", JSON.stringify(targetActivity));
+                                                                                                                                    navigate(`${process.env.PUBLIC_URL}/pages/updateActivity`)
 
-                                                                                                                            }}
-                                                                                                                        >
-                                                                                                                            <i className="fa fa-edit"></i> edit
-                                                                                                                        </button>
-                                                                                                                    </td>
-                                                                                                                </tr>
+                                                                                                                                }}
+                                                                                                                            >
+                                                                                                                                <i className="fa fa-edit"></i> edit
+                                                                                                                            </button>
+                                                                                                                        </td>
+                                                                                                                    </tr>
 
-                                                                                                                </tbody>
-                                                                                                            </Table>
-                                                                                                        </div>
+                                                                                                                    </tbody>
+                                                                                                                </Table>
+                                                                                                            </div>
 
-                                                                                                    </Card.Body>
-                                                                                                </Card>
-                                                                                            )
-                                                                                        }
-                                                                                    ))
+                                                                                                        </Card.Body>
+                                                                                                    </Card>
+                                                                                                )
+                                                                                            }
+                                                                                        ))
+                                                                                } else {
+                                                                                    return (
+                                                                                        <Card>
+                                                                                            <Card.Body
+                                                                                                className="bg-white">
+                                                                                                <div
+                                                                                                    className="media-heading">
+                                                                                                    <h5>
+                                                                                                        <strong>No
+                                                                                                            activities</strong>
+                                                                                                    </h5>
+
+                                                                                                    <button
+                                                                                                        className="btn btn-primary me-2²"
+                                                                                                        onClick={() => {
+                                                                                                            navigate(`${process.env.PUBLIC_URL}/pages/editActivity/`)
+                                                                                                        }
+                                                                                                        }
+                                                                                                    >
+                                                                                                        <i className="fa fa-crop">Add</i>
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </Card.Body>
+                                                                                        </Card>
+                                                                                    )
+                                                                                }
                                                                             } else {
                                                                                 return (
                                                                                     <Card>
-                                                                                        <Card.Body className="bg-white">
+                                                                                        <Card.Body
+                                                                                            className="bg-white">
                                                                                             <div
                                                                                                 className="media-heading">
                                                                                                 <h5>
@@ -596,15 +633,7 @@ export default function Profile() {
                                                                                                         activities</strong>
                                                                                                 </h5>
 
-                                                                                                <button
-                                                                                                    className="btn btn-primary me-2²"
-                                                                                                    onClick={() => {
-                                                                                                        navigate(`${process.env.PUBLIC_URL}/pages/editActivity/`)
-                                                                                                    }
-                                                                                                    }
-                                                                                                >
-                                                                                                    <i className="fa fa-crop">Add</i>
-                                                                                                </button>
+                                                                                                refresh your activities
                                                                                             </div>
                                                                                         </Card.Body>
                                                                                     </Card>
