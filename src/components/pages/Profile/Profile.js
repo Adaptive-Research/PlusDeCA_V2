@@ -45,7 +45,7 @@ export default function Profile() {
     getAllActivities()
 
     useEffect(() => {
-        
+
     });
 
 
@@ -137,8 +137,7 @@ export default function Profile() {
         const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
         const allCompanies = JSON.parse(localStorage.getItem("allEnterprises"));
 
-        if (allCompanies !== null)
-        {
+        if (allCompanies !== null) {
             const ansArray = [];
 
 
@@ -181,15 +180,16 @@ export default function Profile() {
                                                 :</strong> {company.id}
                                         </td>
                                     </tr>
-                                    </tbody>
-                                    <tbody
-                                        className="col-lg-12 col-xl-4 p-0">
                                     <tr>
                                         <td>
                                             <strong>Website
                                                 :</strong> {company.SiteWeb}
                                         </td>
                                     </tr>
+
+                                    </tbody>
+                                    <tbody
+                                        className="col-lg-12 col-xl-4 p-0">
                                     <tr>
                                         <td>
                                             <strong>Email :</strong>
@@ -204,13 +204,13 @@ export default function Profile() {
 
                                     </tbody>
                                     <tbody
-                                        className="col-lg-12 col-xl-4 p-0"
+                                        className="col-lg-12 col-xl-4"
                                     >
                                     <tr>
                                         <td>
                                             <button className="btn btn-primary me-1"
                                                     onClick={() => renderActivities(company.id)}>
-                                                <i className="fa fa-book"></i> activities
+                                                <i className="fa fa-book fs-18"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -218,7 +218,7 @@ export default function Profile() {
                                         <td>
                                             <button className="btn btn-danger me-1"
                                                     onClick={() => deleteCompany(company.id)}>
-                                                <i className="fa fa-trash"></i> delete
+                                                <i className="fa fa-trash fs-18"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -231,9 +231,8 @@ export default function Profile() {
 
                                                         navigate(`${process.env.PUBLIC_URL}/pages/updateCompany`)
                                                     }}
-
                                             >
-                                                <i className="fa fa-edit"></i> edit
+                                                <i className="fa fa-edit fs-18"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -244,10 +243,10 @@ export default function Profile() {
                         </Card.Body>
                     </Card>
                 )
-            
+
             })
         }
-    
+
 
     }
 
@@ -493,7 +492,7 @@ export default function Profile() {
 
 
                                                         <Row>
-                                                            <Col lg={10} xl={8} md={12} sm={12}>
+                                                            <Col lg={6} xl={5} md={12} sm={12}>
                                                                 {renderCompanies()}
                                                             </Col>
 
@@ -521,24 +520,8 @@ export default function Profile() {
                                                                                                                 <Table
                                                                                                                     className="table row table-borderless">
                                                                                                                     <tbody
-                                                                                                                        className="col-lg-12 col-xl-6 p-0">
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Activity
-                                                                                                                                Name
-                                                                                                                                :</strong> {element.Nom}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Activity
-                                                                                                                                Description
-                                                                                                                                :</strong> {element.Description}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    </tbody>
-                                                                                                                    <tbody
-                                                                                                                        className="col-lg-12 col-xl-6 p-0">
+                                                                                                                        className="col-lg-12 col-xl-4 p-0">
+
                                                                                                                     <tr>
                                                                                                                         <td>
                                                                                                                             <strong>Website
@@ -560,6 +543,23 @@ export default function Profile() {
                                                                                                                     </tr>
                                                                                                                     </tbody>
                                                                                                                     <tbody
+                                                                                                                        className="col-lg-12 col-xl-4 p-0">
+                                                                                                                    <tr>
+                                                                                                                        <td>
+                                                                                                                            <strong>Activity
+                                                                                                                                Name
+                                                                                                                                :</strong> {element.Nom}
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                    <tr>
+                                                                                                                        <td>
+                                                                                                                            <strong>Activity
+                                                                                                                                Description
+                                                                                                                                :</strong> {element.Description}
+                                                                                                                        </td>
+                                                                                                                    </tr>
+                                                                                                                    </tbody>
+                                                                                                                    <tbody
                                                                                                                         className="col-lg-12 col-xl-4 p-0"
                                                                                                                     >
                                                                                                                     <tr>
@@ -567,7 +567,7 @@ export default function Profile() {
                                                                                                                             <button
                                                                                                                                 className="btn btn-danger me-1"
                                                                                                                                 onClick={() => deleteActivity(element.id)}>
-                                                                                                                                <i className="fa fa-trash"></i> delete
+                                                                                                                                <i className="fa fa-trash fs-18"></i>
                                                                                                                             </button>
                                                                                                                         </td>
                                                                                                                     </tr>
@@ -583,7 +583,7 @@ export default function Profile() {
 
                                                                                                                                 }}
                                                                                                                             >
-                                                                                                                                <i className="fa fa-edit"></i> edit
+                                                                                                                                <i className="fa fa-edit fs-18"></i>
                                                                                                                             </button>
                                                                                                                         </td>
                                                                                                                     </tr>
