@@ -19,7 +19,7 @@ export default function App() {
   if (!lastLogin)
     return <Login /> ;
 
-  
+
 
 
   let LastLogin = new Date(lastLogin) ;
@@ -36,36 +36,36 @@ export default function App() {
   else
   {
     return (
-      <Fragment>
-        <div className="horizontalMenucontainer">
-          <TabToTop />
-          <div className="page">
-            <div className="page-main">
-              <Header />
-              <Sidebar />
+        <Fragment>
+          <div className="horizontalMenucontainer">
+            <TabToTop />
+            <div className="page">
+              <div className="page-main">
+                <Header />
+                <Sidebar />
 
-              <div className="main-content app-content ">
-                <div className="side-app">
-                  <div
-                    className="main-container container-fluid"
-                    onClick={() => {
-                      Switcherdata.responsiveSidebarclose();
-                      Switcherdata.Horizontalmenudefultclose();
-                    }}
-                  >
-                    <Outlet />
+                <div className="main-content app-content ">
+                  <div className="side-app">
+                    <div
+                        className="main-container container-fluid"
+                        onClick={() => {
+                          Switcherdata.responsiveSidebarclose();
+                          Switcherdata.Horizontalmenudefultclose();
+                        }}
+                    >
+                      <Outlet />
+                    </div>
                   </div>
                 </div>
+
+
               </div>
-
-
+              <RightSidebar />
+              <Switcher />
+              <Footer />
             </div>
-            <RightSidebar />
-            <Switcher />
-            <Footer />
           </div>
-        </div>
-      </Fragment>
+        </Fragment>
     );
   }
 }

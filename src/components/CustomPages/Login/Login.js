@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {Card} from "react-bootstrap";
 import axios from "axios";
 import {useNavigate} from "react-router";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
-import {checkDuplicate, checkEmail, getAllUsersEmail} from "../../../data/customlibs/utils";
+import {checkDuplicate, checkEmail, getAllUsersEmail, getUserId} from "../../../data/customlibs/utils";
 import {encrypt} from "../../../data/customlibs/hasher.js";
 import {remove_linebreaks} from "../../../functions_Dan";
 
@@ -17,16 +17,16 @@ export default function Login() {
     const [passwordMsg, setPasswordMsg] = useState("");
     const [token, setToken] = useState([]);
 
-    const [reloadLogin, setReloadLogin] =  useState(true);
+
+    const [reloadLogin, setReloadLogin] = useState(true);
 
 
-    if (reloadLogin === true)
-    {
+    if (reloadLogin === true) {
         localStorage.removeItem("token");
         localStorage.removeItem("userMail");
         localStorage.removeItem("logged");
         localStorage.removeItem("lastLogin");
-        setReloadLogin(false) ;
+        setReloadLogin(false);
     }
 
 
@@ -84,15 +84,15 @@ export default function Login() {
                     localStorage.setItem('logged', JSON.stringify(true));
                     localStorage.setItem('lastLogin', now.toString());
 
-                    const lastLogin =  localStorage.getItem('lastLogin') ;
-                    console.log("lastLogin") ;
-                    console.log(lastLogin) ;
+                    const lastLogin = localStorage.getItem('lastLogin');
+                    console.log("lastLogin");
+                    console.log(lastLogin);
 
 
                 } catch (e) {
                     console.log(e);
                 } finally {
-                    window.location.href = `${process.env.PUBLIC_URL}/dashboard` ;
+                    window.location.href = `${process.env.PUBLIC_URL}/dashboard`;
                 }
             }
 
@@ -143,7 +143,8 @@ export default function Login() {
         } catch (e) {
             console.log(e);
         } finally {
-            console.log("Login attempt");
+            console.log(`Login attempt and logged status: ${JSON.parse(localStorage.getItem('logged'))}`);
+            console.log("Last  login: " + localStorage.getItem('lastLogin'));
             setEmail("");
             setPassword("");
         }
@@ -151,6 +152,12 @@ export default function Login() {
 
     }
 
+
+    useEffect(() => {
+        window.onpopstate = function (event) {
+            window.location.href = `${process.env.PUBLIC_URL}/`;
+        }
+    })
 
     return (
         <div className="login-img">

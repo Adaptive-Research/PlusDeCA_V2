@@ -12,15 +12,14 @@ import face2 from "../../assets/images/faces/2.jpg";
 import face13 from "../../assets/images/faces/13.jpg";
 import face14 from "../../assets/images/faces/14.jpg";
 import face15 from "../../assets/images/faces/15.jpg";
-import  { FindTranslation, getIDFromToken  } from "../../functions_Dan.js" ;
+import  { FindTranslation } from "../../functions_Dan.js" ;
+import {useNavigate} from "react-router";
 
 import axios from "axios";
 
 
 
 export function RightSidebar() {
-
-
   const storedToken = localStorage.getItem('token') ;
   const idUser = getIDFromToken(storedToken) ;
   //console.log(storedToken) ;  
@@ -34,18 +33,15 @@ export function RightSidebar() {
   const sAccountSettings = "Account Settings" ;
   const sMyMessages = "My Messages" ;
   const sMyMails = "My Mails" ;
+  const navigate = useNavigate();
 
-  // pour les titres
+
   const [rightsidebartoogle, setSidebartoogleright] = useState(true);
   const [myProfile, setMyProfile] = useState(sMyProfile) ;
   const [signout, setSignOut] = useState(sSignOut) ;
   const [settings, setSettings] = useState(sAccountSettings) ;
   const [myMessages, setMyMessages] = useState(sMyMessages) ;
   const [myMails, setMyMails] = useState(sMyMails) ;
-
-  // pour le reload des infos
-  const [reloadTraductions, setReloadTraductions] = useState(true) ;
-  
 
 
   function Outhover(toggle) {
@@ -57,15 +53,18 @@ export function RightSidebar() {
 
 
   //const storedToken = JSON.parse(localStorage.getItem('token'));
-  
- 
+  const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
+  const Page = "RightSidebar" ;
+  const VL = "FR" ;
 
 
 
-  
 
 
-  async function TranslateAll(url, Page,VL) 
+
+
+
+  async function TranslateAll(url, Page,VL)
   {
     const response = axios.post(url, {
         Submit: 1,
@@ -76,8 +75,8 @@ export function RightSidebar() {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     }).then( function(response) {
-   
-    /*  
+
+    /*
     console.log(response.data);
     console.log("status: "+response.status);
     console.log("statusText"+response.statusText);
@@ -86,7 +85,7 @@ export function RightSidebar() {
     console.log(response.data[0]) ;
 
     console.log("myProfile: "+myProfile) ;
-    */ 
+    */
 
     let t = FindTranslation(response.data,Page,VL, sMyProfile) ;
     if (t !== "Not Found")
@@ -99,27 +98,19 @@ export function RightSidebar() {
           setSettings(t) ;
     t = FindTranslation(response.data,Page,VL, sMyMessages) ;
         if (t !== "Not Found")
-          setMyMessages(t) ;                 
+          setMyMessages(t) ;
     t = FindTranslation(response.data,Page,VL, sMyMails) ;
         if (t !== "Not Found")
-          setMyMails(t) ; 
-    
-    setReloadTraductions(false) ;                     
-  
+          setMyMails(t) ;
+
     })
   }
 
 
+  TranslateAll(url,Page,VL) ;
 
-  const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
-  const Page = "RightSidebar" ;
-  const VL = "FR" ;
 
-  if (reloadTraductions === true)
-    TranslateAll(url,Page,VL) ;
 
-  
-  
 
 
 
@@ -225,6 +216,9 @@ export function RightSidebar() {
                 </Link>
                 <Link
                   className="dropdown-item d-flex border-bottom"
+                  onClick={() => {
+                    localStorage.clear();
+                  }}
                   to={`${process.env.PUBLIC_URL}/custompages/login`}
                 >
                   <div className="d-flex">
