@@ -2,7 +2,7 @@
 import {useNavigate} from "react-router";
 import {Card, Table} from "react-bootstrap";
 import {getIDFromToken} from "../../../functions_Dan.js";
-import {CardActivity} from "./CardActivity" ;
+import CardActivity from "./CardActivity" ;
 import axios from "axios";
 
 
@@ -15,50 +15,10 @@ import axios from "axios";
 
 
 
-function renderActivities(idEntreprise) {
-        
-    console.log("renderActivities: " +idEntreprise ) ;
-    const myActivities = JSON.parse(localStorage.getItem("userActivities"));
-
-
-    if (myActivities !== null ) {
-
-        return myActivities.map( (Ligne, index) => {
-            if (Ligne.idEntreprise === idEntreprise)
-                return CardActivity(Ligne) ;
-
-        })
-    }
-    
-}
-
-
-const deleteCompany = (id,token) => {
-    const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
-    const response = axios.post(
-        url, {
-            token: token,
-            Submit: 1,
-            id: id
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        }
-    ).then(
-        (response) => {
-            console.log(response.data);
-        }
-    )
-
-}
 
 
 
-
-
-
-export function CardCompany(Ligne) {
+export default function CardCompany(Ligne) {
 
     console.log("CardCompany") ;
 
@@ -72,7 +32,49 @@ export function CardCompany(Ligne) {
 
 
 
-    console.log("renderCompany: " + Ligne.idEntreprise + " " + Ligne.NomEntreprise) ;
+
+    function renderActivities(idEntreprise) {
+            
+        console.log("renderActivities: " +idEntreprise ) ;
+        const myActivities = JSON.parse(localStorage.getItem("userActivities"));
+
+
+        if (myActivities !== null ) {
+
+            return myActivities.map( (Ligne, index) => {
+                if (Ligne.idEntreprise === idEntreprise)
+                    return CardActivity(Ligne) ;
+
+            })
+        }
+        
+    }
+
+
+    const deleteCompany = (id,token) => {
+        const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
+        const response = axios.post(
+            url, {
+                token: token,
+                Submit: 1,
+                id: id
+            }, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            }
+        ).then(
+            (response) => {
+                console.log(response.data);
+            }
+        )
+
+    }
+
+
+
+
+    console.log("CardCompany: " + Ligne.idEntreprise + " " + Ligne.NomEntreprise) ;
     return (
         <Card key={Ligne.idEntreprise} className="block">
             <Card.Body className="bg-white">

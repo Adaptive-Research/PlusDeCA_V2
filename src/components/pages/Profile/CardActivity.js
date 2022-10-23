@@ -6,27 +6,28 @@ import axios from "axios";
 
 
 
-const deleteActivity = (id,token) => {
-    const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
-    const response = axios.post(url, {
-        token: token,
-        Submit: 1,
-        id: id
-    }, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-    }).then((response) => {
-        console.log(response.data);
-        window.location.reload();
-    })
-}
 
 
+export default function CardActivity(Ligne) {
 
 
+    const deleteActivity = (id,token) => {
+        const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
+        const response = axios.post(url, {
+            token: token,
+            Submit: 1,
+            id: id
+        }, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        }).then((response) => {
+            console.log(response.data);
+            window.location.reload();
+        })
+    }
 
-export function CardActivity(Ligne) {
+
 
     return  (                              
         <div key={Ligne.idActivite} className="table-responsive p-1" >

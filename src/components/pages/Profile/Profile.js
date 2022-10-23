@@ -17,7 +17,7 @@ import axios from "axios";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
 import {getEnterprisesByUser ,getActivitiesForUser} from "../../../data/customlibs/utils";
 import {useNavigate} from "react-router";
-import {CardCompany} from "./CardCompany" ;
+import CardCompany from "./CardCompany" ;
 
 
 
