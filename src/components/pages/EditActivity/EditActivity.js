@@ -119,37 +119,15 @@ export default function EditActivity() {
 
 
     return (
-        <div className="EditActivity">
+        <div  className="EditActivity">
+
             <Card>
                 <Card.Header>
                     <Card.Title as="h3">{responseMsg}</Card.Title>
                 </Card.Header>
                 <Card.Body>
-                    <Row>
-                        <Col lg={6} md={12}>
-
-                            <FormGroup>
-                                <label htmlFor="activite">Entreprise</label>
-                                <FormSelect typeof="select" onChange={(e) => setEnterprise(e.target.value)}>
-                                    {getEnterpriseName()}
-                                </FormSelect>
-
-                            </FormGroup>
-                        </Col>
-                        <Col lg={6} md={12}>
-
-                            <FormGroup>
-                                <label htmlFor="activite">Type activité</label>
-                                <input
-                                    className="form-control"
-                                    type="text"
-                                    value={activity}
-                                    placeholder={activityMsg ? activityMsg : "Type d'activité"}
-                                    onChange={(e) => setActivity(e.target.value)}
-                                />
-                            </FormGroup>
-                        </Col>
-                        <Col lg={6} md={12}>
+                    <Row className="add-space">
+                        <Col lg={12} md={12}>
                             <FormGroup>
                                 <label htmlFor="name">Nom</label>
                                 <input
@@ -157,23 +135,14 @@ export default function EditActivity() {
                                     type="text"
                                     value={name}
                                     placeholder={nameMsg === "" ? "Nom" : nameMsg}
-                                    onChange={(e) =>  setName(e.target.value)}
+                                    onChange={(e) => setName(e.target.value)}
                                 />
                             </FormGroup>
                         </Col>
-                        <Col lg={6} md={12}>
-                            <FormGroup>
-                                <label htmlFor="description">Description</label>
-                                <input
-                                    className="form-control"
-                                    type="text"
-                                    value={description}
-                                    placeholder={descriptionMsg === "" ? "Nom" : descriptionMsg}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                />
-                            </FormGroup>
-                        </Col>
-                        <Col lg={6} md={12}>
+                    </Row>
+
+                    <Row className="add-space">
+                        <Col lg={7} md={12}>
                             <FormGroup>
                                 <label htmlFor="website">Site Web</label>
                                 <input
@@ -185,20 +154,7 @@ export default function EditActivity() {
                                 />
                             </FormGroup>
                         </Col>
-                        <Col lg={6} md={12}>
-                            <FormGroup>
-                                <label htmlFor="email">Email</label>
-                                <input
-                                    className="form-control"
-                                    type="email"
-                                    value={email}
-                                    placeholder={emailMsg === "" ? "Email" : emailMsg}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </FormGroup>
-                        </Col>
-
-                        <Col lg={6} md={12}>
+                        <Col lg={5} md={12}>
                             <FormGroup>
                                 <label htmlFor="phone">Téléphone</label>
                                 <input
@@ -209,8 +165,41 @@ export default function EditActivity() {
                                     onChange={(e) => setPhone(e.target.value)}
                                 />
                             </FormGroup>
+
+                        </Col>
+                    </Row>
+
+                    <Row className="add-space">
+                        <Col lg={12} md={12}>
+                            <FormGroup>
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    className="form-control"
+                                    type="email"
+                                    value={email}
+                                    placeholder={emailMsg === "" ? "Email" : emailMsg}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </FormGroup>
+
                         </Col>
 
+                    </Row>
+
+                    <Row className="add-space">
+
+                        <Col lg={12} md={12}>
+                            <FormGroup>
+                                <label htmlFor="description">Description</label>
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    value={description}
+                                    placeholder={descriptionMsg === "" ? "Description" : descriptionMsg}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </FormGroup>
+                        </Col>
                     </Row>
 
                 </Card.Body>

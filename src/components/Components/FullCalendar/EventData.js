@@ -126,7 +126,7 @@ export function EventData() {
 
 
   return (
-    <div className="EventData ">
+    <div className="EventData">
       <div className="panel panel-primary card mb-0 shadow-none border-0">
         <div className="tab-menu-heading border-0 d-flex p-3">
           <div className="card-options ms-auto">

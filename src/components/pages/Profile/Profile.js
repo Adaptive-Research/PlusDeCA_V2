@@ -14,6 +14,7 @@ import CardBodyProfile from "./CardBodyProfile" ;
 import CardPersonalInformation from "./CardPersonalInformation" ;
 import TabFriends from "./TabFriends" ;
 import TabFollowers from "./TabFollowers" ;
+import ModalEditCompany from "./ModalEditCompany" ;
 
 
 
@@ -40,11 +41,13 @@ export default function Profile(props) {
     const sProfile = "Profile";
     const sCompany = "Company";
 
-    const [idActivity,setIdActivity] =useState(0) ;
-
     const [profile, setProfile] = useState(sProfile);
     const [company, setCompany] = useState(sCompany);
-    const [defDisplay, setDefDisplay] = useState("block");
+
+    // pour l'affichage de la fenetre modale
+    const [showEditCompany, SetShowEditCompany] = useState(false) ;
+
+
 
      // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
@@ -57,6 +60,10 @@ export default function Profile(props) {
 
 
    
+
+
+
+    
     
    
 
@@ -76,10 +83,10 @@ export default function Profile(props) {
     function ForceRender(variable) {
         console.log("ForceRender: "+ variable) ;
 
-        if (variable == "userActivities")
+        if (variable === "userActivities")
             setDownloaded_UserActivities(true) ;
 
-        if (variable == "userEnterprises")
+        if (variable === "userEnterprises")
             setDownloaded_UserEnterprises(true) ;
             
         if ((downloaded_UserActivities === true) && (downloaded_UserEnterprises === true))
@@ -131,7 +138,12 @@ export default function Profile(props) {
 
         
         if (myCompanies !== null ) 
-            return myCompanies.map(CardCompany) ;
+        {
+            let map1 =  myCompanies.map( (Ligne) => <CardCompany key={Ligne.idEntreprise} Ligne={Ligne} />  );
+            console.log("map1") ;
+            console.log(map1) ;
+            return map1 ;
+        }
 
     }
 
@@ -205,20 +217,9 @@ export default function Profile(props) {
                                                     <div className="tab-pane profiletab show">
                                                         <div id="profile-log-switch">
 
+                                                        <ModalEditCompany name="Daniel1" show={showEditCompany} />
 
-                                                            <Row>
-                                                                <Col lg={10} xl={8} md={12} sm={12}>
-                                                                    {renderCompanies()}
-                                                                </Col>
-
-                                                                
-                                                                <Col>
-
-                                                                    
-                                                                    
-                                                                </Col>
-                                                                
-                                                            </Row>
+                                                        {renderCompanies()}
 
 
                                                         </div>
