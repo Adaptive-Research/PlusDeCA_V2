@@ -12,7 +12,7 @@ import face2 from "../../assets/images/faces/2.jpg";
 import face13 from "../../assets/images/faces/13.jpg";
 import face14 from "../../assets/images/faces/14.jpg";
 import face15 from "../../assets/images/faces/15.jpg";
-import  { FindTranslation } from "../../functions_Dan.js" ;
+import  { FindTranslation , getIDFromToken} from "../../functions_Dan.js" ;
 import {useNavigate} from "react-router";
 
 import axios from "axios";
@@ -44,6 +44,10 @@ export function RightSidebar() {
   const [myMails, setMyMails] = useState(sMyMails) ;
 
 
+
+
+
+  
   function Outhover(toggle) {
     setSidebartoogleright(!toggle);
     document.querySelector(".sidebar-right").classList.remove("sidebar-open");
