@@ -10,17 +10,10 @@ import axios from "axios";
 
 
 
-
-
-
-
-
-
-
-
 export default function CardCompany(Ligne) {
 
-    console.log("CardCompany") ;
+    console.log("CardCompany: " + Ligne.idEntreprise + " " + Ligne.NomEntreprise) ;
+
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
@@ -74,7 +67,6 @@ export default function CardCompany(Ligne) {
 
 
 
-    console.log("CardCompany: " + Ligne.idEntreprise + " " + Ligne.NomEntreprise) ;
     return (
         <Card key={Ligne.idEntreprise} className="block">
             <Card.Body className="bg-white">

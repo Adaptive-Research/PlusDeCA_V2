@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import * as profiledata from "../../../data/Pages/profiledata/profiledata";
-import user8 from "../../../assets/images/users/8.jpg";
+
 import user15 from "../../../assets/images/users/15.jpg";
 import user18 from "../../../assets/images/users/18.jpg";
 import user2 from "../../../assets/images/users/2.jpg";
@@ -18,6 +18,8 @@ import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
 import {getEnterprisesByUser ,getActivitiesForUser} from "../../../data/customlibs/utils";
 import {useNavigate} from "react-router";
 import CardCompany from "./CardCompany" ;
+import CardBodyProfile from "./CardBodyProfile" ;
+import CardPersonalInformation from "./CardPersonalInformation" ;
 
 
 
@@ -192,103 +194,7 @@ export default function Profile(props) {
                 <Row id="user-profile">
                     <Col lg={12}>
                         <Card className=" bg-transparent shadow-none border-0">
-                            <Card.Body className=" bg-white">
-                                <div className="wideget-user">
-                                    <Row>
-                                        <Col lg={12} md={12} xl={6}>
-                                            <div className="wideget-user-desc d-sm-flex">
-                                                <div className="wideget-user-img">
-                                                    <img className="" src={user8} alt="img"/>
-                                                </div>
-                                                <div className="user-wrap">
-                                                    <h4>Elizabeth Dyer</h4>
-                                                    <h6 className="text-muted mb-3">
-                                                        Member Since: November 2017
-                                                    </h6>
-                                                    <Link to="#" className="btn btn-primary mt-1 mb-1 ">
-                                                        <i className="fa fa-rss"></i> Follow
-                                                    </Link>
-                                                    <Link
-                                                        to={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
-                                                        className="btn btn-secondary mt-1 mb-1 ms-1"
-                                                    >
-                                                        <i className="fa fa-envelope"></i> E-mail
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </Col>
-                                        <Col lg={12} md={12} xl={6}>
-                                            <div className="text-xl-right mt-4 mt-xl-0">
-                                                <Link
-                                                    to={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
-                                                    className="btn btn-white me-1"
-                                                >
-                                                    Message
-                                                </Link>
-                                                <Link
-                                                    to={`${process.env.PUBLIC_URL}/pages/editProfile/`}
-                                                    className="btn btn-primary me-1"
-                                                >
-                                                    Edit Profile
-                                                </Link>
-                                                <Link
-                                                    to={`${process.env.PUBLIC_URL}/pages/editCompany/`}
-                                                    className="btn btn-warning me-1"
-                                                >
-                                                    Add Company
-                                                </Link>
-                                                <Link
-                                                    to={`${process.env.PUBLIC_URL}/pages/editActivity/`}
-                                                    className="btn btn-gray me-1"
-                                                >
-                                                    Add Activity
-                                                </Link>
-                                            </div>
-
-                                            <div className="mt-5">
-
-                                                <div className="main-profile-contact-list float-md-end d-md-flex">
-                                                    <div className="me-5">
-                                                        <div className="media">
-                                                            <div className="media-icon bg-primary  me-3 mt-1">
-                                                                <i className="fe fe-file-plus fs-20 text-white"></i>
-                                                            </div>
-                                                            <div className="media-body">
-                                                                <span className="text-muted">Posts</span>
-                                                                <div className="fw-semibold fs-25">328</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="me-5 mt-5 mt-md-0">
-                                                        <div className="media">
-                                                            <div className="media-icon bg-success me-3 mt-1">
-                                                                <i className="fe fe-users  fs-20 text-white"></i>
-                                                            </div>
-                                                            <div className="media-body">
-                                                                <span className="text-muted">Followers</span>
-                                                                <div className="fw-semibold fs-25">937k</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="me-0 mt-5 mt-md-0">
-                                                        <div className="media">
-                                                            <div className="media-icon bg-orange me-3 mt-1">
-                                                                <i className="fe fe-wifi fs-20 text-white"></i>
-                                                            </div>
-                                                            <div className="media-body">
-                                                                <span className="text-muted">Following</span>
-                                                                <div className="fw-semibold fs-25">2,876</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </Card.Body>
+                            <CardBodyProfile />
 
 
                             <div className="border-top ">
@@ -306,84 +212,7 @@ export default function Profile(props) {
                                                 <Tab eventKey="Profile" title={profile}>
                                                     <div className="tab-pane profiletab show">
                                                         <div id="profile-log-switch">
-                                                            <Card>
-                                                                <Card.Body className="bg-white">
-                                                                    <div className="media-heading">
-                                                                        <h5>
-                                                                            <strong>Personal Information</strong>
-                                                                        </h5>
-                                                                    </div>
-                                                                    <div className="table-responsive p-1">
-                                                                        <Table className="table row table-borderless">
-                                                                            <tbody className="col-lg-12 col-xl-6 p-0">
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <strong>Full Name :</strong> Elizabeth
-                                                                                    Dyer
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <strong>Location :</strong> USA
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <strong>Languages :</strong> English,
-                                                                                    German, Spanish.
-                                                                                </td>
-                                                                            </tr>
-                                                                            </tbody>
-                                                                            <tbody className="col-lg-12 col-xl-6 p-0">
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <strong>Website :</strong> abcdz.com
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <strong>Email :</strong>
-                                                                                    georgemestayer@abcdz.com
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <strong>Phone :</strong> +125 254 3562
-                                                                                </td>
-                                                                            </tr>
-                                                                            </tbody>
-                                                                        </Table>
-                                                                    </div>
-                                                                    <Row className="row profie-img">
-                                                                        <Col md={12}>
-                                                                            <div className="media-heading">
-                                                                                <h5>
-                                                                                    <strong>Biography</strong>
-                                                                                </h5>
-                                                                            </div>
-                                                                            <p>
-                                                                                Nam libero tempore, cum soluta nobis est
-                                                                                eligendi optio cumque nihil impedit quo
-                                                                                minus id quod maxime placeat facere
-                                                                                possimus, omnis voluptas assumenda est,
-                                                                                omnis dolor repellendus
-                                                                            </p>
-                                                                            <p className="mb-0">
-                                                                                because it is pleasure, but because those
-                                                                                who do not know how to pursue pleasure
-                                                                                rationally encounter but because those who
-                                                                                do not know how to pursue consequences
-                                                                                that are extremely painful. Nor again is
-                                                                                there anyone who loves or pursues or
-                                                                                desires to obtain pain of itself, because
-                                                                                it is pain, but because occasionally
-                                                                                circumstances occur in which toil and pain
-                                                                                can procure him some great pleasure.
-                                                                            </p>
-                                                                        </Col>
-                                                                    </Row>
-                                                                </Card.Body>
-                                                            </Card>
+                                                            <CardPersonalInformation />
                                                         </div>
                                                     </div>
                                                 </Tab>
