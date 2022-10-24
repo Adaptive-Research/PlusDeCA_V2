@@ -100,6 +100,11 @@ const Empty = React.lazy(() => import("./components/pages/Empty/Empty"));
 const UnderConstruction = React.lazy(() => import("./components/pages/UnderConstruction/UnderConstruction"));
 const UpdateCompany = React.lazy(() => import("./components/pages/EditCompany/UpdateCompany"));
 const UpdateActivity = React.lazy(() => import("./components/pages/EditActivity/UpdateActivity"));
+//Articles
+const articleList = React.lazy(() => import("./components/pages/Articles/List/ArticleList"));
+const articleEdit = React.lazy(() => import("./components/pages/Articles/Edit/ArticleEdit"));
+const articleAdd = React.lazy(() => import("./components/pages/Articles/Add/ArticleAdd"));
+
 //Blog
 const Blog = React.lazy(() => import("./components/pages/Blog/Blog/Blog"));
 const BlogDetails = React.lazy(() => import("./components/pages/Blog/BlogDetails/BlogDetails"));
