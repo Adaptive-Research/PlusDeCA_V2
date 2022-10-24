@@ -205,8 +205,6 @@ const Root = () => {
                                 />
 
 
-
-
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/components/defaultChat`}
                                     element={<DefaultChat/>}
@@ -547,7 +545,6 @@ const Root = () => {
                                     path={`${process.env.PUBLIC_URL}/pages/updateCompany`}
                                     element={<UpdateCompany/>}
                                 />
-
 
 
                                 <Route
