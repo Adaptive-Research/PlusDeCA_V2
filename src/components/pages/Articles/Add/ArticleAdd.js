@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import * as formeditor from "../../../../data/Form/formeditor/formeditor";
 import * as fromadvanced from "../../../../data/Form/formadvanced/formadvanced";
 import * as blogpost from "../../../../data/Pages/blogpost/blogpost";
@@ -6,6 +6,19 @@ import { Link } from "react-router-dom";
 import { Row, Breadcrumb, Col, Card } from "react-bootstrap";
 import { FormGroup } from "react-bootstrap";
 export default function ArticleAdd() {
+    const [title, setTitle] = useState("");
+    const [category, setCategory] = useState("");
+    const [description, setDescription] = useState("");
+    const [photo, setPhoto] = useState("");
+
+
+    const changeInputs = (event, name) => {
+        if (name === "title"){
+
+        }
+    }
+
+
     return (
         <div>
             <div>
@@ -25,12 +38,6 @@ export default function ArticleAdd() {
                         </Breadcrumb>
                     </div>
                     <div className="ms-auto pageheader-btn">
-              {/*          <Link to="#" className="btn btn-primary btn-icon text-white me-3">*/}
-              {/*<span>*/}
-              {/*  <i className="fe fe-plus"></i>&nbsp;*/}
-              {/*</span>*/}
-              {/*              Ajouter*/}
-              {/*          </Link>*/}
                         <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`} className="btn btn-success btn-icon text-white">
               <span>
                 <i className="fe fe-log-in"></i>&nbsp;
@@ -54,7 +61,8 @@ export default function ArticleAdd() {
                                         <input
                                             type="text"
                                             className="form-control"
-                                            defaultValue="Titre ..."
+                                            placeholder="Titre ..."
+                                            value={title}
                                         />
                                     </div>
                                 </Row>
