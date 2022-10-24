@@ -1,11 +1,21 @@
 import React, {useState} from "react";
-import {Card, Col, FormGroup, Row,} from "react-bootstrap";
+import {Button, Col, FormGroup, Row, Modal } from "react-bootstrap";
 
 import axios from "axios";
 import {useNavigate} from "react-router";
 
 
-export default function EditCompany(props) {
+
+
+
+
+
+
+export default function ModalEditCompany(props) {
+
+    const [reloadInfos, setReloadInfos] = useState(true) ;
+    const [isModalOpen,setIsModalOpen] = useState(false) ;
+
 
 
     const [siret, setSiret] = useState("");
@@ -21,14 +31,28 @@ export default function EditCompany(props) {
     const [responseMsg, setResponseMsg] = useState("Ajouter entreprise");
     const navigate = useNavigate();
 
-    const token = localStorage.getItem("token");
 
+    console.log("props") ;
+    console.log(props) ;
+
+    if (reloadInfos === true)
+    {
+        if (props.show === "false")
+            setIsModalOpen(false) ;
+        if (props.show === "true")
+            setIsModalOpen(true) ;
+        setReloadInfos(false) ;
+    }
+
+
+    const token = localStorage.getItem("token");
     console.log(token);
 
 
 
 
-    const requestCompanyRegister = async () => {
+
+    const SaveCompany = async () => {
         const url = process.env.REACT_APP_API_CREATE_ENTERPRISE_URL;
 
         const response = await axios.post(url, {
@@ -76,16 +100,19 @@ export default function EditCompany(props) {
             setSiretMsg("");
         }
 
-
+        /*
         if (nameCheck && siretCheck) {
-            requestCompanyRegister()
+            SaveCompany()
         }
+        */
     }
 
 
 
 
-    const handleSubmit = (e) => {
+
+
+    const handleSave = (e) => {
         e.preventDefault();
         try {
             inputsValidation();
@@ -96,19 +123,24 @@ export default function EditCompany(props) {
         }
     }
 
-    const returnBack = () => {
-        navigate(-1);
+    const handleCancel = () => {
+        setIsModalOpen(false) ;
     }
 
 
     return (
-        <div className="EditCompany">
-            <Card>
-                <Card.Header>
-                    <Card.Title as="h3">{responseMsg}</Card.Title>
-                </Card.Header>
+        <div>
 
-                <Card.Body>
+            <Modal size="lg" show={isModalOpen}>
+
+                <Modal.Header closeButton>
+
+                <Modal.Title>React Bootstrap Modal Example - ItSolutionStuff.com</Modal.Title>
+
+                </Modal.Header>
+
+                <Modal.Body>
+
                     <Row className="add-space">
                         <Col lg={6} md={12}>
                             <FormGroup>
@@ -184,18 +216,25 @@ export default function EditCompany(props) {
 
                     </Row>
 
-                </Card.Body>
 
-                <Card.Footer className="text-end">
-                    <button className="btn btn-success mt-1 me-2" onClick={handleSubmit}>
-                        Enregistrer
-                    </button>
 
-                    <button className="btn btn-danger" onClick={returnBack}>
-                        Annuler
-                    </button>
-                </Card.Footer>
-            </Card>
+                </Modal.Body>
+
+                <Modal.Footer>
+
+                    <Button variant="secondary" onClick={handleCancel}>
+                        Cancel
+                    </Button>
+
+                    <Button variant="primary" onClick={handleSave}>
+                        Save
+                    </Button>
+
+                </Modal.Footer>
+
+            </Modal>
+
+
         </div>
     );
 }

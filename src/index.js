@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import EditActivity from "./components/pages/editActivity/EditActivity";
+import EditActivity from "./components/pages/EditActivity/EditActivity";
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
@@ -99,7 +99,7 @@ const PricingTables = React.lazy(() => import("./components/pages/PricingTables/
 const Empty = React.lazy(() => import("./components/pages/Empty/Empty"));
 const UnderConstruction = React.lazy(() => import("./components/pages/UnderConstruction/UnderConstruction"));
 const UpdateCompany = React.lazy(() => import("./components/pages/EditCompany/UpdateCompany"));
-const UpdateActivity = React.lazy(() => import("./components/pages/editActivity/UpdateActivity"));
+const UpdateActivity = React.lazy(() => import("./components/pages/EditActivity/UpdateActivity"));
 //Blog
 const Blog = React.lazy(() => import("./components/pages/Blog/Blog/Blog"));
 const BlogDetails = React.lazy(() => import("./components/pages/Blog/BlogDetails/BlogDetails"));
