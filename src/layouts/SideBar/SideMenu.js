@@ -82,7 +82,7 @@ export const MENUITEMS = [
       },
 
     ],
-  },  
+  },
 
   {
     menutitle: "MON RESEAU",
@@ -118,7 +118,7 @@ export const MENUITEMS = [
     menutitle: "MES ACTIONS",
     Items: [
       {
-        path: `${process.env.PUBLIC_URL}/MesArticles`,
+        path: `${process.env.PUBLIC_URL}/pages/ArticleList`,
         icon: "file-text",
         type: "link",
         active: false,
@@ -864,6 +864,6 @@ export const MENUITEMS = [
       },
     ],
   },
-  
+
 
 ];
