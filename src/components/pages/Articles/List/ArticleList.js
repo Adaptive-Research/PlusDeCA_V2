@@ -59,7 +59,7 @@ export default function ArticlesList() {
                                 Il protège et gouverne ses étendues gelées.
                                 Je suis le seul à l'avoir aperçu.
                             </Card.Text>
-                            <Link to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`} className="float-end">
+                            <Link to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`} className="float-end">
                                 Read more <i className="fa fa-angle-double-right"></i>
                             </Link>
                         </Card.Body>
@@ -88,7 +88,7 @@ export default function ArticlesList() {
                                 Il protège et gouverne ses étendues gelées.
                                 Je suis le seul à l'avoir aperçu.
                             </Card.Text>
-                            <Link to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`} className="float-end">
+                            <Link to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`} className="float-end">
                                 Read more <i className="fa fa-angle-double-right"></i>
                             </Link>
                         </Card.Body>
@@ -117,7 +117,7 @@ export default function ArticlesList() {
                                 Il protège et gouverne ses étendues gelées.
                                 Je suis le seul à l'avoir aperçu.
                             </Card.Text>
-                            <Link to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`} className="float-end">
+                            <Link to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`} className="float-end">
                                 Read more <i className="fa fa-angle-double-right"></i>
                             </Link>
                         </Card.Body>
