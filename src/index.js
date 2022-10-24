@@ -104,6 +104,7 @@ const UpdateActivity = React.lazy(() => import("./components/pages/EditActivity/
 const ArticleList = React.lazy(() => import("./components/pages/Articles/List/ArticleList"));
 const ArticleEdit = React.lazy(() => import("./components/pages/Articles/Edit/ArticleEdit"));
 const ArticleAdd = React.lazy(() => import("./components/pages/Articles/Add/ArticleAdd"));
+const ArticleDetail = React.lazy(() => import("./components/pages/Articles/Detail/ArticleDetail"));
 
 //Blog
 const Blog = React.lazy(() => import("./components/pages/Blog/Blog/Blog"));
@@ -622,6 +623,11 @@ const Root = () => {
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/pages/ArticleAdd`}
                                     element={<ArticleAdd/>}
+                                />
+
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
+                                    element={<ArticleDetail/>}
                                 />
 
 
