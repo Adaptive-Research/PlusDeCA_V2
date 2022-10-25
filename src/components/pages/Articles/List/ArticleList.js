@@ -46,6 +46,9 @@ export default function ArticlesList() {
                         />
                         <Card.Header>
                             <Card.Title as="h5"> Titre </Card.Title>
+                            <button className="btn btn-success" style={{marginLeft: "70%"}}>
+                                Publication
+                            </button>
                         </Card.Header>
                         <Card.Body>
                             <Card.Text>
@@ -75,6 +78,9 @@ export default function ArticlesList() {
                         />
                         <Card.Header>
                             <Card.Title as="h5"> Titre </Card.Title>
+                            <button className="btn btn-warning" style={{marginLeft: "70%"}}>
+                                Brouillon
+                            </button>
                         </Card.Header>
                         <Card.Body>
                             <Card.Text>
@@ -104,6 +110,9 @@ export default function ArticlesList() {
                         />
                         <Card.Header>
                             <Card.Title as="h5"> Titre </Card.Title>
+                            <button className="btn btn-success" style={{marginLeft: "70%"}}>
+                                Publication
+                            </button>
                         </Card.Header>
                         <Card.Body>
                             <Card.Text>
