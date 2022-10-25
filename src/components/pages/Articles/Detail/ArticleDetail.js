@@ -45,7 +45,7 @@ export default function ArticleDetails() {
                 {/* PAGE-HEADER END */}
                 {/* ROW-1 OPEN */}
                 <Row>
-                    <Col xl={10} className="mx-auto">
+                    <Col xl={8}>
                         <Card>
                             <img
                                 className="card-img-top br-7 br-bl-0 br-br-0"
@@ -102,6 +102,270 @@ export default function ArticleDetails() {
                                     master-builder of human happiness. No one rejects, dislikes,
                                     or avoids pleasure itself, because it is pleasure.
                                 </p>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+
+                    <Col xl={4}>
+                        {/*<Card>*/}
+                        {/*    <Card.Body>*/}
+                        {/*        <div className="input-group">*/}
+                        {/*            <input*/}
+                        {/*                type="text"*/}
+                        {/*                className="form-control border-end-0"*/}
+                        {/*                placeholder="Search ..."*/}
+                        {/*            />*/}
+                        {/*            <button className="btn input-group-text bg-transparent border-start-0 text-muted">*/}
+                        {/*                <i className="fe fe-search" aria-hidden="true" />*/}
+                        {/*            </button>*/}
+                        {/*        </div>*/}
+                        {/*    </Card.Body>*/}
+                        {/*</Card>*/}
+                        {/*<Card>*/}
+                        {/*    <Card.Header>*/}
+                        {/*        <Card.Title>Categories</Card.Title>*/}
+                        {/*    </Card.Header>*/}
+                        {/*    <Card.Body>*/}
+                        {/*        <ListGroup>*/}
+                        {/*            <ListGroup.Item className="list-group-item border list-icon">*/}
+                        {/*                <Link to="#" className="text-dark mx-3">*/}
+                        {/*                    Business*/}
+                        {/*                </Link>*/}
+                        {/*                <span className="product-label">11</span>*/}
+                        {/*            </ListGroup.Item>*/}
+                        {/*            <ListGroup.Item className="list-group-item border list-icon">*/}
+                        {/*                <Link to="#" className="text-dark mx-3">*/}
+                        {/*                    Gadgets*/}
+                        {/*                </Link>*/}
+                        {/*                <span className="product-label">46</span>*/}
+                        {/*            </ListGroup.Item>*/}
+                        {/*            <ListGroup.Item className="list-group-item border list-icon">*/}
+                        {/*                <Link to="#" className="text-dark mx-3">*/}
+                        {/*                    Fashion*/}
+                        {/*                </Link>*/}
+                        {/*                <span className="product-label">25</span>*/}
+                        {/*            </ListGroup.Item>*/}
+                        {/*            <ListGroup.Item className="list-group-item border list-icon">*/}
+                        {/*                <Link to="#" className="text-dark mx-3">*/}
+                        {/*                    Political*/}
+                        {/*                </Link>*/}
+                        {/*                <span className="product-label">73</span>*/}
+                        {/*            </ListGroup.Item>*/}
+                        {/*        </ListGroup>*/}
+                        {/*    </Card.Body>*/}
+                        {/*</Card>*/}
+                        {/*<Card>*/}
+                        {/*    <Card.Header>*/}
+                        {/*        <Card.Title>Professional Blog Writers</Card.Title>*/}
+                        {/*    </Card.Header>*/}
+                        {/*    <Card.Body>*/}
+                        {/*        <div className="">*/}
+                        {/*            <div className="d-flex overflow-visible">*/}
+                        {/*                <img*/}
+                        {/*                    className="avatar bradius avatar-xl me-3"*/}
+                        {/*                    src={require("../../../../assets/images/users/1.jpg")}*/}
+                        {/*                    alt="avatar-img"*/}
+                        {/*                />*/}
+                        {/*                <div className="media-body valign-middle">*/}
+                        {/*                    <Link*/}
+                        {/*                        to={`${process.env.PUBLIC_URL}/pages/profile`}*/}
+                        {/*                        className="fw-semibold text-dark"*/}
+                        {/*                    >*/}
+                        {/*                        Simon Sais*/}
+                        {/*                    </Link>*/}
+                        {/*                    <p className="text-muted mb-0">*/}
+                        {/*                        There are many variations of passages of Lorem Ipsum*/}
+                        {/*                        available ...*/}
+                        {/*                    </p>*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*            <div className="d-flex overflow-visible mt-5">*/}
+                        {/*                <img*/}
+                        {/*                    className="avatar bradius avatar-xl me-3"*/}
+                        {/*                    src={require("../../../../assets/images/users/3.jpg")}*/}
+                        {/*                    alt="avatar-img"*/}
+                        {/*                />*/}
+                        {/*                <div className="media-body valign-middle">*/}
+                        {/*                    <Link*/}
+                        {/*                        to={`${process.env.PUBLIC_URL}/pages/profile`}*/}
+                        {/*                        className="fw-semibold text-dark"*/}
+                        {/*                    >*/}
+                        {/*                        Cherry Blossom*/}
+                        {/*                    </Link>*/}
+                        {/*                    <p className="text-muted mb-0">*/}
+                        {/*                        There are many variations of passages of Lorem Ipsum*/}
+                        {/*                        available ...*/}
+                        {/*                    </p>*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*            <div className="d-flex overflow-visible mt-5">*/}
+                        {/*                <img*/}
+                        {/*                    className="avatar bradius avatar-xl me-3"*/}
+                        {/*                    src={require("../../../../assets/images/users/5.jpg")}*/}
+                        {/*                    alt="avatar-img"*/}
+                        {/*                />*/}
+                        {/*                <div className="media-body valign-middle">*/}
+                        {/*                    <Link*/}
+                        {/*                        to={`${process.env.PUBLIC_URL}/pages/profile`}*/}
+                        {/*                        className="fw-semibold text-dark"*/}
+                        {/*                    >*/}
+                        {/*                        Ivan Notheridiya*/}
+                        {/*                    </Link>*/}
+                        {/*                    <p className="text-muted mb-0">*/}
+                        {/*                        There are many variations of passages of Lorem Ipsum*/}
+                        {/*                        available ...*/}
+                        {/*                    </p>*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*            <div className="d-flex overflow-visible mt-5">*/}
+                        {/*                <img*/}
+                        {/*                    className="avatar bradius avatar-xl me-3"*/}
+                        {/*                    src={require("../../../../assets/images/users/15.jpg")}*/}
+                        {/*                    alt="avatar-img"*/}
+                        {/*                />*/}
+                        {/*                <div className="media-body valign-middle">*/}
+                        {/*                    <Link*/}
+                        {/*                        to={`${process.env.PUBLIC_URL}/pages/profile`}*/}
+                        {/*                        className="fw-semibold text-dark"*/}
+                        {/*                    >*/}
+                        {/*                        Manny Jah*/}
+                        {/*                    </Link>*/}
+                        {/*                    <p className="text-muted mb-0">*/}
+                        {/*                        There are many variations of passages of Lorem Ipsum*/}
+                        {/*                        available ...*/}
+                        {/*                    </p>*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </Card.Body>*/}
+                        {/*</Card>*/}
+                        <Card>
+                            <Card.Header>
+                                <Card.Title>Historique</Card.Title>
+                            </Card.Header>
+                            <Card.Body>
+                                <div className="">
+                                    <div className="d-flex overflow-visible blogimg">
+                                        <Link
+                                            to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                                            className="card-aside-column br-5 cover-image me-3"
+                                        >
+                                            <img
+                                                className=" br-5 mb-3 "
+                                                src={require("../../../../assets/images/media/19.jpg")}
+                                                style={{
+                                                    background:
+                                                        'url("../assets/images/media/19.jpg") center center',
+                                                }}
+                                                alt=""
+                                            />
+                                        </Link>
+                                        <div className="ps-1 flex-column">
+                                            <h4>
+                                                <Link
+                                                    to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
+                                                >
+                                                    Titre le plus récent 1
+                                                </Link>
+                                            </h4>
+                                            <div className="text-muted">
+                                                <p>
+                                                    Le contenu du titre le plus recent est ici
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="d-flex overflow-visible mt-5 blogimg">
+                                        <Link
+                                            to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                                            className="card-aside-column br-5 cover-image me-3"
+                                        >
+                                            <img
+                                                className=" br-5 mb-3"
+                                                src={require("../../../../assets/images/media/22.jpg")}
+                                                style={{
+                                                    background:
+                                                        'url("../assets/images/media/19.jpg") center center',
+                                                }}
+                                                alt=""
+                                            />
+                                        </Link>
+                                        <div className="ps-1 flex-column">
+                                            <h4>
+                                                <Link
+                                                    to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
+                                                >
+                                                    Titre le plus recent 2 ...
+                                                </Link>
+                                            </h4>
+                                            <div className="text-muted">
+                                                <p className="font-13 text-muted">
+                                                    Contenu du titre le plus recent 2
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="d-flex overflow-visible mt-5 blogimg">
+                                        <Link
+                                            to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
+                                            className="card-aside-column br-5 cover-image me-3"
+                                        >
+                                            <img
+                                                className=" br-5 mb-3"
+                                                src={require("../../../../assets/images/media/12.jpg")}
+                                                style={{
+                                                    background:
+                                                        'url("../assets/images/media/19.jpg") center center',
+                                                }}
+                                                alt=""
+                                            />
+                                        </Link>
+                                        <div className="ps-1 flex-column">
+                                            <h4>
+                                                <Link
+                                                    to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
+                                                >
+                                                    Titre le plus recent 3
+                                                </Link>
+                                            </h4>
+                                            <div className="text-muted">
+                                                <p>
+                                                    Contenu du titre le plus recent 3
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="d-flex overflow-visible mt-5 blogimg">
+                                        <Link
+                                            to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
+                                            className="card-aside-column br-5 cover-image me-3"
+                                        >
+                                            <img
+                                                className=" br-5 mb-3"
+                                                src={require("../../../../assets/images/media/25.jpg")}
+                                                style={{
+                                                    background:
+                                                        'url("../assets/images/media/19.jpg") center center',
+                                                }}
+                                                alt=""
+                                            />
+                                        </Link>
+                                        <div className="ps-1 flex-column">
+                                            <h4>
+                                                <Link
+                                                    to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
+                                                >
+                                                    Titre le plus recent 4 ...
+                                                </Link>
+                                            </h4>
+                                            <div className="text-muted">
+                                                <p>
+                                                    Contenu du titre le plus recent 4 ...
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </Card.Body>
                         </Card>
                     </Col>
