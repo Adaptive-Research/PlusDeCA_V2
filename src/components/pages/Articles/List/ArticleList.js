@@ -1,5 +1,5 @@
 import React from "react";
-import {Breadcrumb, Card, Col, Row} from "react-bootstrap";
+import {Card, Col, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router";
 
@@ -20,7 +20,8 @@ export default function ArticlesList() {
                     {/*</Breadcrumb>*/}
                 </div>
                 <div className="ms-auto pageheader-btn">
-                    <Link to={`${process.env.PUBLIC_URL}/pages/ArticleAdd`} className="btn btn-primary btn-icon text-white me-3">
+                    <Link to={`${process.env.PUBLIC_URL}/pages/ArticleAdd`}
+                          className="btn btn-primary btn-icon text-white me-3">
             <span>
               <i className="fe fe-plus"></i>&nbsp;
             </span>

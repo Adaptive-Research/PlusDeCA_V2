@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {Breadcrumb, Card, Col, Row,} from "react-bootstrap";
+import {Card, Col, Row,} from "react-bootstrap";
 
 export default function ArticleDetails() {
     return (
@@ -19,19 +19,22 @@ export default function ArticleDetails() {
                         {/*</Breadcrumb>*/}
                     </div>
                     <div className="ms-auto pageheader-btn">
-                        <Link to={`${process.env.PUBLIC_URL}/pages/ArticleEdit`} className="btn btn-warning btn-icon text-white me-3">
+                        <Link to={`${process.env.PUBLIC_URL}/pages/ArticleEdit`}
+                              className="btn btn-warning btn-icon text-white me-3">
               <span>
                 <i className="fe fe-refresh-ccw"></i>&nbsp;
               </span>
                             Editer
                         </Link>
-                        <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`} className="btn btn-danger btn-icon text-white me-3">
+                        <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`}
+                              className="btn btn-danger btn-icon text-white me-3">
               <span>
                 <i className="fe fe-trash"></i>&nbsp;
               </span>
                             Supprimer
                         </Link>
-                        <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`} className="btn btn-success btn-icon text-white">
+                        <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`}
+                              className="btn btn-success btn-icon text-white">
               <span>
                 <i className="fe fe-log-in"></i>&nbsp;
               </span>

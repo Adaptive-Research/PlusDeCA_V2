@@ -2,9 +2,9 @@ import React from "react";
 import * as formeditor from "../../../../data/Form/formeditor/formeditor";
 import * as fromadvanced from "../../../../data/Form/formadvanced/formadvanced";
 import * as blogpost from "../../../../data/Pages/blogpost/blogpost";
-import { Link } from "react-router-dom";
-import { Row, Breadcrumb, Col, Card } from "react-bootstrap";
-import { FormGroup } from "react-bootstrap";
+import {Link} from "react-router-dom";
+import {Card, Col, FormGroup, Row} from "react-bootstrap";
+
 export default function ArticleEdit() {
     return (
         <div>
@@ -25,7 +25,8 @@ export default function ArticleEdit() {
                         {/*</Breadcrumb>*/}
                     </div>
                     <div className="ms-auto pageheader-btn">
-                        <Link to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`} className="btn btn-success btn-icon text-white">
+                        <Link to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
+                              className="btn btn-success btn-icon text-white">
               <span>
                 <i className="fe fe-log-in"></i>&nbsp;
               </span>
@@ -55,7 +56,7 @@ export default function ArticleEdit() {
                                 <Row className="mb-4">
                                     <label className="col-md-3 form-label">Categorie :</label>
                                     <div className="">
-                                        <blogpost.Categorys />
+                                        <blogpost.Categorys/>
                                     </div>
                                 </Row>
                                 {/* Row */}
@@ -64,13 +65,13 @@ export default function ArticleEdit() {
                                         Description :
                                     </label>
                                     <div className="mb-4">
-                                        <formeditor.FormEditorstyle1 />
+                                        <formeditor.FormEditorstyle1/>
                                     </div>
                                 </Row>
                                 {/*End Row*/}
                                 <FormGroup className="mb-0 file">
                                     <label className="col-md-3 form-label mb-4">
-                                       Photo :
+                                        Photo :
                                     </label>
                                     <fromadvanced.OuterDropzone
                                         id="demo"
@@ -85,7 +86,8 @@ export default function ArticleEdit() {
                                 <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`} className="btn btn-primary">
                                     Valider
                                 </Link>
-                                <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`} className="btn btn-default float-end">
+                                <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`}
+                                      className="btn btn-default float-end">
                                     Annuler
                                 </Link>
                             </Card.Footer>
