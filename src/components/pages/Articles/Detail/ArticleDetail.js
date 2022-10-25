@@ -9,14 +9,14 @@ export default function ArticleDetails() {
                 <div className="page-header">
                     <div>
                         <h1 className="page-title">Details Article</h1>
-                        <Breadcrumb className="breadcrumb">
-                            <Breadcrumb.Item className="breadcrumb-item" href="#">
-                                Pages
-                            </Breadcrumb.Item>
-                            <li className="breadcrumb-item active breadcrumds" aria-current="page">
-                                Details Article
-                            </li>
-                        </Breadcrumb>
+                        {/*<Breadcrumb className="breadcrumb">*/}
+                        {/*    <Breadcrumb.Item className="breadcrumb-item" href="#">*/}
+                        {/*        Pages*/}
+                        {/*    </Breadcrumb.Item>*/}
+                        {/*    <li className="breadcrumb-item active breadcrumds" aria-current="page">*/}
+                        {/*        Details Article*/}
+                        {/*    </li>*/}
+                        {/*</Breadcrumb>*/}
                     </div>
                     <div className="ms-auto pageheader-btn">
                         <Link to={`${process.env.PUBLIC_URL}/pages/ArticleEdit`} className="btn btn-warning btn-icon text-white me-3">

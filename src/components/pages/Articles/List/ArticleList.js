@@ -10,14 +10,14 @@ export default function ArticlesList() {
             <div className="page-header">
                 <div>
                     <h1 className="page-title">Articles</h1>
-                    <Breadcrumb className="breadcrumb">
-                        <Breadcrumb.Item className="breadcrumb-item" href="#">
-                            Pages
-                        </Breadcrumb.Item>
-                        <li className="breadcrumb-item active breadcrumds" aria-current="page">
-                            Articles
-                        </li>
-                    </Breadcrumb>
+                    {/*<Breadcrumb className="breadcrumb">*/}
+                    {/*    <Breadcrumb.Item className="breadcrumb-item" href="#">*/}
+                    {/*        Pages*/}
+                    {/*    </Breadcrumb.Item>*/}
+                    {/*    <li className="breadcrumb-item active breadcrumds" aria-current="page">*/}
+                    {/*        Articles*/}
+                    {/*    </li>*/}
+                    {/*</Breadcrumb>*/}
                 </div>
                 <div className="ms-auto pageheader-btn">
                     <Link to={`${process.env.PUBLIC_URL}/pages/ArticleAdd`} className="btn btn-primary btn-icon text-white me-3">

@@ -12,17 +12,17 @@ export default function ArticleEdit() {
                 <div className="page-header">
                     <div>
                         <h1 className="page-title">Editer Article</h1>
-                        <Breadcrumb className="breadcrumb">
-                            <Breadcrumb.Item className="breadcrumb-item" href="#">
-                                Pages
-                            </Breadcrumb.Item>
-                            <Breadcrumb.Item
-                                className="breadcrumb-item active breadcrumds"
-                                aria-current="page"
-                            >
-                                Editer Article
-                            </Breadcrumb.Item>
-                        </Breadcrumb>
+                        {/*<Breadcrumb className="breadcrumb">*/}
+                        {/*    <Breadcrumb.Item className="breadcrumb-item" href="#">*/}
+                        {/*        Pages*/}
+                        {/*    </Breadcrumb.Item>*/}
+                        {/*    <Breadcrumb.Item*/}
+                        {/*        className="breadcrumb-item active breadcrumds"*/}
+                        {/*        aria-current="page"*/}
+                        {/*    >*/}
+                        {/*        Editer Article*/}
+                        {/*    </Breadcrumb.Item>*/}
+                        {/*</Breadcrumb>*/}
                     </div>
                     <div className="ms-auto pageheader-btn">
                         <Link to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`} className="btn btn-success btn-icon text-white">

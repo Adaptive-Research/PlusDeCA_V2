@@ -25,17 +25,17 @@ export default function ArticleAdd() {
                 <div className="page-header">
                     <div>
                         <h1 className="page-title">Ajout Article</h1>
-                        <Breadcrumb className="breadcrumb">
-                            <Breadcrumb.Item className="breadcrumb-item" href="#">
-                                Pages
-                            </Breadcrumb.Item>
-                            <Breadcrumb.Item
-                                className="breadcrumb-item active breadcrumds"
-                                aria-current="page"
-                            >
-                                Ajout Article
-                            </Breadcrumb.Item>
-                        </Breadcrumb>
+                        {/*<Breadcrumb className="breadcrumb">*/}
+                        {/*    <Breadcrumb.Item className="breadcrumb-item" href="#">*/}
+                        {/*        Pages*/}
+                        {/*    </Breadcrumb.Item>*/}
+                        {/*    <Breadcrumb.Item*/}
+                        {/*        className="breadcrumb-item active breadcrumds"*/}
+                        {/*        aria-current="page"*/}
+                        {/*    >*/}
+                        {/*        Ajout Article*/}
+                        {/*    </Breadcrumb.Item>*/}
+                        {/*</Breadcrumb>*/}
                     </div>
                     <div className="ms-auto pageheader-btn">
                         <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`} className="btn btn-success btn-icon text-white">
@@ -97,7 +97,7 @@ export default function ArticleAdd() {
                             </Card.Body>
                             <Card.Footer>
                                 <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`} className="btn btn-primary">
-                                    Creer
+                                    Sauvegarder
                                 </Link>
                                 <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`} className="btn btn-default float-end">
                                     Annuler
