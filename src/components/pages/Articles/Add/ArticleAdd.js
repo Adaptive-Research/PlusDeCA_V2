@@ -25,17 +25,6 @@ export default function ArticleAdd() {
                 <div className="page-header">
                     <div>
                         <h1 className="page-title">Ajout Article</h1>
-                        {/*<Breadcrumb className="breadcrumb">*/}
-                        {/*    <Breadcrumb.Item className="breadcrumb-item" href="#">*/}
-                        {/*        Pages*/}
-                        {/*    </Breadcrumb.Item>*/}
-                        {/*    <Breadcrumb.Item*/}
-                        {/*        className="breadcrumb-item active breadcrumds"*/}
-                        {/*        aria-current="page"*/}
-                        {/*    >*/}
-                        {/*        Ajout Article*/}
-                        {/*    </Breadcrumb.Item>*/}
-                        {/*</Breadcrumb>*/}
                     </div>
                     <div className="ms-auto pageheader-btn">
                         <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`}
