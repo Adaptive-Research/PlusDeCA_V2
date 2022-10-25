@@ -19,8 +19,6 @@ import ModalEditCompany from "./ModalEditCompany" ;
 
 
 
-
-
 export default function Profile(props) {
 
     console.log("Profile") ;
@@ -28,13 +26,13 @@ export default function Profile(props) {
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
-    //console.log(storedToken) ;  
+    //console.log(storedToken) ;
     //console.log(idUser) ;
-  
 
 
 
-    
+
+
     const navigate = useNavigate();
 
 
@@ -59,13 +57,13 @@ export default function Profile(props) {
     const [reRender, setReRender] = useState(0) ;
 
 
-   
 
 
 
-    
-    
-   
+
+
+
+
 
 
     if (reloadInfos === true)
@@ -88,13 +86,13 @@ export default function Profile(props) {
 
         if (variable === "userEnterprises")
             setDownloaded_UserEnterprises(true) ;
-            
+
         if ((downloaded_UserActivities === true) && (downloaded_UserEnterprises === true))
             setReRender(reRender+1) ;
     }
 
 
-    
+
 
 
 
@@ -136,8 +134,8 @@ export default function Profile(props) {
         console.log("userEnterprises") ;
         console.log(myCompanies) ;
 
-        
-        if (myCompanies !== null ) 
+
+        if (myCompanies !== null )
         {
             let map1 =  myCompanies.map( (Ligne) => <CardCompany key={Ligne.idEntreprise} Ligne={Ligne} />  );
             console.log("map1") ;
@@ -235,7 +233,7 @@ export default function Profile(props) {
                                                         <profiledata.GalleryImagesprofile/>
                                                     </div>
                                                 </Tab>
-                                         
+
                                                 <Tab eventKey="Followers" title="Followers">
                                                     <TabFollowers />
                                                 </Tab>
