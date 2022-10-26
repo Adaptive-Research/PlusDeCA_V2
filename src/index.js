@@ -96,6 +96,13 @@ const Invoice = React.lazy(() => import("./components/pages/Invoice/Invoice"));
 const PricingTables = React.lazy(() => import("./components/pages/PricingTables/PricingTables"));
 const Empty = React.lazy(() => import("./components/pages/Empty/Empty"));
 const UnderConstruction = React.lazy(() => import("./components/pages/UnderConstruction/UnderConstruction"));
+//Article
+const ArticleList = React.lazy(() => import("./components/pages/Articles/List/ArticleList"));
+const ArticleEdit = React.lazy(() => import("./components/pages/Articles/Edit/ArticleEdit"));
+const ArticleAdd = React.lazy(() => import("./components/pages/Articles/Add/ArticleAdd"));
+const ArticleDetail = React.lazy(() => import("./components/pages/Articles/Detail/ArticleDetail"));
+
+
 //Blog
 const Blog = React.lazy(() => import("./components/pages/Blog/Blog/Blog"));
 const BlogDetails = React.lazy(() => import("./components/pages/Blog/BlogDetails/BlogDetails"));
@@ -571,6 +578,27 @@ const Root = () => {
                                     path={`${process.env.PUBLIC_URL}/pages/Blog/blogPost`}
                                     element={<BlogPost/>}
                                 />
+
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/pages/ArticleList`}
+                                    element={<ArticleList/>}
+                                />
+
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/pages/ArticleEdit`}
+                                    element={<ArticleEdit/>}
+                                />
+
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/pages/ArticleAdd`}
+                                    element={<ArticleAdd/>}
+                                />
+
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
+                                    element={<ArticleDetail/>}
+                                />
+
 
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/pages/empty`}
