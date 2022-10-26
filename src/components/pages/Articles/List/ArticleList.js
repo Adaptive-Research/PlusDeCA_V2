@@ -36,7 +36,7 @@ export default function ArticleList() {
                                     <div className="tabs-menu1 ">
                                         <Tabs
                                             variant="Tabs"
-                                            defaultActiveKey="Profile"
+                                            defaultActiveKey="Publié"
                                             id=" tab-51"
                                             className="tab-content tabesbody "
                                         >
