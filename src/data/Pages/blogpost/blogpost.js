@@ -1,39 +1,24 @@
-
-import React,{useState} from "react";
+import React, {useState} from "react";
 import MultiSelect from "react-multiple-select-dropdown-lite";
 import "react-multiple-select-dropdown-lite/dist/index.css";
 
-export function Categorys() {
+export function Categorys(props) {
     const [value, setvalue] = useState("");
 
     const handleOnchange = () => {
-      setvalue(value);
+        setvalue((e) => e.target.value);
+        console.log(value);
     };
-    const Optioncategorys = [
-      {
-        value: "category-1",
-        label: "Technology",
-      },
-      {
-        value: "category-2",
-        label: "Travel",
-      },
-      {
-        value: "category-3",
-        label: "Food",
-      },
-      {
-        value: "category-4",
-        label: "Fashion",
-      },
-    ];
     return (
-      <MultiSelect
-        name="beast"
-        id="select-beasts"
-        onChange={handleOnchange}
-        options={Optioncategorys}
-        singleSelect="true"
-      />
+        <form>
+            <MultiSelect
+                name="beast"
+                id="select-beasts"
+                onChange={props.change}
+                options={props.Optioncategorys}
+                singleSelect="true"
+            />
+        </form>
+
     );
-  }
+}
