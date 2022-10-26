@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import * as formeditor from "../../../../data/Form/formeditor/formeditor";
 import * as fromadvanced from "../../../../data/Form/formadvanced/formadvanced";
 import * as blogpost from "../../../../data/Pages/blogpost/blogpost";
 import {Link} from "react-router-dom";
@@ -103,7 +102,7 @@ export default function ArticleAdd() {
     // Function that handle the submit event on the form
     const handleSubmit = () => {
         try {
-            requestArticleCreate()
+            inputsValidation();
         } catch (e) {
             console.log(e);
         } finally {
@@ -166,9 +165,19 @@ export default function ArticleAdd() {
                                         <label className="col-md-3 form-label mb-4">
                                             Description:
                                         </label>
+                                        {/*<div className="mb-4">*/}
+                                        {/*    <formeditor.FormEditorstyle1 placeholder={descriptionMsg}*/}
+                                        {/*                                 onChange={(e) => changeInputs(e, "description")}/>*/}
+                                        {/*</div>*/}
                                         <div className="mb-4">
-                                            <formeditor.FormEditorstyle1 placeholder={descriptionMsg}
-                                                                         onChange={(e) => changeInputs(e, "description")}/>
+                                            <div class="md-form">
+                                                <textarea id="form7" className="md-textarea form-control"
+                                                          rows="3"
+                                                          placeholder={descriptionMsg === "" ? "Description" : descriptionMsg}
+                                                          value={description}
+                                                          onChange={(e) => changeInputs(e, 'description')}>
+                                                </textarea>
+                                            </div>
                                         </div>
                                     </Row>
                                     {/*End Row*/}
@@ -186,7 +195,10 @@ export default function ArticleAdd() {
                                     </FormGroup>
                                 </Card.Body>
                                 <Card.Footer>
-                                    <button onClick={() => handleSubmit()} className="btn btn-primary">
+                                    <button onClick={(e) => {
+                                        e.preventDefault();
+                                        handleSubmit()
+                                    }} className="btn btn-primary">
                                         Sauvegarder
                                     </button>
                                     <Link to={`${process.env.PUBLIC_URL}/pages/ArticleList`}
