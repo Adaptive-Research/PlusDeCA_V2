@@ -12,9 +12,15 @@ export default function ArticleAdd() {
     const [photo, setPhoto] = useState("");
 
 
-    const changeInputs = (event, name) => {
+    const changeInputs = (e, name) => {
         if (name === "title") {
-
+            setTitle(e.target.value)
+        } else if (name == "category") {
+            setCategory(e.target.value)
+        } else if (name == "description") {
+            setDescription(e.target.value)
+        } else if (name == "photo") {
+            setPhoto(e.target.value)
         }
     }
 
@@ -53,13 +59,14 @@ export default function ArticleAdd() {
                                             className="form-control"
                                             placeholder="Titre ..."
                                             value={title}
+                                            onChange={(e) => changeInputs(e, 'title')}
                                         />
                                     </div>
                                 </Row>
                                 <Row className="mb-4">
                                     <label className="col-md-3 form-label">Categorie :</label>
                                     <div className="">
-                                        <blogpost.Categorys/>
+                                        <blogpost.Categorys onChange={(e) => changeInputs(e, "category")}/>
                                     </div>
                                 </Row>
                                 {/* Row */}
