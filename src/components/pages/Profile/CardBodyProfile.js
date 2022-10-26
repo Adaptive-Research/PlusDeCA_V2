@@ -46,18 +46,6 @@ export default function CardBodyProfile(props){
                     >
                         Edit Profile
                     </Link>
-                    <Link
-                        to={`${process.env.PUBLIC_URL}/pages/editCompany/`}
-                        className="btn btn-warning me-1"
-                    >
-                        Add Company
-                    </Link>
-                    <Link
-                        to={`${process.env.PUBLIC_URL}/pages/editActivity/`}
-                        className="btn btn-gray me-1"
-                    >
-                        Add Activity
-                    </Link>
                 </div>
 
                 <div className="mt-5">

@@ -19,66 +19,44 @@ export default function CardActivity(props) {
     //console.log(storedToken) ;  
     //console.log(idUser) ;
 
+    let SendActivityData = props.SendActivityData ;
 
-    const AddActivity = (id,token) => {
+    
 
-/*        
-        const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
-        const response = axios.post(url, {
-            token: token,
-            Submit: 1,
-            id: id
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        }).then((response) => {
-            console.log(response.data);
-            window.location.reload();
-        })
-*/        
+
+
+    const AddActivite = (id,token) => {
+        console.log("AddActivite") ;
+        if (SendActivityData !== null)
+            SendActivityData(true, Ligne.idEntreprise, null) ;
     }
 
 
-    const EditActivity = (id,token) => {
-
-/*        
-        const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
-        const response = axios.post(url, {
-            token: token,
-            Submit: 1,
-            id: id
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        }).then((response) => {
-            console.log(response.data);
-            window.location.reload();
-        })
-*/        
+    const EditActivite = (token) => {
+        console.log("EditActivite") ;
+        if (SendActivityData !== null)
+            SendActivityData(true, Ligne.idEntreprise, Ligne) ;
     }
 
 
 
 
-    const DeleteActivity = (id,token) => {
+    const DeleteActivity = (idActivite,token) => {
 
-/*        
         const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
         const response = axios.post(url, {
             token: token,
             Submit: 1,
-            id: id
+            id: idActivite
         }, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             }
         }).then((response) => {
             console.log(response.data);
-            window.location.reload();
+            props.ForceRender() ;
         })
-*/        
+      
     }
 
 
@@ -86,32 +64,26 @@ export default function CardActivity(props) {
 
         <div key={Ligne.idActivite} className="border">
             
-            <div className="bg-teal-100">
+            <div className="bg-teal-100 min-height">
 
-                <button type="btn" className="btn float-left">
-                    <h5>  <strong>Activité {Ligne.Activite_Nom} </strong> </h5>
+                <button type="btn" className="btn pt-3 float-left no-border">
+                    <h5>  <strong>{Ligne.Activite_Nom} </strong> </h5>
                 </button>
 
 
-                <button type="btn" className="btn btn-danger float-end"
-                        onClick={() => DeleteActivity(Ligne.idActivity,storedToken)}>
+                <button type="btn" className="btn btn-danger mt-1 float-end"
+                        onClick={() => DeleteActivity(Ligne.idActivite,storedToken)}>
                         <i className="fe fe-trash"></i> 
                 </button>
 
-                <button type="btn" className="btn bg-green-500 me-3 float-end"
-                        onClick={() => { EditActivity(Ligne.idActivity,storedToken) }} >
-                            {/*
-                            const companyDetails = [company.id, company.Nom, company.Siret, company.Email, company.Telephone, company.SiteWeb];
-                            localStorage.setItem("targetCompany", JSON.stringify(companyDetails));
-
-                            navigate(`${process.env.PUBLIC_URL}/pages/updateCompany`)
-                            */}
+                <button type="btn" className="btn btn-success  mt-1 float-end"
+                        onClick={() => { EditActivite(storedToken) }} >
                         
                     <i className="fe fe-edit"></i> 
                 </button>
 
-                <button type="btn" className="btn bg-green-500 me-1 float-end"
-                        onClick={() => AddActivity(storedToken)}>
+                <button type="btn" className="btn btn-success  mt-1 float-end"
+                        onClick={() => AddActivite(storedToken)}>
                         <i className="fe fe-plus"></i> 
                 </button>
 

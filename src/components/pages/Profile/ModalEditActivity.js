@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {Button, Col, FormGroup, Row, Modal } from "react-bootstrap";
 
 import axios from "axios";
-import {useNavigate} from "react-router";
 
 
 
@@ -11,10 +10,9 @@ import {useNavigate} from "react-router";
 
 
 
-export default function ModalEditCompany(props) {
-
+export default function ModalEditActivity(props) {
+ 
     const storedToken = localStorage.getItem("token");
-
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
     const [isModalOpen,setIsModalOpen] = useState(false) ;
@@ -23,11 +21,8 @@ export default function ModalEditCompany(props) {
     const [reloadInfos, setReloadInfos] = useState(true) ;
 
 
-
-
     const [idEntreprise, SetIdEntreprise] = useState("") ;
-    const [siret, setSiret] = useState("");
-    const [siretMsg, setSiretMsg] = useState("");
+    const [idActivite, SetIdActivite] = useState("") ;
     const [name, setName] = useState("");
     const [nameMsg, setNameMsg] = useState("");
     const [webSite, setWebSite] = useState("");
@@ -36,31 +31,33 @@ export default function ModalEditCompany(props) {
     const [emailMsg, setEmailMsg] = useState("");
     const [phone, setPhone] = useState("");
     const [phoneMsg, setPhoneMsg] = useState("");
-    const [responseMsg, setResponseMsg] = useState("Ajouter entreprise");
-    const navigate = useNavigate();
+    const [description, setDescription] = useState("");
 
 
-    //console.log("ModalEditCompany") ;
 
+
+    //console.log("ModalEditActivity") ;
     /*
-    console.log("props") ;
-    console.log(props.show) ;
-    console.log("lastIsModalOpen") ;
-    console.log(lastIsModalOpen) ;
+    console.log("props.idEntreprise") ;
+    console.log(props.idEntreprise) ;
+    console.log("props.idActivite") ;
+    console.log(props.idActivite) ;
     */
-
 
 
     if (reloadInfos === true)
     {
         SetIdEntreprise(props.idEntreprise) ;
+        SetIdActivite(props.idActivite) ;
         setName(props.Nom) ;
-        setSiret(props.Siret) ;
         setWebSite(props.SiteWeb) ;
         setEmail(props.Email) ;
         setPhone(props.Telephone) ;
+        setDescription(props.Description)
         setReloadInfos(false) ;
     }
+
+
 
 
     if (props.show !== lastIsModalOpen)
@@ -73,68 +70,74 @@ export default function ModalEditCompany(props) {
 
 
     
-   
 
 
 
 
-    const SaveCompany = async () => {
-        //console.log("SaveCompany") ;
-        //console.log("idEntreprise") ;
-        //console.log(idEntreprise) ;
-    
-        
+
+
+    const SaveActivity = async () => {
+        //console.log("SaveActivity") ;
+
         if (props.Mode === "Add")
         {
-            const url = process.env.REACT_APP_API_CREATE_ENTERPRISE_URL;
+
+            const url = process.env.REACT_APP_API_CREATE_ACTIVITY_URL;
+
             const response = await axios.post(url, {
                 token: storedToken,
                 Submit: 1,
                 debug:1,
+                idEntreprise: idEntreprise,
                 Nom: name,
                 SiteWeb: webSite,
-                Siret: siret,
                 Email: email,
-                Telephone: phone
+                Telephone: phone,
+                Description: description
             }, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 }
             })
 
+
             if (response.data.includes("ERROR:")) {
                 console.log(`Error: ${response.data}`);
             } else {
-                console.log("enterprise added");
-                setResponseMsg("Entreprise ajoutée");
+                console.log("Activity added");
+               
             }
+            if (props.SendCloseMessage !== null)
+                props.SendCloseMessage() ;
         }
-        else{
-            const url = process.env.REACT_APP_API_EDIT_ENTERPRISE_URL;
+        else {
+            const url = process.env.REACT_APP_API_EDIT_ACTIVITY_URL ;
             const response = await axios.post(url, {
                 token: storedToken,
                 Submit: 1,
-                debug: 1,
-                idEntreprise: idEntreprise ,
+                debug:1,
+                idEntreprise: idEntreprise,
+                idActivite: idActivite ,
                 Nom: name,
                 SiteWeb: webSite,
-                Siret: siret,
                 Email: email,
-                Telephone: phone
+                Telephone: phone,
+                Description: description
             }, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 }
             })
 
+
             if (response.data.includes("ERROR:")) {
                 console.log(`Error: ${response.data}`);
             } else {
-                console.log("enterprise modified");
-                setResponseMsg("Entreprise modifiée");
+                console.log("Activity modified");
             }
-
-
+            
+            if (props.SendCloseMessage !== null)
+                props.SendCloseMessage() ;
         }
     }
 
@@ -142,7 +145,7 @@ export default function ModalEditCompany(props) {
 
 
     const inputsValidation = () => {
-        let nameCheck, siretCheck;
+        let nameCheck ;
 
         if (name.length === 0) {
             nameCheck = false;
@@ -153,26 +156,14 @@ export default function ModalEditCompany(props) {
         }
 
 
-        if (siret.length === 0) {
-            siretCheck = false;
-            setSiretMsg("Le siret est requis")
-        } else {
-            siretCheck = true;
-            setSiretMsg("");
-        }
-
         
-        if (nameCheck && siretCheck) {
-            SaveCompany() ;
-            if (props.SendCloseMessage !== null)
-            {
-                props.SendCloseMessage() ;
-                if (props.ForceRender !== null)
-                    props.ForceRender() ;
-            }
+        if (nameCheck) {
+            SaveActivity() ;
+            if (props.ForceRender !== null)
+                props.ForceRender() ;
             
         }
-        
+    
     }
 
 
@@ -204,27 +195,15 @@ export default function ModalEditCompany(props) {
 
                 <Modal.Header closeButton>
 
-                <Modal.Title> {props.Titre}</Modal.Title>
+                <Modal.Title>  {props.Titre} </Modal.Title>
 
                 </Modal.Header>
 
                 <Modal.Body>
 
                     <Row className="add-space">
-                        <Col lg={4} md={12}>
-                            <FormGroup>
-                                <label htmlFor="siret">Siret</label>
-                                <input
-                                    className="form-control"
-                                    type="text"
-                                    value={siret}
-                                    placeholder={siretMsg === "" ? "Siret" : siretMsg}
-                                    onChange={(e) => setSiret(e.target.value) }
-                                />
-                            </FormGroup>
-                        </Col>
 
-                        <Col lg={8} md={12}>
+                        <Col lg={12} md={12}>
                             <FormGroup>
                                 <label htmlFor="name">Nom</label>
                                 <input
@@ -282,6 +261,24 @@ export default function ModalEditCompany(props) {
                             </FormGroup>
                         </Col>
 
+
+                    </Row>
+
+
+
+                    <Row className="add-space">
+
+                        <Col lg={12} md={12}>
+                            <FormGroup>
+                                <label htmlFor="email">Description</label>
+                                <textarea
+                                    className="form-control"
+                                    rows="6"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                ></textarea>
+                            </FormGroup>
+                        </Col>
 
                     </Row>
 
