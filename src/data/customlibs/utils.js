@@ -81,8 +81,8 @@ const getActivitiesForUser = (variable, Token,UserId, ForceRender) => {
     }).then(
         (response) => {
             const data = response.data;
-            console.log("data") ;
-            console.log(data) ;
+            //console.log("data") ;
+            //console.log(data) ;
             
             let Activities = [];
             data.forEach((element) => {

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 
-
 import {Breadcrumb, Card, Col, Row, Tab, Table, Tabs} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
@@ -15,6 +14,7 @@ import CardPersonalInformation from "./CardPersonalInformation" ;
 import TabFriends from "./TabFriends" ;
 import TabFollowers from "./TabFollowers" ;
 import ModalEditCompany from "./ModalEditCompany" ;
+import ModalEditActivity from "./ModalEditActivity" ;
 
 
 
@@ -38,40 +38,70 @@ export default function Profile(props) {
     const navigate = useNavigate();
 
 
+    // pour les traductions
     const sProfile = "Profile";
     const sCompany = "Company";
 
     const [profile, setProfile] = useState(sProfile);
     const [company, setCompany] = useState(sCompany);
 
-    // pour l'affichage de la fenetre modale
+    // pour l'affichage des tabs
+    const [key, setKey] = useState('Profile')
+
+
+    // pour l'affichage des fenetres modales
     const [showEditCompany, SetShowEditCompany] = useState(false) ;
+    const [showEditActivity, SetShowEditActivity] = useState(false) ;
+
+
+    // les informations pour le fenetre modale ModalEditEntreprise 
+    const sAjouterEntreprise = "Ajouter une entreprise" ;
+    const sEditEntreprise = "Modifier les informations d'une entreprise" ;
+    const [titleModalEditCompany, SetTitleModalEditCompany] = useState( sAjouterEntreprise ) ;
+
+    // les informations pour le fenetre modale ModalEditActivity 
+    const sAjouterActivite = "Ajouter une activité" ;
+    const sEditActivite = "Modifier les informations d'une activité" ;
+    const [titleModalEditActivity, SetTitleModalEditActivity] = useState( sAjouterActivite ) ;
+
+
+    const [modeEdit,SetModeEdit]= useState("") ;
+    const [idEntreprise, SetIdEntreprise] = useState("");
+    const [idActivite, SetIdActivite] = useState("");
+    const [siret, SetSiret] = useState("");
+    const [name, SetName] = useState("");
+    const [website, SetWebsite] = useState("");
+    const [email, SetEmail] = useState("");
+    const [phone, SetPhone] = useState("");
+    const [description, SetDescription] = useState("");
 
 
 
-     // pour le reload des infos
+    // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
 
 
     // pour le ForceRender
     const [downloaded_UserActivities,setDownloaded_UserActivities] = useState(false) ;
     const [downloaded_UserEnterprises,setDownloaded_UserEnterprises] = useState(false) ;
-    const [reRender, setReRender] = useState(0) ;
 
 
    
 
 
 
-    
-    
-   
 
-
+    // recuperation des informations au depart
     if (reloadInfos === true)
     {
+        console.log("reloadInfos") ;
         getActivitiesForUser("userActivities",storedToken,idUser,ForceRender) ;
         getEnterprisesByUser("userEnterprises",storedToken,idUser,ForceRender) ;
+
+        let k = localStorage.getItem('key_Profile') ;
+        if (k != null)
+            setKey(k) ;
+
 
         TranslateAll(url, Page, VL);
         setReloadInfos(false) ;
@@ -79,9 +109,124 @@ export default function Profile(props) {
 
 
 
+    // pour les tabs
+    function SaveKey(key)
+    {
+        localStorage.setItem('key_Profile',key) ;
+        setKey(key) ;
+    }
+
+
+
+
+    // Les callbacks
+
+
+    // C'est le callback appele quand on ferme ModalEditCompany 
+    function ModalEditCompanyClose()
+    {
+        //console.log("ModalEditCompanyClose") ;
+        SetShowEditCompany(false) ;
+    }
+
+
+
+    // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
+    function SendCompanyData(ShowWindow, Ligne) {
+        //console.log("SendCompanyData")
+        if (Ligne === null)
+        {
+            SetModeEdit("Add") ;
+            SetTitleModalEditCompany(sAjouterEntreprise) ;
+            SetIdEntreprise("") ;
+            SetSiret("") ;
+            SetName("") ;
+            SetWebsite("") ;
+            SetEmail("") ;
+            SetPhone("") ;
+        }
+        else
+        {
+            SetModeEdit("Edit") ;
+            SetTitleModalEditCompany(sEditEntreprise) ;
+            SetIdEntreprise(Ligne.idEntreprise) ;
+            SetSiret(Ligne.Siret) ;
+            SetName(Ligne.NomEntreprise) ;
+            SetWebsite(Ligne.SiteWeb) ;
+            SetEmail(Ligne.Email) ;
+            SetPhone(Ligne.Telephone) ;
+        }
+
+
+        if (ShowWindow === "false")
+            SetShowEditCompany(false) ;
+        else
+            SetShowEditCompany(true) ;
+    }
+
+
+
+
+
+
+
+
+     // C'est le callback appele quand on ferme ModalEditActivity
+    function ModalEditActivityClose()
+    {
+        //console.log("ModalEditActivityClose") ;
+        SetShowEditActivity(false) ;
+    }
+
+
+      // C'est le callback appele quand on clique sur + ou Edit dans CardActivity, il sert a replir la fenetre ModalEditActivity
+      function SendActivityData(ShowWindow,idEntreprise2, Ligne) {
+        //console.log("SendActivityData") ;
+
+        if (Ligne === null)
+        {
+            SetModeEdit("Add") ;
+
+            SetTitleModalEditActivity(sAjouterActivite) ;
+            SetIdEntreprise(idEntreprise2) ;
+            SetIdActivite("") ;
+            SetName("") ;
+            SetWebsite("") ;
+            SetEmail("") ;
+            SetPhone("") ;
+            SetDescription("") ;
+        }
+        else
+        {
+            SetModeEdit("Edit") ;
+
+
+            SetTitleModalEditActivity(sEditActivite) ;
+            SetIdEntreprise(idEntreprise2) ;
+            SetIdActivite(Ligne.idActivite) ;
+            SetName(Ligne.Activite_Nom) ;
+            SetWebsite(Ligne.Activite_SiteWeb) ;
+            SetEmail(Ligne.Activite_Email) ;
+            SetPhone(Ligne.Activite_Telephone) ;
+            SetDescription(Ligne.Description) ;
+        }
+
+
+        if (ShowWindow === "false")
+            SetShowEditActivity(false) ;
+        else
+            SetShowEditActivity(true) ;
+
+    }
+
+
+
+
+
+
 
     function ForceRender(variable) {
-        console.log("ForceRender: "+ variable) ;
+        //console.log("ForceRender: "+ variable) ;
 
         if (variable === "userActivities")
             setDownloaded_UserActivities(true) ;
@@ -90,11 +235,14 @@ export default function Profile(props) {
             setDownloaded_UserEnterprises(true) ;
             
         if ((downloaded_UserActivities === true) && (downloaded_UserEnterprises === true))
-            setReRender(reRender+1) ;
+            navigate(0) ;
     }
 
 
     
+
+
+
 
 
 
@@ -129,19 +277,28 @@ export default function Profile(props) {
 
 
 
+
+
+
+
+
+    // le render du composant
+
+
     function renderCompanies() {
-        console.log("renderCompanies") ;
+        //console.log("renderCompanies") ;
         const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
 
-        console.log("userEnterprises") ;
-        console.log(myCompanies) ;
 
         
         if (myCompanies !== null ) 
         {
-            let map1 =  myCompanies.map( (Ligne) => <CardCompany key={Ligne.idEntreprise} Ligne={Ligne} />  );
-            console.log("map1") ;
-            console.log(map1) ;
+            let map1 =  myCompanies.map( (Ligne) => <CardCompany 
+                                                        key={Ligne.idEntreprise} 
+                                                        Ligne={Ligne} SendCompanyData={SendCompanyData}  
+                                                        SendActivityData={SendActivityData} 
+                                                        ForceRender = {ForceRender}
+                                                        />  );
             return map1 ;
         }
 
@@ -153,7 +310,7 @@ export default function Profile(props) {
     function Render() {
 
         return (
-            <div toto={reRender}>
+            <div>
 
                 <div className="page-header">
                     <div>
@@ -198,9 +355,9 @@ export default function Profile(props) {
                                         <div className="tabs-menu1 profiletabs">
                                             <Tabs
                                                 variant="Tabs"
-                                                defaultActiveKey="Profile"
                                                 id=" tab-51"
                                                 className="tab-content tabesbody "
+                                                activeKey={key} onSelect={(e) => SaveKey(e)}
                                             >
 
 
@@ -217,7 +374,35 @@ export default function Profile(props) {
                                                     <div className="tab-pane profiletab show">
                                                         <div id="profile-log-switch">
 
-                                                        <ModalEditCompany name="Daniel1" show={showEditCompany} />
+                                                        <ModalEditCompany 
+
+                                                        show={showEditCompany} 
+                                                        SendCloseMessage={ModalEditCompanyClose}  
+                                                        ForceRender={ForceRender}
+                                                        Mode={modeEdit}
+                                                        idEntreprise={idEntreprise}
+                                                        Titre={titleModalEditCompany} 
+                                                        Siret = {siret} 
+                                                        Nom= {name}
+                                                        SiteWeb = {website}
+                                                        Email = {email}
+                                                        Telephone = {phone}
+                                                        />
+
+                                                        <ModalEditActivity
+                                                        show={showEditActivity} 
+                                                        SendCloseMessage={ModalEditActivityClose}  
+                                                        ForceRender={ForceRender}
+                                                        Mode={modeEdit}
+                                                        idEntreprise={idEntreprise}
+                                                        idActivite={idActivite}
+                                                        Titre={titleModalEditActivity} 
+                                                        Nom= {name}
+                                                        SiteWeb = {website}
+                                                        Email = {email}
+                                                        Telephone = {phone}
+                                                        Description = {description}
+                                                        />
 
                                                         {renderCompanies()}
 

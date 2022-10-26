@@ -1,6 +1,5 @@
 
 import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router";
 import {Card, Table} from "react-bootstrap";
 import {getIDFromToken} from "../../../functions_Dan.js";
 import CardActivity from "./CardActivity" ;
@@ -12,12 +11,16 @@ import axios from "axios";
 
 
 export default function CardCompany(props) {
-    console.log("CardCompany: ") ;
-    console.log(props) ;
+    //console.log("CardCompany: ") ;
+    //console.log(props) ;
 
 
 
     let Ligne = props.Ligne ;
+    let SendCompanyData = props.SendCompanyData ;
+
+
+  
 
 
     // on recupere les infos sur le token et l'utilisateur
@@ -25,24 +28,38 @@ export default function CardCompany(props) {
     const idUser = getIDFromToken(storedToken) ;
     //console.log(storedToken) ;  
     //console.log(idUser) ;
+    
 
-    const navigate = useNavigate();
+
+
+
+
+
+
+
+
+
 
 
 
 
     function renderActivities(idEntreprise) {
             
-        console.log("renderActivities: " +idEntreprise ) ;
+        //console.log("renderActivities: " +idEntreprise ) ;
         const myActivities = JSON.parse(localStorage.getItem("userActivities"));
 
-        console.log("myActivities") ;
-        console.log(myActivities) ;
+        //console.log("myActivities") ;
+        //console.log(myActivities) ;
         if (myActivities !== null ) {
 
-            return myActivities.map( (Ligne, index) => {
-                if (Ligne.idEntreprise === idEntreprise)
-                    return ( <CardActivity key={Ligne.idActivite} Ligne={Ligne} /> ) ;
+            return myActivities.map( (LigneActivity, index) => {
+                if (LigneActivity.idEntreprise === idEntreprise)
+                    return (<CardActivity 
+                                key={LigneActivity.idActivite} 
+                                Ligne={LigneActivity} 
+                                SendActivityData={props.SendActivityData}
+                                ForceRender = {props.ForceRender}
+                            /> ) ;
 
             })
         }
@@ -51,42 +68,32 @@ export default function CardCompany(props) {
 
 
     const AddCompany = (token) => {
-
         console.log("AddCompany") ;
-
-
-        /*        
-        const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
-        const response = axios.post(
-            url, {
-                token: token,
-                Submit: 1,
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            }
-        ).then(
-            (response) => {
-                console.log(response.data);
-            }
-        )
-        */
-
+        if (SendCompanyData !== null)
+            SendCompanyData(true, null) ;
     }
 
 
 
     const EditCompany = (idEntreprise,token) => {
         console.log("EditCompany") ;
+        //console.log('Ligne.idEntreprise') ;
+        //console.log(Ligne.idEntreprise) ;
+        if (SendCompanyData !== null)
+            SendCompanyData(true, Ligne) ;
+    }
 
 
-        /*
+
+    const DeleteCompany = (idEntreprise,token) => {
+        console.log("DeleteCompany") ;
+
         const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
         const response = axios.post(
             url, {
                 token: token,
                 Submit: 1,
+                debug:1 ,
                 id: idEntreprise
             }, {
                 headers: {
@@ -96,37 +103,9 @@ export default function CardCompany(props) {
         ).then(
             (response) => {
                 console.log(response.data);
+                props.ForceRender() ;
             }
         )
-        */
-
-    }
-
-
-
-    const DeleteCompany = (id,token) => {
-        console.log("DeleteCompany") ;
-
-
-        /*
-        const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
-        const response = axios.post(
-            url, {
-                token: token,
-                Submit: 1,
-                id: id
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            }
-        ).then(
-            (response) => {
-                console.log(response.data);
-            }
-        )
-        */
-
     }
 
 
@@ -137,22 +116,22 @@ export default function CardCompany(props) {
             <Card.Body className="bg-white">
 
                 <div className="bg-blue2-100">
-                    <button type="btn" className="btn float-left">
-                        <h5><strong>Société: {Ligne.NomEntreprise}</strong></h5>
+                     
+                    <button type="btn" className="btn pt-3 float-left no-border">
+                        <h5><strong>{Ligne.NomEntreprise}</strong></h5>
                     </button>
-
-
-                    <button type="btn" className="btn btn-danger float-end" 
+                    
+                    <button type="btn" className="btn btn-danger mt-1 float-end" 
                             onClick={ () => DeleteCompany(Ligne.idEntreprise,storedToken) }>
                             <i className="fe fe-trash"></i> 
                     </button>
 
-                    <button type="btn" className="btn btn-primary me-3 float-end"
+                    <button type="btn" className="btn btn-primary  mt-1 float-end"
                             onClick={ () => EditCompany(Ligne.idEntreprise,storedToken) }>
                             <i className="fe fe-edit"></i> 
                     </button>
 
-                    <button type="btn" className="btn btn-primary me-1 float-end"
+                    <button type="btn" className="btn btn-primary  mt-1 float-end"
                             onClick={ () => AddCompany(storedToken) }>
                             <i className="fe fe-plus"></i> 
                     </button>

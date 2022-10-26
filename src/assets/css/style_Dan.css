@@ -81,3 +81,9 @@
 .add-space {
     margin: 25px;
   }
+
+.min-height {
+    height:45px ;
+}
+
+.no-border { border: none !important; }
