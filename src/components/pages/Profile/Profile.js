@@ -295,7 +295,8 @@ export default function Profile(props) {
         {
             let map1 =  myCompanies.map( (Ligne) => <CardCompany 
                                                         key={Ligne.idEntreprise} 
-                                                        Ligne={Ligne} SendCompanyData={SendCompanyData}  
+                                                        Ligne={Ligne} 
+                                                        SendCompanyData={SendCompanyData}  
                                                         SendActivityData={SendActivityData} 
                                                         ForceRender = {ForceRender}
                                                         />  );
@@ -375,7 +376,6 @@ export default function Profile(props) {
                                                         <div id="profile-log-switch">
 
                                                         <ModalEditCompany 
-
                                                         show={showEditCompany} 
                                                         SendCloseMessage={ModalEditCompanyClose}  
                                                         ForceRender={ForceRender}
