@@ -57,37 +57,37 @@ export default function ArticleAdd() {
 
 
     // Function that sends axios requesst to create a new article
-    const requestArticleCreate = () => {
+    const requestArticleCreate = async () => {
         const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_ARTICLE_URL;
         const token = localStorage.getItem('token');
 
 
-        const response = axios.post(url, {
+        const response = await axios.post(url, {
             Submit: 1,
             token: token,
-            debug: 1,
             Article_Title: title,
             Article_Category: category,
             Article_text: description,
             Article_Image: photo
         }, {
             headers: {
-                'Content-Type': 'x-www-form-urlencoded',
+                'Content-Type': 'application/x-www-form-urlencoded',
             }
-        }).then((response) => {
-            console.log(`
-        title: ${title}
-        category: ${category}
-        description: ${description}
-        photo: ${photo}
-        url : ${url}
-        token: ${token}
-        `)
-            console.log(response)
-            setMsg(response.data.message)
-        }).catch((error) => {
-            console.log(error);
-        })
+        });
+
+        console.log(response.data)
+
+        if (response.data.includes("ERROR:")) {
+            console.log(`Error found: ${response.data}`);
+            setMsg("Une erreur est survenue, veuillez reessayer")
+        } else {
+            console.log("Article created successfully");
+            try {
+                setMsg("Article créé avec succès");
+            } catch (e) {
+                console.log(e);
+            }
+        }
     }
 
 
@@ -162,7 +162,7 @@ export default function ArticleAdd() {
 
                             <Card>
                                 <Card.Header>
-                                    <Card.Title>Ajouter Nouvel Article</Card.Title>
+                                    <Card.Title>{Msg === "" ? "Ajouter Nouvel Article" : Msg}</Card.Title>
                                 </Card.Header>
                                 <Card.Body>
                                     <Row className="mb-4">
