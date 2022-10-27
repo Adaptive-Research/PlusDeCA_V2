@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import * as fromadvanced from "../../../../data/Form/formadvanced/formadvanced";
 import * as blogpost from "../../../../data/Pages/blogpost/blogpost";
 import {Link} from "react-router-dom";
+import axios from "axios";
 import {Card, Col, FormGroup, Row} from "react-bootstrap";
 
 export default function ArticleAdd() {
@@ -13,6 +14,7 @@ export default function ArticleAdd() {
     const [categoryMsg, setCategoryMsg] = useState("");
     const [descriptionMsg, setDescriptionMsg] = useState("");
     const [photoMsg, setPhotoMsg] = useState("");
+    const [Msg, setMsg] = useState("");
 
 
     const optionsCategorie = [
@@ -56,12 +58,36 @@ export default function ArticleAdd() {
 
     // Function that sends axios requesst to create a new article
     const requestArticleCreate = () => {
-        console.log(`
+        const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_ARTICLE_URL;
+        const token = localStorage.getItem('token');
+
+
+        const response = axios.post(url, {
+            Submit: 1,
+            token: token,
+            debug: 1,
+            Article_Title: title,
+            Article_Category: category,
+            Article_text: description,
+            Article_Image: photo
+        }, {
+            headers: {
+                'Content-Type': 'x-www-form-urlencoded',
+            }
+        }).then((response) => {
+            console.log(`
         title: ${title}
         category: ${category}
         description: ${description}
         photo: ${photo}
+        url : ${url}
+        token: ${token}
         `)
+            console.log(response)
+            setMsg(response.data.message)
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 
 
@@ -191,6 +217,7 @@ export default function ArticleAdd() {
                                             name="files"
                                             accept=".jpg, .png, image/jpeg, image/png"
                                             multiple
+                                            onChange={(e) => changeInputs(e, 'photo')}
                                         />
                                     </FormGroup>
                                 </Card.Body>
