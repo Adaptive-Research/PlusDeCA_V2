@@ -83,17 +83,17 @@ const getActivitiesForUser = (variable, Token,UserId, ForceRender) => {
             const data = response.data;
             //console.log("data") ;
             //console.log(data) ;
-            
+
             let Activities = [];
             data.forEach((element) => {
                 Activities.push(element);
             });
             localStorage.setItem(variable, JSON.stringify(Activities));
             ForceRender(variable) ;
-            
+
         })
 }
-   
+
 
 
 
