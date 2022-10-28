@@ -6,7 +6,29 @@ import axios from "axios";
 export default function ArticleList() {
     const [rendered, setRendered] = useState(false);
 
+
     const token = localStorage.getItem("token");
+
+    const deleteArticle = async (id, version) => {
+        const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_ARTICLE_URL;
+        const response = await axios.post(url, {
+            Submit: 1,
+            token: token,
+            idAncestor: id,
+            NumVersion: version
+        }, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        }).then(
+            (response) => {
+                console.log(response.data);
+                window.location.reload();
+            }
+        )
+
+    }
+
 
     //Method to get all articles created by this user
     const getUserArticles = async (token) => {
@@ -33,8 +55,10 @@ export default function ArticleList() {
     }
 
 
+    // Separate drafts from published articles
     const renderArticles = () => {
         const articles = JSON.parse(localStorage.getItem("userArticles"));
+        console.log(articles);
         return articles.map((article) => {
             return (
                 <Col md={4}>
@@ -53,8 +77,15 @@ export default function ArticleList() {
                         </Card.Header>
                         <Card.Body>
                             <Card.Text>
-                                {article.Article_Text}
-                           </Card.Text>
+                                {article.Article_Text.length > 100 ? article.Article_Text.substring(0, 100) + "..." : article.Article_Text}
+                            </Card.Text>
+                            <button className='btn btn-warning'>
+                                <i className="fa fa-edit"></i>
+                            </button>
+                            <button className='m-2 btn btn-danger'
+                                    onClick={() => deleteArticle(article.idAncestor, article.NumVersion)}>
+                                <i className="fa fa-trash"></i>
+                            </button>
                             <Link
                                 to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
                                 className="float-end">
@@ -64,21 +95,19 @@ export default function ArticleList() {
                         </Card.Body>
                     </Card>
                 </Col>
-
             )
         })
     }
 
 
     useEffect(() => {
-        if (!rendered){
-            getUserArticles(token)
-        }else {
+        if (!rendered) {
+            getUserArticles(token).then(r => console.log(`Articles loaded`));
+        } else {
             console.log("rendered")
         }
 
     }, [rendered])
-
 
 
     return (
@@ -122,256 +151,13 @@ export default function ArticleList() {
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
                                                         {renderArticles()}
-                                                        {/*<Col md={4}>*/}
-                                                        {/*    <Card>*/}
-                                                        {/*        <img*/}
-                                                        {/*            className="card-img-top br-tr-7 br-tl-7"*/}
-                                                        {/*            src={require("../../../../assets/images/media/19.jpg")}*/}
-                                                        {/*            alt="Card cap"*/}
-                                                        {/*        />*/}
-                                                        {/*        <Card.Header>*/}
-                                                        {/*            <Card.Title as="h5"> Titre </Card.Title>*/}
-                                                        {/*            <button className="btn btn-success"*/}
-                                                        {/*                    style={{marginLeft: "50%"}}>*/}
-                                                        {/*                urgence*/}
-                                                        {/*            </button>*/}
-                                                        {/*        </Card.Header>*/}
-                                                        {/*        <Card.Body>*/}
-                                                        {/*            <Card.Text>*/}
-
-                                                        {/*                Le manteau scintillant sous la lumière du*/}
-                                                        {/*                soleil,*/}
-                                                        {/*                Le loup blanc court sur les pentes enneigées*/}
-                                                        {/*                Il domine les cimes par son hurlement glacé*/}
-                                                        {/*                Et entretient avec ses terres un amour*/}
-                                                        {/*                passionnel*/}
-                                                        {/*                L'animal craint par l'homme est l'âme de ces*/}
-                                                        {/*                lieux*/}
-                                                        {/*                Il est source de légende et de mysticité*/}
-                                                        {/*                Ne souillant jamais de sang sa fourrure*/}
-                                                        {/*                immaculée*/}
-                                                        {/*                Il protège et gouverne ses étendues gelées.*/}
-                                                        {/*                Je suis le seul à l'avoir aperçu.*/}
-                                                        {/*            </Card.Text>*/}
-                                                        {/*            <Link*/}
-                                                        {/*                to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}*/}
-                                                        {/*                className="float-end">*/}
-                                                        {/*                Read more <i*/}
-                                                        {/*                className="fa fa-angle-double-right"></i>*/}
-                                                        {/*            </Link>*/}
-                                                        {/*        </Card.Body>*/}
-                                                        {/*    </Card>*/}
-                                                        {/*</Col>*/}
-
-                                                        {/*<Col md={4}>*/}
-                                                        {/*    <Card>*/}
-                                                        {/*        <img*/}
-                                                        {/*            className="card-img-top br-tr-7 br-tl-7"*/}
-                                                        {/*            src={require("../../../../assets/images/media/19.jpg")}*/}
-                                                        {/*            alt="Card cap"*/}
-                                                        {/*        />*/}
-                                                        {/*        <Card.Header>*/}
-                                                        {/*            <Card.Title as="h5"> Titre </Card.Title>*/}
-                                                        {/*            <button className="btn btn-success"*/}
-                                                        {/*                    style={{marginLeft: "50%"}}>*/}
-                                                        {/*                santé*/}
-                                                        {/*            </button>*/}
-                                                        {/*        </Card.Header>*/}
-                                                        {/*        <Card.Body>*/}
-                                                        {/*            <Card.Text>*/}
-
-                                                        {/*                Le manteau scintillant sous la lumière du*/}
-                                                        {/*                soleil,*/}
-                                                        {/*                Le loup blanc court sur les pentes enneigées*/}
-                                                        {/*                Il domine les cimes par son hurlement glacé*/}
-                                                        {/*                Et entretient avec ses terres un amour*/}
-                                                        {/*                passionnel*/}
-                                                        {/*                L'animal craint par l'homme est l'âme de ces*/}
-                                                        {/*                lieux*/}
-                                                        {/*                Il est source de légende et de mysticité*/}
-                                                        {/*                Ne souillant jamais de sang sa fourrure*/}
-                                                        {/*                immaculée*/}
-                                                        {/*                Il protège et gouverne ses étendues gelées.*/}
-                                                        {/*                Je suis le seul à l'avoir aperçu.*/}
-                                                        {/*            </Card.Text>*/}
-                                                        {/*            <Link*/}
-                                                        {/*                to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}*/}
-                                                        {/*                className="float-end">*/}
-                                                        {/*                Read more <i*/}
-                                                        {/*                className="fa fa-angle-double-right"></i>*/}
-                                                        {/*            </Link>*/}
-                                                        {/*        </Card.Body>*/}
-                                                        {/*    </Card>*/}
-                                                        {/*</Col>*/}
-                                                        {/*<Col md={4}>*/}
-                                                        {/*    <Card>*/}
-                                                        {/*        <img*/}
-                                                        {/*            className="card-img-top br-tr-7 br-tl-7"*/}
-                                                        {/*            src={require("../../../../assets/images/media/19.jpg")}*/}
-                                                        {/*            alt="Card cap"*/}
-                                                        {/*        />*/}
-                                                        {/*        <Card.Header>*/}
-                                                        {/*            <Card.Title as="h5"> Titre </Card.Title>*/}
-                                                        {/*            <button className="btn btn-success"*/}
-                                                        {/*                    style={{marginLeft: "50%"}}>*/}
-                                                        {/*                basket*/}
-                                                        {/*            </button>*/}
-                                                        {/*        </Card.Header>*/}
-                                                        {/*        <Card.Body>*/}
-                                                        {/*            <Card.Text>*/}
-
-                                                        {/*                Le manteau scintillant sous la lumière du*/}
-                                                        {/*                soleil,*/}
-                                                        {/*                Le loup blanc court sur les pentes enneigées*/}
-                                                        {/*                Il domine les cimes par son hurlement glacé*/}
-                                                        {/*                Et entretient avec ses terres un amour*/}
-                                                        {/*                passionnel*/}
-                                                        {/*                L'animal craint par l'homme est l'âme de ces*/}
-                                                        {/*                lieux*/}
-                                                        {/*                Il est source de légende et de mysticité*/}
-                                                        {/*                Ne souillant jamais de sang sa fourrure*/}
-                                                        {/*                immaculée*/}
-                                                        {/*                Il protège et gouverne ses étendues gelées.*/}
-                                                        {/*                Je suis le seul à l'avoir aperçu.*/}
-                                                        {/*            </Card.Text>*/}
-                                                        {/*            <Link*/}
-                                                        {/*                to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}*/}
-                                                        {/*                className="float-end">*/}
-                                                        {/*                Read more <i*/}
-                                                        {/*                className="fa fa-angle-double-right"></i>*/}
-                                                        {/*            </Link>*/}
-                                                        {/*        </Card.Body>*/}
-                                                        {/*    </Card>*/}
-                                                        {/*</Col>*/}
-
                                                     </Row>
                                                 </div>
                                             </Tab>
                                             <Tab eventKey="Brouillon" title="Brouillon">
                                                 <div className="tab-pane " id="tab-61">
                                                     <Row className="row-cards ">
-                                                        <Col md={4}>
-                                                            <Card>
-                                                                <img
-                                                                    className="card-img-top br-tr-7 br-tl-7"
-                                                                    src={require("../../../../assets/images/media/19.jpg")}
-                                                                    alt="Card cap"
-                                                                />
-                                                                <Card.Header>
-                                                                    <Card.Title as="h5"> Titre </Card.Title>
-                                                                    <button className="btn btn-warning"
-                                                                            style={{marginLeft: "50%"}}>
-                                                                        tests
-                                                                    </button>
-                                                                </Card.Header>
-                                                                <Card.Body>
-                                                                    <Card.Text>
-
-                                                                        Le manteau scintillant sous la lumière du
-                                                                        soleil,
-                                                                        Le loup blanc court sur les pentes enneigées
-                                                                        Il domine les cimes par son hurlement glacé
-                                                                        Et entretient avec ses terres un amour
-                                                                        passionnel
-                                                                        L'animal craint par l'homme est l'âme de ces
-                                                                        lieux
-                                                                        Il est source de légende et de mysticité
-                                                                        Ne souillant jamais de sang sa fourrure
-                                                                        immaculée
-                                                                        Il protège et gouverne ses étendues gelées.
-                                                                        Je suis le seul à l'avoir aperçu.
-                                                                    </Card.Text>
-                                                                    <Link
-                                                                        to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
-                                                                        className="float-end">
-                                                                        Read more <i
-                                                                        className="fa fa-angle-double-right"></i>
-                                                                    </Link>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </Col>
-
-                                                        <Col md={4}>
-                                                            <Card>
-                                                                <img
-                                                                    className="card-img-top br-tr-7 br-tl-7"
-                                                                    src={require("../../../../assets/images/media/19.jpg")}
-                                                                    alt="Card cap"
-                                                                />
-                                                                <Card.Header>
-                                                                    <Card.Title as="h5"> Titre </Card.Title>
-                                                                    <button className="btn btn-warning"
-                                                                            style={{marginLeft: "50%"}}>
-                                                                        infos
-                                                                    </button>
-                                                                </Card.Header>
-                                                                <Card.Body>
-                                                                    <Card.Text>
-
-                                                                        Le manteau scintillant sous la lumière du
-                                                                        soleil,
-                                                                        Le loup blanc court sur les pentes enneigées
-                                                                        Il domine les cimes par son hurlement glacé
-                                                                        Et entretient avec ses terres un amour
-                                                                        passionnel
-                                                                        L'animal craint par l'homme est l'âme de ces
-                                                                        lieux
-                                                                        Il est source de légende et de mysticité
-                                                                        Ne souillant jamais de sang sa fourrure
-                                                                        immaculée
-                                                                        Il protège et gouverne ses étendues gelées.
-                                                                        Je suis le seul à l'avoir aperçu.
-                                                                    </Card.Text>
-                                                                    <Link
-                                                                        to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
-                                                                        className="float-end">
-                                                                        Read more <i
-                                                                        className="fa fa-angle-double-right"></i>
-                                                                    </Link>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </Col>
-                                                        <Col md={4}>
-                                                            <Card>
-                                                                <img
-                                                                    className="card-img-top br-tr-7 br-tl-7"
-                                                                    src={require("../../../../assets/images/media/19.jpg")}
-                                                                    alt="Card cap"
-                                                                />
-                                                                <Card.Header>
-                                                                    <Card.Title as="h5"> Titre </Card.Title>
-                                                                    <button className="btn btn-warning"
-                                                                            style={{marginLeft: "50%"}}>
-                                                                        sport
-                                                                    </button>
-                                                                </Card.Header>
-                                                                <Card.Body>
-                                                                    <Card.Text>
-
-                                                                        Le manteau scintillant sous la lumière du
-                                                                        soleil,
-                                                                        Le loup blanc court sur les pentes enneigées
-                                                                        Il domine les cimes par son hurlement glacé
-                                                                        Et entretient avec ses terres un amour
-                                                                        passionnel
-                                                                        L'animal craint par l'homme est l'âme de ces
-                                                                        lieux
-                                                                        Il est source de légende et de mysticité
-                                                                        Ne souillant jamais de sang sa fourrure
-                                                                        immaculée
-                                                                        Il protège et gouverne ses étendues gelées.
-                                                                        Je suis le seul à l'avoir aperçu.
-                                                                    </Card.Text>
-                                                                    <Link
-                                                                        to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
-                                                                        className="float-end">
-                                                                        Read more <i
-                                                                        className="fa fa-angle-double-right"></i>
-                                                                    </Link>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </Col>
-
+                                                        {renderArticles()}
                                                     </Row>
                                                 </div>
                                             </Tab>
