@@ -79,7 +79,12 @@ export default function ArticleList() {
                             <Card.Text>
                                 {article.Article_Text.length > 100 ? article.Article_Text.substring(0, 100) + "..." : article.Article_Text}
                             </Card.Text>
-                            <button className='btn btn-warning'>
+                            <button className='btn btn-warning'
+                            onClick={() => {
+                                localStorage.setItem("articleToEdit", JSON.stringify(article));
+                                window.location.href = `${process.env.PUBLIC_URL}/pages/ArticleEdit`;
+                            }}
+                            >
                                 <i className="fa fa-edit"></i>
                             </button>
                             <button className='m-2 btn btn-danger'
