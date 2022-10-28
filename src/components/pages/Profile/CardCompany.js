@@ -67,7 +67,7 @@ export default function CardCompany(props) {
     }
 
 
-    const AddCompany = (token) => {
+    function AddCompany(token) {
         console.log("AddCompany") ;
         if (SendCompanyData !== null)
             SendCompanyData(true, null) ;
@@ -75,7 +75,7 @@ export default function CardCompany(props) {
 
 
 
-    const EditCompany = (idEntreprise,token) => {
+    function EditCompany(idEntreprise,token) {
         console.log("EditCompany") ;
         //console.log('Ligne.idEntreprise') ;
         //console.log(Ligne.idEntreprise) ;
@@ -85,7 +85,7 @@ export default function CardCompany(props) {
 
 
 
-    const DeleteCompany = (idEntreprise,token) => {
+    function DeleteCompany(idEntreprise,token) {
         console.log("DeleteCompany") ;
 
         const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
