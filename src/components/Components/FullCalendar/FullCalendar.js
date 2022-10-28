@@ -5,6 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
 import { Link } from "react-router-dom";
 import {Breadcrumb, Card,Row,Col} from "react-bootstrap"
+import {useNavigate} from "react-router";
 import {EventData} from "./EventData"
 import axios from "axios";
 import  { FindTranslation, getIDFromToken } from "../../../functions_Dan.js" ;
@@ -16,9 +17,15 @@ export default function FullCalendars() {
   const [reloadInfos, setReloadInfos] = useState(true) ;
   const [dataEvents, setDataEvents] = useState() ;
 
+  // pour l'affichage des fenetres modales
+  const [showEditEvent, SetShowEditEvent] = useState(false) ;
 
 
 
+
+
+
+  const navigate = useNavigate();
   
   console.log("FullCalendar component") ;
 
@@ -74,11 +81,32 @@ export default function FullCalendars() {
 
 
           // les 2 lignes ci-dessous servent a mettre au format ISO:    2022-10-18T14:43:00
-          Event_Start = Event_Start.replace(" ","T") ;
-          Event_End = Event_End.replace(" ","T") ;
+          if (Event_Start !== "")
+            Event_Start = Event_Start.replace(" ","T") ;
+          if (Event_End !== "")
+            Event_End = Event_End.replace(" ","T") ;
 
+          let vAllDay = false ;  
+          if ( response.data[i].Event_AllDay === "1")
+            vAllDay = true ;
 
-          let s = {"id" : String(response.data[i].id) ,"title" : String(response.data[i].Event_Name), "start" : String(Event_Start) } ;
+         
+
+          let s = {
+            
+          "id" : String(response.data[i].id) ,
+          "title" : String(response.data[i].Event_Title), 
+          "allDay" : String(vAllDay), 
+          "start" : String(Event_Start),
+          "end" : String(Event_End), 
+          "extendedProps":
+          {
+            "type" : String(response.data[i].Event_Type), 
+            "location" : String(response.data[i].Event_Location), 
+            "data" : String(response.data[i].Event_Data)  
+          } 
+                  
+        } ;
           ed.push(s) ;
         }
         console.log("ed") ; 
@@ -105,62 +133,31 @@ export default function FullCalendars() {
     return String(eventGuid++);
   }
 
-  const initialstate1 = {
-    
-    
-    events: [
-      { title: "Réunion d'entrepreneurs", id: "1", bg: "bg-blue-700", border: "border-primary" },
-      { title: "Salon", id: "2", bg: " bg-red2-700", border: "border-success" },
-      { title: "Rendez-vous client", id: "3", bg: "bg-blue2-600", border: "border-info" },
-      { title: "Webinaire", id: "4", bg: "bg-orange-600", border: "border-info" },
-      { title: "Autre", id: "5", bg: "bg-green2-700", border: "border-danger" },
-    ],
-  };
-  const [state] = useState(initialstate1);
+
+  // C'est le callback appele quand on ferme ModalEditCompany 
+  function ModalEditEventClose()
+  {
+      //console.log("ModalEditCompanyClose") ;
+      SetShowEditEvent(false) ;
+  }
 
 
 
-  useEffect(() => {
 
-    const INITIAL_EVENTS = [
-      {
-        id: "1",
-        title: "Naissance",
-        start: '1968-02-16T10:00:00',
-      },
-    ];
-  
-    console.log("INITIAL_EVENTS") ;
-    console.log(INITIAL_EVENTS) ;
-  
-    if (reloadInfos === true)
-      setDataEvents(INITIAL_EVENTS) ;
-  
-  
-  
-  
-  
-      
-   
-    let draggableEl = document.getElementById("external-events");
-    new Draggable(draggableEl, {
-      itemSelector: ".fc-event",
-      eventData: function (eventEl) {
-        let title = eventEl.getAttribute("title");
-        let id = eventEl.getAttribute("data");
-        let classValue = eventEl.getAttribute("class");
-        return {
-          title: title,
-          id: id,
-          className: classValue,
-        };
-      },
-    });
 
-  }, []);
+function ForceRender(variable) {
+      navigate(0) ;
+}
 
 
 
+
+
+
+
+
+
+ 
   function renderEventContent(eventInfo) {
     return (
       <>
@@ -171,11 +168,67 @@ export default function FullCalendars() {
   }
 
 
+
+  // pour les infos 
+  const [modeEdit,SetModeEdit]= useState("") ;
+  const [idEvent, setIdEvent] = useState("") ;
+  const [typeReunion, setTypeReunion] = useState("") ;
+  const [titre, setTitre] = useState("") ;
+  const [allDay, setAllDay] = useState("") ;
+  const [start, setStart] = useState("") ;
+  const [end, setEnd] = useState("") ;
+  const [location, setLocation] = useState("") ;
+  const [data, setData] = useState("") ;
+ 
+
+
   // utilise quand on clique sur un evenement
   const handleEventClick = (clickInfo) => {
     console.log('handleEventClick') ;
-    document.querySelector(".EventData").classList.toggle("open");
+
+    console.log("id: " + clickInfo.event.id) ;
+    console.log("title: " + clickInfo.event.title) ;
+    console.log("allday: " + clickInfo.event.allday) ;
+    console.log("startStr: " + clickInfo.event.startStr) ;
+    console.log("endStr: " + clickInfo.event.endStr) ;
+    console.log("url: " + clickInfo.event.url) ;
+    console.log("backgroundColor: " + clickInfo.event.backgroundColor) ;
+    console.log("borderColor: " + clickInfo.event.borderColor) ;
+    console.log("textColor: " + clickInfo.event.textColor) ;
+
+
+    SetModeEdit("Edit") ;
+    setIdEvent(clickInfo.event.id) ;
+    setTypeReunion(clickInfo.event.extendedProps.type) ;
+    setTitre(clickInfo.event.title) ;
+    setAllDay(clickInfo.event.allday) ;
+    setStart(clickInfo.event.start) ;
+    setEnd(clickInfo.event.end) ;
+    setLocation(clickInfo.event.extendedProps.location) ;
+    setData(clickInfo.event.extendedProps.data) ;
+
+
+
+
+
+    /*
+    console.log(clickInfo) ;
+
+    console.log(clickInfo.event.title) ;
+    console.log(clickInfo.el.style) ;
+
+    clickInfo.el.style.backgroundColor = "red" ; 
+    */
+
+
+
+    SetShowEditEvent(true) ;
   };
+
+
+
+
+
 
 
   const handleEvents = (events) => {};
@@ -183,9 +236,15 @@ export default function FullCalendars() {
 
   // c'est utilise quand on selectionne une date
   const handleDateSelect = (selectInfo) => {
-    let title = prompt("Saisissez un titre pour cet évènement");
-    let calendarApi = selectInfo.view.calendar;
 
+    console.log('handleDateSelect') ;
+    console.log(selectInfo) ;
+
+    SetShowEditEvent(true) ;
+    SetModeEdit("Add") ;
+
+
+    /*
     calendarApi.unselect();
 
     if (title) {
@@ -197,12 +256,12 @@ export default function FullCalendars() {
         allDay: selectInfo.allDay,
       });
     }
+    */
   };
 
   //rightsidebar
   const openCloseEventData = () => {
     console.log('openCloseEventData') ;
-    document.querySelector(".EventData").classList.toggle("open");
   };
 
 
@@ -210,62 +269,59 @@ export default function FullCalendars() {
   return (
     <div>
     
-      <Row>
-        <Col md={12}>
           <Card>
             <Card.Body>
-              <Row>
-                <Col md={3}>
-                  <div id="external-events">
-                    <h4>
-                      <strong>A placer sur le calendrier</strong>
-                    </h4>
 
-                    {state.events.map((event) => (
-                      <div
-                        className={`fc-event m-1 ${event.bg} ${event.border}`}
-                        title={event.title}
-                        data={event.id}
-                        key={event.id}
-                      >
-                        <div className="fc-event-main">{event.title}</div>
-                      </div>
-                    ))}
-                    <EventData />
+              <Row>
+              
+                <Col>
+                  <div className="fullclndr" >
+                      <FullCalendar
+                        plugins={[
+                          dayGridPlugin,
+                          timeGridPlugin,
+                          interactionPlugin,
+                        ]}
+                        headerToolbar={{
+                          left: "prev,next today",
+                          center: "title",
+                          right: "dayGridMonth,timeGridWeek,timeGridDay",
+                        }}
+                        initialView="dayGridMonth"
+                        editable={true}
+                        selectable={true}
+                        selectMirror={true}
+                        dayMaxEvents={true}
+                        weekends={true}
+                        events={dataEvents}
+                        select={handleDateSelect}
+                        eventContent={renderEventContent}
+                        eventClick={handleEventClick}
+                        eventsSet={handleEvents}
+                      />
                   </div>
                 </Col>
-                <Col md={9} >
-                  <div className="fullclndr">
-                    <FullCalendar
-                      plugins={[
-                        dayGridPlugin,
-                        timeGridPlugin,
-                        interactionPlugin,
-                      ]}
-                      headerToolbar={{
-                        left: "prev,next today",
-                        center: "title",
-                        right: "dayGridMonth,timeGridWeek,timeGridDay",
-                      }}
-                      initialView="dayGridMonth"
-                      editable={true}
-                      selectable={true}
-                      selectMirror={true}
-                      dayMaxEvents={true}
-                      weekends={state.weekendsVisible}
-                      events={dataEvents}
-                      select={handleDateSelect}
-                      eventContent={renderEventContent}
-                      eventClick={handleEventClick}
-                      eventsSet={handleEvents}
-                    />
-                  </div>
-                </Col>
+
+              
+                <Col md={5}>
+                  <EventData 
+                    show={showEditEvent} 
+                    SendCloseMessage={ModalEditEventClose}  
+                    ForceRender={ForceRender}
+                    Mode={modeEdit}
+                    ID={idEvent}
+                    Title={titre}
+                    AllDay={allDay}
+                    Start={start}
+                    End={end}
+                    Location={location}
+                    Data={data}
+                  />
+                </Col>  
               </Row>
+              
             </Card.Body>
           </Card>
-        </Col>
-      </Row>
      
     </div>
   );

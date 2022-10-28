@@ -1,97 +1,255 @@
 import React, {useEffect, useState} from "react";
-import * as profiledata from "../../../data/Pages/profiledata/profiledata";
-import user8 from "../../../assets/images/users/8.jpg";
-import user15 from "../../../assets/images/users/15.jpg";
-import user18 from "../../../assets/images/users/18.jpg";
-import user2 from "../../../assets/images/users/2.jpg";
-import user20 from "../../../assets/images/users/20.jpg";
-import user12 from "../../../assets/images/users/12.jpg";
-import user4 from "../../../assets/images/users/4.jpg";
-import user9 from "../../../assets/images/users/9.jpg";
-import user6 from "../../../assets/images/users/6.jpg";
-import user3 from "../../../assets/images/users/3.jpg";
+
 import {Breadcrumb, Card, Col, Row, Tab, Table, Tabs} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
 import axios from "axios";
-import {FindTranslation} from "../../../functions_Dan.js";
-import {getAllActivities, getAllEnterprises, getEnterprisesByUser} from "../../../data/customlibs/utils";
+import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
+import {getEnterprisesByUser ,getActivitiesForUser} from "../../../data/customlibs/utils";
+import * as profiledata from "../../../data/Pages/profiledata/profiledata";
 import {useNavigate} from "react-router";
+import CardCompany from "./CardCompany" ;
+import CardBodyProfile from "./CardBodyProfile" ;
+import CardPersonalInformation from "./CardPersonalInformation" ;
+import TabFriends from "./TabFriends" ;
+import TabFollowers from "./TabFollowers" ;
+import ModalEditCompany from "./ModalEditCompany" ;
+import ModalEditActivity from "./ModalEditActivity" ;
 
 
-export default function Profile() {
 
 
+
+
+export default function Profile(props) {
+
+    console.log("Profile") ;
+
+    // on recupere les infos sur le token et l'utilisateur
+    const storedToken = localStorage.getItem('token') ;
+    const idUser = getIDFromToken(storedToken) ;
+    //console.log(storedToken) ;  
+    //console.log(idUser) ;
+  
+
+
+
+    
+    const navigate = useNavigate();
+
+
+    // pour les traductions
     const sProfile = "Profile";
     const sCompany = "Company";
-    const token = localStorage.getItem("token");
-    const navigate = useNavigate();
 
     const [profile, setProfile] = useState(sProfile);
     const [company, setCompany] = useState(sCompany);
-    const [siret, setSiret] = useState("");
-    const [name, setName] = useState("");
-    const [webSite, setWebSite] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [defDisplay, setDefDisplay] = useState("block");
 
+    // pour l'affichage des tabs
+    const [key, setKey] = useState('Profile')
+
+
+    // pour l'affichage des fenetres modales
+    const [showEditCompany, SetShowEditCompany] = useState(false) ;
+    const [showEditActivity, SetShowEditActivity] = useState(false) ;
+
+
+    // les informations pour le fenetre modale ModalEditEntreprise 
+    const sAjouterEntreprise = "Ajouter une entreprise" ;
+    const sEditEntreprise = "Modifier les informations d'une entreprise" ;
+    const [titleModalEditCompany, SetTitleModalEditCompany] = useState( sAjouterEntreprise ) ;
+
+    // les informations pour le fenetre modale ModalEditActivity 
+    const sAjouterActivite = "Ajouter une activité" ;
+    const sEditActivite = "Modifier les informations d'une activité" ;
+    const [titleModalEditActivity, SetTitleModalEditActivity] = useState( sAjouterActivite ) ;
+
+
+    const [modeEdit,SetModeEdit]= useState("") ;
+    const [idEntreprise, SetIdEntreprise] = useState("");
+    const [idActivite, SetIdActivite] = useState("");
+    const [siret, SetSiret] = useState("");
+    const [name, SetName] = useState("");
+    const [website, SetWebsite] = useState("");
+    const [email, SetEmail] = useState("");
+    const [phone, SetPhone] = useState("");
+    const [description, SetDescription] = useState("");
+
+
+
+    // pour le reload des infos
+    const [reloadInfos, setReloadInfos] = useState(true) ;
+
+
+    // pour le ForceRender
+    const [downloaded_UserActivities,setDownloaded_UserActivities] = useState(false) ;
+    const [downloaded_UserEnterprises,setDownloaded_UserEnterprises] = useState(false) ;
+
+
+   
+
+
+
+
+    // recuperation des informations au depart
+    if (reloadInfos === true)
+    {
+        console.log("reloadInfos") ;
+        getActivitiesForUser("userActivities",storedToken,idUser,ForceRender) ;
+        getEnterprisesByUser("userEnterprises",storedToken,idUser,ForceRender) ;
+
+        let k = localStorage.getItem('key_Profile') ;
+        if (k != null)
+            setKey(k) ;
+
+
+        TranslateAll(url, Page, VL);
+        setReloadInfos(false) ;
+    }
+
+
+
+    // pour les tabs
+    function SaveKey(key)
+    {
+        localStorage.setItem('key_Profile',key) ;
+        setKey(key) ;
+    }
+
+
+
+
+    // Les callbacks
+
+
+    // C'est le callback appele quand on ferme ModalEditCompany 
+    function ModalEditCompanyClose()
+    {
+        //console.log("ModalEditCompanyClose") ;
+        SetShowEditCompany(false) ;
+    }
+
+
+
+    // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
+    function SendCompanyData(ShowWindow, Ligne) {
+        //console.log("SendCompanyData")
+        if (Ligne === null)
+        {
+            SetModeEdit("Add") ;
+            SetTitleModalEditCompany(sAjouterEntreprise) ;
+            SetIdEntreprise("") ;
+            SetSiret("") ;
+            SetName("") ;
+            SetWebsite("") ;
+            SetEmail("") ;
+            SetPhone("") ;
+        }
+        else
+        {
+            SetModeEdit("Edit") ;
+            SetTitleModalEditCompany(sEditEntreprise) ;
+            SetIdEntreprise(Ligne.idEntreprise) ;
+            SetSiret(Ligne.Siret) ;
+            SetName(Ligne.NomEntreprise) ;
+            SetWebsite(Ligne.SiteWeb) ;
+            SetEmail(Ligne.Email) ;
+            SetPhone(Ligne.Telephone) ;
+        }
+
+
+        if (ShowWindow === "false")
+            SetShowEditCompany(false) ;
+        else
+            SetShowEditCompany(true) ;
+    }
+
+
+
+
+
+
+
+
+     // C'est le callback appele quand on ferme ModalEditActivity
+    function ModalEditActivityClose()
+    {
+        //console.log("ModalEditActivityClose") ;
+        SetShowEditActivity(false) ;
+    }
+
+
+      // C'est le callback appele quand on clique sur + ou Edit dans CardActivity, il sert a replir la fenetre ModalEditActivity
+      function SendActivityData(ShowWindow,idEntreprise2, Ligne) {
+        //console.log("SendActivityData") ;
+
+        if (Ligne === null)
+        {
+            SetModeEdit("Add") ;
+
+            SetTitleModalEditActivity(sAjouterActivite) ;
+            SetIdEntreprise(idEntreprise2) ;
+            SetIdActivite("") ;
+            SetName("") ;
+            SetWebsite("") ;
+            SetEmail("") ;
+            SetPhone("") ;
+            SetDescription("") ;
+        }
+        else
+        {
+            SetModeEdit("Edit") ;
+
+
+            SetTitleModalEditActivity(sEditActivite) ;
+            SetIdEntreprise(idEntreprise2) ;
+            SetIdActivite(Ligne.idActivite) ;
+            SetName(Ligne.Activite_Nom) ;
+            SetWebsite(Ligne.Activite_SiteWeb) ;
+            SetEmail(Ligne.Activite_Email) ;
+            SetPhone(Ligne.Activite_Telephone) ;
+            SetDescription(Ligne.Description) ;
+        }
+
+
+        if (ShowWindow === "false")
+            SetShowEditActivity(false) ;
+        else
+            SetShowEditActivity(true) ;
+
+    }
+
+
+
+
+
+
+
+    function ForceRender(variable) {
+        //console.log("ForceRender: "+ variable) ;
+
+        if (variable === "userActivities")
+            setDownloaded_UserActivities(true) ;
+
+        if (variable === "userEnterprises")
+            setDownloaded_UserEnterprises(true) ;
+            
+        if ((downloaded_UserActivities === true) && (downloaded_UserEnterprises === true))
+            navigate(0) ;
+    }
+
+
+    
+
+
+
+
+
+
+    // Pour la traduction
     const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL;
     const Page = "Profile";
     const VL = "FR";
-
-    getEnterprisesByUser();
-    getAllEnterprises();
-    getAllActivities()
-
-    useEffect(() => {
-        
-    });
-
-
-    console.log(token);
-
-    const ans = JSON.parse(localStorage.getItem("activities"));
-
-
-    const deleteActivity = (id) => {
-        const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
-        const response = axios.post(url, {
-            token: token,
-            Submit: 1,
-            id: id
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        }).then((response) => {
-            console.log(response.data);
-            window.location.reload();
-        })
-    }
-
-
-    const deleteCompany = (id) => {
-        const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
-        const response = axios.post(
-            url, {
-                token: token,
-                Submit: 1,
-                id: id
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            }
-        ).then(
-            (response) => {
-                console.log(response.data);
-                //window.location.reload();
-            }
-        )
-
-    }
-
 
     async function TranslateAll(url, Page, VL) {
         const response = axios.post(url, {
@@ -112,1004 +270,176 @@ export default function Profile() {
             if (t !== "Not Found")
                 setCompany(t);
 
+
         })
     }
 
-    const renderActivities = (idCompany) => {
-        const allActivities = JSON.parse(localStorage.getItem("allActivities"));
-        let ans = [];
-
-        allActivities.forEach((element) => {
-            console.log(
-                `element id: ${element.idEntreprise} idCompany: ${idCompany}`
-            )
-            if (element.idEntreprise === idCompany) {
-                ans.push(element);
-            }
-        });
-        localStorage.setItem("activities", JSON.stringify(ans));
-        return window.location.reload();
-    }
 
 
-    const renderCompanies = () => {
 
+
+
+
+
+
+    // le render du composant
+
+
+    function renderCompanies() {
+        //console.log("renderCompanies") ;
         const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
-        const allCompanies = JSON.parse(localStorage.getItem("allEnterprises"));
 
-        if (allCompanies !== null)
+
+        
+        if (myCompanies !== null ) 
         {
-            const ansArray = [];
-
-
-            allCompanies.forEach((element) => {
-                let found = false;
-                myCompanies.forEach((element2) => {
-                    if (element.id === element2.idEntreprise) {
-
-                        found = true;
-                        ansArray.push(element);
-                    }
-                });
-
-            });
-
-
-            return ansArray.map((company, index) => {
-                return (
-                    <Card className={defDisplay}>
-                        <Card.Body className="bg-white">
-                            <div className="media-heading">
-                                <h5>
-                                    <strong>{company.Nom}</strong>
-                                </h5>
-                            </div>
-                            <div className="table-responsive p-1">
-                                <Table
-                                    className="table row table-borderless">
-                                    <tbody
-                                        className="col-lg-12 col-xl-4 p-0">
-                                    <tr>
-                                        <td>
-                                            <strong>Siret
-                                                :</strong> {company.Siret}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong> personal id
-                                                :</strong> {company.id}
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                    <tbody
-                                        className="col-lg-12 col-xl-4 p-0">
-                                    <tr>
-                                        <td>
-                                            <strong>Website
-                                                :</strong> {company.SiteWeb}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Email :</strong>
-                                            {company.Email}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Phone :</strong> {company.Telephone}
-                                        </td>
-                                    </tr>
-
-                                    </tbody>
-                                    <tbody
-                                        className="col-lg-12 col-xl-4 p-0"
-                                    >
-                                    <tr>
-                                        <td>
-                                            <button className="btn btn-primary me-1"
-                                                    onClick={() => renderActivities(company.id)}>
-                                                <i className="fa fa-book"></i> activities
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <button className="btn btn-danger me-1"
-                                                    onClick={() => deleteCompany(company.id)}>
-                                                <i className="fa fa-trash"></i> delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <button className="btn btn-warning me-1"
-                                                    onClick={() => {
-                                                        const companyDetails = [company.id, company.Nom, company.Siret, company.Email, company.Telephone, company.SiteWeb];
-                                                        localStorage.setItem("targetCompany", JSON.stringify(companyDetails));
-
-                                                        navigate(`${process.env.PUBLIC_URL}/pages/updateCompany`)
-                                                    }}
-
-                                            >
-                                                <i className="fa fa-edit"></i> edit
-                                            </button>
-                                        </td>
-                                    </tr>
-
-                                    </tbody>
-                                </Table>
-                            </div>
-                        </Card.Body>
-                    </Card>
-                )
-            
-            })
+            let map1 =  myCompanies.map( (Ligne) => <CardCompany 
+                                                        key={Ligne.idEntreprise} 
+                                                        Ligne={Ligne} 
+                                                        SendCompanyData={SendCompanyData}  
+                                                        SendActivityData={SendActivityData} 
+                                                        ForceRender = {ForceRender}
+                                                        />  );
+            return map1 ;
         }
-    
 
     }
 
 
-    TranslateAll(url, Page, VL);
 
-    return (
-        <div>
-            <div className="page-header">
-                <div>
-                    <h1 className="page-title">{profile}</h1>
-                    <Breadcrumb className="breadcrumb">
-                        <Breadcrumb.Item className="breadcrumb-item" href="#">
-                            Pages
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item
-                            className="breadcrumb-item active breadcrumds"
-                            aria-current="page"
-                        >
-                            {profile}
-                        </Breadcrumb.Item>
-                    </Breadcrumb>
+
+    function Render() {
+
+        return (
+            <div>
+
+                <div className="page-header">
+                    <div>
+                        <h1 className="page-title">{profile}</h1>
+                        <Breadcrumb className="breadcrumb">
+                            <Breadcrumb.Item className="breadcrumb-item" href="#">
+                                Pages
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item
+                                className="breadcrumb-item active breadcrumds"
+                                aria-current="page"
+                            >
+                                {profile}
+                            </Breadcrumb.Item>
+                        </Breadcrumb>
+                    </div>
+                    <div className="ms-auto pageheader-btn">
+                        <Link to="#" className="btn btn-primary btn-icon text-white me-3">
+                            <span>
+                            <i className="fe fe-plus"></i>&nbsp;
+                            </span>
+                            Add Account
+                        </Link>
+                        <Link to="#" className="btn btn-success btn-icon text-white">
+                            <span>
+                            <i className="fe fe-log-in"></i>&nbsp;
+                            </span>
+                            Export
+                        </Link>
+                    </div>
                 </div>
-                <div className="ms-auto pageheader-btn">
-                    <Link to="#" className="btn btn-primary btn-icon text-white me-3">
-            <span>
-              <i className="fe fe-plus"></i>&nbsp;
-            </span>
-                        Add Account
-                    </Link>
-                    <Link to="#" className="btn btn-success btn-icon text-white">
-            <span>
-              <i className="fe fe-log-in"></i>&nbsp;
-            </span>
-                        Export
-                    </Link>
-                </div>
-            </div>
 
-            <Row id="user-profile">
-                <Col lg={12}>
-                    <Card className=" bg-transparent shadow-none border-0">
-                        <Card.Body className=" bg-white">
-                            <div className="wideget-user">
-                                <Row>
-                                    <Col lg={12} md={12} xl={6}>
-                                        <div className="wideget-user-desc d-sm-flex">
-                                            <div className="wideget-user-img">
-                                                <img className="" src={user8} alt="img"/>
-                                            </div>
-                                            <div className="user-wrap">
-                                                <h4>Elizabeth Dyer</h4>
-                                                <h6 className="text-muted mb-3">
-                                                    Member Since: November 2017
-                                                </h6>
-                                                <Link to="#" className="btn btn-primary mt-1 mb-1 ">
-                                                    <i className="fa fa-rss"></i> Follow
-                                                </Link>
-                                                <Link
-                                                    to={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
-                                                    className="btn btn-secondary mt-1 mb-1 ms-1"
-                                                >
-                                                    <i className="fa fa-envelope"></i> E-mail
-                                                </Link>
-                                            </div>
+                <Row id="user-profile">
+                    <Col lg={12}>
+                        <Card className=" bg-transparent shadow-none border-0">
+                            <CardBodyProfile />
+
+
+                            <div className="border-top ">
+                                <div className="wideget-user-tab">
+                                    <div className="tab-menu-heading">
+                                        <div className="tabs-menu1 profiletabs">
+                                            <Tabs
+                                                variant="Tabs"
+                                                id=" tab-51"
+                                                className="tab-content tabesbody "
+                                                activeKey={key} onSelect={(e) => SaveKey(e)}
+                                            >
+
+
+                                                <Tab eventKey="Profile" title={profile}>
+                                                    <div className="tab-pane profiletab show">
+                                                        <div id="profile-log-switch">
+                                                            <CardPersonalInformation />
+                                                        </div>
+                                                    </div>
+                                                </Tab>
+
+
+                                                <Tab eventKey="Company" title={company}>
+                                                    <div className="tab-pane profiletab show">
+                                                        <div id="profile-log-switch">
+
+                                                        <ModalEditCompany 
+                                                        show={showEditCompany} 
+                                                        SendCloseMessage={ModalEditCompanyClose}  
+                                                        ForceRender={ForceRender}
+                                                        Mode={modeEdit}
+                                                        idEntreprise={idEntreprise}
+                                                        Titre={titleModalEditCompany} 
+                                                        Siret = {siret} 
+                                                        Nom= {name}
+                                                        SiteWeb = {website}
+                                                        Email = {email}
+                                                        Telephone = {phone}
+                                                        />
+
+                                                        <ModalEditActivity
+                                                        show={showEditActivity} 
+                                                        SendCloseMessage={ModalEditActivityClose}  
+                                                        ForceRender={ForceRender}
+                                                        Mode={modeEdit}
+                                                        idEntreprise={idEntreprise}
+                                                        idActivite={idActivite}
+                                                        Titre={titleModalEditActivity} 
+                                                        Nom= {name}
+                                                        SiteWeb = {website}
+                                                        Email = {email}
+                                                        Telephone = {phone}
+                                                        Description = {description}
+                                                        />
+
+                                                        {renderCompanies()}
+
+
+                                                        </div>
+                                                    </div>
+                                                </Tab>
+
+                                                <Tab eventKey="Friends" title="Friends">
+                                                    <TabFriends />
+                                                </Tab>
+
+                                                <Tab eventKey="Gallery" title="Gallery">
+                                                    <div className="tab-pane profiletab" id="tab-71">
+                                                        <profiledata.GalleryImagesprofile/>
+                                                    </div>
+                                                </Tab>
+                                         
+                                                <Tab eventKey="Followers" title="Followers">
+                                                    <TabFollowers />
+                                                </Tab>
+
+
+                                            </Tabs>
                                         </div>
-                                    </Col>
-                                    <Col lg={12} md={12} xl={6}>
-                                        <div className="text-xl-right mt-4 mt-xl-0">
-                                            <Link
-                                                to={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
-                                                className="btn btn-white me-1"
-                                            >
-                                                Message
-                                            </Link>
-                                            <Link
-                                                to={`${process.env.PUBLIC_URL}/pages/editProfile/`}
-                                                className="btn btn-primary me-1"
-                                            >
-                                                Edit Profile
-                                            </Link>
-                                            <Link
-                                                to={`${process.env.PUBLIC_URL}/pages/editCompany/`}
-                                                className="btn btn-warning me-1"
-                                            >
-                                                Add Company
-                                            </Link>
-                                            <Link
-                                                to={`${process.env.PUBLIC_URL}/pages/editActivity/`}
-                                                className="btn btn-gray me-1"
-                                            >
-                                                Add Activity
-                                            </Link>
-                                        </div>
-
-                                        <div className="mt-5">
-
-                                            <div className="main-profile-contact-list float-md-end d-md-flex">
-                                                <div className="me-5">
-                                                    <div className="media">
-                                                        <div className="media-icon bg-primary  me-3 mt-1">
-                                                            <i className="fe fe-file-plus fs-20 text-white"></i>
-                                                        </div>
-                                                        <div className="media-body">
-                                                            <span className="text-muted">Posts</span>
-                                                            <div className="fw-semibold fs-25">328</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className="me-5 mt-5 mt-md-0">
-                                                    <div className="media">
-                                                        <div className="media-icon bg-success me-3 mt-1">
-                                                            <i className="fe fe-users  fs-20 text-white"></i>
-                                                        </div>
-                                                        <div className="media-body">
-                                                            <span className="text-muted">Followers</span>
-                                                            <div className="fw-semibold fs-25">937k</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className="me-0 mt-5 mt-md-0">
-                                                    <div className="media">
-                                                        <div className="media-icon bg-orange me-3 mt-1">
-                                                            <i className="fe fe-wifi fs-20 text-white"></i>
-                                                        </div>
-                                                        <div className="media-body">
-                                                            <span className="text-muted">Following</span>
-                                                            <div className="fw-semibold fs-25">2,876</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </div>
-                        </Card.Body>
-
-
-                        <div className="border-top ">
-                            <div className="wideget-user-tab">
-                                <div className="tab-menu-heading">
-                                    <div className="tabs-menu1 profiletabs">
-                                        <Tabs
-                                            variant="Tabs"
-                                            defaultActiveKey="Profile"
-                                            id=" tab-51"
-                                            className="tab-content tabesbody "
-                                        >
-
-
-                                            <Tab eventKey="Profile" title={profile}>
-                                                <div className="tab-pane profiletab show">
-                                                    <div id="profile-log-switch">
-                                                        <Card>
-                                                            <Card.Body className="bg-white">
-                                                                <div className="media-heading">
-                                                                    <h5>
-                                                                        <strong>Personal Information</strong>
-                                                                    </h5>
-                                                                </div>
-                                                                <div className="table-responsive p-1">
-                                                                    <Table className="table row table-borderless">
-                                                                        <tbody className="col-lg-12 col-xl-6 p-0">
-                                                                        <tr>
-                                                                            <td>
-                                                                                <strong>Full Name :</strong> Elizabeth
-                                                                                Dyer
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <strong>Location :</strong> USA
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <strong>Languages :</strong> English,
-                                                                                German, Spanish.
-                                                                            </td>
-                                                                        </tr>
-                                                                        </tbody>
-                                                                        <tbody className="col-lg-12 col-xl-6 p-0">
-                                                                        <tr>
-                                                                            <td>
-                                                                                <strong>Website :</strong> abcdz.com
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <strong>Email :</strong>
-                                                                                georgemestayer@abcdz.com
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <strong>Phone :</strong> +125 254 3562
-                                                                            </td>
-                                                                        </tr>
-                                                                        </tbody>
-                                                                    </Table>
-                                                                </div>
-                                                                <Row className="row profie-img">
-                                                                    <Col md={12}>
-                                                                        <div className="media-heading">
-                                                                            <h5>
-                                                                                <strong>Biography</strong>
-                                                                            </h5>
-                                                                        </div>
-                                                                        <p>
-                                                                            Nam libero tempore, cum soluta nobis est
-                                                                            eligendi optio cumque nihil impedit quo
-                                                                            minus id quod maxime placeat facere
-                                                                            possimus, omnis voluptas assumenda est,
-                                                                            omnis dolor repellendus
-                                                                        </p>
-                                                                        <p className="mb-0">
-                                                                            because it is pleasure, but because those
-                                                                            who do not know how to pursue pleasure
-                                                                            rationally encounter but because those who
-                                                                            do not know how to pursue consequences
-                                                                            that are extremely painful. Nor again is
-                                                                            there anyone who loves or pursues or
-                                                                            desires to obtain pain of itself, because
-                                                                            it is pain, but because occasionally
-                                                                            circumstances occur in which toil and pain
-                                                                            can procure him some great pleasure.
-                                                                        </p>
-                                                                    </Col>
-                                                                </Row>
-                                                            </Card.Body>
-                                                        </Card>
-                                                    </div>
-                                                </div>
-                                            </Tab>
-
-
-                                            <Tab eventKey="Company" title={company}>
-                                                <div className="tab-pane profiletab show">
-                                                    <div id="profile-log-switch">
-
-
-                                                        <Row>
-                                                            <Col lg={10} xl={8} md={12} sm={12}>
-                                                                {renderCompanies()}
-                                                            </Col>
-
-
-                                                            <Col>
-                                                                {
-                                                                    (() => {
-                                                                            let ans = JSON.parse(localStorage.getItem("activities"));
-                                                                            if (ans !== null) {
-                                                                                if (ans.length > 0) {
-                                                                                    return (
-                                                                                        ans.map((element) => {
-                                                                                                return (
-                                                                                                    <Card>
-                                                                                                        <Card.Body
-                                                                                                            className="bg-white">
-                                                                                                            <div
-                                                                                                                className="media-heading">
-                                                                                                                <h5>
-                                                                                                                    <strong>{element.TypeActivite}</strong>
-                                                                                                                </h5>
-                                                                                                            </div>
-                                                                                                            <div
-                                                                                                                className="table-responsive p-1">
-                                                                                                                <Table
-                                                                                                                    className="table row table-borderless">
-                                                                                                                    <tbody
-                                                                                                                        className="col-lg-12 col-xl-6 p-0">
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Activity
-                                                                                                                                Name
-                                                                                                                                :</strong> {element.Nom}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Activity
-                                                                                                                                Description
-                                                                                                                                :</strong> {element.Description}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    </tbody>
-                                                                                                                    <tbody
-                                                                                                                        className="col-lg-12 col-xl-6 p-0">
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Website
-                                                                                                                                :</strong> {element.SiteWeb}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Email
-                                                                                                                                :</strong>
-                                                                                                                            {element.Email}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <strong>Phone
-                                                                                                                                :</strong> {element.Telephone}
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    </tbody>
-                                                                                                                    <tbody
-                                                                                                                        className="col-lg-12 col-xl-4 p-0"
-                                                                                                                    >
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <button
-                                                                                                                                className="btn btn-danger me-1"
-                                                                                                                                onClick={() => deleteActivity(element.id)}>
-                                                                                                                                <i className="fa fa-trash"></i> delete
-                                                                                                                            </button>
-                                                                                                                        </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td>
-                                                                                                                            <button
-                                                                                                                                className="btn btn-warning me-1"
-                                                                                                                                onClick={() => {
-                                                                                                                                    const targetActivity = [element.id, element.Nom, element.Description, element.SiteWeb, element.Email, element.Telephone, element.TypeActivite, element.idEntreprise];
-                                                                                                                                    console.log(targetActivity);
-                                                                                                                                    localStorage.setItem("activityDetails", JSON.stringify(targetActivity));
-                                                                                                                                    navigate(`${process.env.PUBLIC_URL}/pages/updateActivity`)
-
-                                                                                                                                }}
-                                                                                                                            >
-                                                                                                                                <i className="fa fa-edit"></i> edit
-                                                                                                                            </button>
-                                                                                                                        </td>
-                                                                                                                    </tr>
-
-                                                                                                                    </tbody>
-                                                                                                                </Table>
-                                                                                                            </div>
-
-                                                                                                        </Card.Body>
-                                                                                                    </Card>
-                                                                                                )
-                                                                                            }
-                                                                                        ))
-                                                                                } else {
-                                                                                    return (
-                                                                                        <Card>
-                                                                                            <Card.Body
-                                                                                                className="bg-white">
-                                                                                                <div
-                                                                                                    className="media-heading">
-                                                                                                    <h5>
-                                                                                                        <strong>No
-                                                                                                            activities</strong>
-                                                                                                    </h5>
-
-                                                                                                    <button
-                                                                                                        className="btn btn-primary me-2²"
-                                                                                                        onClick={() => {
-                                                                                                            navigate(`${process.env.PUBLIC_URL}/pages/editActivity/`)
-                                                                                                        }
-                                                                                                        }
-                                                                                                    >
-                                                                                                        <i className="fa fa-crop">Add</i>
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                            </Card.Body>
-                                                                                        </Card>
-                                                                                    )
-                                                                                }
-                                                                            } else {
-                                                                                return (
-                                                                                    <Card>
-                                                                                        <Card.Body
-                                                                                            className="bg-white">
-                                                                                            <div
-                                                                                                className="media-heading">
-                                                                                                <h5>
-                                                                                                    <strong>No
-                                                                                                        activities</strong>
-                                                                                                </h5>
-
-                                                                                                refresh your activities
-                                                                                            </div>
-                                                                                        </Card.Body>
-                                                                                    </Card>
-                                                                                )
-                                                                            }
-                                                                        }
-                                                                    )()
-                                                                }
-                                                            </Col>
-                                                        </Row>
-                                                    </div>
-                                                </div>
-                                            </Tab>
-
-
-                                            <Tab eventKey="Friends" title="Friends">
-                                                <div className="tab-pane " id="tab-61">
-                          <span className="widget-users row profiletab  mb-5">
-                            <li className="col-lg-4  col-md-6 col-sm-12 col-12  ">
-                              <Card className=" border p-0">
-                                <Link
-                                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
-                                >
-                                  <Card.Body className=" text-center">
-                                    <img
-                                        className="avatar avatar-xxl brround cover-image"
-                                        src={user15}
-                                        alt=""
-                                    />
-                                    <h4 className="fs-16 mb-0 mt-3 text-dark fw-semibold">
-                                      James Thomas
-                                    </h4>
-                                    <span className="text-muted">
-                                      Web designer
-                                    </span>
-                                  </Card.Body>
-                                </Link>
-                                <Card.Footer className=" text-center">
-                                  <div className="row user-social-detail">
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-google faico"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-facebook"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile  rounded text-center"
-                                    >
-                                      <i className="fa fa-twitter"></i>
-                                    </Link>
-                                  </div>
-                                </Card.Footer>
-                              </Card>
-                            </li>
-                            <li className="col-lg-4 col-md-6 col-sm-12 col-12">
-                              <Card className="border p-0">
-                                <Link
-                                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
-                                >
-                                  <Card.Body className="text-center">
-                                    <img
-                                        className="avatar avatar-xxl brround cover-image"
-                                        src={user9}
-                                        alt=""
-                                    />
-                                    <h4 className="fs-16 mb-0 mt-3 text-dark fw-semibold">
-                                      George Clooney
-                                    </h4>
-                                    <span className="text-muted">
-                                      Web designer
-                                    </span>
-                                  </Card.Body>
-                                </Link>
-                                <Card.Footer className="text-center">
-                                  <div className="row user-social-detail">
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-google"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-facebook"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile  rounded text-center"
-                                    >
-                                      <i className="fa fa-twitter"></i>
-                                    </Link>
-                                  </div>
-                                </Card.Footer>
-                              </Card>
-                            </li>
-                            <li className="col-lg-4 col-md-6 col-sm-12 col-12">
-                              <Card className="border p-0">
-                                <Link
-                                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
-                                >
-                                  <Card.Body className="text-center">
-                                    <img
-                                        className="avatar avatar-xxl brround cover-image"
-                                        src={user20}
-                                        alt=""
-                                    />
-                                    <h4 className="fs-16 mb-0 mt-3 text-dark fw-semibold">
-                                      Robert Downey Jr.
-                                    </h4>
-                                    <span className="text-muted">
-                                      Web designer
-                                    </span>
-                                  </Card.Body>
-                                </Link>
-                                <Card.Footer className="text-center">
-                                  <div className="row user-social-detail">
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-google"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-facebook"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile  rounded text-center"
-                                    >
-                                      <i className="fa fa-twitter"></i>
-                                    </Link>
-                                  </div>
-                                </Card.Footer>
-                              </Card>
-                            </li>
-                            <li className="col-lg-4 col-md-6 col-sm-12 col-12">
-                              <div className="card border p-0 mb-lg-0">
-                                <Link
-                                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
-                                >
-                                  <Card.Body className="text-center">
-                                    <img
-                                        className="avatar avatar-xxl brround cover-image"
-                                        src={user12}
-                                        alt=""
-                                    />
-                                    <h4 className="fs-16 mb-0 mt-3 text-dark fw-semibold">
-                                      Emma Watson
-                                    </h4>
-                                    <span className="text-muted">
-                                      Web designer
-                                    </span>
-                                  </Card.Body>
-                                </Link>
-                                <Card.Footer className="text-center">
-                                  <div className="row user-social-detail">
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-google"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-facebook"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile  rounded text-center"
-                                    >
-                                      <i className="fa fa-twitter"></i>
-                                    </Link>
-                                  </div>
-                                </Card.Footer>
-                              </div>
-                            </li>
-                            <li className="col-lg-4 col-md-6 col-sm-12 col-12">
-                              <div className="card border p-0 mb-lg-0">
-                                <Link
-                                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
-                                >
-                                  <Card.Body className="text-center">
-                                    <img
-                                        className="avatar avatar-xxl brround cover-image"
-                                        src={user4}
-                                        alt=""
-                                    />
-                                    <h4 className="fs-16 mb-0 mt-3 text-dark fw-semibold">
-                                      Mila Kunis
-                                    </h4>
-                                    <span className="text-muted">
-                                      Web designer
-                                    </span>
-                                  </Card.Body>
-                                </Link>
-                                <Card.Footer className="text-center">
-                                  <div className="row user-social-detail">
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-google"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-facebook"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile  rounded text-center"
-                                    >
-                                      <i className="fa fa-twitter"></i>
-                                    </Link>
-                                  </div>
-                                </Card.Footer>
-                              </div>
-                            </li>
-                            <li className="col-lg-4 col-md-6 col-sm-12 col-12">
-                              <div className="card border p-0 ">
-                                <Card.Body className="text-center">
-                                  <img
-                                      className="avatar avatar-xxl brround cover-image"
-                                      src={user6}
-                                      alt=""
-                                  />
-                                  <Link
-                                      to={`${process.env.PUBLIC_URL}/pages/profile/`}
-                                  >
-                                    <h4 className="fs-16 mb-0 mt-3 text-dark fw-semibold">
-                                      Ryan Gossling
-                                    </h4>
-                                  </Link>
-                                  <span className="text-muted">
-                                    Web designer
-                                  </span>
-                                </Card.Body>
-                                <Card.Footer className="text-center">
-                                  <div className="row user-social-detail">
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-google"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile me-4 rounded text-center"
-                                    >
-                                      <i className="fa fa-facebook"></i>
-                                    </Link>
-                                    <Link
-                                        to="#"
-                                        className="social-profile  rounded text-center"
-                                    >
-                                      <i className="fa fa-twitter"></i>
-                                    </Link>
-                                  </div>
-                                </Card.Footer>
-                              </div>
-                            </li>
-                          </span>
-                                                </div>
-                                            </Tab>
-                                            <Tab eventKey="Gallery" title="Gallery">
-                                                <div className="tab-pane profiletab" id="tab-71">
-                                                    <profiledata.GalleryImagesprofile/>
-                                                </div>
-                                            </Tab>
-                                            <Tab eventKey="Followers" title="Followers">
-                                                <div className="tab-pane" id="tab-81">
-                                                    <Row className="profiletab">
-                                                        <Col lg={6} md={12}>
-                                                            <Card className="border p-0 over-flow-hidden">
-                                                                <Card.Body className="media media-xs overflow-visible ">
-                                                                    <img
-                                                                        className="avatar brround avatar-md me-3"
-                                                                        src={user18}
-                                                                        alt="avatar-img"
-                                                                    />
-                                                                    <div className="media-body valign-middle">
-                                                                        <Link
-                                                                            to=""
-                                                                            className=" fw-semibold text-dark"
-                                                                        >
-                                                                            John Paige
-                                                                        </Link>
-                                                                        <p className="text-muted mb-0">
-                                                                            johan@gmail.com
-                                                                        </p>
-                                                                    </div>
-                                                                    <div
-                                                                        className="media-body valign-middle text-end overflow-visible mt-2">
-                                                                        <button
-                                                                            className="btn btn-primary"
-                                                                            type="button"
-                                                                        >
-                                                                            Follow
-                                                                        </button>
-                                                                    </div>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </Col>
-                                                        <Col lg={6} md={12}>
-                                                            <Card className="border p-0 over-flow-hidden">
-                                                                <Card.Body className="media media-xs overflow-visible ">
-                                  <span className="avatar cover-image avatar-md brround bg-pink me-3">
-                                    LQ
-                                  </span>
-                                                                    <div className="media-body valign-middle mt-0">
-                                                                        <Link
-                                                                            to=""
-                                                                            className="fw-semibold text-dark"
-                                                                        >
-                                                                            Lillian Quinn
-                                                                        </Link>
-                                                                        <p className="text-muted mb-0">
-                                                                            lilliangore
-                                                                        </p>
-                                                                    </div>
-                                                                    <div
-                                                                        className="media-body valign-middle text-end overflow-visible mt-1">
-                                                                        <button
-                                                                            className="btn btn-primary"
-                                                                            type="button"
-                                                                        >
-                                                                            Follow
-                                                                        </button>
-                                                                    </div>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </Col>
-                                                        <Col lg={6} md={12}>
-                                                            <Card className=" border p-0 over-flow-hidden mb-lg-0">
-                                                                <Card.Body className="media media-xs overflow-visible ">
-                                  <span className="avatar cover-image avatar-md brround me-3 bg-primary">
-                                    IH
-                                  </span>
-                                                                    <div className="media-body valign-middle mt-0">
-                                                                        <Link
-                                                                            to=""
-                                                                            className="fw-semibold text-dark"
-                                                                        >
-                                                                            Irene Harris
-                                                                        </Link>
-                                                                        <p className="text-muted mb-0">
-                                                                            ireneharris@gmail.com
-                                                                        </p>
-                                                                    </div>
-                                                                    <div
-                                                                        className="media-body valign-middle text-end overflow-visible mt-1">
-                                                                        <button
-                                                                            className="btn btn-primary"
-                                                                            type="button"
-                                                                        >
-                                                                            Follow
-                                                                        </button>
-                                                                    </div>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </Col>
-                                                        <Col lg={6} md={12}>
-                                                            <Card className="border p-0 over-flow-hidden">
-                                                                <Card.Body className="media media-xs overflow-visible ">
-                                                                    <img
-                                                                        className="avatar brround avatar-md me-3"
-                                                                        src={user3}
-                                                                        alt="avatar-img"
-                                                                    />
-                                                                    <div className="media-body valign-middle mt-0">
-                                                                        <Link
-                                                                            to=""
-                                                                            className="text-dark fw-semibold"
-                                                                        >
-                                                                            Saureen Bgist
-                                                                        </Link>
-                                                                        <p className="text-muted mb-0">harryuqt</p>
-                                                                    </div>
-                                                                    <div
-                                                                        className="media-body valign-middle text-end overflow-visible mt-1">
-                                                                        <button
-                                                                            className="btn btn-primary"
-                                                                            type="button"
-                                                                        >
-                                                                            Follow
-                                                                        </button>
-                                                                    </div>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </Col>
-                                                        <Col lg={6} md={12}>
-                                                            <Card className="border p-0 over-flow-hidden">
-                                                                <Card.Body className="media media-xs overflow-visible ">
-                                                                    <img
-                                                                        className="avatar brround avatar-md me-3"
-                                                                        src={user2}
-                                                                        alt="avatar-img"
-                                                                    />
-                                                                    <div className="media-body valign-middle mt-0">
-                                                                        <Link
-                                                                            to=""
-                                                                            className="text-dark fw-semibold"
-                                                                        >
-                                                                            Maureen Biologist
-                                                                        </Link>
-                                                                        <p className="text-muted mb-0">harryuqt</p>
-                                                                    </div>
-                                                                    <div
-                                                                        className="media-body valign-middle text-end overflow-visible mt-1">
-                                                                        <button
-                                                                            className="btn btn-primary"
-                                                                            type="button"
-                                                                        >
-                                                                            Follow
-                                                                        </button>
-                                                                    </div>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </Col>
-                                                        <Col lg={6} md={12}>
-                                                            <Card className="border p-0 over-flow-hidden">
-                                                                <Card.Body className="media media-xs overflow-visible ">
-                                  <span className="avatar cover-image avatar-md brround me-3 bg-info">
-                                    PF
-                                  </span>
-                                                                    <div className="media-body valign-middle mt-0">
-                                                                        <Link
-                                                                            to=""
-                                                                            className="fw-semibold text-dark"
-                                                                        >
-                                                                            Paddy O'Furniture.
-                                                                        </Link>
-                                                                        <p className="text-muted mb-0">
-                                                                            ireneharris@gmail.com
-                                                                        </p>
-                                                                    </div>
-                                                                    <div
-                                                                        className="media-body valign-middle text-end overflow-visible mt-1">
-                                                                        <button
-                                                                            className="btn btn-primary"
-                                                                            type="button"
-                                                                        >
-                                                                            Follow
-                                                                        </button>
-                                                                    </div>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            </Tab>
-                                        </Tabs>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </Card>
-                </Col>
-            </Row>
-        </div>
-    );
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
+        );
+
+    }
+
+
+    return Render() ;
 }
+

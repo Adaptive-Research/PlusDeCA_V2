@@ -66,35 +66,14 @@ const getUserId = (token) => {
 }
 
 
-const getAllEnterprises = () => {
-    // retrieve all enterprises in server
-    // search and store enterprises created by active user
-    // return them in array
-    const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_URL;
-    const personalId = getUserId();
-    const response = axios.get(url).then(
-        (response) => {
-            const data = response.data;
-            const allEnterprises = [];
-            data.forEach((element) => {
-                    allEnterprises.push(element);
-            });
-            localStorage.setItem('allEnterprises', JSON.stringify(allEnterprises));
-            return allEnterprises;
-        })
-}
 
-
-const getEnterprisesByUser = () => {
-    // retrieve all enterprises in server
-    // search and store enterprises created by active user
-    // return them in array
-    const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_FOR_USER_URL;
-    const userId = getUserId();
+const getActivitiesForUser = (variable, Token,UserId, ForceRender) => {
+    console.log("getActivitiesForUser") ;
+    const url = process.env.REACT_APP_API_SHOW_ENTERPRISESETACTIVITES_FOR_USER_URL;
     const response = axios.post(url, {
-        token: localStorage.getItem("token"),
+        token: Token,
         Submit: 1,
-        idUtilisateur: userId
+        idUtilisateur: UserId
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -102,17 +81,68 @@ const getEnterprisesByUser = () => {
     }).then(
         (response) => {
             const data = response.data;
-            const userEnterprises = [];
+            //console.log("data") ;
+            //console.log(data) ;
+
+            let Activities = [];
             data.forEach((element) => {
-                userEnterprises.push(element);
+                Activities.push(element);
             });
-            localStorage.setItem('userEnterprises', JSON.stringify(userEnterprises));
-            return userEnterprises;
+            localStorage.setItem(variable, JSON.stringify(Activities));
+            ForceRender(variable) ;
+
         })
 }
 
 
-const getAllActivities = () => {
+
+
+const getAllEnterprises = (variable,ForceRender) => {
+    // retrieve all enterprises in server
+    // search and store enterprises created by active user
+    // return them in array
+    const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_URL;
+    const response = axios.get(url).then(
+        (response) => {
+            const data = response.data;
+            const allEnterprises = [];
+            data.forEach((element) => {
+                    allEnterprises.push(element);
+            });
+            localStorage.setItem(variable, JSON.stringify(allEnterprises));
+            ForceRender(variable) ;
+        })
+}
+
+
+const getEnterprisesByUser = (variable,Token, UserId,ForceRender) => {
+    // retrieve all enterprises in server
+    // search and store enterprises created by active user
+    // return them in array
+    const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_FOR_USER_URL;
+    const response = axios.post(url, {
+        token: Token,
+        Submit: 1,
+        idUtilisateur: UserId
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then(
+        (response) => {
+            const data = response.data;
+            let Entreprises = [];
+            data.forEach((element) => {
+                Entreprises.push(element);
+            });
+            localStorage.setItem(variable, JSON.stringify(Entreprises));
+            ForceRender(variable) ;
+        })
+}
+
+
+
+const getAllActivities = (variable,ForceRender) => {
     // retrieve all activities in server
     // search and store activities created by active user
     // return them in array
@@ -124,8 +154,8 @@ const getAllActivities = () => {
             data.forEach((element) => {
                 allActivities.push(element);
             });
-            localStorage.setItem('allActivities', JSON.stringify(allActivities));
-            return allActivities;
+            localStorage.setItem(variable, JSON.stringify(allActivities));
+            ForceRender(variable) ;
         })
 }
 
@@ -137,6 +167,7 @@ export {
     checkDuplicate,
     toLog,
     getUserId,
+    getActivitiesForUser,
     getAllEnterprises,
     getEnterprisesByUser,
     getAllActivities

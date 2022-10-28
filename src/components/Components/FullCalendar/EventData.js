@@ -3,18 +3,14 @@ import { Link } from "react-router-dom";
 import  { FindTranslation, getIDFromToken  } from "../../../functions_Dan.js" ;
 import axios from "axios";
 import {
-  Col,
-  Row,
-  Card,
-  Form,
   FormGroup,
-  FormControl,
-  ListGroup,
-  Breadcrumb,
+  Modal, 
+  Button,
 } from "react-bootstrap";
+import { DayTimeColsView } from "@fullcalendar/timegrid";
 
 
-export function EventData() {
+export function EventData(props) {
 
 
   const storedToken = localStorage.getItem('token') ;
@@ -22,24 +18,52 @@ export function EventData() {
   //console.log(storedToken) ;
   //console.log(idUser) ;
 
+  const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
+  const [isModalOpen,setIsModalOpen] = useState(false) ;
 
 
   // les titres des champs
   const sTitre = "Title" ;
   const sComment = "Comment" ;
+  const sLocation = "Location" ;
+  const sAllDay = "All Day" ;
 
 
   // pour les titres
   const [titre, setTitre] = useState(sTitre) ;
   const [comment, setComment] = useState(sComment) ;
+  const [allDay, setAllDay] = useState(sAllDay) ;
+  const [slocation, setLocation] = useState(sLocation) ;
 
 
-   // pour le contenu des champs
-   const [eventNom, setEventNom] = useState("") ;
-   const [eventData, setEventData] = useState("") ;
+
+
+  
+  // pour le reload des traductions
+  const [reloadTraductions, setReloadTraductions] = useState(true) ;
+
 
   // pour le reload des infos
-  const [reloadTraductions, setReloadTraductions] = useState(true) ;
+  const [reloadInfos, setReloadInfos] = useState(true) ;
+
+
+
+
+  // pour le contenu des champs
+  const [eventTitre, setEventTitre] = useState("") ;
+  const [eventLieu, setEventLieu] = useState("") ;
+  const [eventData, setEventData] = useState("") ;
+
+
+  if (reloadInfos === true) {
+
+
+    setEventTitre(props.Title) ;
+    setEventLieu(props.Location) ;
+    setEventData(props.Data) ;
+
+    setReloadInfos(false) ;
+  }
 
 
 
@@ -64,10 +88,19 @@ export function EventData() {
     t = FindTranslation(response.data,Page,VL, sComment) ;
       if (t !== "Not Found")
         setComment(t) ;
+    t = FindTranslation(response.data,Page,VL, sLocation) ;
+    if (t !== "Not Found")
+      setLocation(t) ;
+
+    t = FindTranslation(response.data,Page,VL, sAllDay) ;
+    if (t !== "Not Found")
+      setAllDay(t) ;
+        
 
     setReloadTraductions(false) ;               
     })
   }
+
 
 
   const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
@@ -77,114 +110,212 @@ export function EventData() {
   if (reloadTraductions === true)
     TranslateAll(url,Page,VL) ;
 
-  
-  
-  function Outhover() {
-    console.log("Outhover()") ;
-    document.querySelector(".EventData").classList.remove("open");
-  }
-  
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("handleSubmit") ;
-    document.querySelector(".EventData").classList.remove("open");
-    /*
-    try {
-      console.log("Save") ;
 
-      let bv = 0 ;
-      if (bioVisible === true) 
-        bv = 1 ;
-      let tv = 0 ;
-      if (telephoneVisible === true) 
-        tv = 1 ;
-      let ev = 0 ;
-      if (emailVisible === true) 
-        ev = 1 ;
-    
 
-      SaveData(storedToken,prenom,nom,email,ev,telephone,tv,bio,bv) ;
-    } catch (e) {
-      console.log(e);
-    } finally {
-      console.log("Login attempt");
+  if (props.show !== lastIsModalOpen)
+    {
+        setIsModalOpen(props.show) ;
+        setLastIsModalOpen(props.show) ;
+        if (props.show === true)
+            setReloadInfos(true) ;
     }
-    */
-  }
 
 
-  const handleCancel = (event) => {
-    event.preventDefault();
-    console.log("Cancel") ;
-    document.querySelector(".EventData").classList.remove("open");
-    //setReloadInfos(true) ;  
-  }
 
-
+  const [allDayChange, SetAllDayChange] = useState(false) ;
   
+  function AllDayChange()
+  {
+    SetAllDayChange(!allDayChange) ;
+    if (allDayChange === false)
+      document.getElementById("StartEnd").classList.add("not-visible") ;
+    else
+      document.getElementById("StartEnd").classList.remove("not-visible") ;
+  }
+
+
+
+
+
+
+  function inputsValidation() {
+    
+  }
+
+
+  function handleSave(e) {
+
+      e.preventDefault();
+      try {
+          inputsValidation();
+      } catch (e) {
+          console.log(e);
+      } finally {
+      }
+  }
+
+
+  function handleCancel() {
+      if (props.SendCloseMessage !== null)
+          props.SendCloseMessage() ;
+  }
+
 
 
   return (
-    <div className="EventData ">
-      <div className="panel panel-primary card mb-0 shadow-none border-0">
-        <div className="tab-menu-heading border-0 d-flex p-3">
-          <div className="card-options ms-auto">
-            <Link
-              to="#"
-              className="sidebar-icon text-end float-end me-1"
-              onClick={() => Outhover()}
-            >
-              <i className="fe fe-x text-white"></i>
-            </Link>
-          </div>
-        </div>
-        <div className="panel-body tabs-menu-body latest-tasks p-0 border-0">
-          <div className="tabs-menu border-bottom"></div>
-          <Card className="Dan_color">
-            <Card.Header>
-              <button><i className={`Dan_icon fe fe-save`}></i></button>
-              <button><i className={`Dan_icon fe fe-x`}></i></button>
-              <button><i className={`Dan_icon fe fe-trash-2`}></i></button>
+    <div>
+      <Modal size="lg" show={isModalOpen}>
 
-            </Card.Header>
-            <Card.Body>
-                  <FormGroup>
-                    <label htmlFor="exampleInputname">Type</label>
-                    <select name="Event_Type"  className="form-control">
-                      <option value="1">Réunion d'entrepreneurs</option>
-                      <option value="2">Salon</option>
-                      <option value="3">Rendez-vous client</option>
-                      <option value="4">Webinaire</option>
-                      <option value="5">Autre</option>
-                    </select>
-                  </FormGroup>
+        <Modal.Header closeButton>
 
-                  <FormGroup>
-                    <label htmlFor="exampleInputname">{titre}</label>
-                    <input
+          <button><i className={`Dan_icon fe fe-trash-2`}></i></button>
+
+        </Modal.Header>
+
+        <Modal.Body>
+              <FormGroup>
+                <label>Type</label>
+                <select name="Event_Type"  className="form-control">
+                  <option value="1">Réunion d'entrepreneurs</option>
+                  <option value="2">Salon</option>
+                  <option value="3">Rendez-vous client</option>
+                  <option value="4">Webinaire</option>
+                  <option value="5">Autre</option>
+                </select>
+
+
+
+                <div className="add-vspace">
+                  <label>{titre}</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={eventTitre}
+                    onChange={(e) =>  setEventTitre(e.target.value) }
+                  />
+                </div> 
+
+
+                <div className="add-vspace">
+                  <input type="checkbox" id="AllDay" value="AllDay" onChange={AllDayChange} />
+                  <label htmlFor="AllDay" className="add-hspace-15"> {allDay}</label>
+                </div>
+
+                <div id="StartEnd" className="add-vspace-10">
+                  <label>Jeudi 27 octobre</label>  
+                  <select id="startHour" className="form-control-Dan add-hspace-15">
+                    <option value="0h">0h</option>
+                    <option value="1h">1h</option>
+                    <option value="2h">2h</option>
+                    <option value="3h">3h</option>
+                    <option value="4h">4h</option>
+                    <option value="5h">5h</option>
+                    <option value="6h">6h</option>
+                    <option value="7h">7h</option>
+                    <option value="8h">8h</option>
+                    <option value="9h">9h</option>
+                    <option value="10h">10h</option>
+                    <option value="11h">11h</option>
+                    <option value="12h">12h</option>
+                    <option value="13h">13h</option>
+                    <option value="14h">14h</option>
+                    <option value="15h">15h</option>
+                    <option value="16h">16h</option>
+                    <option value="17h">17h</option>
+                    <option value="18h">18h</option>
+                    <option value="19h">19h</option>
+                    <option value="20h">20h</option>
+                    <option value="21h">21h</option>
+                    <option value="22h">22h</option>
+                    <option value="23h">23h</option>
+                  </select>
+
+                  <select id="startMinute" className="form-control-Dan">
+                    <option value="00">00</option>
+                    <option value="15">15</option>
+                    <option value="30">30</option>
+                    <option value="45">45</option>
+                  </select>
+
+                  <label className="add-hspace-15"> - </label>
+
+                  <select id="endHour" className="form-control-Dan add-hspace-15">
+                    <option value="0h">0h</option>
+                    <option value="1h">1h</option>
+                    <option value="2h">2h</option>
+                    <option value="3h">3h</option>
+                    <option value="4h">4h</option>
+                    <option value="5h">5h</option>
+                    <option value="6h">6h</option>
+                    <option value="7h">7h</option>
+                    <option value="8h">8h</option>
+                    <option value="9h">9h</option>
+                    <option value="10h">10h</option>
+                    <option value="11h">11h</option>
+                    <option value="12h">12h</option>
+                    <option value="13h">13h</option>
+                    <option value="14h">14h</option>
+                    <option value="15h">15h</option>
+                    <option value="16h">16h</option>
+                    <option value="17h">17h</option>
+                    <option value="18h">18h</option>
+                    <option value="19h">19h</option>
+                    <option value="20h">20h</option>
+                    <option value="21h">21h</option>
+                    <option value="22h">22h</option>
+                    <option value="23h">23h</option>
+                  </select>
+
+                  <select id="endMinute" className="form-control-Dan">
+                    <option value="00">00</option>
+                    <option value="15">15</option>
+                    <option value="30">30</option>
+                    <option value="45">45</option>
+                  </select>
+
+
+                </div>
+
+                <div className="add-vspace">
+                  <label>{slocation}</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={eventLieu}
+                    onChange={(e) =>  setEventLieu(e.target.value) }
+                  />
+                </div> 
+
+
+
+                <div className="add-vspace">
+                  <label>{comment}</label>
+                  <textarea
                       className="form-control"
-                      type="text"
-                      value={eventNom}
-                      onChange={(e) =>  setEventNom(e.target.value) }
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <label htmlFor="exampleInputname1">{comment}</label>
-                    <textarea
-                        className="form-control"
-                        rows="6"
-                        defaultValue="."
-                        value={eventData}
-                        onChange={(e) =>  setEventData(e.target.value) }
-                      ></textarea>                    
-                  </FormGroup>
-            </Card.Body>
+                      rows="6"
+                      value={eventData}
+                      onChange={(e) =>  setEventData(e.target.value) }
+                    ></textarea>       
+                </div>             
+              </FormGroup>
+        </Modal.Body>
+
+        <Modal.Footer>
+
+            <Button variant="secondary" onClick={handleCancel}>
+                Cancel
+            </Button>
+
+            <Button variant="primary" onClick={handleSave}>
+                Save
+            </Button>
+
+        </Modal.Footer>
+
+      </Modal>
 
 
-          </Card>
-        </div>
-      </div>
     </div>
   );
 }
