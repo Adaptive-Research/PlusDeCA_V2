@@ -25,14 +25,14 @@ export default function CardActivity(props) {
 
 
 
-    const AddActivite = (id,token) => {
+    function AddActivite(id,token) {
         console.log("AddActivite") ;
         if (SendActivityData !== null)
             SendActivityData(true, Ligne.idEntreprise, null) ;
     }
 
 
-    const EditActivite = (token) => {
+    function EditActivite(token) {
         console.log("EditActivite") ;
         if (SendActivityData !== null)
             SendActivityData(true, Ligne.idEntreprise, Ligne) ;
@@ -41,7 +41,7 @@ export default function CardActivity(props) {
 
 
 
-    const DeleteActivity = (idActivite,token) => {
+    function DeleteActivity(idActivite,token) {
 
         const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
         const response = axios.post(url, {
