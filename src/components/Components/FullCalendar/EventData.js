@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
 import  { FindTranslation, getIDFromToken  } from "../../../functions_Dan.js" ;
 import axios from "axios";
 import {
@@ -11,6 +10,7 @@ import { DayTimeColsView } from "@fullcalendar/timegrid";
 
 
 export function EventData(props) {
+  console.log("EventData") ;
 
 
   const storedToken = localStorage.getItem('token') ;
@@ -22,49 +22,231 @@ export function EventData(props) {
   const [isModalOpen,setIsModalOpen] = useState(false) ;
 
 
-  // les titres des champs
-  const sTitre = "Title" ;
-  const sComment = "Comment" ;
-  const sLocation = "Location" ;
-  const sAllDay = "All Day" ;
-
-
-  // pour les titres
-  const [titre, setTitre] = useState(sTitre) ;
-  const [comment, setComment] = useState(sComment) ;
-  const [allDay, setAllDay] = useState(sAllDay) ;
-  const [slocation, setLocation] = useState(sLocation) ;
-
-
-
-
-  
-  // pour le reload des traductions
-  const [reloadTraductions, setReloadTraductions] = useState(true) ;
-
-
   // pour le reload des infos
   const [reloadInfos, setReloadInfos] = useState(true) ;
 
 
 
-
-  // pour le contenu des champs
-  const [eventTitre, setEventTitre] = useState("") ;
-  const [eventLieu, setEventLieu] = useState("") ;
-  const [eventData, setEventData] = useState("") ;
+  // pour la gestion de la date de reunion et les heures de reunion
+  let dateStart = new Date(props.Start) ;
+  let dateEnd = new Date(props.End) ;
 
 
+
+
+
+
+  // pour l'affichage du AllDay
+  const isAllDay = useRef(false) ;
+
+  function AllDayChange()
+  {
+    console.log("AllDayChange") ;
+    isAllDay.current = !isAllDay.current ;
+    if (isAllDay.current === true)
+    {
+      let d = document.getElementById("StartEnd") ;
+      if ( d !== null)
+        d.classList.add("not-visible") ;
+    }
+    else {
+      let d = document.getElementById("StartEnd") ;
+      if ( d !== null)
+        d.classList.remove("not-visible") ;
+    }
+  }
+
+
+
+
+  
+
+
+  // pour le contenu des champs qui doivent etre des useState pour les champs text
+  const [eventType,setEventType]  = useState("1") ;
+  const eventDay = useRef("") ;
+  const [eventTitle,setEventTitle] = useState("") ;
+  const [msgTitre,setMsgTitre] = useState("");
+  const [eventLocation,setEventLocation] = useState("") ;
+  const [eventData,setEventData] = useState("") ;
+
+  const eventStartHour = useRef(0) ;
+  const eventStartMinute = useRef(0) ;
+  const eventEndHour = useRef(0) ;
+  const eventEndMinute = useRef(0) ;
+  
+
+
+  function printDate(temp) {
+    var dateStr = padStr(temp.getDate()) + "/" + padStr(1 + temp.getMonth()) + "/" + padStr(temp.getFullYear()) ;
+    return dateStr ;
+  }
+
+  function padStr(i) {
+      return (i < 10) ? "0" + i : "" + i;
+  }
+
+
+
+  
+  
   if (reloadInfos === true) {
 
+  console.log("reloadInfos") ;
+  console.log(props) ;
 
-    setEventTitre(props.Title) ;
-    setEventLieu(props.Location) ;
+
+    eventDay.current = printDate(dateStart) ;
+    setEventType(props.TypeReunion) ;
+    setEventTitle(props.Title) ;
+    setEventLocation(props.Location) ;
     setEventData(props.Data) ;
+
 
     setReloadInfos(false) ;
   }
 
+
+
+
+  useEffect(() => {
+    console.log("eventData useEffect") ;
+
+    // pour mettre a jour la checkbox AllDay et faire ou ne pas faire afficher la plage horaire
+    if (props.AllDay === true) {
+      let i = document.getElementById("AllDay") ;
+      if (i !== null)
+        i.checked = true;
+
+      let d = document.getElementById("StartEnd") ;
+      if (d !== null)
+        d.classList.add("not-visible") ;
+      isAllDay.current = true ;
+    }
+
+    // pour selectionner la bonne option dans le select TypeReunion
+    let s = document.getElementById("TypeReunion") ;
+    if (s !== null)
+    {
+      for (var option of s.options) 
+      {
+        if (props.TypeReunion === option.value)
+          option.selected = true ;
+      }
+    }
+
+    // pour selectionner la bonne option dans le select startHour et startMinute
+    let h = dateStart.getHours() ;
+    //console.log("h") ;
+    //console.log(h) ;
+    s = document.getElementById("startHour") ;
+    if (s !== null)
+    {
+      for (var option of s.options) 
+      {
+        //console.log(option.value) ;
+        if (h == option.value)
+        {
+          option.selected = true ;
+          eventStartHour.current = option.value ;
+        }
+      }
+    }
+
+    let m = dateStart.getMinutes() ;
+    s = document.getElementById("startMinute") ;
+    if (s !== null)
+    {
+      
+      var option_1 = "" ;
+      for (var option of s.options) 
+      {
+        if (m == option.value)
+        {
+          option.selected = true ;
+          eventStartMinute.current = option.value ;
+        }
+        else {
+          if (m > option_1.value &&  m < option.value)
+          {
+            option_1.selected = true ;
+            eventStartMinute.current = option_1.value ;
+          }
+        }
+        option_1 = option ;
+      }
+    }
+
+
+    // pour selectionner la bonne option dans le select endHour et endMinute
+    h = dateEnd.getHours() ;
+    //console.log("h") ;
+    //console.log(h) ;
+    s = document.getElementById("endHour") ;
+    if (s !== null)
+    {
+      for (var option of s.options) 
+      {
+        //console.log(option.value) ;
+        if (h == option.value)
+        {
+          eventEndHour.current = option.value ;
+          option.selected = true ;
+        }
+      }
+    }
+
+    m = dateEnd.getMinutes() ;
+    s = document.getElementById("endMinute") ;
+    if (s !== null)
+    {
+      
+      var option_1 = "" ;
+      for (var option of s.options) 
+      {
+        if (m == option.value)
+        {
+          option.selected = true ;
+          eventEndMinute.current = option.value ;
+        }
+        else {
+          if (m > option_1.value &&  m < option.value)
+          {
+            eventEndMinute.current = option.value ;
+            option.selected = true ;
+          }
+        }
+        option_1 = option ;
+      }
+    }
+
+
+  });
+
+
+
+
+
+
+
+
+
+  // les titres des champs
+  const sTitre = "Title" ;
+  const sData = "Comment" ;
+  const sLocation = "Location" ;
+  const sAllDay = "All Day" ;
+
+
+  // pour les titres
+  const stitre = useRef(sTitre) ;
+  const sdata = useRef(sData) ;
+  const sallday  = useRef(sAllDay) ;
+  const slocation = useRef(sLocation) ;
+
+  
+  // pour le reload des traductions
+  const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
 
 
@@ -84,22 +266,28 @@ export function EventData(props) {
 
     let t = FindTranslation(response.data,Page,VL, sTitre) ;
     if (t !== "Not Found")
-      setTitre(t) ;
-    t = FindTranslation(response.data,Page,VL, sComment) ;
-      if (t !== "Not Found")
-        setComment(t) ;
+      stitre.current = t ;
+    t = FindTranslation(response.data,Page,VL, sData) ;
+    if (t !== "Not Found")
+      sdata.current = t ;
     t = FindTranslation(response.data,Page,VL, sLocation) ;
     if (t !== "Not Found")
-      setLocation(t) ;
+      slocation.current = t ;
 
     t = FindTranslation(response.data,Page,VL, sAllDay) ;
     if (t !== "Not Found")
-      setAllDay(t) ;
+      sallday.current = t ;
         
 
     setReloadTraductions(false) ;               
     })
   }
+
+
+
+
+
+
 
 
 
@@ -123,24 +311,143 @@ export function EventData(props) {
 
 
 
-  const [allDayChange, SetAllDayChange] = useState(false) ;
+
   
-  function AllDayChange()
-  {
-    SetAllDayChange(!allDayChange) ;
-    if (allDayChange === false)
-      document.getElementById("StartEnd").classList.add("not-visible") ;
-    else
-      document.getElementById("StartEnd").classList.remove("not-visible") ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // fonctions pour gerer la sauvegarde, le cancel et le delete
+
+
+
+
+
+    function printDate2(temp) {
+      var dateStr = padStr(temp.getFullYear()) + "-" +  padStr(1 + temp.getMonth()) + "-" + padStr(temp.getDate())   ;
+      return dateStr ;
+    }
+    
+
+
+
+    const SaveEvent = async () => {
+      console.log("SaveEvent") ;
+      //console.log("idEntreprise") ;
+      //console.log(idEntreprise) ;
+
+      console.log(props) ;
+
+      let sStartDate = printDate2(dateStart) + " " + padStr(eventStartHour.current) + ":" + padStr(eventStartMinute.current) ;
+      let sEndDate = printDate2(dateStart) + " " + padStr(eventEndHour.current) + ":" + padStr(eventEndMinute.current) ;
+
+      console.log(sStartDate) ;
+      console.log(sEndDate) ;
+      
+      let sAllDay = "0" ;
+      if (isAllDay.current === true)
+        sAllDay = "1"
+
+      
+      if (props.Mode === "Add")
+      {
+          const url = process.env.REACT_APP_API_CREATE_EVENT_URL ;
+          const response = await axios.post(url, {
+              token: storedToken,
+              Submit: 1,
+              debug:1,
+              Event_Type: eventType,
+              Event_Title: eventTitle ,
+              Event_AllDay: sAllDay ,
+              Event_Start: sStartDate,
+              Event_End: sEndDate,
+              Event_Location: eventLocation,
+              Event_Data: eventData,
+          }, {
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+              }
+          })
+         
+
+          if (response.data.includes("ERROR:")) {
+              console.log(`Error: ${response.data}`);
+          } else {
+              console.log(response.data) ;
+              console.log("Event added");
+          }
+      }
+      else{
+          const url = process.env.REACT_APP_API_EDIT_EVENT_URL;
+          const response = await axios.post(url, {
+              token: storedToken,
+              Submit: 1,
+              debug: 1,
+              idEvent: props.ID,
+              Event_Type: eventType,
+              Event_Title: eventTitle ,
+              Event_AllDay: sAllDay,
+              Event_Start: sStartDate,
+              Event_End: sEndDate,
+              Event_Location: eventLocation,
+              Event_Data: eventData,
+          }, {
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+              }
+              
+          })
+
+          if (response.data.includes("ERROR:")) {
+              console.log(`Error: ${response.data}`);
+          } else {
+              console.log(response.data) ;
+              console.log("Event modified");
+          }
+
+
+      }
+      
   }
 
 
 
 
 
-
   function inputsValidation() {
-    
+    let titreCheck;
+
+    if (eventTitle.length === 0) {
+        titreCheck = false;
+        setMsgTitre("Le titre est requis") ;
+    } else {
+        titreCheck = true;
+        setMsgTitre("") ;
+    }
+
+    if (titreCheck === true)
+    {
+      SaveEvent() ;
+      if (props.SendCloseMessage !== null)
+      {
+        props.SendCloseMessage() ;
+        if (props.ForceRender !== null)
+          props.ForceRender() ;
+      }
+    }
+
   }
 
 
@@ -163,20 +470,65 @@ export function EventData(props) {
 
 
 
+  const DeleteEvent = async () => {
+    console.log("DeleteEvent()") ;
+
+    const url = process.env.REACT_APP_API_DELETE_EVENT_URL;
+    const response = await axios.post(url, {
+        token: storedToken,
+        Submit: 1,
+        debug: 1,
+        idEvent: props.ID,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+        
+    })
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error: ${response.data}`);
+    } else {
+        console.log(response.data) ;
+        console.log("Event deleted");
+    }
+
+    if (props.SendCloseMessage !== null)
+    {
+      props.SendCloseMessage() ;
+      if (props.ForceRender !== null)
+        props.ForceRender() ;
+    }
+  }
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  // render
   return (
     <div>
       <Modal size="lg" show={isModalOpen}>
 
         <Modal.Header closeButton>
 
-          <button><i className={`Dan_icon fe fe-trash-2`}></i></button>
+          <button onClick={DeleteEvent}><i className={`Dan_icon fe fe-trash-2`}></i></button>
 
         </Modal.Header>
 
         <Modal.Body>
               <FormGroup>
                 <label>Type</label>
-                <select name="Event_Type"  className="form-control">
+                <select id="TypeReunion"  className="form-control"  onChange={(e) =>  setEventType(e.target.value)}>
                   <option value="1">Réunion d'entrepreneurs</option>
                   <option value="2">Salon</option>
                   <option value="3">Rendez-vous client</option>
@@ -187,52 +539,56 @@ export function EventData(props) {
 
 
                 <div className="add-vspace">
-                  <label>{titre}</label>
+                  <label>{stitre.current}</label>
                   <input
                     className="form-control"
                     type="text"
-                    value={eventTitre}
-                    onChange={(e) =>  setEventTitre(e.target.value) }
+                    value={eventTitle}
+                    placeholder={msgTitre === "" ? "Titre" : msgTitre}
+                    onChange={(e) =>  setEventTitle(e.target.value) }
                   />
                 </div> 
 
 
+               
+
                 <div className="add-vspace">
-                  <input type="checkbox" id="AllDay" value="AllDay" onChange={AllDayChange} />
-                  <label htmlFor="AllDay" className="add-hspace-15"> {allDay}</label>
+                  <strong>{eventDay.current}</strong>  
+                  <input type="checkbox" id="AllDay" className="add-hspace-50" value="AllDay" onChange={AllDayChange} />
+                  <label htmlFor="AllDay" className="add-hspace-5"> {sallday.current}</label>
                 </div>
 
-                <div id="StartEnd" className="add-vspace-10">
-                  <label>Jeudi 27 octobre</label>  
-                  <select id="startHour" className="form-control-Dan add-hspace-15">
-                    <option value="0h">0h</option>
-                    <option value="1h">1h</option>
-                    <option value="2h">2h</option>
-                    <option value="3h">3h</option>
-                    <option value="4h">4h</option>
-                    <option value="5h">5h</option>
-                    <option value="6h">6h</option>
-                    <option value="7h">7h</option>
-                    <option value="8h">8h</option>
-                    <option value="9h">9h</option>
-                    <option value="10h">10h</option>
-                    <option value="11h">11h</option>
-                    <option value="12h">12h</option>
-                    <option value="13h">13h</option>
-                    <option value="14h">14h</option>
-                    <option value="15h">15h</option>
-                    <option value="16h">16h</option>
-                    <option value="17h">17h</option>
-                    <option value="18h">18h</option>
-                    <option value="19h">19h</option>
-                    <option value="20h">20h</option>
-                    <option value="21h">21h</option>
-                    <option value="22h">22h</option>
-                    <option value="23h">23h</option>
+                <div id="StartEnd" className="add-vspace-5">
+                  <label>Plage horaire</label>  
+                  <select id="startHour" className="form-control-Dan add-hspace-15" onChange={(e) =>  eventStartHour.current = e.target.value }>
+                    <option value="0">0h</option>
+                    <option value="1">1h</option>
+                    <option value="2">2h</option>
+                    <option value="3">3h</option>
+                    <option value="4">4h</option>
+                    <option value="5">5h</option>
+                    <option value="6">6h</option>
+                    <option value="7">7h</option>
+                    <option value="8">8h</option>
+                    <option value="9">9h</option>
+                    <option value="10">10h</option>
+                    <option value="11">11h</option>
+                    <option value="12">12h</option>
+                    <option value="13">13h</option>
+                    <option value="14">14h</option>
+                    <option value="15">15h</option>
+                    <option value="16">16h</option>
+                    <option value="17">17h</option>
+                    <option value="18">18h</option>
+                    <option value="19">19h</option>
+                    <option value="20">20h</option>
+                    <option value="21">21h</option>
+                    <option value="22">22h</option>
+                    <option value="23">23h</option>
                   </select>
 
-                  <select id="startMinute" className="form-control-Dan">
-                    <option value="00">00</option>
+                  <select id="startMinute" className="form-control-Dan" onChange={(e) =>  eventStartMinute.current = e.target.value }>
+                    <option value="0">00</option>
                     <option value="15">15</option>
                     <option value="30">30</option>
                     <option value="45">45</option>
@@ -240,35 +596,35 @@ export function EventData(props) {
 
                   <label className="add-hspace-15"> - </label>
 
-                  <select id="endHour" className="form-control-Dan add-hspace-15">
-                    <option value="0h">0h</option>
-                    <option value="1h">1h</option>
-                    <option value="2h">2h</option>
-                    <option value="3h">3h</option>
-                    <option value="4h">4h</option>
-                    <option value="5h">5h</option>
-                    <option value="6h">6h</option>
-                    <option value="7h">7h</option>
-                    <option value="8h">8h</option>
-                    <option value="9h">9h</option>
-                    <option value="10h">10h</option>
-                    <option value="11h">11h</option>
-                    <option value="12h">12h</option>
-                    <option value="13h">13h</option>
-                    <option value="14h">14h</option>
-                    <option value="15h">15h</option>
-                    <option value="16h">16h</option>
-                    <option value="17h">17h</option>
-                    <option value="18h">18h</option>
-                    <option value="19h">19h</option>
-                    <option value="20h">20h</option>
-                    <option value="21h">21h</option>
-                    <option value="22h">22h</option>
-                    <option value="23h">23h</option>
+                  <select id="endHour" className="form-control-Dan add-hspace-15" onChange={(e) =>  eventEndHour.current = e.target.value }>
+                    <option value="0">0h</option>
+                    <option value="1">1h</option>
+                    <option value="2">2h</option>
+                    <option value="3">3h</option>
+                    <option value="4">4h</option>
+                    <option value="5">5h</option>
+                    <option value="6">6h</option>
+                    <option value="7">7h</option>
+                    <option value="8">8h</option>
+                    <option value="9">9h</option>
+                    <option value="10">10h</option>
+                    <option value="11">11h</option>
+                    <option value="12">12h</option>
+                    <option value="13">13h</option>
+                    <option value="14">14h</option>
+                    <option value="15">15h</option>
+                    <option value="16">16h</option>
+                    <option value="17">17h</option>
+                    <option value="18">18h</option>
+                    <option value="19">19h</option>
+                    <option value="20">20h</option>
+                    <option value="21">21h</option>
+                    <option value="22">22h</option>
+                    <option value="23">23h</option>
                   </select>
 
-                  <select id="endMinute" className="form-control-Dan">
-                    <option value="00">00</option>
+                  <select id="endMinute" className="form-control-Dan" onChange={(e) =>  eventEndMinute.current = e.target.value }>
+                    <option value="0">00</option>
                     <option value="15">15</option>
                     <option value="30">30</option>
                     <option value="45">45</option>
@@ -278,19 +634,19 @@ export function EventData(props) {
                 </div>
 
                 <div className="add-vspace">
-                  <label>{slocation}</label>
+                  <label>{slocation.current}</label>
                   <input
                     className="form-control"
                     type="text"
-                    value={eventLieu}
-                    onChange={(e) =>  setEventLieu(e.target.value) }
+                    value={eventLocation}
+                    onChange={(e) =>  setEventLocation(e.target.value) }
                   />
                 </div> 
 
 
 
                 <div className="add-vspace">
-                  <label>{comment}</label>
+                  <label>{sdata.current}</label>
                   <textarea
                       className="form-control"
                       rows="6"
@@ -318,5 +674,6 @@ export function EventData(props) {
 
     </div>
   );
+
 }
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import * as fromadvanced from "../../../../data/Form/formadvanced/formadvanced";
-import * as blogpost from "../../../../data/Pages/blogpost/blogpost";
+import * as fromadvanced from "../../../data/Form/formadvanced/formadvanced";
+import * as blogpost from "../../../data/Pages/blogpost/blogpost";
 import {Link} from "react-router-dom";
 import {Card, Col, FormGroup, Row} from "react-bootstrap";
 import axios from "axios";

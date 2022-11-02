@@ -1,21 +1,28 @@
 import React, {useEffect, useState} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
+import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
 import {Link} from "react-router-dom";
 import axios from "axios";
 
 export default function ArticleList() {
     const [rendered, setRendered] = useState(false);
 
+    console.log("Profile") ;
 
-    const token = localStorage.getItem("token");
+    // on recupere les infos sur le token et l'utilisateur
+    const storedToken = localStorage.getItem('token') ;
+    const idUser = getIDFromToken(storedToken) ;
+
+
 
     const deleteArticle = async (id, version) => {
-        const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_ARTICLE_URL;
+        //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_ARTICLE_URL;
+        const url = process.env.REACT_APP_API_DELETE_ARTICLE_URL;
         const response = await axios.post(url, {
             Submit: 1,
-            token: token,
-            idAncestor: id,
-            NumVersion: version
+            token: storedToken,
+            debug: 1,
+            idAncestor: id
         }, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -23,7 +30,7 @@ export default function ArticleList() {
         }).then(
             (response) => {
                 console.log(response.data);
-                window.location.reload();
+                window.location.reload(); // ok, j'apprends un truc
             }
         )
 
@@ -31,10 +38,11 @@ export default function ArticleList() {
 
 
     //Method to get all articles created by this user
-    const getUserArticles = async (token) => {
-        const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
+    const getUserArticles = async (tok) => {
+        //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
+        const url =  process.env.REACT_APP_API_SHOW_ARTICLES_BY_USER_URL;
         const response = await axios.post(url, {
-            token: token,
+            token: tok,
             Submit: 1,
         }, {
             headers: {
@@ -46,6 +54,7 @@ export default function ArticleList() {
     }
 
 
+    // intelligent
     const reduceText = (text) => {
         if (text.length > 100) {
             return text.substring(0, 100) + "...";
@@ -55,64 +64,78 @@ export default function ArticleList() {
     }
 
 
-    // Separate drafts from published articles
-    const renderArticles = () => {
-        const articles = JSON.parse(localStorage.getItem("userArticles"));
-        console.log(articles);
-        return articles.map((article) => {
-            return (
-                <Col md={4}>
-                    <Card>
-                        <img
-                            className="card-img-top br-tr-7 br-tl-7"
-                            src={require("../../../../assets/images/media/19.jpg")}
-                            alt="Card cap"
-                        />
-                        <Card.Header>
-                            <Card.Title as="h5"> {article.Article_Title} </Card.Title>
-                            <button className="btn btn-success"
-                                    style={{marginLeft: "50%"}}>
-                                {article.Article_Category}
-                            </button>
-                        </Card.Header>
-                        <Card.Body>
-                            <Card.Text>
-                                {article.Article_Text.length > 100 ? article.Article_Text.substring(0, 100) + "..." : article.Article_Text}
-                            </Card.Text>
-                            <button className='btn btn-warning'
-                            onClick={() => {
-                                localStorage.setItem("articleToEdit", JSON.stringify(article));
-                                window.location.href = `${process.env.PUBLIC_URL}/pages/ArticleEdit`;
-                            }}
-                            >
-                                <i className="fa fa-edit"></i>
-                            </button>
-                            <button className='m-2 btn btn-danger'
-                                    onClick={() => deleteArticle(article.idAncestor, article.NumVersion)}>
-                                <i className="fa fa-trash"></i>
-                            </button>
-                            <Link
-                                to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
-                                className="float-end">
-                                Read more <i
-                                className="fa fa-angle-double-right"></i>
-                            </Link>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            )
-        })
+    function RenderArticle(article) {
+        return (
+            <Col md={4}>
+                <Card key={article.id}>
+                    <img
+                        className="card-img-top br-tr-7 br-tl-7"
+                        src={require("../../../assets/images/media/19.jpg")}
+                        alt="Card cap"
+                    />
+                    <Card.Header>
+                        <Card.Title as="h5"> {article.Article_Title} </Card.Title>
+                        <button className="btn btn-success" style={{marginLeft: "50%"}}>
+                            {article.Article_Category}
+                        </button>
+                    </Card.Header>
+                    <Card.Body>
+                        <Card.Text>
+                            {article.Article_Text.length > 100 ? article.Article_Text.substring(0, 100) + "..." : article.Article_Text}
+                        </Card.Text>
+                        <button className='btn btn-warning'
+                        onClick={() => {
+                            localStorage.setItem("articleToEdit", JSON.stringify(article));
+                            window.location.href = `${process.env.PUBLIC_URL}/pages/ArticleEdit`;
+                        }}
+                        >
+                            <i className="fa fa-edit"></i>
+                        </button>
+                        <button className='m-2 btn btn-danger'
+                                onClick={() => deleteArticle(article.idAncestor, article.NumVersion)}>
+                            <i className="fa fa-trash"></i>
+                        </button>
+                        <Link
+                            to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
+                            className="float-end">
+                            Read more <i
+                            className="fa fa-angle-double-right"></i>
+                        </Link>
+                    </Card.Body>
+                </Card>
+            </Col>
+        )
     }
 
 
-    useEffect(() => {
-        if (!rendered) {
-            getUserArticles(token).then(r => console.log(`Articles loaded`));
-        } else {
-            console.log("rendered")
-        }
+    // Separate drafts from published articles
+    const renderArticles = (TypeArticle) => {
+        const articles = JSON.parse(localStorage.getItem("userArticles"));
 
-    }, [rendered])
+        if (articles !== null)
+        {
+            console.log(articles);
+            return articles.map((article) => {
+                if  (TypeArticle === "Brouillon") {
+                    if (article.isPublished === "0") 
+                        return RenderArticle(article) ;
+                }
+                else {
+                    if (article.isPublished === "1") 
+                        return RenderArticle(article) ;
+                }
+            })
+        }
+        else
+            return "" ;
+    }
+
+
+    if (!rendered) {
+        getUserArticles(storedToken).then(r => console.log(`Articles loaded`));
+    } else {
+        console.log("rendered")
+    }
 
 
     return (
@@ -162,7 +185,7 @@ export default function ArticleList() {
                                             <Tab eventKey="Brouillon" title="Brouillon">
                                                 <div className="tab-pane " id="tab-61">
                                                     <Row className="row-cards ">
-                                                        {renderArticles()}
+                                                        {renderArticles("Brouillon")}
                                                     </Row>
                                                 </div>
                                             </Tab>

@@ -96,11 +96,12 @@ const Invoice = React.lazy(() => import("./components/pages/Invoice/Invoice"));
 const PricingTables = React.lazy(() => import("./components/pages/PricingTables/PricingTables"));
 const Empty = React.lazy(() => import("./components/pages/Empty/Empty"));
 const UnderConstruction = React.lazy(() => import("./components/pages/UnderConstruction/UnderConstruction"));
+
 //Article
-const ArticleList = React.lazy(() => import("./components/pages/Articles/List/ArticleList"));
-const ArticleEdit = React.lazy(() => import("./components/pages/Articles/Edit/ArticleEdit"));
-const ArticleAdd = React.lazy(() => import("./components/pages/Articles/Add/ArticleAdd"));
-const ArticleDetail = React.lazy(() => import("./components/pages/Articles/Detail/ArticleDetail"));
+const ArticleList = React.lazy(() => import("./components/pages/Articles/ArticleList"));
+const ArticleEdit = React.lazy(() => import("./components/pages/Articles/ArticleEdit"));
+const ArticleAdd = React.lazy(() => import("./components/pages/Articles/ArticleAdd"));
+const ArticleDetail = React.lazy(() => import("./components/pages/Articles/ArticleDetail"));
 
 
 //Blog

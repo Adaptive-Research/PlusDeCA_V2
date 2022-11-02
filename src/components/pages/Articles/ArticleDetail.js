@@ -49,7 +49,7 @@ export default function ArticleDetails() {
                         <Card>
                             <img
                                 className="card-img-top br-7 br-bl-0 br-br-0"
-                                src={require("../../../../assets/images/media/blog11.jpg")}
+                                src={require("../../../assets/images/media/blog11.jpg")}
                                 alt="Card cap"
                             />
                             <Card.Body>
@@ -120,7 +120,7 @@ export default function ArticleDetails() {
                                         >
                                             <img
                                                 className=" br-5 mb-3 "
-                                                src={require("../../../../assets/images/media/19.jpg")}
+                                                src={require("../../../assets/images/media/19.jpg")}
                                                 style={{
                                                     background:
                                                         'url("../assets/images/media/19.jpg") center center',
@@ -150,7 +150,7 @@ export default function ArticleDetails() {
                                         >
                                             <img
                                                 className=" br-5 mb-3"
-                                                src={require("../../../../assets/images/media/22.jpg")}
+                                                src={require("../../../assets/images/media/22.jpg")}
                                                 style={{
                                                     background:
                                                         'url("../assets/images/media/19.jpg") center center',
@@ -180,7 +180,7 @@ export default function ArticleDetails() {
                                         >
                                             <img
                                                 className=" br-5 mb-3"
-                                                src={require("../../../../assets/images/media/12.jpg")}
+                                                src={require("../../../assets/images/media/12.jpg")}
                                                 style={{
                                                     background:
                                                         'url("../assets/images/media/19.jpg") center center',
@@ -210,7 +210,7 @@ export default function ArticleDetails() {
                                         >
                                             <img
                                                 className=" br-5 mb-3"
-                                                src={require("../../../../assets/images/media/25.jpg")}
+                                                src={require("../../../assets/images/media/25.jpg")}
                                                 style={{
                                                     background:
                                                         'url("../assets/images/media/19.jpg") center center',

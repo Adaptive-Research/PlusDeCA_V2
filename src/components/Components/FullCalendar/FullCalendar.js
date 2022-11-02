@@ -3,12 +3,12 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
-import { Link } from "react-router-dom";
-import {Breadcrumb, Card,Row,Col} from "react-bootstrap"
+import {Card,Row,Col} from "react-bootstrap"
 import {useNavigate} from "react-router";
 import {EventData} from "./EventData"
 import axios from "axios";
-import  { FindTranslation, getIDFromToken } from "../../../functions_Dan.js" ;
+import  { getIDFromToken } from "../../../functions_Dan.js" ;
+
 
 
 
@@ -39,17 +39,13 @@ export default function FullCalendars() {
 
 
 
-  let eventGuid = 0;
 
-  // une date iso a le format suivant:     2022-10-18T14:43:00.189Z
-  // la ligne ci-desssous efface tout ce qui est apres T pour ne garder que YYYY-MM-DD
-  let todayStr = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
 
 
 
   
 
-  async function GetInfo(url,t) 
+  async function GetInfoFromDatabase(url,t) 
   {
     console.log("GetInfo") ;
     console.log(url) ;
@@ -80,33 +76,44 @@ export default function FullCalendars() {
           let Event_End = response.data[i].Event_End ;
 
 
-          // les 2 lignes ci-dessous servent a mettre au format ISO:    2022-10-18T14:43:00
-          if (Event_Start !== "")
-            Event_Start = Event_Start.replace(" ","T") ;
-          if (Event_End !== "")
-            Event_End = Event_End.replace(" ","T") ;
-
           let vAllDay = false ;  
           if ( response.data[i].Event_AllDay === "1")
             vAllDay = true ;
 
          
 
+          let bgColor= "#06377e" ;
+          if  (response.data[i].Event_Type === "2")
+            bgColor= "#006600" ;
+          if  (response.data[i].Event_Type === "3")
+            bgColor = "#0d6efd" ;
+          if  (response.data[i].Event_Type === "4")
+            bgColor= "#168c7f" ;
+          if  (response.data[i].Event_Type === "5")
+            bgColor= "#b05002" ;
+
+
+
+          console.log("bgColor") ;  
+          console.log(bgColor) ;  
+
           let s = {
             
-          "id" : String(response.data[i].id) ,
-          "title" : String(response.data[i].Event_Title), 
-          "allDay" : String(vAllDay), 
-          "start" : String(Event_Start),
-          "end" : String(Event_End), 
-          "extendedProps":
-          {
-            "type" : String(response.data[i].Event_Type), 
-            "location" : String(response.data[i].Event_Location), 
-            "data" : String(response.data[i].Event_Data)  
-          } 
-                  
-        } ;
+            "id" : String(response.data[i].id) ,
+            "title" : String(response.data[i].Event_Title), 
+            "allDay" : vAllDay, 
+            "start" : String(Event_Start),
+            "end" : String(Event_End), 
+            "backgroundColor": String(bgColor),
+            "extendedProps":
+            {
+              "type" : String(response.data[i].Event_Type), 
+              "location" : String(response.data[i].Event_Location), 
+              "data" : String(response.data[i].Event_Data)  
+            } 
+           
+                    
+          } ;
           ed.push(s) ;
         }
         console.log("ed") ; 
@@ -124,14 +131,11 @@ export default function FullCalendars() {
   // on charge les data
   const url2 = process.env.REACT_APP_API_SHOW_EVENT_URL ;
   if (reloadInfos === true)
-    GetInfo(url2,storedToken) ;
+    GetInfoFromDatabase(url2,storedToken) ;
   
   console.log("dataEvents") ; 
   console.log(dataEvents) ;
 
-  function createEventId() {
-    return String(eventGuid++);
-  }
 
 
   // C'est le callback appele quand on ferme ModalEditCompany 
@@ -159,10 +163,12 @@ function ForceRender(variable) {
 
  
   function renderEventContent(eventInfo) {
+    //console.log("eventInfo") ;
+    //console.log(eventInfo) ;
     return (
       <>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
+        <span>{eventInfo.timeText}</span>
+        <span className="add-hspace-5"> <b>{eventInfo.event.title}</b> </span>
       </>
     );
   }
@@ -172,7 +178,7 @@ function ForceRender(variable) {
   // pour les infos 
   const [modeEdit,SetModeEdit]= useState("") ;
   const [idEvent, setIdEvent] = useState("") ;
-  const [typeReunion, setTypeReunion] = useState("") ;
+  const [typeReunion, setTypeReunion] = useState(1) ;
   const [titre, setTitre] = useState("") ;
   const [allDay, setAllDay] = useState("") ;
   const [start, setStart] = useState("") ;
@@ -188,7 +194,7 @@ function ForceRender(variable) {
 
     console.log("id: " + clickInfo.event.id) ;
     console.log("title: " + clickInfo.event.title) ;
-    console.log("allday: " + clickInfo.event.allday) ;
+    console.log("allDay: " + clickInfo.event.allDay) ;
     console.log("startStr: " + clickInfo.event.startStr) ;
     console.log("endStr: " + clickInfo.event.endStr) ;
     console.log("url: " + clickInfo.event.url) ;
@@ -201,24 +207,11 @@ function ForceRender(variable) {
     setIdEvent(clickInfo.event.id) ;
     setTypeReunion(clickInfo.event.extendedProps.type) ;
     setTitre(clickInfo.event.title) ;
-    setAllDay(clickInfo.event.allday) ;
+    setAllDay(clickInfo.event.allDay) ;
     setStart(clickInfo.event.start) ;
     setEnd(clickInfo.event.end) ;
     setLocation(clickInfo.event.extendedProps.location) ;
     setData(clickInfo.event.extendedProps.data) ;
-
-
-
-
-
-    /*
-    console.log(clickInfo) ;
-
-    console.log(clickInfo.event.title) ;
-    console.log(clickInfo.el.style) ;
-
-    clickInfo.el.style.backgroundColor = "red" ; 
-    */
 
 
 
@@ -234,6 +227,9 @@ function ForceRender(variable) {
   const handleEvents = (events) => {};
 
 
+
+
+  
   // c'est utilise quand on selectionne une date
   const handleDateSelect = (selectInfo) => {
 
@@ -242,6 +238,20 @@ function ForceRender(variable) {
 
     SetShowEditEvent(true) ;
     SetModeEdit("Add") ;
+
+    setIdEvent("0") ;
+    setTypeReunion("1") ;
+    setTitre("") ;
+    setAllDay(selectInfo.allDay) ;
+    setStart(selectInfo.start) ;
+    setEnd(selectInfo.end) ;
+    setLocation("") ;
+    setData("") ;
+
+
+
+
+
 
 
     /*
@@ -259,7 +269,7 @@ function ForceRender(variable) {
     */
   };
 
-  //rightsidebar
+
   const openCloseEventData = () => {
     console.log('openCloseEventData') ;
   };
@@ -268,7 +278,6 @@ function ForceRender(variable) {
 
   return (
     <div>
-    
           <Card>
             <Card.Body>
 
@@ -287,7 +296,7 @@ function ForceRender(variable) {
                           center: "title",
                           right: "dayGridMonth,timeGridWeek,timeGridDay",
                         }}
-                        initialView="dayGridMonth"
+                        initialView="timeGridWeek"
                         editable={true}
                         selectable={true}
                         selectMirror={true}
@@ -310,6 +319,7 @@ function ForceRender(variable) {
                     ForceRender={ForceRender}
                     Mode={modeEdit}
                     ID={idEvent}
+                    TypeReunion={typeReunion}
                     Title={titre}
                     AllDay={allDay}
                     Start={start}

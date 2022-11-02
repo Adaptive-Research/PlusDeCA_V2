@@ -82,6 +82,11 @@
     margin: 25px;
 }
 
+
+.add-vspace-5 {
+    margin-top: 5px;
+}
+
 .add-vspace-10 {
     margin-top: 10px;
 }
@@ -95,12 +100,26 @@
 }
 
 
+
+.add-hspace-5 {
+    margin-left: 5px;
+}
+
+.add-hspace-10 {
+    margin-left: 10px;
+}
+
+
 .add-hspace-15 {
     margin-left: 15px;
 }
 
-.add-hspace {
+.add-hspace-30 {
     margin-left: 30px;
+}
+
+.add-hspace-50 {
+    margin-left: 50px;
 }
 
 

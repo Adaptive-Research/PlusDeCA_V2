@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import * as fromadvanced from "../../../../data/Form/formadvanced/formadvanced";
-import * as blogpost from "../../../../data/Pages/blogpost/blogpost";
+import * as fromadvanced from "../../../data/Form/formadvanced/formadvanced";
+import * as blogpost from "../../../data/Pages/blogpost/blogpost";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import {Card, Col, FormGroup, Row} from "react-bootstrap";
@@ -58,7 +58,8 @@ export default function ArticleAdd() {
 
     // Function that sends axios requesst to create a new article
     const requestArticleCreate = async () => {
-        const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_ARTICLE_URL;
+        //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_ARTICLE_URL;
+        const url =  process.env.REACT_APP_API_CREATE_ARTICLE_URL;
         const token = localStorage.getItem('token');
 
 
