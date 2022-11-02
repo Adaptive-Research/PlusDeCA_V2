@@ -10,6 +10,7 @@ export function FindTranslation(data,Page, VL, Message ){
     return "Not Found";
   }
 
+  
  export function remove_NLastChars(str,n) {
   let s = str.slice(0, -n);
   console.log(s) ;
