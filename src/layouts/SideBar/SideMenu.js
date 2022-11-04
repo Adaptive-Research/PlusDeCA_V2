@@ -117,7 +117,7 @@ export const MENUITEMS = [
         menutitle: "MES ACTIONS",
         Items: [
             {
-                path: `${process.env.PUBLIC_URL}/pages/ArticleList`,
+                path: `${process.env.PUBLIC_URL}/MesArticles`,
                 icon: "file-text",
                 type: "link",
                 active: false,
