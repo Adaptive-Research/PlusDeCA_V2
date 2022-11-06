@@ -101,12 +101,18 @@ export default function ModalEditCompany(props) {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 }
             })
-
+            console.log(response.data) ;
+            
             if (response.data.includes("ERROR:")) {
                 console.log(`Error: ${response.data}`);
             } else {
-                console.log("enterprise added");
-                setResponseMsg("Entreprise ajoutée");
+                console.log("company added");
+                if (props.SendCloseMessage !== null)
+                {
+                    props.SendCloseMessage() ;
+                    if (props.ForceRender !== null)
+                        props.ForceRender() ;
+                }
             }
         }
         else{
@@ -130,8 +136,13 @@ export default function ModalEditCompany(props) {
             if (response.data.includes("ERROR:")) {
                 console.log(`Error: ${response.data}`);
             } else {
-                console.log("enterprise modified");
-                setResponseMsg("Entreprise modifiée");
+                console.log("company modified");
+                if (props.SendCloseMessage !== null)
+                {
+                    props.SendCloseMessage() ;
+                    if (props.ForceRender !== null)
+                        props.ForceRender() ;
+                }
             }
 
 
@@ -162,16 +173,8 @@ export default function ModalEditCompany(props) {
         }
 
         
-        if (nameCheck && siretCheck) {
+        if (nameCheck && siretCheck) 
             SaveCompany() ;
-            if (props.SendCloseMessage !== null)
-            {
-                props.SendCloseMessage() ;
-                if (props.ForceRender !== null)
-                    props.ForceRender() ;
-            }
-            
-        }
         
     }
 

@@ -27,11 +27,14 @@ const getAllUsersEmail = async () => {
     const response = await axios.get(url).then(
         (response) => {
             const data = response.data;
-            data.forEach((element) => {
-                if (!usersEmail.includes(element.Email)) {
-                    usersEmail.push(element.Email);
-                }
-            });
+            let pos = data.indexOf("ERROR") ;
+            if (pos < 0) { 
+                data.forEach((element) => {
+                    if (!usersEmail.includes(element.Email)) {
+                        usersEmail.push(element.Email);
+                    }
+                });
+            }
         }
     )
     localStorage.fin = JSON.stringify(usersEmail);
@@ -51,6 +54,7 @@ const checkDuplicate = (mail) => {
     localStorage.removeItem("fin");
 }
 
+
 const toLog = () => {
     window.location.href = "https://plusdeca.fr";
 }
@@ -68,9 +72,9 @@ const getUserId = (token) => {
 
 
 const getActivitiesForUser = (variable, Token,UserId, ForceRender) => {
-    console.log("getActivitiesForUser") ;
+    //console.log("getActivitiesForUser: "+ UserId) ;
     const url = process.env.REACT_APP_API_SHOW_ENTERPRISESETACTIVITES_FOR_USER_URL;
-    const response = axios.post(url, {
+    axios.post(url, {
         token: Token,
         Submit: 1,
         idUtilisateur: UserId
@@ -81,14 +85,21 @@ const getActivitiesForUser = (variable, Token,UserId, ForceRender) => {
     }).then(
         (response) => {
             const data = response.data;
-            //console.log("data") ;
             //console.log(data) ;
+            
+            let pos = data.indexOf("ERROR") ;
+            if (pos < 0) { 
+                let Activities = [];
 
-            let Activities = [];
-            data.forEach((element) => {
-                Activities.push(element);
-            });
-            localStorage.setItem(variable, JSON.stringify(Activities));
+                data.forEach((element) => {
+                    Activities.push(element);
+                });
+                localStorage.setItem(variable, JSON.stringify(Activities));
+            }
+            else{
+                localStorage.removeItem(variable);
+            }
+            
             ForceRender(variable) ;
 
         })
@@ -102,14 +113,21 @@ const getAllEnterprises = (variable,ForceRender) => {
     // search and store enterprises created by active user
     // return them in array
     const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_URL;
-    const response = axios.get(url).then(
+    axios.get(url).then(
         (response) => {
             const data = response.data;
-            const allEnterprises = [];
-            data.forEach((element) => {
-                    allEnterprises.push(element);
-            });
-            localStorage.setItem(variable, JSON.stringify(allEnterprises));
+          
+            let pos = data.indexOf("ERROR") ;
+            if (pos < 0) { 
+                const allEnterprises = [];
+                data.forEach((element) => {
+                        allEnterprises.push(element);
+                });
+                localStorage.setItem(variable, JSON.stringify(allEnterprises));
+            }
+            else 
+                localStorage.removeItem(variable);
+           
             ForceRender(variable) ;
         })
 }
@@ -120,7 +138,7 @@ const getEnterprisesByUser = (variable,Token, UserId,ForceRender) => {
     // search and store enterprises created by active user
     // return them in array
     const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_FOR_USER_URL;
-    const response = axios.post(url, {
+    axios.post(url, {
         token: Token,
         Submit: 1,
         idUtilisateur: UserId
@@ -131,11 +149,20 @@ const getEnterprisesByUser = (variable,Token, UserId,ForceRender) => {
     }).then(
         (response) => {
             const data = response.data;
-            let Entreprises = [];
-            data.forEach((element) => {
-                Entreprises.push(element);
-            });
-            localStorage.setItem(variable, JSON.stringify(Entreprises));
+           
+
+            //console.log(data) ;
+            let pos = data.indexOf("ERROR") ;
+            if (pos < 0) { 
+                let Entreprises = [];
+                data.forEach((element) => {
+                    Entreprises.push(element);
+                });
+                localStorage.setItem(variable, JSON.stringify(Entreprises));
+            }
+            else 
+                localStorage.removeItem(variable);
+            
             ForceRender(variable) ;
         })
 }
@@ -150,11 +177,18 @@ const getAllActivities = (variable,ForceRender) => {
     const response = axios.get(url).then(
         (response) => {
             const data = response.data;
-            const allActivities = [];
-            data.forEach((element) => {
-                allActivities.push(element);
-            });
-            localStorage.setItem(variable, JSON.stringify(allActivities));
+          
+            let pos = data.indexOf("ERROR") ;
+            if (pos < 0) { 
+                const allActivities = [];
+                data.forEach((element) => {
+                    allActivities.push(element);
+                });
+                localStorage.setItem(variable, JSON.stringify(allActivities));
+            }
+            else 
+                localStorage.removeItem(variable);
+           
             ForceRender(variable) ;
         })
 }

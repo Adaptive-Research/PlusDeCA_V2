@@ -10,8 +10,9 @@ import {getIDFromToken} from "../../../functions_Dan.js";
 
 
 export default function CardActivity(props) {
-
+     //console.log("CardActivity") ;
     let Ligne = props.Ligne ;
+    //console.log(Ligne) ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
@@ -22,14 +23,6 @@ export default function CardActivity(props) {
     let SendActivityData = props.SendActivityData ;
 
     
-
-
-
-    function AddActivite(id,token) {
-        console.log("AddActivite") ;
-        if (SendActivityData !== null)
-            SendActivityData(true, Ligne.idEntreprise, null) ;
-    }
 
 
     function EditActivite(token) {
@@ -54,7 +47,7 @@ export default function CardActivity(props) {
             }
         }).then((response) => {
             console.log(response.data);
-            props.ForceRender() ;
+            props.ForceRenderActivity() ;
         })
       
     }
@@ -80,11 +73,6 @@ export default function CardActivity(props) {
                         onClick={() => { EditActivite(storedToken) }} >
                         
                     <i className="fe fe-edit"></i> 
-                </button>
-
-                <button type="btn" className="btn btn-success  mt-1 float-end"
-                        onClick={() => AddActivite(storedToken)}>
-                        <i className="fe fe-plus"></i> 
                 </button>
 
             </div>

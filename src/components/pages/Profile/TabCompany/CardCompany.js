@@ -1,7 +1,7 @@
 
 import React, {useEffect, useState} from "react";
-import {Card, Table} from "react-bootstrap";
-import {getIDFromToken} from "../../../functions_Dan.js";
+import {Button,Card, Table} from "react-bootstrap";
+import {getIDFromToken} from "../../../../functions_Dan.js";
 import CardActivity from "./CardActivity" ;
 import axios from "axios";
 
@@ -39,7 +39,11 @@ export default function CardCompany(props) {
 
 
 
-
+    // quand on n'a pas cree d'activite pour l'entreprise
+    const AddActivity = (e) => {
+        e.preventDefault();
+        props.SendActivityData(true,Ligne.idEntreprise,null) ;
+    }
 
 
 
@@ -48,35 +52,46 @@ export default function CardCompany(props) {
         //console.log("renderActivities: " +idEntreprise ) ;
         const myActivities = JSON.parse(localStorage.getItem("userActivities"));
 
-        //console.log("myActivities") ;
-        //console.log(myActivities) ;
         if (myActivities !== null ) {
+            if (myActivities.length > 0) {
+                return myActivities.map( (LigneActivity, index) => 
+                {
+                    if (LigneActivity.idEntreprise === idEntreprise)
+                    {
+                        if (LigneActivity.idActivite !== null)
+                        {
+                            return (<CardActivity 
+                                        key={LigneActivity.idActivite} 
+                                        Ligne={LigneActivity} 
+                                        SendActivityData={props.SendActivityData}
+                                        ForceRenderActivity = {props.ForceRenderActivity}
+                                    /> ) ;
+                        }    
+                    }
+                })
 
-            return myActivities.map( (LigneActivity, index) => {
-                if (LigneActivity.idEntreprise === idEntreprise)
-                    return (<CardActivity 
-                                key={LigneActivity.idActivite} 
-                                Ligne={LigneActivity} 
-                                SendActivityData={props.SendActivityData}
-                                ForceRender = {props.ForceRender}
-                            /> ) ;
+            }
 
-            })
         }
-        
+    }
+
+    function renderAll(idEntreprise){
+        return ( 
+            <>
+            <Button variant="primary" onClick={AddActivity} > Add an activity</Button> 
+            {renderActivities(Ligne.idEntreprise)}
+            </>
+        ) ;
     }
 
 
-    function AddCompany(token) {
-        console.log("AddCompany") ;
-        if (SendCompanyData !== null)
-            SendCompanyData(true, null) ;
-    }
+
+
 
 
 
     function EditCompany(idEntreprise,token) {
-        console.log("EditCompany") ;
+        //console.log("EditCompany") ;
         //console.log('Ligne.idEntreprise') ;
         //console.log(Ligne.idEntreprise) ;
         if (SendCompanyData !== null)
@@ -86,7 +101,7 @@ export default function CardCompany(props) {
 
 
     function DeleteCompany(idEntreprise,token) {
-        console.log("DeleteCompany") ;
+        //console.log("DeleteCompany") ;
 
         const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
         const response = axios.post(
@@ -102,8 +117,8 @@ export default function CardCompany(props) {
             }
         ).then(
             (response) => {
-                console.log(response.data);
-                props.ForceRender() ;
+                //console.log(response.data);
+                props.ForceRenderCompany() ;
             }
         )
     }
@@ -131,10 +146,6 @@ export default function CardCompany(props) {
                             <i className="fe fe-edit"></i> 
                     </button>
 
-                    <button type="btn" className="btn btn-primary  mt-1 float-end"
-                            onClick={ () => AddCompany(storedToken) }>
-                            <i className="fe fe-plus"></i> 
-                    </button>
                 </div>
 
 
@@ -164,7 +175,7 @@ export default function CardCompany(props) {
                 </div>
 
                 
-                {renderActivities(Ligne.idEntreprise)}
+                {renderAll(Ligne.idEntreprise)}
               
 
             </Card.Body>

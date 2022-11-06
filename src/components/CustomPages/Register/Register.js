@@ -14,9 +14,6 @@ export default function Register() {
     const [registerMsg, setRegisterMsg] = useState("Registration");
 
 
-    const toLog = () => {
-        window.location.href = "https://plusdeca.fr";
-    }
 
 
     const changeInput = (e, type) => {
@@ -27,21 +24,27 @@ export default function Register() {
         }
     }
 
-    const requestRegister = async (mail, pass) => {
+    const SaveNewUtilisateur = async (mail, pass) => {
         const url = process.env.REACT_APP_API_SIGNUP_URL;
+
+        console.log("password: " + pass) ;
+        const pa =  encrypt(pass) ;
+        console.log("password crypte: " + pa) ;
+
 
         if (checkEmail(email)) {
             const response = await axios.post(url, {
                 Submit: 1,
+                debug:1,
                 Email: mail,
-                Password: encrypt(pass)
+                Password: pa
             }, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 }
             });
 
-            console.log(response.data);
+         
 
             if (response.data.includes("ERROR:")) {
                 setEmailMsg("Wrong email or password");
@@ -49,7 +52,7 @@ export default function Register() {
 
             } else {
                 console.log("User created");
-                console.log(response.data);
+                //console.log(response.data);
                 setRegisterMsg("User created");
             }
         }
@@ -58,18 +61,15 @@ export default function Register() {
 
 
     const inputValidation = () => {
-        let emailCheck, passwordCheck;
+        let emailCheck =false , passwordCheck = false ;
 
         if (!checkEmail(email)) {
             setEmailMsg("Email is required and must be valid");
             emailCheck = false;
-        } else if (email.length !== 0 && checkEmail(email) && !checkDuplicate(email)) {
+        } else if (email.length !== 0 ) {
             setEmailMsg("");
             emailCheck = true;
-        } else if (checkDuplicate(email)) {
-            setEmailMsg("Email is already used");
-            emailCheck = false;
-        }
+        } 
 
 
         if (password.length < 8) {
@@ -81,9 +81,10 @@ export default function Register() {
         }
 
         if (emailCheck && passwordCheck) {
-            requestRegister(email, password);
+            SaveNewUtilisateur(email, password);
         }
 
+        //SaveNewUtilisateur(email, password);
 
     }
 
