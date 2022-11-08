@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, Component  } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Modal, Button } from "react-bootstrap";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState,convertFromRaw, convertToRaw } from "draft-js";
+import { EditorState,convertFromRaw, convertToRaw,ContentState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import htmlToDraft from 'html-to-draftjs';
 
 //wrapper
 export const Wrappers = () => {
@@ -23,6 +24,9 @@ export const Wrappers = () => {
       editorState: editorValue
     });
   };
+
+
+
 function uploadImageCallBack(file) {
   return new Promise(
     (resolve, reject) => {
@@ -43,6 +47,8 @@ function uploadImageCallBack(file) {
     }
   );
 }
+
+
   return (
       <Editor
         toolbarHidden={false}
@@ -77,6 +83,8 @@ function uploadImageCallBack(file) {
       }
     ]
   };
+
+
   export class FromInlineEditEditor extends React.Component {
   
     constructor(props) {
@@ -116,6 +124,75 @@ function uploadImageCallBack(file) {
     }
   
 };
+
+
+
+//EditorConvertToHTML
+export class EditorConvertToHTML extends Component {
+  constructor(props) {
+    super(props);
+
+    this.props = props ; 
+
+    //console.log("EditorConvertToHTML") ;
+    //console.log("props") ;
+    //console.log(props) ;
+
+    const html = props.Content ;
+    const contentBlock = htmlToDraft(html);
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+      const editorState = EditorState.createWithContent(contentState);
+      this.state = {
+        editorState,
+      };
+    }
+  }
+
+  onContentStateChange = contentState => {
+    console.log("onContentStateChange")
+    this.setState({
+      contentState
+    });
+    console.log("contentState") ;
+    console.log(contentState) ;
+
+    //this.props.onChange(draftToHtml(convertToRaw(contentState.getCurrentContent())));
+  };
+
+
+  onEditorStateChange = editorState => {
+    console.log("onEditorStateChange")
+    this.setState({
+      editorState
+    });
+
+    //console.log("editorState.getCurrentContent()") ;
+    //console.log(draftToHtml(convertToRaw(editorState.getCurrentContent()))) ;
+    this.props.onEditorChange(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+  };
+
+  
+
+  render() {
+    const { editorState } = this.state;
+    return (
+      <div>
+        <Editor
+         {...this.props}
+          editorState={editorState}
+          wrapperClassName="demo-wrapper"
+          editorClassName="demo-editor"
+          onEditorStateChange={this.onEditorStateChange}
+          onContentStateChange={this.onContentStateChange}
+        />
+      </div>
+    );
+  }
+}
+
+
+
 //FormEditorstyle1
 export const FormEditorstyle1 = () => {
   const { handleSubmit, control } = useForm({
@@ -148,6 +225,8 @@ export const FormEditorstyle1 = () => {
     </section>
   );
 };
+
+
 //LargeModaleditor
 export function LargeModaleditor() {
   const [lgShow, setLgShow] = useState(false);

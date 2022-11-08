@@ -1,111 +1,154 @@
-import React, {useEffect, useState} from "react";
+import React, { useState,useRef} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
-import {Link} from "react-router-dom";
-import axios from "axios";
+import {getUserArticles} from "../../../data/customlibs/utils";
+import CardArticle from "./CardArticle" ;
+import ModalEditArticle from "./ModalEditArticle" ;
+import {useNavigate} from "react-router";
+//import axios from "axios";
+
 
 export default function ArticleList() {
-    const [rendered, setRendered] = useState(false);
-
-    console.log("Profile") ;
+    console.log("ArticleList") ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
 
+    const navigate = useNavigate() ; 
+    
 
 
-    const deleteArticle = async (id, version) => {
-        //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_ARTICLE_URL;
-        const url = process.env.REACT_APP_API_DELETE_ARTICLE_URL;
-        const response = await axios.post(url, {
-            Submit: 1,
-            token: storedToken,
-            debug: 1,
-            idAncestor: id
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        }).then(
-            (response) => {
-                console.log(response.data);
-                window.location.reload(); // ok, j'apprends un truc
-            }
-        )
+    // pour l'affichage de la fenetre modale
+    const [showEditArticle, SetShowEditArticle] = useState(false) ;
 
+    // pour le ForceRender
+    const downloaded_Articles = useRef(false) ;
+
+    // pour 
+    const [modeEdit,setModeEdit]= useState("") ;
+    const [idAncestor,setIdAncestor] = useState("") ;
+    const [title, setTitle] = useState("");
+    const [category, setCategory] = useState("");
+    const [text, setText] = useState("");
+    const [html, setHtml] = useState("<p>Hey this <strong>test</strong> rocks 😀</p>");
+    const [photo, setPhoto] = useState("");
+
+    // pour le reload des infos
+    const [reloadInfos, setReloadInfos] = useState(true) ;
+
+
+
+    // recuperation des informations au depart
+    if (reloadInfos === true)
+    {
+        //console.log("reloadInfos") ;
+        getUserArticles(storedToken,RenderAfterLoad) ;
+
+            
+        setReloadInfos(false) ;
     }
 
 
-    //Method to get all articles created by this user
-    const getUserArticles = async (tok) => {
-        //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
-        const url =  process.env.REACT_APP_API_SHOW_ARTICLES_BY_USER_URL;
-        const response = await axios.post(url, {
-            token: tok,
-            Submit: 1,
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        });
-        localStorage.setItem("userArticles", JSON.stringify(response.data));
-        setRendered(true);
+
+
+
+    // le callback qui est appele apres le chargement des donnees
+    function RenderAfterLoad(variable) {
+        if (variable === "userArticles")
+            downloaded_Articles.current = true ;
+
+        if (downloaded_Articles.current === true)
+            navigate(0) ;
     }
 
 
-    // intelligent
-    const reduceText = (text) => {
-        if (text.length > 100) {
-            return text.substring(0, 100) + "...";
-        } else {
-            return text;
+
+
+
+
+
+    // Callbacks pour la fenetre ModalEditArticle
+    // il y en a 3
+    // - ModalEditArticleClose
+    // - SendArticleData
+    // - ForceRenderArticle
+
+
+
+    // C'est le callback appele quand on ferme ModalEditArticle
+    function ModalEditArticleClose()
+    {
+        SetShowEditArticle(false) ;
+    }
+
+
+
+    // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
+    function SendArticleData(ShowWindow, Article) {
+        //console.log("SendCompanyData")
+        if (Article === null)
+        {
+            setModeEdit("Add") ;
+            setIdAncestor("") ;
+            setTitle("") ;
+            setCategory("") ;
+            setText("") ;
+            setHtml("") ;
+            setPhoto("") ;
         }
+        else
+        {
+            setModeEdit("Edit") ;
+            console.log("Mode Edit") ;
+            console.log("Article") ;
+            console.log(Article) ;
+
+            setIdAncestor(Article.idAncestor) ;
+            setTitle(Article.Article_Title) ;
+            setCategory(Article.Article_Category) ;
+            setText(Article.Article_Text) ;
+            setHtml(Article.Article_Html) ;
+            setPhoto(Article.Article_Image) ;
+        }
+        
+
+
+        if (ShowWindow === "false")
+            SetShowEditArticle(false) ;
+        else
+            SetShowEditArticle(true) ;
+    }    
+
+
+    function ForceRenderArticle() {
+        console.log("ForceRenderArticle") ;
+        SetShowEditArticle(false) ;
+        downloaded_Articles.current = false ;
+        getUserArticles(storedToken, RenderAfterLoad) ;
     }
 
 
-    function RenderArticle(article) {
-        return (
-            <Col md={4}>
-                <Card key={article.id}>
-                    <img
-                        className="card-img-top br-tr-7 br-tl-7"
-                        src={require("../../../assets/images/media/19.jpg")}
-                        alt="Card cap"
-                    />
-                    <Card.Header>
-                        <Card.Title as="h5"> {article.Article_Title} </Card.Title>
-                        <button className="btn btn-success" style={{marginLeft: "50%"}}>
-                            {article.Article_Category}
-                        </button>
-                    </Card.Header>
-                    <Card.Body>
-                        <Card.Text>
-                            {article.Article_Text.length > 100 ? article.Article_Text.substring(0, 100) + "..." : article.Article_Text}
-                        </Card.Text>
-                        <button className='btn btn-warning'
-                        onClick={() => {
-                            localStorage.setItem("articleToEdit", JSON.stringify(article));
-                            window.location.href = `${process.env.PUBLIC_URL}/pages/ArticleEdit`;
-                        }}
-                        >
-                            <i className="fa fa-edit"></i>
-                        </button>
-                        <button className='m-2 btn btn-danger'
-                                onClick={() => deleteArticle(article.idAncestor, article.NumVersion)}>
-                            <i className="fa fa-trash"></i>
-                        </button>
-                        <Link
-                            to={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
-                            className="float-end">
-                            Read more <i
-                            className="fa fa-angle-double-right"></i>
-                        </Link>
-                    </Card.Body>
-                </Card>
-            </Col>
-        )
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
 
 
     // Separate drafts from published articles
@@ -114,15 +157,29 @@ export default function ArticleList() {
 
         if (articles !== null)
         {
+            console.log("articles") ;
             console.log(articles);
-            return articles.map((article) => {
+
+            return articles.map((Ligne) => {
                 if  (TypeArticle === "Brouillon") {
-                    if (article.isPublished === "0") 
-                        return RenderArticle(article) ;
+                    if (Ligne.isPublished === "0") 
+                        return <Col md={4}> 
+                                    <CardArticle 
+                                        Article={Ligne}
+                                        SendArticleData={SendArticleData}  
+                                        ForceRenderArticle = {ForceRenderArticle}
+                                    /> 
+                                </Col> ;
                 }
                 else {
-                    if (article.isPublished === "1") 
-                        return RenderArticle(article) ;
+                    if (Ligne.isPublished === "1") 
+                        return <Col md={4}> 
+                                    <CardArticle 
+                                        Article={Ligne}
+                                        SendArticleData={SendArticleData}  
+                                        ForceRenderArticle = {ForceRenderArticle}
+                                    /> 
+                                </Col> ;
                 }
             })
         }
@@ -131,11 +188,11 @@ export default function ArticleList() {
     }
 
 
-    if (!rendered) {
-        getUserArticles(storedToken).then(r => console.log(`Articles loaded`));
-    } else {
-        console.log("rendered")
-    }
+   
+
+
+
+
 
 
     return (
@@ -146,19 +203,11 @@ export default function ArticleList() {
                     <h1 className="page-title">Articles</h1>
                 </div>
                 <div className="ms-auto pageheader-btn">
-                    <Link to={`${process.env.PUBLIC_URL}/pages/ArticleAdd`}
-                          className="btn btn-primary btn-icon text-white me-3">
-            <span>
-              <i className="fe fe-plus"></i>&nbsp;
-            </span>
-                        Ajouter
-                    </Link>
-                    <Link to={`${process.env.PUBLIC_URL}/dashboard`} className="btn btn-success btn-icon text-white">
-            <span>
-              <i className="fe fe-log-in"></i>&nbsp;
-            </span>
-                        Retour
-                    </Link>
+                    <button className='btn btn-primary' onClick={() => {SendArticleData(true, null) ;}}>
+                        <span> <i className="fe fe-plus"></i>&nbsp;</span>
+                        Ajouter un article
+                    </button>
+
                 </div>
             </div>
 
@@ -169,12 +218,36 @@ export default function ArticleList() {
                             <div className="wideget-user-tab">
                                 <div className="tab-menu-heading">
                                     <div className="tabs-menu1 ">
+
+
+                                        <ModalEditArticle 
+                                            show={showEditArticle} 
+                                            SendCloseMessage={ModalEditArticleClose}  
+                                            ForceRenderArticle={ForceRenderArticle}
+                                            ModeEdit={modeEdit}
+                                            idAncestor={idAncestor}
+                                            Title={title} 
+                                            Category = {category} 
+                                            Content= {html}
+                                            Photo = {photo}
+                                        />
+
+
                                         <Tabs
                                             variant="Tabs"
-                                            defaultActiveKey="Publié"
+                                            defaultActiveKey="Brouillon"
                                             id=" tab-51"
                                             className="tab-content tabesbody "
                                         >
+                                            <Tab eventKey="Brouillon" title="En cours d'écriture">
+                                                <div className="tab-pane " id="tab-61">
+                                                    <Row className="row-cards ">
+                                                        {renderArticles("Brouillon")}
+                                                    </Row>
+                                                </div>
+                                            </Tab>
+
+
                                             <Tab eventKey="Publié" title="Publié">
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
@@ -182,13 +255,7 @@ export default function ArticleList() {
                                                     </Row>
                                                 </div>
                                             </Tab>
-                                            <Tab eventKey="Brouillon" title="Brouillon">
-                                                <div className="tab-pane " id="tab-61">
-                                                    <Row className="row-cards ">
-                                                        {renderArticles("Brouillon")}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
+
                                         </Tabs>
                                     </div>
                                 </div>

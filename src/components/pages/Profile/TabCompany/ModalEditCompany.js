@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {Button, Col, FormGroup, Row, Modal } from "react-bootstrap";
 
 import axios from "axios";
-import {useNavigate} from "react-router";
 
 
 
@@ -37,7 +36,7 @@ export default function ModalEditCompany(props) {
     const [phone, setPhone] = useState("");
     const [phoneMsg, setPhoneMsg] = useState("");
     const [responseMsg, setResponseMsg] = useState("Ajouter entreprise");
-    const navigate = useNavigate();
+
 
 
     //console.log("ModalEditCompany") ;

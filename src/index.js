@@ -99,9 +99,6 @@ const UnderConstruction = React.lazy(() => import("./components/pages/UnderConst
 
 //Article
 const ArticleList = React.lazy(() => import("./components/pages/Articles/ArticleList"));
-const ArticleEdit = React.lazy(() => import("./components/pages/Articles/ArticleEdit"));
-const ArticleAdd = React.lazy(() => import("./components/pages/Articles/ArticleAdd"));
-const ArticleDetail = React.lazy(() => import("./components/pages/Articles/ArticleDetail"));
 
 
 
@@ -597,20 +594,6 @@ const Root = () => {
                                     element={<ArticleList/>}
                                 />
 
-                                <Route
-                                    path={`${process.env.PUBLIC_URL}/pages/ArticleEdit`}
-                                    element={<ArticleEdit/>}
-                                />
-
-                                <Route
-                                    path={`${process.env.PUBLIC_URL}/pages/ArticleAdd`}
-                                    element={<ArticleAdd/>}
-                                />
-
-                                <Route
-                                    path={`${process.env.PUBLIC_URL}/pages/ArticleDetail`}
-                                    element={<ArticleDetail/>}
-                                />
 
 
                                 <Route

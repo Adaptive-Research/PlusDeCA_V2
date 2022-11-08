@@ -133,13 +133,45 @@ export default function TabCompany(props) {
     // Les callbacks
 
 
+    // le callback qui est appele apres le chargement des donnees
+    function RenderAfterLoad(variable) {
+
+        console.log("RenderAfterLoad: "+ variable) ;
+
+        if (variable === "userActivities")
+            downloaded_UserActivities.current = true ;
+
+        if (variable === "userEnterprises")
+            downloaded_UserEnterprises.current = true ;
+            
+        
+        if ((downloaded_UserActivities.current === true) && (downloaded_UserEnterprises.current === true))
+            navigate(0) ;
+        
+    }
+
+
+
+
+
+
+
+
+
+
+    // Callbacks pour la fenetre ModalEditCompany
+    // il y en a 3
+    // - ModalEditCompanyClose
+    // - SendCompanyData
+    // - ForceRenderCompany
+
+
     // C'est le callback appele quand on ferme ModalEditCompany 
     function ModalEditCompanyClose()
     {
         //console.log("ModalEditCompanyClose") ;
         SetShowEditCompany(false) ;
     }
-
 
 
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
@@ -177,6 +209,27 @@ export default function TabCompany(props) {
 
 
 
+    function ForceRenderCompany() {
+        console.log("ForceRenderCompany") ;
+
+        downloaded_UserEnterprises.current = false ;
+        getEnterprisesByUser("userEnterprises",storedToken,idUser,RenderAfterLoad) ;
+    }
+
+
+
+
+
+
+
+
+
+
+    // Callbacks pour la fenetre ModalEditActivity
+    // il y en a 3
+    // - ModalEditActivityClose
+    // - SendActivityData
+    // - ForceRenderActivity
 
 
 
@@ -187,9 +240,6 @@ export default function TabCompany(props) {
         //console.log("ModalEditActivityClose") ;
         SetShowEditActivity(false) ;
     }
-
-
-
 
 
 
@@ -235,39 +285,6 @@ export default function TabCompany(props) {
     }
 
 
-
-
-    function RenderAfterLoad(variable) {
-
-        console.log("RenderAfterLoad: "+ variable) ;
-
-        if (variable === "userActivities")
-            downloaded_UserActivities.current = true ;
-
-        if (variable === "userEnterprises")
-            downloaded_UserEnterprises.current = true ;
-            
-        
-        if ((downloaded_UserActivities.current === true) && (downloaded_UserEnterprises.current === true))
-            navigate(0) ;
-        
-    }
-
-
-
-
-    
-
-
-    function ForceRenderCompany() {
-        console.log("ForceRenderCompany") ;
-
-        downloaded_UserEnterprises.current = false ;
-        getEnterprisesByUser("userEnterprises",storedToken,idUser,RenderAfterLoad) ;
-    }
-
-
-
     
     function ForceRenderActivity() {
         console.log("ForceRenderActivity") ;
@@ -284,6 +301,8 @@ export default function TabCompany(props) {
 
 
 
+
+    
 
 
 

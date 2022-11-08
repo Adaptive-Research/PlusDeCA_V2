@@ -42,7 +42,8 @@ export default function ArticleEdit() {
 
 
     const requestArticleUpdate = () => {
-        const url = "https://frozen-cove-79898.herokuapp.com/" + process.env.REACT_APP_API_EDIT_ARTICLE_URL;
+        //const url = "https://frozen-cove-79898.herokuapp.com/" + process.env.REACT_APP_API_EDIT_ARTICLE_URL;
+        const url =  process.env.REACT_APP_API_EDIT_ARTICLE_URL;
 
         const response = axios.post(url, {
             Submit: 1,
