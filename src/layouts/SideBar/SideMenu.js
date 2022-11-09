@@ -60,27 +60,19 @@ export const MENUITEMS = [
                 title: "Mon planning",
             },
             {
-                path: `${process.env.PUBLIC_URL}/MesReunions`,
+                path: `${process.env.PUBLIC_URL}/CompteRendu`,
                 icon: "user-plus",
                 type: "link",
                 active: false,
-                title: "Mes réunions d'entrepreneurs",
+                title: "Ajouter un compte rendu",
             },
             {
-                path: `${process.env.PUBLIC_URL}/MesSalons`,
+                path: `${process.env.PUBLIC_URL}/Bilan`,
                 icon: "star",
                 type: "link",
                 active: false,
-                title: "Mes salons",
+                title: "Bilan des rencontres",
             },
-            {
-                path: `${process.env.PUBLIC_URL}/MesRendezVous`,
-                icon: "home",
-                type: "link",
-                active: false,
-                title: "Mes rendez-vous client",
-            },
-
         ],
     },
 

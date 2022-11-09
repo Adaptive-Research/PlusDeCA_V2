@@ -5,7 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
 import {Card,Row,Col} from "react-bootstrap"
 import {useNavigate} from "react-router";
-import {EventData} from "./EventData"
+import {ModalEditEvent} from "./ModalEditEvent"
 import axios from "axios";
 import  { getIDFromToken } from "../../../functions_Dan.js" ;
 
@@ -313,7 +313,7 @@ function ForceRender(variable) {
 
               
                 <Col md={5}>
-                  <EventData 
+                  <ModalEditEvent 
                     show={showEditEvent} 
                     SendCloseMessage={ModalEditEventClose}  
                     ForceRender={ForceRender}

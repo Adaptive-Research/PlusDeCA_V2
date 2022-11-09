@@ -9,7 +9,7 @@ import {
 import { DayTimeColsView } from "@fullcalendar/timegrid";
 
 
-export function EventData(props) {
+export function ModalEditEvent(props) {
   console.log("EventData") ;
 
 
