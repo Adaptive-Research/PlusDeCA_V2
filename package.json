@@ -41,6 +41,7 @@
     "npm-check-updates": "^12.5.8",
     "npx": "^10.2.2",
     "nvd3": "^1.8.6",
+    "postcss": "^8.4.18",
     "react": "^18.0.0",
     "react-alert-template-basic": "^1.0.2",
     "react-apexcharts": "^1.4.0",
