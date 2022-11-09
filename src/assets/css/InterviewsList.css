@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+.Edit-Interview{
+    background: #088340;
+}
+.Edit-Interview a{
+    text-decoration: none;
+    color: #ffffff;
+}
+h1,h5{
+    font-family: 'Poppins', sans-serif;
+}

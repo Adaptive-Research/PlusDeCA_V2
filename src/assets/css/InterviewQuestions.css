@@ -1,0 +1,101 @@
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent,
+.InterviewQuestions .AnswerContainer .MultiStepForm .box,
+.InterviewQuestions .AnswerContainer .MultiStepForm,
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .QuestionContent form,
+.InterviewQuestions .InterviewQuestionsIMG,
+.InterviewQuestions{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+.InterviewQuestions{
+    margin-top: 3rem;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .QuestionContent,
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+}
+.InterviewQuestions .AnswerContainer,
+.InterviewQuestions .InterviewQuestionsIMG{
+    width: 45%;
+    height: auto;
+}
+.InterviewQuestions .InterviewQuestionsIMG img{
+    width: 100%;
+    height: auto;
+}
+
+.InterviewQuestions .AnswerContainer .MultiStepForm{
+    width: 100%;
+    height: 100%;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer,
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box{
+    width: 100%;
+    height: 90%;
+    position: relative;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer {
+    padding: 1.5rem;
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    border-radius: 1.2rem;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .Question_Btns_Container{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    bottom: 20px;
+    width: 100%;
+    height: auto;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .Question_Btns_Container button{
+  border: none;
+  outline: none;
+  padding: 0.88rem 1.5rem;
+  background: blue;
+  border-radius: 0.5rem;
+  color: #fff;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .Question_Btns_Container button.NextBtn{
+    background: #088340;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .Question_Btns_Container button.BackBtn{
+    margin-right: 20px;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .QuestionContent h4{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: start;
+    width: 100%;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .QuestionContent form{
+    width: 100%;
+    height: auto;
+    margin-top: 30px;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .QuestionContent form input{
+    width: 100%;
+    height: 50px;
+    background:  rgba(132, 139, 200, 0.18);
+    border-radius: 0.68rem;
+    border: none;
+    outline: none;
+    padding: 1rem;
+    padding-left: 3rem;
+    justify-content: flex-start;
+    text-align: start;
+}
