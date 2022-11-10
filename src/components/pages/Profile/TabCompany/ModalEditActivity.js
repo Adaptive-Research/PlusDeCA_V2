@@ -36,7 +36,9 @@ export default function ModalEditActivity(props) {
 
 
 
-    //console.log("ModalEditActivity") ;
+    console.log("ModalEditActivity") ;
+    //console.log("props") ;
+    //console.log(props) ;
     /*
     console.log("props.idEntreprise") ;
     console.log(props.idEntreprise) ;
@@ -106,7 +108,11 @@ export default function ModalEditActivity(props) {
             } else {
                 console.log("Activity added");
                 if (props.SendCloseMessage !== null)
+                {
                     props.SendCloseMessage() ;
+                    if (props.ForceRenderActivity !== null)
+                        props.ForceRenderActivity() ;
+                }
             }
            
         }
@@ -135,7 +141,11 @@ export default function ModalEditActivity(props) {
             } else {
                 console.log("Activity modified");
                 if (props.SendCloseMessage !== null)
+                {
                     props.SendCloseMessage() ;
+                    if (props.ForceRenderActivity !== null)
+                        props.ForceRenderActivity() ;
+                }
             }
             
             
@@ -158,12 +168,9 @@ export default function ModalEditActivity(props) {
 
 
         
-        if (nameCheck) {
+        if (nameCheck) 
             SaveActivity() ;
-            if (props.ForceRender !== null)
-                props.ForceRender() ;
-            
-        }
+        
     
     }
 

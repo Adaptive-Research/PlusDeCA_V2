@@ -62,6 +62,10 @@ export default function TabCompany(props) {
     const [description, SetDescription] = useState("");
 
 
+    // pour le Rerender
+    const [compteur,setCompteur] = useState(0) ;
+    
+
 
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
@@ -146,7 +150,11 @@ export default function TabCompany(props) {
             
         
         if ((downloaded_UserActivities.current === true) && (downloaded_UserEnterprises.current === true))
-            navigate(0) ;
+        {
+            //console.log("compteur+1") ;
+            setCompteur(compteur+1) ; 
+        }
+        
         
     }
 
@@ -210,7 +218,7 @@ export default function TabCompany(props) {
 
 
     function ForceRenderCompany() {
-        console.log("ForceRenderCompany") ;
+        //console.log("ForceRenderCompany") ;
 
         downloaded_UserEnterprises.current = false ;
         getEnterprisesByUser("userEnterprises",storedToken,idUser,RenderAfterLoad) ;
@@ -287,7 +295,7 @@ export default function TabCompany(props) {
 
     
     function ForceRenderActivity() {
-        console.log("ForceRenderActivity") ;
+        //console.log("ForceRenderActivity") ;
 
         downloaded_UserActivities.current = false ;
         getActivitiesForUser("userActivities",storedToken,idUser,RenderAfterLoad) ;
@@ -323,6 +331,7 @@ export default function TabCompany(props) {
         if (myCompanies !== null ) 
         {
             return myCompanies.map( (Ligne) => <CardCompany 
+                                                        Render={compteur}
                                                         key={Ligne.idEntreprise} 
                                                         Ligne={Ligne} 
                                                         SendCompanyData={SendCompanyData}  
@@ -351,6 +360,7 @@ export default function TabCompany(props) {
             <div id="profile-log-switch">
 
                 <ModalEditCompany 
+                Render={compteur}
                 show={showEditCompany} 
                 SendCloseMessage={ModalEditCompanyClose}  
                 ForceRender={ForceRenderCompany}
@@ -365,9 +375,10 @@ export default function TabCompany(props) {
                 />
 
                 <ModalEditActivity
+                Render={compteur}
                 show={showEditActivity} 
                 SendCloseMessage={ModalEditActivityClose}  
-                ForceRender={ForceRenderActivity}
+                ForceRenderActivity={ForceRenderActivity}
                 Mode={modeEdit}
                 idEntreprise={idEntreprise}
                 idActivite={idActivite}

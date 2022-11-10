@@ -85,6 +85,7 @@ const getActivitiesForUser = (variable, Token,UserId, ForceRender) => {
     }).then(
         (response) => {
             const data = response.data;
+            //console.log("response.data") ;
             //console.log(data) ;
             
             let pos = data.indexOf("ERROR") ;
