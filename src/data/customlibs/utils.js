@@ -226,6 +226,38 @@ const getUserArticles = async (tok,ForceRender) => {
 }
 
 
+//Method to get all articles created by this user
+const getUserInterviews = async (tok,ForceRender) => {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
+    const url =  process.env.REACT_APP_API_SHOW_INTERVIEWS_FOR_USER_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        //debug: 1,
+        Submit: 1,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    let variable = "userInterviews" ;
+    let data = response.data ;
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+        let Interviews = [];
+
+        data.forEach((element) => {
+            Interviews.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(Interviews));
+    }
+    else{
+        localStorage.removeItem(variable);
+    }
+    ForceRender(variable) ;
+}
+
+
 
 
 export {
@@ -239,5 +271,6 @@ export {
     getAllEnterprises,
     getEnterprisesByUser,
     getAllActivities,
-    getUserArticles
+    getUserArticles,
+    getUserInterviews
 };
