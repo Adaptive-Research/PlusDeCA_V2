@@ -5,7 +5,12 @@ import {getUserArticles} from "../../../data/customlibs/utils";
 import CardArticle from "./CardArticle" ;
 import ModalEditArticle from "./ModalEditArticle" ;
 import {useNavigate} from "react-router";
-//import axios from "axios";
+
+
+  // le callback qui est appele apres le chargement des donnees
+    
+  
+
 
 
 export default function ArticleList() {
@@ -19,8 +24,12 @@ export default function ArticleList() {
     
 
 
+    // pour le Rerender
+    const [compteur,setCompteur] = useState(0) ;
+    
+
     // pour l'affichage de la fenetre modale
-    const [showEditArticle, SetShowEditArticle] = useState(false) ;
+    const [showEditArticle, setShowEditArticle] = useState(false) ;
 
     // pour le ForceRender
     const downloaded_Articles = useRef(false) ;
@@ -35,34 +44,38 @@ export default function ArticleList() {
     const [photo, setPhoto] = useState("");
 
     // pour le reload des infos
-    const [reloadInfos, setReloadInfos] = useState(true) ;
+    const reloadInfos = useRef(true) ;
 
 
+    
 
     // recuperation des informations au depart
-    if (reloadInfos === true)
+    if (reloadInfos.current === true)
     {
-        //console.log("reloadInfos") ;
+        console.log("reloadInfos") ;
         getUserArticles(storedToken,RenderAfterLoad) ;
-
             
-        setReloadInfos(false) ;
+        reloadInfos.current = false ;
     }
 
 
 
 
-
-    // le callback qui est appele apres le chargement des donnees
     function RenderAfterLoad(variable) {
+        console.log("downloaded_Articles.current") ;
+        console.log(downloaded_Articles.current) ;
+        
         if (variable === "userArticles")
             downloaded_Articles.current = true ;
 
+
+    
         if (downloaded_Articles.current === true)
-            navigate(0) ;
+            setCompteur(compteur+1) ; 
+    
+        downloaded_Articles.current = false ;      
     }
-
-
+  
 
 
 
@@ -79,7 +92,7 @@ export default function ArticleList() {
     // C'est le callback appele quand on ferme ModalEditArticle
     function ModalEditArticleClose()
     {
-        SetShowEditArticle(false) ;
+        setShowEditArticle(false) ;
     }
 
 
@@ -115,16 +128,17 @@ export default function ArticleList() {
 
 
         if (ShowWindow === "false")
-            SetShowEditArticle(false) ;
+            setShowEditArticle(false) ;
         else
-            SetShowEditArticle(true) ;
+            setShowEditArticle(true) ;
     }    
 
 
     function ForceRenderArticle() {
+        
         console.log("ForceRenderArticle") ;
-        SetShowEditArticle(false) ;
-        downloaded_Articles.current = false ;
+        setShowEditArticle(false) ;
+
         getUserArticles(storedToken, RenderAfterLoad) ;
     }
 
@@ -165,6 +179,7 @@ export default function ArticleList() {
                     if (Ligne.isPublished === "0") 
                         return <Col md={4}> 
                                     <CardArticle 
+                                        Render={compteur}
                                         Article={Ligne}
                                         SendArticleData={SendArticleData}  
                                         ForceRenderArticle = {ForceRenderArticle}
@@ -175,6 +190,7 @@ export default function ArticleList() {
                     if (Ligne.isPublished === "1") 
                         return <Col md={4}> 
                                     <CardArticle 
+                                        Render={compteur}
                                         Article={Ligne}
                                         SendArticleData={SendArticleData}  
                                         ForceRenderArticle = {ForceRenderArticle}
@@ -198,7 +214,7 @@ export default function ArticleList() {
     return (
         <div>
 
-            <div className="page-header">
+            <div className="page-header" Render={compteur}>
                 <div>
                     <h1 className="page-title">Articles</h1>
                 </div>

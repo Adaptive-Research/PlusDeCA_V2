@@ -168,8 +168,8 @@ export default function ModalEditArticle(props) {
         else
             texte.current = "" ;
 
-        //console.log("texte") ;
-        //console.log(texte.current) ;
+        console.log("texte") ;
+        console.log(texte.current) ;
 
 
         let titleCheck, categoryCheck, descriptionCheck;
