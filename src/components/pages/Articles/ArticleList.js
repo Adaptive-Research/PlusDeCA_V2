@@ -179,7 +179,6 @@ export default function ArticleList() {
                     if (Ligne.isPublished === "0") 
                         return <Col md={4}> 
                                     <CardArticle 
-                                        Render={compteur}
                                         Article={Ligne}
                                         SendArticleData={SendArticleData}  
                                         ForceRenderArticle = {ForceRenderArticle}
@@ -190,7 +189,6 @@ export default function ArticleList() {
                     if (Ligne.isPublished === "1") 
                         return <Col md={4}> 
                                     <CardArticle 
-                                        Render={compteur}
                                         Article={Ligne}
                                         SendArticleData={SendArticleData}  
                                         ForceRenderArticle = {ForceRenderArticle}
@@ -237,6 +235,7 @@ export default function ArticleList() {
 
 
                                         <ModalEditArticle 
+                                            Render={compteur}
                                             show={showEditArticle} 
                                             SendCloseMessage={ModalEditArticleClose}  
                                             ForceRenderArticle={ForceRenderArticle}
