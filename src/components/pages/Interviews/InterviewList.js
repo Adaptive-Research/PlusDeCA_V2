@@ -1,53 +1,60 @@
-import React, {useEffect, useState} from "react";
+import React, {useRef, useState} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
 import {Link} from "react-router-dom";
 import {BsPencilSquare} from "react-icons/bs";
 import {FaPenAlt,FaEye,FaRegThumbsUp} from "react-icons/fa";
 import {AiOutlineSave} from "react-icons/ai";
-import axios from "axios";
+import {getUserInterviews} from "../../../data/customlibs/utils";
 import '../../../assets/css/InterviewsList.css';
 import CardInterview from "./CardInterview.js";
+import {useNavigate} from "react-router";
 
 export default function InterviewList() {
-    const [rendered, setRendered] = useState(false);
 
-    console.log("Profile") ;
+    console.log("InterviewList") ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
 
+    // pour le ForceRender
+    const downloaded_Interviews = useRef(false) ;
+
+    const navigate = useNavigate() ; 
 
 
-    //Method to get all articles created by this user
-    const getUserInterviews = async (tok) => {
-        //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
-        const url =  process.env.REACT_APP_API_SHOW_INTERVIEWS_FOR_USER_URL;
-        const response = await axios.post(url, {
-            token: tok,
-            Submit: 1,
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        });
-        localStorage.setItem("userInterviews", JSON.stringify(response.data));
-        setRendered(true);
+
+    // le callback qui est appele apres le chargement des donnees
+    function RenderAfterLoad(variable) {
+        if (variable === "userInterviews")
+            downloaded_Interviews.current = true ;
+
+        if (downloaded_Interviews.current === true)
+            navigate(0) ;
     }
 
-        // pour le reload des infos
-        const [reloadInfos, setReloadInfos] = useState(true) ;
 
-        // recuperation des informations au depart
-        if (reloadInfos === true)
-        {
-            //console.log("reloadInfos") ;
-            getUserInterviews(storedToken) ;
+
+
     
-                
-            setReloadInfos(false) ;
-        }
+    // pour le reload des infos
+    const [reloadInfos, setReloadInfos] = useState(true) ;
+
+    // recuperation des informations au depart
+    if (reloadInfos === true)
+    {
+        //console.log("reloadInfos") ;
+        getUserInterviews(storedToken,RenderAfterLoad) ;
+
+            
+        setReloadInfos(false) ;
+    }
+
+
+
+
+
 
 
     //Pour rendre les interview auxquelles il faut encore répondre , (Ces Fonctions sont provisoires et seront utilisées uniquement pour la maquette)
@@ -124,11 +131,16 @@ export default function InterviewList() {
             </Col>
         )
     }
+
+
+
  //Pour rendre les interview qui ont été publiéés par les administrateur (Ces Fonctions sont provisoires et seront utilisées uniquement pour la maquette)
     const renderPublicInterviews =()=> {
         const interviews = JSON.parse(localStorage.getItem("userInterviews"));
         return RenderPublicInterviews(interviews);
     }
+
+
 
     function RenderPublicInterviews(interview) {
         //{interview.Titre}
