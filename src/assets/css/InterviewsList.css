@@ -1,11 +1,209 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&family=Poppins&display=swap');
 .Edit-Interview{
     background: #088340;
+}
+.Edit-Interview:hover{
+    background: #088340 !important; 
+}
+.Valide-Interview{
+    background: indigo;
+    font-family: 'Poppins', sans-serif;
+}
+.Valide-Interview:hover{
+    background: indigo !important; 
 }
 .Edit-Interview a{
     text-decoration: none;
     color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.Valide-Interview a{
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 h1,h5{
     font-family: 'Poppins', sans-serif;
+}
+.Interview_Card_Btns_Container{
+    margin-left: 50px;
+}
+.Interview_Card_Btns_Container .Edit-Interview{
+    margin-left: 10px;
+}
+
+.Edit-Valid-Interview{
+    background: blue;
+    margin-left: 50%;
+}
+.Edit-Valid-Interview a{
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: bolder;
+}
+
+
+/*Public Interview*/
+
+.Public-Interview{
+    width: 100%;
+    height: auto;
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+}
+.Public-Interview h5{
+    font-weight: bold;
+    font-family: 'Domine', serif;
+    color: indigo;
+}
+
+.Public-Interview p{
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+    font-size: 13px;
+}
+
+.Public-Interview .Public-Interview-Btns{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+.Public-Interview .Public-Interview-Btns button{
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    transition: all 300ms ease-in-out;
+}
+.Public-Interview .Public-Interview-Btns button a{
+    text-decoration: none;
+    color: indigo;
+    font-size: 1.1rem;
+}
+.Public-Interview .Public-Interview-Btns button:hover a{
+    color: #ffffff;
+}
+.Public-Interview .Public-Interview-Btns button:hover{
+    background: indigo;
+}
+.Public-Interview .Public-Interview-Btns button.Like-Public-Interview{
+    background: indigo;
+}
+.Public-Interview .Public-Interview-Btns button.Like-Public-Interview  a{
+    color: #ffffff;
+}
+
+@media screen and (max-width:375px){
+    .card-header{
+     padding: 0.5rem;
+    }
+    .Interview_Card_Btns_Container{
+        margin-left: 50px;
+    }
+}
+@media screen and (max-width:1295px) and (min-width:992px){
+    .card-header{
+     padding: 0.5rem;
+    }
+    .Interview_Card_Btns_Container{
+        margin-left: 30px;
+        display: flex;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .Interview_Card_Btns_Container a{
+        font-size: 0.9rem;
+        text-shadow: 1px 1px;
+    }
+    .Interview_Card_Btns_Container button{
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}
+@media screen and (max-width:992px){
+    .Interview_Card_Btns_Container{
+        margin-left: 30px;
+    }
+}
+@media screen and (max-width:934px) and (min-width:769px){
+    .card-header{
+     padding: 0.5rem;
+    }
+    .Interview_Card_Btns_Container{
+        margin-left: 30px;
+        display: flex;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .Interview_Card_Btns_Container a{
+        font-size: 0.9rem;
+        text-shadow: 1px 1px;
+    }
+    .Interview_Card_Btns_Container button{
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}
+@media screen and (max-width:315px){
+    .card-header{
+     padding: 0.5rem;
+    }
+    .Interview_Card_Btns_Container{
+        margin-left: 30px;
+        display: flex;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .Interview_Card_Btns_Container a{
+        font-size: 0.9rem;
+        text-shadow: 1px 1px;
+    }
+    .Interview_Card_Btns_Container button{
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
 }

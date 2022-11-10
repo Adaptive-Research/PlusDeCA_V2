@@ -2,9 +2,13 @@ import React, {useEffect, useState} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
 import {Link} from "react-router-dom";
-import {BsPencilSquare} from "react-icons/bs"
+import {BsPencilSquare} from "react-icons/bs";
+import {FaPenAlt,FaEye,FaRegThumbsUp} from "react-icons/fa";
+import {AiOutlineSave} from "react-icons/ai";
 import axios from "axios";
 import '../../../assets/css/InterviewsList.css';
+import CardInterview from "./CardInterview.js";
+
 export default function InterviewList() {
     const [rendered, setRendered] = useState(false);
 
@@ -32,8 +36,23 @@ export default function InterviewList() {
         setRendered(true);
     }
 
+        // pour le reload des infos
+        const [reloadInfos, setReloadInfos] = useState(true) ;
 
-    function RenderInterview(interview) {
+        // recuperation des informations au depart
+        if (reloadInfos === true)
+        {
+            //console.log("reloadInfos") ;
+            getUserInterviews(storedToken) ;
+    
+                
+            setReloadInfos(false) ;
+        }
+
+
+    //Pour rendre les interview auxquelles il faut encore répondre , (Ces Fonctions sont provisoires et seront utilisées uniquement pour la maquette)
+
+    function RenderCurrentInterviews(interview) {
         //{interview.Titre}
         return (
             <Col md={4}>
@@ -45,13 +64,22 @@ export default function InterviewList() {
                     />
                     <Card.Header>
                         <Card.Title as="h5">Titre Interview</Card.Title>
-                        <button className="btn Edit-Interview" style={{marginLeft: "50%",fontSize: "15px"}}>
-                                <Link
-                                    to={`${process.env.PUBLIC_URL}/QuestionsForInterview`}
-                                    className="QuestionsDetailsView">
-                                    <BsPencilSquare/>
-                                </Link>
-                        </button>
+                        <div className='Interview_Card_Btns_Container'>
+                            <button className="btn Valide-Interview">
+                                    <Link
+                                        to={`${process.env.PUBLIC_URL}/MesInterviews`}
+                                        className="QuestionsDetailsView">
+                                       <AiOutlineSave/>
+                                    </Link>
+                            </button>
+                            <button className="btn Edit-Interview">
+                                    <Link
+                                        to={`${process.env.PUBLIC_URL}/QuestionsForInterview`}
+                                        className="QuestionsDetailsView">
+                                        <BsPencilSquare/>
+                                    </Link>
+                            </button>
+                        </div>
                     </Card.Header>
                    
                 </Card>
@@ -59,19 +87,77 @@ export default function InterviewList() {
         )
     }
 
-    
-
-    // Separate drafts from published articles
-    const renderInterviews = () => {
+    const renderCurrentInterviews =()=> {
         const interviews = JSON.parse(localStorage.getItem("userInterviews"));
-        return RenderInterview(interviews);
+        return RenderCurrentInterviews(interviews);
     }
 
 
-    if (!rendered) {
-        getUserInterviews(storedToken).then(r => console.log(`Interviews loaded`));
-    } else {
-        console.log("rendered")
+ //Pour rendre les interview qui ont été validés par l'utilisateur (Ces Fonctions sont provisoires et seront utilisées uniquement pour la maquette)
+    const renderValideInterviews =()=> {
+        const interviews = JSON.parse(localStorage.getItem("userInterviews"));
+        return RenderValideInterviews(interviews);
+    }
+
+    function RenderValideInterviews(interview) {
+        //{interview.Titre}
+        return (
+            <Col md={4}>
+                <Card key={interview.id}>
+                    <img
+                        className="card-img-top br-tr-7 br-tl-7"
+                        src={require("../../../assets/images/media/19.jpg")}
+                        alt="Card cap"
+                    />
+                    <Card.Header>
+                        <Card.Title as="h5">Titre Interview</Card.Title>
+                            <button className="btn Edit-Valid-Interview">
+                                    <Link
+                                        to={`${process.env.PUBLIC_URL}/QuestionsForInterview`}
+                                        className="QuestionsDetailsView">
+                                        <FaPenAlt/>
+                                    </Link>
+                            </button>
+                    </Card.Header>
+                   
+                </Card>
+            </Col>
+        )
+    }
+ //Pour rendre les interview qui ont été publiéés par les administrateur (Ces Fonctions sont provisoires et seront utilisées uniquement pour la maquette)
+    const renderPublicInterviews =()=> {
+        const interviews = JSON.parse(localStorage.getItem("userInterviews"));
+        return RenderPublicInterviews(interviews);
+    }
+
+    function RenderPublicInterviews(interview) {
+        //{interview.Titre}
+        return (
+            <Col md={4}>
+                <Card key={interview.id}  className="Public-Interview">
+                        <Card.Title as="h5">Question Interview</Card.Title>
+                        <p>
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda, dolor atque?
+                        </p>
+                        <div className='Public-Interview-Btns'>
+                            <button className="btn Like-Public-Interview">
+                                <Link
+                                    to={`${process.env.PUBLIC_URL}/MesInterviews`}
+                                    className="QuestionsDetailsView">
+                                    <FaRegThumbsUp/>
+                                </Link>
+                            </button>
+                            <button className="btn View-Public-Interview">
+                                <Link
+                                    to={`${process.env.PUBLIC_URL}/MesInterviews`}
+                                    className="QuestionsDetailsView">
+                                    <FaEye/>
+                                </Link>
+                            </button>
+                        </div>
+                </Card>
+            </Col>
+        )
     }
 
 
@@ -115,9 +201,27 @@ export default function InterviewList() {
                                             <Tab eventKey="Publié" title="Publié">
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
-                                                        {renderInterviews()}
-                                                        {renderInterviews()}
-                                                        {renderInterviews()}
+                                                        {renderPublicInterviews()}
+                                                        {renderPublicInterviews()}
+                                                        {renderPublicInterviews()}
+                                                    </Row>
+                                                </div>
+                                            </Tab>
+                                            <Tab eventKey="Validé" title="Validé">
+                                                <div className="tab-pane profiletab show">
+                                                    <Row className="row-cards ">
+                                                        {renderValideInterviews()}
+                                                        {renderValideInterviews()}
+                                                        {renderValideInterviews()}
+                                                    </Row>
+                                                </div>
+                                            </Tab>
+                                            <Tab eventKey="A Répondre" title="A Répondre">
+                                                <div className="tab-pane profiletab show">
+                                                    <Row className="row-cards ">
+                                                        {renderCurrentInterviews()}
+                                                        {renderCurrentInterviews()}
+                                                        {renderCurrentInterviews()}
                                                     </Row>
                                                 </div>
                                             </Tab>
@@ -132,3 +236,64 @@ export default function InterviewList() {
         </div>
     );
 }
+
+
+
+
+
+
+
+
+
+
+    // Separate drafts from published articles
+ /*   const renderInterviews = (TypeInterview) => {
+        const interviews = JSON.parse(localStorage.getItem("userInterviews"));
+       
+         return interviews.map((Ligne) => {
+            if  (TypeInterview === "A_Repondre") {
+                if (Ligne.isPublished === "0") {
+                    return <Col md={4}> 
+                    <CardInterview
+                        Interview={Ligne}
+                        /> 
+                    </Col> ;
+                }
+            }
+         })
+    }
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * 
+    if (!rendered) {
+        getUserInterviews(storedToken).then(r => console.log(`Interviews loaded`));
+    } else {
+        console.log("rendered")
+    }
+
+ */
