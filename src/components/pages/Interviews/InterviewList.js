@@ -246,8 +246,8 @@ export default function InterviewList() {
 
 
 
-    // Separate drafts from published articles
- /*   const renderInterviews = (TypeInterview) => {
+    // La fonction suivante servira à récupérer les interviews et à les rendre en fonction de leur type
+   const renderInterviews = (TypeInterview) => {
         const interviews = JSON.parse(localStorage.getItem("userInterviews"));
        
          return interviews.map((Ligne) => {
@@ -263,7 +263,6 @@ export default function InterviewList() {
          })
     }
 
-*/
 
 
 

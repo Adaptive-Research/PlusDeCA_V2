@@ -31,6 +31,6 @@ export default function ArticleCard(props)
                     </Link>
                 </Card.Body>
             </Card>
-        </Col>false
+        </Col>
     )
 }
