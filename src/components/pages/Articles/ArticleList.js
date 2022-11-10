@@ -214,7 +214,7 @@ export default function ArticleList() {
     return (
         <div>
 
-            <div className="page-header" Render={compteur}>
+            <div className="page-header" >
                 <div>
                     <h1 className="page-title">Articles</h1>
                 </div>
