@@ -188,7 +188,7 @@ export default function ModalEditInterview(props) {
             console.log("Attempted to save Interview")
         }
     }
-
+ 
 
     return (
         <div>
@@ -197,7 +197,7 @@ export default function ModalEditInterview(props) {
 
                 <Modal.Body>
                 <Row className="mb-4">
-                    <InterviewQuestions Render={compteur} />
+                    <InterviewQuestions Render={compteur}/>
                 </Row>
                 </Modal.Body>
 
