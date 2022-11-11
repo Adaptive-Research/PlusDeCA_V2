@@ -73,6 +73,11 @@ const getUserId = (token) => {
 function getDataFromResponse(response) {
     let data = "" ;
 
+    //console.log("response.data") ;
+    //console.log(response.data) ;
+    //console.log(typeof(response.data)) ;
+
+
     if (typeof(response.data) === "object")
     {
         if (response.data.constructor === Array)
@@ -92,7 +97,10 @@ function getDataFromResponse(response) {
         //console.log("LastLine") ;
         //console.log(LastLine) ;
 
-        data  = JSON.parse(LastLine);
+        if (LastLine.indexOf("ERROR") >= 0)
+            data = LastLine ;
+        else
+            data  = JSON.parse(LastLine);
     }
     return data ;
 }
@@ -240,9 +248,11 @@ const getUserArticles = async (variable,tok,ForceRender) => {
 
     const data =  getDataFromResponse(response) ;
         
-   
+    //console.log("test") ;
     let pos = data.indexOf("ERROR") ;
     if (pos < 0) { 
+        //console.log("test1") ;
+
         let Articles = [];
 
         data.forEach((element) => {
@@ -253,6 +263,8 @@ const getUserArticles = async (variable,tok,ForceRender) => {
     else{
         localStorage.removeItem(variable);
     }
+    //console.log("test2") ;
+
     ForceRender(variable) ;
 }
 
@@ -301,6 +313,7 @@ export {
     getAllUsersEmail,
     checkDuplicate,
     toLog,
+    getDataFromResponse,
     getUserId,
     getActivitiesForUser,
     getAllEnterprises,

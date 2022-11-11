@@ -63,7 +63,7 @@ export function ModalEditEvent(props) {
 
 
   // pour le contenu des champs qui doivent etre des useState pour les champs text
-  const [eventType,setEventType]  = useState("1") ;
+  const eventType  = useRef("1") ;
   const eventDay = useRef("") ;
   const [eventTitle,setEventTitle] = useState("") ;
   const [msgTitre,setMsgTitre] = useState("");
@@ -97,7 +97,7 @@ export function ModalEditEvent(props) {
 
 
     eventDay.current = printDate(dateStart) ;
-    setEventType(props.TypeReunion) ;
+    eventType.current = props.TypeReunion ;
     setEventTitle(props.Title) ;
     setEventLocation(props.Location) ;
     setEventData(props.Data) ;
@@ -370,7 +370,7 @@ export function ModalEditEvent(props) {
               token: storedToken,
               Submit: 1,
               debug:1,
-              Event_Type: eventType,
+              Event_Type: eventType.current,
               Event_Title: eventTitle ,
               Event_AllDay: sAllDay ,
               Event_Start: sStartDate,
@@ -399,7 +399,7 @@ export function ModalEditEvent(props) {
               Submit: 1,
               debug: 1,
               idEvent: props.ID,
-              Event_Type: eventType,
+              Event_Type: eventType.current,
               Event_Title: eventTitle ,
               Event_AllDay: sAllDay,
               Event_Start: sStartDate,
@@ -532,7 +532,7 @@ export function ModalEditEvent(props) {
         <Modal.Body>
               <FormGroup>
                 <label>Type</label>
-                <select id="TypeReunion"  className="form-control"  onChange={(e) =>  setEventType(e.target.value)}>
+                <select id="TypeReunion"  className="form-control"  onChange={(e) =>  eventType.current = e.target.value}>
                   <option value="1">Réunion d'entrepreneurs</option>
                   <option value="2">Salon</option>
                   <option value="3">Rendez-vous client</option>

@@ -1,4 +1,4 @@
-import React, { useState,useRef} from "react";
+import React, { useState,useRef,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
 import {getUserArticles} from "../../../data/customlibs/utils";
@@ -44,6 +44,7 @@ export default function ArticleList() {
     // pour le reload des infos
     const reloadInfos = useRef(true) ;
 
+   
 
     
 
@@ -60,8 +61,9 @@ export default function ArticleList() {
 
 
     function RenderAfterLoad(variable) {
-        console.log("downloaded_Articles.current") ;
-        console.log(downloaded_Articles.current) ;
+        console.log("RenderAfterLoad") ;
+        //console.log("downloaded_Articles.current") ;
+        //console.log(downloaded_Articles.current) ;
         
         if (variable === "userArticles")
             downloaded_Articles.current = true ;
@@ -103,7 +105,7 @@ export default function ArticleList() {
             setModeEdit("Add") ;
             setIdAncestor("") ;
             setTitle("") ;
-            setCategory("") ;
+            setCategory("1") ;
             setText("") ;
             setHtml("") ;
             setPhoto("") ;
@@ -112,8 +114,8 @@ export default function ArticleList() {
         {
             setModeEdit("Edit") ;
             console.log("Mode Edit") ;
-            console.log("Article") ;
-            console.log(Article) ;
+            //console.log("Article") ;
+            //console.log(Article) ;
 
             setIdAncestor(Article.idAncestor) ;
             setTitle(Article.Article_Title) ;
@@ -169,13 +171,14 @@ export default function ArticleList() {
 
         if (articles !== null)
         {
-            console.log("articles") ;
-            console.log(articles);
+            //console.log("articles") ;
+            //console.log(articles);
 
             return articles.map((Ligne) => {
+                //console.log("Ligne.id: "+Ligne.id) ;
                 if  (TypeArticle === "Brouillon") {
                     if (Ligne.isPublished === "0") 
-                        return <Col md={4}> 
+                        return <Col md={4}  key={Ligne.id}> 
                                     <CardArticle 
                                         Article={Ligne}
                                         SendArticleData={SendArticleData}  
@@ -185,8 +188,9 @@ export default function ArticleList() {
                 }
                 else {
                     if (Ligne.isPublished === "1") 
-                        return <Col md={4}> 
+                        return <Col md={4}  key={Ligne.id}> 
                                     <CardArticle 
+                                        key={Ligne.id}
                                         Article={Ligne}
                                         SendArticleData={SendArticleData}  
                                         ForceRenderArticle = {ForceRenderArticle}
@@ -241,7 +245,8 @@ export default function ArticleList() {
                                             idAncestor={idAncestor}
                                             Title={title} 
                                             Category = {category} 
-                                            Content= {html}
+                                            Html= {html}
+                                            Text={text}
                                             Photo = {photo}
                                         />
 

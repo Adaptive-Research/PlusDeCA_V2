@@ -3,11 +3,11 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
-import {Card,Row,Col} from "react-bootstrap"
-import {useNavigate} from "react-router";
+import {Card} from "react-bootstrap"
 import {ModalEditEvent} from "./ModalEditEvent"
 import axios from "axios";
 import  { getIDFromToken } from "../../../functions_Dan.js" ;
+import {getDataFromResponse} from "../../../data/customlibs/utils";
 
 
 
@@ -65,60 +65,12 @@ export default function FullCalendars() {
         }
     }).then( function(response) {
    
+      const obj =  getDataFromResponse(response) ;
 
-      let data = "" ;
 
-      console.log("response.data") ;
-      console.log(response.data) ;
-      console.log(typeof response.data) ;
-  
-      if (typeof(response.data) === "object")
-      {
-          if (response.data.constructor === Array)
-              data = response.data ;
-      }
-      else {
-          let Reponse = String(response.data) ;
-          var lines = Reponse.split('\n');
-          var LastLine = "" ;
-          for (let i = 0 ; i < lines.length ; i++)
-          {
-              if (lines[i].length > 1 )
-              LastLine = lines[i] ;
-          }
-  
-          console.log("\n\n") ;
-          console.log("LastLine") ;
-          console.log(LastLine) ;
-  
-          data = LastLine ;
-      }      
-      console.log("response.data") ;
-      console.log(response.data) ;
-
-      
-      var lines = response.data.split('\n');
-      var LastLine = "" ;
-      for (let i = 0 ; i < lines.length ; i++)
-      {
-      //console.log("lines: " + i ) ;
-      //console.log("length(lines): " + lines[i].length ) ;
-      //console.log(lines[i]+"\n\n") ;
-      if (lines[i].length > 1 )
-        LastLine = lines[i] ;
-
-      }
-
-      console.log("\n\n") ;
-      console.log("LastLine") ;
-      console.log(LastLine) ;
-      
-
-      let pos = LastLine.indexOf("ERROR") ;
+      let pos = obj.indexOf("ERROR") ;
       if (pos !== 0)
       { 
-        const obj  = JSON.parse(LastLine);
-        
         let ed = [] ;
         
         for (let i = 0 ; i < obj.length; i++)

@@ -11,8 +11,8 @@ export default function ModalEditArticle(props) {
     const storedToken = localStorage.getItem('token');
 
     console.log("ModalEditArticle") ;
-    console.log("props") ;
-    console.log(props) ;
+    //console.log("props") ;
+    //console.log(props) ;
 
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
@@ -24,7 +24,7 @@ export default function ModalEditArticle(props) {
     const modeEdit = useRef("") ;
     const [idAncestor,setIdAncestor] = useState("") ;
     const [title, setTitle] = useState("");
-    const [category, setCategory] = useState("");
+    const category = useRef("");
 
 
     const [content, setContent] = useState(""); // ceci est utilise pour initialiser l'Editor
@@ -46,8 +46,10 @@ export default function ModalEditArticle(props) {
         modeEdit.current = props.ModeEdit ;
         setIdAncestor(props.idAncestor) ;
         setTitle(props.Title) ;
-        setCategory(props.Category) ;
-        setContent(props.Content) ;
+        category.current = props.Category ;
+        setContent(props.Html) ;
+        setHtml(props.Html) ;
+        texte.current = props.Text ;
         setPhoto(props.Photo) ;
         setReloadInfos(false) ;
     }
@@ -64,26 +66,6 @@ export default function ModalEditArticle(props) {
 
 
 
-    const optionsCategorie = [
-        {
-            value: "technology",
-            label: "Technology",
-        },
-        {
-            value: "travel",
-            label: "Travel",
-        },
-        {
-            value: "food",
-            label: "Food",
-        },
-        {
-            value: "fashion",
-            label: "Fashion",
-        },
-    ];
-
-    
 
     // Function that sends axios requesst to create a new article
     const SaveArticle = async () => {
@@ -156,19 +138,24 @@ export default function ModalEditArticle(props) {
     const inputsValidation = () => {
         console.log("inputsValidation") ;
 
-        //console.log("title: " + title) ;
-        //console.log("category: " + category) ;
-        //console.log("result") ;
-        //console.log(result) ;
-        //console.log("html") ;
-        //console.log(html) ;
-
-        if (result.blocks !== undefined)
-            texte.current = String(result.blocks[0].text) ;
-        else
-            texte.current = "" ;
-
+        
+        console.log("title: " + title) ;
+        console.log("category: " + category.current) ;
+        console.log("result") ;
+        console.log(result) ;
+        console.log("html") ;
+        console.log(html) ;
         console.log("texte") ;
+        console.log(texte.current) ;
+        
+
+        if (result !== "")
+        {
+            if (result.blocks !== undefined)
+                texte.current = String(result.blocks[0].text) ;
+        }
+
+        console.log("texte2") ;
         console.log(texte.current) ;
 
 
@@ -181,7 +168,7 @@ export default function ModalEditArticle(props) {
             setTitleMsg("Le titre est obligatoire");
         }
 
-        if (category.length > 0) {
+        if (category.current.length > 0) {
             categoryCheck = true;
             setCategoryMsg("");
         } else {
@@ -218,9 +205,7 @@ export default function ModalEditArticle(props) {
             inputsValidation();
         } catch (e) {
             console.log(e);
-        } finally {
-            console.log("Attempted to save article")
-        }
+        } 
     }
 
 
@@ -246,10 +231,19 @@ export default function ModalEditArticle(props) {
                     <Row className="mb-4">
                         <label className="col-md-3 form-label">Categorie :</label>
                         <div className="">
-                            <blogpost.Categorys Optioncategorys={optionsCategorie}
-                                                change={(e) => setCategory(e)}  />
+                            <select id="Categories"  className="form-control"  onChange={(e) =>  category.current = e.target.value}>
+                            <option value="1">Techno</option>
+                            <option value="2">Juridique</option>
+                            <option value="3">Compta</option>
+                            <option value="4">News</option>
+                            <option value="5">Autre</option>
+                            </select>
                         </div>
+
+
                     </Row>
+
+
 
                     <Row>
                         <label className="col-md-3 form-label mb-4">
