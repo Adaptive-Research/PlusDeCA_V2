@@ -70,6 +70,34 @@ const getUserId = (token) => {
 }
 
 
+function getDataFromResponse(response) {
+    let data = "" ;
+
+    if (typeof(response.data) === "object")
+    {
+        if (response.data.constructor === Array)
+            data = response.data ;
+    }
+    else {
+        let Reponse = String(response.data) ;
+        var lines = Reponse.split('\n');
+        var LastLine = "" ;
+        for (let i = 0 ; i < lines.length ; i++)
+        {
+            if (lines[i].length > 1 )
+            LastLine = lines[i] ;
+        }
+
+        //console.log("\n\n") ;
+        //console.log("LastLine") ;
+        //console.log(LastLine) ;
+
+        data  = JSON.parse(LastLine);
+    }
+    return data ;
+}
+
+
 
 const getActivitiesForUser = (variable, Token,UserId, ForceRender) => {
     //console.log("getActivitiesForUser: "+ UserId) ;
@@ -84,9 +112,7 @@ const getActivitiesForUser = (variable, Token,UserId, ForceRender) => {
         }
     }).then(
         (response) => {
-            const data = response.data;
-            //console.log("response.data") ;
-            //console.log(data) ;
+            const data =  getDataFromResponse(response) ;
             
             let pos = data.indexOf("ERROR") ;
             if (pos < 0) { 
@@ -116,8 +142,8 @@ const getAllEnterprises = (variable,ForceRender) => {
     const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_URL;
     axios.get(url).then(
         (response) => {
-            const data = response.data;
-          
+            const data =  getDataFromResponse(response) ;
+
             let pos = data.indexOf("ERROR") ;
             if (pos < 0) { 
                 const allEnterprises = [];
@@ -149,8 +175,8 @@ const getEnterprisesByUser = (variable,Token, UserId,ForceRender) => {
         }
     }).then(
         (response) => {
-            const data = response.data;
-           
+
+            const data =  getDataFromResponse(response) ;
 
             //console.log(data) ;
             let pos = data.indexOf("ERROR") ;
@@ -197,11 +223,12 @@ const getAllActivities = (variable,ForceRender) => {
 
 
 //Method to get all articles created by this user
-const getUserArticles = async (tok,ForceRender) => {
+const getUserArticles = async (variable,tok,ForceRender) => {
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_ARTICLES_BY_USER_URL;
     const response = await axios.post(url, {
         token: tok,
+        debug:1,
         Submit: 1,
     }, {
         headers: {
@@ -209,8 +236,11 @@ const getUserArticles = async (tok,ForceRender) => {
         }
     });
     
-    let variable = "userArticles" ;
-    let data = response.data ;
+    //let variable = "userArticles" ;
+
+    const data =  getDataFromResponse(response) ;
+        
+   
     let pos = data.indexOf("ERROR") ;
     if (pos < 0) { 
         let Articles = [];
@@ -225,6 +255,8 @@ const getUserArticles = async (tok,ForceRender) => {
     }
     ForceRender(variable) ;
 }
+
+
 
 
 //Method to get all articles created by this user
@@ -242,7 +274,9 @@ const getUserInterviews = async (tok,ForceRender) => {
     });
 
     let variable = "userInterviews" ;
-    let data = response.data ;
+
+    const data =  getDataFromResponse(response) ;
+
     let pos = data.indexOf("ERROR") ;
     if (pos < 0) { 
         let Interviews = [];

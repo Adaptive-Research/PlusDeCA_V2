@@ -5,7 +5,6 @@ import {Button} from "react-bootstrap";
 import axios from "axios";
 import {FindTranslation,getIDFromToken} from "../../../../functions_Dan.js";
 import {getEnterprisesByUser ,getActivitiesForUser} from "../../../../data/customlibs/utils";
-import {useNavigate} from "react-router";
 import CardCompany from "./CardCompany" ;
 import ModalEditCompany from "./ModalEditCompany" ;
 import ModalEditActivity from "./ModalEditActivity" ;
@@ -27,7 +26,6 @@ export default function TabCompany(props) {
   
 
 
-    const navigate = useNavigate() ; 
     
 
 
@@ -140,7 +138,7 @@ export default function TabCompany(props) {
     // le callback qui est appele apres le chargement des donnees
     function RenderAfterLoad(variable) {
 
-        console.log("RenderAfterLoad: "+ variable) ;
+        //console.log("RenderAfterLoad: "+ variable) ;
 
         if (variable === "userActivities")
             downloaded_UserActivities.current = true ;
@@ -331,7 +329,6 @@ export default function TabCompany(props) {
         if (myCompanies !== null ) 
         {
             return myCompanies.map( (Ligne) => <CardCompany 
-                                                        Render={compteur}
                                                         key={Ligne.idEntreprise} 
                                                         Ligne={Ligne} 
                                                         SendCompanyData={SendCompanyData}  

@@ -4,7 +4,6 @@ import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
 import {getUserArticles} from "../../../data/customlibs/utils";
 import CardArticle from "./CardArticle" ;
 import ModalEditArticle from "./ModalEditArticle" ;
-import {useNavigate} from "react-router";
 
 
   // le callback qui est appele apres le chargement des donnees
@@ -20,7 +19,6 @@ export default function ArticleList() {
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
 
-    const navigate = useNavigate() ; 
     
 
 
@@ -53,7 +51,7 @@ export default function ArticleList() {
     if (reloadInfos.current === true)
     {
         console.log("reloadInfos") ;
-        getUserArticles(storedToken,RenderAfterLoad) ;
+        getUserArticles("userArticles",storedToken,RenderAfterLoad) ;
             
         reloadInfos.current = false ;
     }
@@ -139,7 +137,7 @@ export default function ArticleList() {
         console.log("ForceRenderArticle") ;
         setShowEditArticle(false) ;
 
-        getUserArticles(storedToken, RenderAfterLoad) ;
+        getUserArticles("userArticles",storedToken, RenderAfterLoad) ;
     }
 
 
