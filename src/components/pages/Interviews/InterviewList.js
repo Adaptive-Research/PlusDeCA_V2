@@ -57,12 +57,7 @@ export default function InterviewList() {
 
     // Les différentes fonctions permettant d'éditer les Interviews 
     const [modeEdit,setModeEdit]= useState("") ;
-    const [idAncestor,setIdAncestor] = useState("") ;
-    const [title, setTitle] = useState("");
-    const [category, setCategory] = useState("");
-    const [text, setText] = useState("");
-    const [html, setHtml] = useState("<p>Hey this <strong>test</strong> rocks 😀</p>");
-    const [photo, setPhoto] = useState("");
+    const [id,setId] = useState("") ;
 
 
 
@@ -73,6 +68,9 @@ function ModalEditInterviewClose()
 }
 
 
+
+
+
   
 // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
 function SendInterviewData(ShowWindow, Interview) {
@@ -80,12 +78,7 @@ function SendInterviewData(ShowWindow, Interview) {
     if (Interview === null)
     {
         setModeEdit("Add") ;
-        setIdAncestor("") ;
-        setTitle("") ;
-        setCategory("") ;
-        setText("") ;
-        setHtml("") ;
-        setPhoto("") ;
+        setId("") ;
     }
     else
     {
@@ -94,12 +87,7 @@ function SendInterviewData(ShowWindow, Interview) {
         console.log("Interview") ;
         console.log(Interview) ;
 
-        setIdAncestor(Interview.idAncestor) ;
-        setTitle(Interview.Interview_Title) ;
-        setCategory(Interview.Interview_Category) ;
-        setText(Interview.Interview_Text) ;
-        setHtml(Interview.Interview_Html) ;
-        setPhoto(Interview.Interview_Image) ;
+        setId(Interview.id) ;
     }
     
 
@@ -199,11 +187,7 @@ function ForceRenderInterview() {
                                             SendCloseMessage={ModalEditInterviewClose}  
                                             ForceRenderInterview ={ForceRenderInterview }
                                             ModeEdit={modeEdit}
-                                            idAncestor={idAncestor}
-                                            Title={title} 
-                                            Category = {category} 
-                                            Content= {html}
-                                            Photo = {photo}
+                                            idInterview={id}
                                     />
 
 
