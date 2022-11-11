@@ -10,7 +10,7 @@ import { DayTimeColsView } from "@fullcalendar/timegrid";
 
 
 export function ModalEditEvent(props) {
-  console.log("EventData") ;
+  console.log("ModalEditEvent") ;
 
 
   const storedToken = localStorage.getItem('token') ;
@@ -110,7 +110,7 @@ export function ModalEditEvent(props) {
 
 
   useEffect(() => {
-    console.log("eventData useEffect") ;
+    console.log("ModalEditEvent useEffect") ;
 
     // pour mettre a jour la checkbox AllDay et faire ou ne pas faire afficher la plage horaire
     if (props.AllDay === true) {
@@ -341,6 +341,8 @@ export function ModalEditEvent(props) {
     }
     
 
+    
+    
 
 
     const SaveEvent = async () => {
@@ -387,6 +389,7 @@ export function ModalEditEvent(props) {
           } else {
               console.log(response.data) ;
               console.log("Event added");
+              
           }
       }
       else{
@@ -415,6 +418,7 @@ export function ModalEditEvent(props) {
           } else {
               console.log(response.data) ;
               console.log("Event modified");
+            
           }
 
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -21,11 +21,14 @@ export default function FullCalendars() {
   const [showEditEvent, SetShowEditEvent] = useState(false) ;
 
 
+  const fullCalendarRef = useRef() ;
+  
+
+
+  
 
 
 
-
-  const navigate = useNavigate();
   
   console.log("FullCalendar component") ;
 
@@ -52,8 +55,9 @@ export default function FullCalendars() {
     console.log(t) ;
 
 
-    const response = axios.post(url, {
+    axios.post(url, {
         Submit: 1,
+        debug:1 ,
         token: t,
     }, {
         headers: {
@@ -64,52 +68,71 @@ export default function FullCalendars() {
       console.log("response.data") ;
       console.log(response.data) ;
 
-      let pos = response.data.indexOf("ERROR") ;
+      
+      var lines = response.data.split('\n');
+      var LastLine = "" ;
+      for (let i = 0 ; i < lines.length ; i++)
+      {
+      //console.log("lines: " + i ) ;
+      //console.log("length(lines): " + lines[i].length ) ;
+      //console.log(lines[i]+"\n\n") ;
+      if (lines[i].length > 1 )
+        LastLine = lines[i] ;
+
+      }
+
+      console.log("\n\n") ;
+      console.log("LastLine") ;
+      console.log(LastLine) ;
+      
+
+      let pos = LastLine.indexOf("ERROR") ;
       if (pos !== 0)
       { 
+        const obj  = JSON.parse(LastLine);
         
         let ed = [] ;
         
-        for (let i = 0 ; i < response.data.length; i++)
+        for (let i = 0 ; i < obj.length; i++)
         {
-          let Event_Start = response.data[i].Event_Start ;
-          let Event_End = response.data[i].Event_End ;
-
-
+          let Event_Start = obj[i].Event_Start ;
+          let Event_End = obj[i].Event_End ;
+        
+        
           let vAllDay = false ;  
-          if ( response.data[i].Event_AllDay === "1")
+          if ( obj[i].Event_AllDay === "1")
             vAllDay = true ;
-
+        
          
-
+        
           let bgColor= "#06377e" ;
-          if  (response.data[i].Event_Type === "2")
+          if  (obj[i].Event_Type === "2")
             bgColor= "#006600" ;
-          if  (response.data[i].Event_Type === "3")
+          if  (obj[i].Event_Type === "3")
             bgColor = "#0d6efd" ;
-          if  (response.data[i].Event_Type === "4")
+          if  (obj[i].Event_Type === "4")
             bgColor= "#168c7f" ;
-          if  (response.data[i].Event_Type === "5")
+          if  (obj[i].Event_Type === "5")
             bgColor= "#b05002" ;
-
-
-
+        
+        
+        
           console.log("bgColor") ;  
           console.log(bgColor) ;  
-
+        
           let s = {
             
-            "id" : String(response.data[i].id) ,
-            "title" : String(response.data[i].Event_Title), 
+            "id" : String(obj[i].id) ,
+            "title" : String(obj[i].Event_Title), 
             "allDay" : vAllDay, 
             "start" : String(Event_Start),
             "end" : String(Event_End), 
             "backgroundColor": String(bgColor),
             "extendedProps":
             {
-              "type" : String(response.data[i].Event_Type), 
-              "location" : String(response.data[i].Event_Location), 
-              "data" : String(response.data[i].Event_Data)  
+              "type" : String(obj[i].Event_Type), 
+              "location" : String(obj[i].Event_Location), 
+              "data" : String(obj[i].Event_Data)  
             } 
            
                     
@@ -121,8 +144,8 @@ export default function FullCalendars() {
 
         setDataEvents(ed) ;
         setReloadInfos(false) ;
-      
 
+        fullCalendarRef.current.render();
       }
     })
   }
@@ -146,15 +169,17 @@ export default function FullCalendars() {
   }
 
 
+  function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+  }
 
 
-
-function ForceRender(variable) {
-      navigate(0) ;
-}
-
-
-
+  function ForceRender(variable) {
+        console.log("ForceRender") ;
+        delay(500).then(() => GetInfoFromDatabase(url2,storedToken) );
+       
+        
+  }
 
 
 
@@ -255,6 +280,7 @@ function ForceRender(variable) {
 
 
     /*
+    let calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
 
     if (title) {
@@ -281,11 +307,9 @@ function ForceRender(variable) {
           <Card>
             <Card.Body>
 
-              <Row>
-              
-                <Col>
                   <div className="fullclndr" >
                       <FullCalendar
+                        ref={fullCalendarRef}
                         plugins={[
                           dayGridPlugin,
                           timeGridPlugin,
@@ -309,10 +333,6 @@ function ForceRender(variable) {
                         eventsSet={handleEvents}
                       />
                   </div>
-                </Col>
-
-              
-                <Col md={5}>
                   <ModalEditEvent 
                     show={showEditEvent} 
                     SendCloseMessage={ModalEditEventClose}  
@@ -327,9 +347,6 @@ function ForceRender(variable) {
                     Location={location}
                     Data={data}
                   />
-                </Col>  
-              </Row>
-              
             </Card.Body>
           </Card>
      
