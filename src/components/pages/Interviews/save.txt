@@ -1,0 +1,387 @@
+           <Card key={props.Interview.id}>
+                <img
+                    className="card-img-top br-tr-7 br-tl-7"
+                    src={require("../../../assets/images/media/19.jpg")}
+                    alt="Card cap"
+                />
+                <Card.Header>
+                    <Card.Title as="h5"> Titre </Card.Title>
+                    <button className="btn btn-success">
+                        bon
+                    </button>
+                </Card.Header>
+                {/* <Card.Body>
+                {props.Interview.Interview_Title} 
+                    <Card.Text>
+                        {props.Interview.Interview_Text.length > 100 ? props.Interview.Interview_Text.substring(0, 100) + "..." : props.Interview.Interview_Text}
+                    </Card.Text>
+                    <button className='btn btn-primary' onClick={() => EditInterview(props.Interview)}>
+                        <i className="fa fa-edit"></i>
+                    </button>
+                 
+                   <button className='m-2 btn btn-danger' onClick={() => DeleteInterview(props.Interview.idAncestor)}>
+                        <i className="fa fa-trash"></i>
+                    </button>
+                  */} 
+                    {/*
+                    <Link
+                        to={`${process.env.PUBLIC_URL}/pages/propsDetail`}
+                        className="float-end">
+                        Read more <i
+                        className="fa fa-angle-double-right"></i>
+                    </Link>
+                    */}
+              {/**</Card.Body>
+             */}  
+</Card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * 
+    if (!rendered) {
+        getUserInterviews(storedToken).then(r => console.log(`Interviews loaded`));
+    } else {
+        console.log("rendered")
+    }
+
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                {/** *SendInterviewData={SendInterviewData}  
+            ForceRenderInterview = {ForceRenderInterview}*/} 
+ //Pour rendre les interview qui ont été publiéés par les administrateur (Ces Fonctions sont provisoires et seront utilisées uniquement pour la maquette)
+    const renderPublicInterviews =()=> {
+        const interviews = JSON.parse(localStorage.getItem("userInterviews"));
+        return RenderPublicInterviews(interviews);
+    }
+
+
+
+    function RenderPublicInterviews(interview) {
+        //{interview.Titre}
+        return (
+            <Col md={4}>
+                <Card key={interview.id}  className="Public-Interview">
+                        <Card.Title as="h5">Question Interview</Card.Title>
+                        <p>
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda, dolor atque?
+                        </p>
+                        <div className='Public-Interview-Btns'>
+                            <button className="btn Like-Public-Interview">
+                                <Link
+                                    to={`${process.env.PUBLIC_URL}/MesInterviews`}
+                                    className="QuestionsDetailsView">
+                                    <FaRegThumbsUp/>
+                                </Link>
+                            </button>
+                            <button className="btn View-Public-Interview">
+                                <Link
+                                    to={`${process.env.PUBLIC_URL}/MesInterviews`}
+                                    className="QuestionsDetailsView">
+                                    <FaEye/>
+                                </Link>
+                            </button>
+                        </div>
+                </Card>
+            </Col>
+        )
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //Pour rendre les interview auxquelles il faut encore répondre , (Ces Fonctions sont provisoires et seront utilisées uniquement pour la maquette)
+
+    function RenderCurrentInterviews(interview) {
+        //{interview.Titre}
+        return (
+            <Col md={4}>
+                <Card key={interview.id}>
+                    <img
+                        className="card-img-top br-tr-7 br-tl-7"
+                        src={require("../../../assets/images/media/19.jpg")}
+                        alt="Card cap"
+                    />
+                    <Card.Header>
+                        <Card.Title as="h5">Titre Interview</Card.Title>
+                        <div className='Interview_Card_Btns_Container'>
+                            <button className="btn Valide-Interview">
+                                    <Link
+                                        to={`${process.env.PUBLIC_URL}/MesInterviews`}
+                                        className="QuestionsDetailsView">
+                                       <AiOutlineSave/>
+                                    </Link>
+                            </button>
+                            <button className="btn Edit-Interview">
+                                    <Link
+                                        to={`${process.env.PUBLIC_URL}/QuestionsForInterview`}
+                                        className="QuestionsDetailsView">
+                                        <BsPencilSquare/>
+                                    </Link>
+                            </button>
+                        </div>
+                    </Card.Header>
+                   
+                </Card>
+            </Col>
+        )
+    }
+
+   /* const renderCurrentInterviews =()=> {
+        const interviews = JSON.parse(localStorage.getItem("userInterviews"));
+        return RenderCurrentInterviews(interviews);
+    }*/
+
+
+ //Pour rendre les interview qui ont été validés par l'utilisateur (Ces Fonctions sont provisoires et seront utilisées uniquement pour la maquette)
+    const renderValideInterviews =()=> {
+        const interviews = JSON.parse(localStorage.getItem("userInterviews"));
+        return RenderValideInterviews(interviews);
+    }
+
+    function RenderValideInterviews(interview) {
+        //{interview.Titre}
+        return (
+            <Col md={4}>
+                <Card key={interview.id}>
+                    <img
+                        className="card-img-top br-tr-7 br-tl-7"
+                        src={require("../../../assets/images/media/19.jpg")}
+                        alt="Card cap"
+                    />
+                    <Card.Header>
+                        <Card.Title as="h5">Titre Interview</Card.Title>
+                            <button className="btn Edit-Valid-Interview">
+                                    <Link
+                                        to={`${process.env.PUBLIC_URL}/QuestionsForInterview`}
+                                        className="QuestionsDetailsView">
+                                        <FaPenAlt/>
+                                    </Link>
+                            </button>
+                    </Card.Header>
+                   
+                </Card>
+            </Col>
+        )
+    }
+
+
+
+
+
+
+
+      <Link to={`${process.env.PUBLIC_URL}/pages/ArticleAdd`}
+                          className="btn btn-primary btn-icon text-white me-3">
+                            <span>
+                            <i className="fe fe-plus"></i>&nbsp;
+                            </span>
+                            Ajouter
+                    </Link>
+
+
+
+
+
+
+
+
+
+
+
+
+ <Row className="mb-4">
+                        <label className="col-md-3 form-label">Titre :</label>
+                        <div className="">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder={titleMsg === "" ? "Titre ..." : titleMsg}
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </div>
+                    </Row>
+
+                    <Row className="mb-4">
+                        <label className="col-md-3 form-label">Categorie :</label>
+                        <div className="">
+                            <blogpost.Categorys Optioncategorys={optionsCategorie}
+                                                change={(e) => setCategory(e)}  />
+                        </div>
+                    </Row>
+
+                    <Row>
+                        <label className="col-md-3 form-label mb-4">
+                            Content:
+                        </label>
+                        <div className="mb-4">
+
+                            <formeditor.EditorConvertToHTML Content={content} 
+                                onEditorChange={(v) => {
+                                    setHtml(v) ;
+                                    console.log("onEditorChange") ;
+                                    console.log("Html") ;
+                                    console.log(html) ;
+                                }}
+                                
+                                onChange={(v) => {
+                                    setResult(v) ;
+                                    console.log("onChange") ;
+                                    console.log("result") ;
+                                    console.log(result) ;
+                                }}
+                                
+
+                            />
+                        </div>
+
+                    </Row>
+
+                    <FormGroup className="mb-0 file">
+                        <label className="col-md-3 form-label mb-4">
+                            Photo :
+                        </label>
+                        <formadvanced.OuterDropzone
+                            id="demo"
+                            type="file"
+                            name="files"
+                            accept=".jpg, .png, image/jpeg, image/png"
+                            multiple
+                            onChange={(e) => setPhoto(e.target.value)}
+                        />
+                    </FormGroup>   
+
+
+
+                    <Button variant="primary" onClick={handleSave}>
+                        Next
+                    </Button>
+
+
+
+
+
+
+
+
+
+
+
+    console.log("InterviewQuestions") ;
+    const storedToken = localStorage.getItem('token') ;
+   /* // on recupere les infos sur le token et l'utilisateur
+    const storedToken = localStorage.getItem('token') ;
+
+    // pour le ForceRender
+   const downloaded_InterviewQuestions = useRef(false) ;
+
+   // pour le Rerender
+   const [compteur,setCompteur] = useState(0) ;
+
+   function RenderAfterLoad(variable) {
+    if (variable === "interviewQuestions")
+        downloaded_InterviewQuestions.current = true ;
+
+    if (downloaded_InterviewQuestions.current === true)
+        setCompteur(compteur+1) ; ;
+    }
+
+    // pour le reload des infos
+    const [reloadInfos, setReloadInfos] = useState(true) ;
+
+    // recuperation des informations au depart
+    if (reloadInfos === true)
+    {
+       
+        getInterviewQuestions(storedToken,RenderAfterLoad) ;
+        setReloadInfos(false) ;
+    }
+
+
+    function ForceRenderInterviewQuestion() {
+        
+        console.log("ForceRenderInterviewQuestion") ;    
+        getInterviewQuestions(storedToken, RenderAfterLoad) ;
+    }*/
+
+        // pour le ForceRender
+    const downloaded_InterviewQuestions = useRef(false) ;
+
+    // pour le Rerender
+    const [compteur,setCompteur] = useState(0) ;
+
+    function RenderAfterLoad(variable) {
+        if (variable === "interviewQuestions")
+            downloaded_InterviewQuestions.current = true ;
+    
+        if (downloaded_InterviewQuestions.current === true)
+            setCompteur(compteur+1) ; ;
+    }
+    getInterviewQuestions(storedToken,RenderAfterLoad) ;

@@ -226,7 +226,7 @@ const getUserArticles = async (tok,ForceRender) => {
 }
 
 
-//Method to get all articles created by this user
+//Method to get all Interviews created by this user
 const getUserInterviews = async (tok,ForceRender) => {
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_INTERVIEWS_FOR_USER_URL;
@@ -272,5 +272,5 @@ export {
     getEnterprisesByUser,
     getAllActivities,
     getUserArticles,
-    getUserInterviews
+    getUserInterviews,
 };
