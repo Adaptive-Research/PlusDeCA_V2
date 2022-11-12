@@ -61,94 +61,94 @@ export default function InterviewList() {
 
 
 
-// C'est le callback appele quand on ferme ModalEditInterview
-function ModalEditInterviewClose()
-{
-    setShowEditInterview(false) ;
-}
-
-
-
-
-
-  
-// C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
-function SendInterviewData(ShowWindow, Interview) {
-    //console.log("SendCompanyData")
-    if (Interview === null)
+    // C'est le callback appele quand on ferme ModalEditInterview
+    function ModalEditInterviewClose()
     {
-        setModeEdit("Add") ;
-        setId("") ;
-    }
-    else
-    {
-        setModeEdit("Edit") ;
-        console.log("Mode Edit") ;
-        console.log("Interview") ;
-        console.log(Interview) ;
-
-        setId(Interview.id) ;
-    }
-    
-
-    if (ShowWindow === "false")
         setShowEditInterview(false) ;
-    else
-        setShowEditInterview(true) ;
-}  
-
-//La fonction forceRender permettant de recharger automatiquement les données
-function ForceRenderInterview() {
-        
-    console.log("ForceRenderInterview") ;
-    setShowEditInterview(false) ;
-
-    getUserInterviews(storedToken, RenderAfterLoad) ;
-}
-
-
-// La fonction suivante servira à récupérer les interviews et à les rendre en fonction de leur type
-   const renderInterviews = (TypeInterview) => {
-   const interviews = JSON.parse(localStorage.getItem("userInterviews"));
-    if (interviews !== null)
-    {
-        console.log("interviews") ;
-        console.log(interviews);
-
-        return interviews.map((Interview) => {
-            if  (TypeInterview === 'A_Repondre') {
-                if (Interview.iscurrent === "1"){
-                    return <Col md={4}> 
-                                <CardInterview 
-                                    Interview={Interview}
-                                    TypeInterview={TypeInterview}
-                                    SendInterviewData={SendInterviewData}  
-                                    ForceRenderInterview = {ForceRenderInterview}
-                                /> 
-                            </Col> ;
-                }
-            }else if(TypeInterview === 'Valide'){
-                    return  <Col md={4}> 
-                                <CardInterview 
-                                    Interview={Interview}
-                                    TypeInterview={TypeInterview}
-                                    SendInterviewData={SendInterviewData}  
-                                    ForceRenderInterview = {ForceRenderInterview}
-                                /> 
-                            </Col> ;
-            }else if(TypeInterview === 'Public'){
-                    return  <Col md={4}> 
-                                <CardInterview 
-                                    Interview={Interview}
-                                    TypeInterview={TypeInterview}
-                                    SendInterviewData={SendInterviewData}  
-                                    ForceRenderInterview = {ForceRenderInterview}
-                                /> 
-                            </Col> ;
-            }
-        })
     }
-}
+
+
+
+
+
+    
+    // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
+    function SendInterviewData(ShowWindow, Interview) {
+        //console.log("SendCompanyData")
+        if (Interview === null)
+        {
+            setModeEdit("Add") ;
+            setId("") ;
+        }
+        else
+        {
+            setModeEdit("Edit") ;
+            console.log("Mode Edit") ;
+            console.log("Interview") ;
+            console.log(Interview) ;
+
+            setId(Interview.id) ;
+        }
+        
+
+        if (ShowWindow === "false")
+            setShowEditInterview(false) ;
+        else
+            setShowEditInterview(true) ;
+    }  
+
+    //La fonction forceRender permettant de recharger automatiquement les données
+    function ForceRenderInterview() {
+            
+        console.log("ForceRenderInterview") ;
+        setShowEditInterview(false) ;
+
+        getUserInterviews(storedToken, RenderAfterLoad) ;
+    }
+
+
+    // La fonction suivante servira à récupérer les interviews et à les rendre en fonction de leur type
+    const renderInterviews = (TypeInterview) => {
+    const interviews = JSON.parse(localStorage.getItem("userInterviews"));
+        if (interviews !== null)
+        {
+            console.log("interviews") ;
+            console.log(interviews);
+
+            return interviews.map((Interview) => {
+                if  (TypeInterview === 'A_Repondre') {
+                    if (Interview.iscurrent === "1"){
+                        return <Col md={4}> 
+                                    <CardInterview 
+                                        Interview={Interview}
+                                        TypeInterview={TypeInterview}
+                                        SendInterviewData={SendInterviewData}  
+                                        ForceRenderInterview = {ForceRenderInterview}
+                                    /> 
+                                </Col> ;
+                    }
+                }else if(TypeInterview === 'Valide'){
+                        return  <Col md={4}> 
+                                    <CardInterview 
+                                        Interview={Interview}
+                                        TypeInterview={TypeInterview}
+                                        SendInterviewData={SendInterviewData}  
+                                        ForceRenderInterview = {ForceRenderInterview}
+                                    /> 
+                                </Col> ;
+                }else if(TypeInterview === 'Public'){
+                        return  <Col md={4}> 
+                                    <CardInterview 
+                                        Interview={Interview}
+                                        TypeInterview={TypeInterview}
+                                        SendInterviewData={SendInterviewData}  
+                                        ForceRenderInterview = {ForceRenderInterview}
+                                    /> 
+                                </Col> ;
+                }
+            })
+        }
+    }
 
 
 

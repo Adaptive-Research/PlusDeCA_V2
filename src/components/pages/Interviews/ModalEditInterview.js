@@ -177,17 +177,6 @@ export default function ModalEditInterview(props) {
 
 
 
-    // Function that handle the submit event on the form
-    const handleSave = (e) => {
-        e.preventDefault();
-        try {
-            inputsValidation();
-        } catch (e) {
-            console.log(e);
-        } finally {
-            console.log("Attempted to save Interview")
-        }
-    }
  
 
     return (

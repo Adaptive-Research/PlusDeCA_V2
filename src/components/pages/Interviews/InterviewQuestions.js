@@ -1,82 +1,302 @@
 import React from 'react'
 import "../../../assets/css/InterviewQuestions.css";
+import "../../../assets/css/style_Dan.css";
 import  InterviewImg  from "../../../assets/images/interviews/interview.png";
-import {Link} from "react-router-dom";
-import FirstQuestion from './TestQuestions/FirstQuestion';
-import SecondQuestion from './TestQuestions/SecondQuestion';
-import ThirdQuestion from './TestQuestions/ThirdQuestion';
-import FouthQuestion from './TestQuestions/FouthQuestion';
 import { useState,useRef } from 'react';
 import axios from "axios";
 import Buttons from './Buttons';
-import  Step  from './Step';
 
 
-/*
-const steps = {
-    //On definir les Etapes du Formulaire de l'interview;
-    1: FirstQuestion,
-    2: SecondQuestion,
-    3: ThirdQuestion,
-    4: FouthQuestion
-};
-*/
 export default function InterviewQuestions(props) {
     console.log("InterviewQuestions");
 
- /*   //Définition des Variables et fonctions liés au Etapes du formulaire
-    const [step, setStep] = useState(1);
+    const [reponseInput,setReponseInput] = useState("") ;
+    const [selectInput,setSelectInput] = useState("-1") ;
+    const [text, setText] = useState("") ;
 
-    const Step = steps[step];
+    const path = useRef([]);
+    const reponses = useRef([]) ;
 
-    const onNext = () =>{
-        setStep(step + 1);
-    }
-    const onBack = () =>{
-        setStep(step - 1);
-    }
-*/
+
+    const [step, setStep] = useState(0);
+  
+    
+
     //Ici on récupère le Token de L'utilisateur et et on fait un texte pour voir si cela s'affiche
     const storedToken = localStorage.getItem('token') ;
     //console.log(storedToken);
 
 
     
+    // on recupere les questions
+    const Questions = JSON.parse(localStorage.getItem("interviewQuestions"));
+    console.log("Questions");
+    console.log(Questions);
 
         
 
 
 
+    function RenderSelect(idQuestion) {
+        let OptionsList = Questions.map( (question)=>{
+                if (question.idQuestion === idQuestion) {
+                    return <option key={question.idSelectOption} value={question.idSelectOption}> {question.SelectOption} </option> 
+                }
+                                                
+        })
+        return OptionsList ;
+    }
 
-   
+
+    function RenderQuestionReponse() {
+        if (step < Questions.length)
+        {
+            if (InterviewQuestion.idSelectOption === "0")
+            {
+                if (InterviewQuestion.isMultiline === "0")
+                    return (
+                        <>
+                            <h4 className='Question'>{InterviewQuestion.Question}</h4>
+                            <form action=''>
+                            <input type='text' name={InterviewQuestion.idQuestion} value={reponseInput} onChange={(e) =>  setReponseInput(e.target.value)}/>
+                            </form>
+                        </>
+                    )
+                   
+                else 
+                    return (
+                        <>
+                            <h4 className='Question'>{InterviewQuestion.Question}</h4>
+                            <form action=''>
+                                <textarea  className="form-control not-resizable" name={InterviewQuestion.idQuestion} rows="11" value={text}  onChange={(e) =>  setText(e.target.value) }></textarea>
+                            </form>
+                        </>
+                    )
+            }
+            else {
+                return (
+                    <>
+                        <h4 className='Question'>{InterviewQuestion.Question}</h4>
+                        <form action=''>
+                            <select name={InterviewQuestion.idQuestion}  value={selectInput} onChange={(e) =>  setSelectInput(e.target.value)}>
+                                {RenderSelect(InterviewQuestion.idQuestion)}
+                            </select>
+                        </form>
+                    </>
+                   
+                    )
+
+            }
+        }
+        else
+         return (
+             <>
+                <h3>
+                Cette interview est terminée. Merci d'y avoir répondu.
+                </h3>
+             </>
+
+         )
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    function FindQuestionFromID(idQuestion) {
+        for (let i=0 ; i < Questions.length ; i++)
+        {
+            if (Questions[i].idQuestion === idQuestion)
+                return i ;
+        }
+        return -1 ;
+    }
+
+    function FindNextQuestionFromIDAndAnswer(idQuestion,Answer) {
+        console.log("FindNextQuestionFromIDAndAnswer") ;
+        console.log("idQuestion: " +idQuestion) ;
+        console.log("Answer: "+Answer) ;
+        for (let i=0 ; i < Questions.length ; i++)
+        {
+            if (Questions[i].idQuestion === idQuestion && Questions[i].idSelectOption === Answer) {
+                console.log("idQuestionSuivante: " + Questions[i].idQuestionSuivante) ;
+                return Questions[i].idQuestionSuivante ;
+            }
+        }
+        return -1 ;
+    }
     
 
 
-    const Questions = JSON.parse(localStorage.getItem("interviewQuestions"));
+    function RemoveReponse(idQuestion){
+        for (let i = 0 ; i < reponses.current.length; i++) {
+            if (reponses.current[i].idQuestion === idQuestion)
+                return reponses.current.splice(i,1) ;
+        }
+    }
 
-    let QuestionsLength = Questions.length;
+    function AddReponse() {
+        let rep = "" ;
+        if (InterviewQuestion.idSelectOption === "0")
+        {
+            if (InterviewQuestion.isMultiline === "0") {
 
-    console.log("Questions");
-    console.log(Questions);
+                RemoveReponse(InterviewQuestion.idQuestion) ;
+                rep = {"idQuestion":InterviewQuestion.idQuestion, "Reponse": reponseInput }
+                reponses.current.push(rep) ;
 
-    console.log("QuestionsLength");
-    console.log(QuestionsLength);
+            }
+            else {
+                RemoveReponse(InterviewQuestion.idQuestion) ;
+                rep = {"idQuestion":InterviewQuestion.idQuestion, "Reponse": text }
+                reponses.current.push(rep) ;
 
-    const [step, setStep] = useState(0);
+            }
+        }
+        else {
+            RemoveReponse(InterviewQuestion.idQuestion) ;
+            rep = {"idQuestion":InterviewQuestion.idQuestion, "Reponse": selectInput }
+            reponses.current.push(rep) ;
+        }
 
-    
+        console.log("reponses.current") ;
+        console.log(reponses.current) ;
+    }
+
+
+
+
     const onNext = () =>{
-        setStep(step + 1);
-    }
-    const onBack = () =>{
-        setStep(step - 1);
+        console.log("onNext") ;
+
+
+        AddReponse() ;
+
+        let res = -1 ;
+        if (Questions[step].idSelectOption === "0") {
+            if (Questions[step].idQuestionSuivante > 0)
+            {
+                path.current.push(step) ; 
+                res = FindQuestionFromID(Questions[step].idQuestionSuivante) ;
+                if (res > -1) {
+                    setStep(res) ;
+                    SetReponse(res)
+                }
+            }
+            else 
+                setStep(Questions.length) ;
+        }
+        else{
+            console.log("selectInput: " + selectInput) ;
+            res = FindNextQuestionFromIDAndAnswer(Questions[step].idQuestion,selectInput) ;
+            if (res > 0)
+            {
+                path.current.push(step) ; 
+
+                res = FindQuestionFromID(res) ;
+                if (res > -1) {
+                    setStep(res) ;
+                    SetReponse(res)
+                }
+                   
+            }
+            else {
+                if (res == 0)
+                {
+                    setStep(Questions.length) ;
+                }
+            }
+            
+          
+        }
+        console.log("path.current") ;
+        console.log(path.current) ;
     }
 
-    let InterviewQuestion = Questions[step];
-    
-    console.log("InterviewQuestion");
-    console.log(InterviewQuestion);
-    
+
+
+    function FindReponse(idQuestion) {
+        for (let i = 0 ; i < reponses.current.length; i++) {
+            if (reponses.current[i].idQuestion === idQuestion)
+                return reponses.current[i].Reponse ;
+        }
+        return "" ;
+    }
+
+
+    function SetReponse(s) {
+        console.log("SetReponse: "+s) ;
+
+        let rep = FindReponse(Questions[s].idQuestion) ;
+
+        if ( Questions[s].idSelectOption === "0")
+        {
+            if ( Questions[s].isMultiline === "0") {
+                setReponseInput(rep) ;
+            }
+            else {
+                setText(rep) ;
+            }
+        }
+        else {
+            if (rep !== "")
+                setSelectInput(rep) ;
+            else
+                setSelectInput(Questions[s].idSelectOption) ;
+        }
+        console.log("reponseInput: " + reponseInput) ;
+        console.log("text: "+text) ;
+        console.log("selectInput: "+selectInput)
+    }
+
+
+
+    const onBack = () =>{
+        if (path.current.length > 0)
+        {
+
+            let s = path.current[path.current.length-1] ;
+            setStep(s);
+            path.current.pop() ;
+
+            SetReponse(s) ;
+
+            console.log("path.current") ;
+            console.log(path.current) ;
+
+            console.log("reponses.current") ;
+            console.log(reponses.current) ;
+        }
+    }
+
+
+
+
+    let InterviewQuestion = "" ; 
+    if (step < Questions.length)
+        InterviewQuestion = Questions[step];
+
+
+
+
+
+
+
+
+
     
     return (
         <div className='InterviewQuestions'>
@@ -86,25 +306,23 @@ export default function InterviewQuestions(props) {
             <div className='AnswerContainer'>
                 <div className='MultiStepForm'>
                     <div className='box'>
-                            
                             <div className='BoxContent'>
                                 <div className='QuestionContainer'>
                                         <div className='QuestionContent'>
-                                            <h4 className='Question'>{InterviewQuestion.Question}</h4>
-                                            <form action='' method='POST'>
-                                                <input type='text' name='UserAnswer'/>
-                                            </form>
-                                            { /*InterviewQuestion.Question == 1 ? <Buttons onNext={onNext}/> : ''*/}
-                                            {
-                                                Questions.map((question)=>{
-                                                    if (question.idQuestion < QuestionsLength) {
-                                                        return <Buttons onNext={onNext} onBack={onBack}/>;
-                                                    }
-                                                })
-                                            }
-                                            { /*InterviewQuestion.Question == QuestionsLength ? <Buttons onBack={onBack} QuestionsNumber={QuestionsLength}/> : ''*/}
+                                            { RenderQuestionReponse() }
+
+                                          
                                         </div>
                                 </div>
+                              
+                                {
+                                                Questions.map((question)=>{
+                                                    if (step < Questions.length) {
+                                                        return <Buttons onNext={onNext} onBack={onBack}/>;
+                                                    }
+                                                    else  return <Buttons onBack={onBack}/>;
+                                                })
+                                            }
                             </div>
                     </div>
                 </div>

@@ -203,3 +203,7 @@
     opacity: 1;
 }
 
+.not-resizable {
+    resize: none;
+}
+

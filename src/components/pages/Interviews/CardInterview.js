@@ -2,7 +2,6 @@ import {Link} from "react-router-dom";
 import {BsPencilSquare} from "react-icons/bs";
 import {FaPenAlt,FaEye,FaRegThumbsUp} from "react-icons/fa";
 import {AiOutlineSave} from "react-icons/ai";
-import {getUserInterviews} from "../../../data/customlibs/utils";
 import '../../../assets/css/InterviewsList.css';
 import {Card} from "react-bootstrap";
 import axios from "axios";
