@@ -72,54 +72,67 @@ export default function InterviewQuestions(props) {
 
 
     function RenderQuestionReponse() {
-        if (step < Questions.current.length)
+        if (Questions.current.length > 0)
         {
-            if (InterviewQuestion.idSelectOption === "0")
+            if (step < Questions.current.length)
             {
-                if (InterviewQuestion.isMultiline === "0")
+                if (InterviewQuestion.idSelectOption === "0")
+                {
+                    if (InterviewQuestion.isMultiline === "0")
+                        return (
+                            <>
+                                <h4 className='Question'>{InterviewQuestion.Question}</h4>
+                                <form action=''>
+                                <input type='text' name={InterviewQuestion.idQuestion} value={reponseInput} onChange={(e) =>  setReponseInput(e.target.value)}/>
+                                </form>
+                            </>
+                        )
+                    
+                    else 
+                        return (
+                            <>
+                                <h4 className='Question'>{InterviewQuestion.Question}</h4>
+                                <form action=''>
+                                    <textarea  className="form-control not-resizable" name={InterviewQuestion.idQuestion} rows="11" value={text}  onChange={(e) =>  setText(e.target.value) }></textarea>
+                                </form>
+                            </>
+                        )
+                }
+                else {
                     return (
                         <>
                             <h4 className='Question'>{InterviewQuestion.Question}</h4>
                             <form action=''>
-                            <input type='text' name={InterviewQuestion.idQuestion} value={reponseInput} onChange={(e) =>  setReponseInput(e.target.value)}/>
+                                <select name={InterviewQuestion.idQuestion}  value={selectInput} onChange={(e) =>  setSelectInput(e.target.value)}>
+                                    {RenderSelect(InterviewQuestion.idQuestion)}
+                                </select>
                             </form>
                         </>
-                    )
-                   
-                else 
-                    return (
-                        <>
-                            <h4 className='Question'>{InterviewQuestion.Question}</h4>
-                            <form action=''>
-                                <textarea  className="form-control not-resizable" name={InterviewQuestion.idQuestion} rows="11" value={text}  onChange={(e) =>  setText(e.target.value) }></textarea>
-                            </form>
-                        </>
-                    )
+                    
+                        )
+
+                }
             }
-            else {
+            else
                 return (
                     <>
-                        <h4 className='Question'>{InterviewQuestion.Question}</h4>
-                        <form action=''>
-                            <select name={InterviewQuestion.idQuestion}  value={selectInput} onChange={(e) =>  setSelectInput(e.target.value)}>
-                                {RenderSelect(InterviewQuestion.idQuestion)}
-                            </select>
-                        </form>
+                        <h3>
+                        Cette interview est terminée. Merci d'y avoir répondu. Vous pouvez maintenant la sauvegarder.
+                        </h3>
                     </>
-                   
-                    )
 
-            }
+                )
         }
         else
-         return (
-             <>
-                <h3>
-                Cette interview est terminée. Merci d'y avoir répondu. Vous pouvez maintenant la sauvegarder.
-                </h3>
-             </>
+            return (
+                <>
+                    <h4 className='Question'>{InterviewQuestion.Question}</h4>
+                    <form action=''>
+                    <input type='text' name={InterviewQuestion.idQuestion} value={reponseInput} onChange={(e) =>  setReponseInput(e.target.value)}/>
+                    </form>
+                </>
+            )
 
-         )
     }
 
 
@@ -339,35 +352,34 @@ export default function InterviewQuestions(props) {
 
 
 
-    if (Questions.current.length > 0)
-        return (
-            <div className='InterviewQuestions'>
-                <div className='InterviewQuestionsIMG'>
-                    <img src={InterviewImg} alt=''/>
-                </div> 
-                <div className='AnswerContainer'>
-                    <div className='MultiStepForm'>
-                        <div className='box'>
-                                <div className='BoxContent'>
-                                    <div className='QuestionContainer'>
-                                        <div className='QuestionContent'>
-                                            { RenderQuestionReponse() }
-                                        </div>
+    return (
+        <div className='InterviewQuestions'>
+            <div className='InterviewQuestionsIMG'>
+                <img src={InterviewImg} alt=''/>
+            </div> 
+            <div className='AnswerContainer'>
+                <div className='MultiStepForm'>
+                    <div className='box'>
+                            <div className='BoxContent'>
+                                <div className='QuestionContainer'>
+                                    <div className='QuestionContent'>
+                                        { RenderQuestionReponse() }
                                     </div>
-                                
-                                    {
-                                        Questions.current.map((question)=>{
-                                            if (step < Questions.current.length) {
-                                                return <Buttons onNext={onNext} onBack={onBack}/>;
-                                            }
-                                            else  return <Buttons onBack={onBack}/>;
-                                        })
-                                    }
                                 </div>
-                        </div>
+                            
+                                {
+                                    Questions.current.map((question)=>{
+                                        if (step < Questions.current.length) {
+                                            return <Buttons onNext={onNext} onBack={onBack}/>;
+                                        }
+                                        else  return <Buttons onBack={onBack}/>;
+                                    })
+                                }
+                            </div>
                     </div>
                 </div>
             </div>
-        )
+        </div>
+    )
+    
 }
-{/**<Step onBack={onBack} onNext={onNext} step={step}/> */}
