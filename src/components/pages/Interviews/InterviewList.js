@@ -83,7 +83,7 @@ export default function InterviewList() {
             console.log("Interview") ;
             console.log(Interview) ;
 
-            setId(Interview.id) ;
+            setId(Interview.idInterview) ;
         }
         
 
@@ -108,8 +108,8 @@ export default function InterviewList() {
     const interviews = JSON.parse(localStorage.getItem("userInterviews"));
         if (interviews !== null)
         {
-            console.log("interviews") ;
-            console.log(interviews);
+            //console.log("interviews") ;
+            //console.log(interviews);
 
             return interviews.map((Interview) => {
                 if  (TypeInterview === 'A_Repondre') {
@@ -168,8 +168,7 @@ export default function InterviewList() {
                                     <div className="tabs-menu1 ">
 
                                     <ModalEditInterview 
-                                            Render={compteur}
-                                            show={showEditInterview } 
+                                            show={showEditInterview} 
                                             SendCloseMessage={ModalEditInterviewClose}  
                                             ForceRenderInterview ={ForceRenderInterview }
                                             ModeEdit={modeEdit}

@@ -2,7 +2,7 @@ import React from 'react'
 import "../../../assets/css/InterviewQuestions.css";
 import "../../../assets/css/style_Dan.css";
 import  InterviewImg  from "../../../assets/images/interviews/interview.png";
-import { useState,useRef } from 'react';
+import { useState,useRef,useEffect } from 'react';
 import Buttons from './Buttons';
 
 
@@ -27,24 +27,32 @@ export default function InterviewQuestions(props) {
 
     const [step, setStep] = useState(0); // contient l'index de la question en cours dans le tableau de questions
   
-    
-    // pour le reload des infos
-    const [reloadInfos, setReloadInfos] = useState(true) ;
+     // pour le reload des infos
+     const [reloadInfos, setReloadInfos] = useState(true) ;
 
-    
-    // on recupere les questions
-    if (reloadInfos === true)
+
+    if (props.IsLoaded === true)
     {
-        Questions.current = JSON.parse(localStorage.getItem("interviewQuestions"));
-        Answers.current = JSON.parse(localStorage.getItem("interviewAnswers"));
+        if (reloadInfos === true)
+        {
+            Questions.current = JSON.parse(localStorage.getItem("interviewQuestions"));
+            Answers.current = JSON.parse(localStorage.getItem("interviewAnswers"));
 
-        if (Answers.current === null)
-            Answers.current = [] ;
+            if (Questions.current === null)
+                Questions.current = [] ;
 
-        SetReponse(0) ;
+            if (Answers.current === null)
+                Answers.current = [] ;
 
-        setReloadInfos(false) ;
+            if (Questions.current !== null)    
+                SetReponse(0) ;
+
+            setReloadInfos(false) ;
+        }
+
     }
+
+
 
     console.log("Questions");
     console.log(Questions.current);
@@ -141,9 +149,9 @@ export default function InterviewQuestions(props) {
     }
 
     function FindNextQuestionFromIDAndAnswer(idQuestion,Answer) {
-        console.log("FindNextQuestionFromIDAndAnswer") ;
-        console.log("idQuestion: " +idQuestion) ;
-        console.log("Answer: "+Answer) ;
+        //console.log("FindNextQuestionFromIDAndAnswer") ;
+        //console.log("idQuestion: " +idQuestion) ;
+        //console.log("Answer: "+Answer) ;
         for (let i=0 ; i < Questions.current.length ; i++)
         {
             if (Questions.current[i].idQuestion === idQuestion && Questions.current[i].idSelectOption === Answer) {
@@ -213,22 +221,25 @@ export default function InterviewQuestions(props) {
     function SetReponse(s) {
         console.log("SetReponse: "+s) ;
 
-        let rep = FindReponse(Questions.current[s].idQuestion) ;
-
-        if ( Questions.current[s].idSelectOption === "0")
+        if (s < Questions.current.length)
         {
-            if ( Questions.current[s].isMultiline === "0") {
-                setReponseInput(rep) ;
+            let rep = FindReponse(Questions.current[s].idQuestion) ;
+
+            if ( Questions.current[s].idSelectOption === "0")
+            {
+                if ( Questions.current[s].isMultiline === "0") {
+                    setReponseInput(rep) ;
+                }
+                else {
+                    setText(rep) ;
+                }
             }
             else {
-                setText(rep) ;
+                if (rep !== "")
+                    setSelectInput(rep) ;
+                else
+                    setSelectInput(Questions.current[s].idSelectOption) ;
             }
-        }
-        else {
-            if (rep !== "")
-                setSelectInput(rep) ;
-            else
-                setSelectInput(Questions.current[s].idSelectOption) ;
         }
         //console.log("reponseInput: " + reponseInput) ;
         //console.log("text: "+text) ;
@@ -328,35 +339,35 @@ export default function InterviewQuestions(props) {
 
 
 
-    
-    return (
-        <div className='InterviewQuestions'>
-            <div className='InterviewQuestionsIMG'>
-                <img src={InterviewImg} alt=''/>
-            </div> 
-            <div className='AnswerContainer'>
-                <div className='MultiStepForm'>
-                    <div className='box'>
-                            <div className='BoxContent'>
-                                <div className='QuestionContainer'>
-                                    <div className='QuestionContent'>
-                                        { RenderQuestionReponse() }
+    if (Questions.current.length > 0)
+        return (
+            <div className='InterviewQuestions'>
+                <div className='InterviewQuestionsIMG'>
+                    <img src={InterviewImg} alt=''/>
+                </div> 
+                <div className='AnswerContainer'>
+                    <div className='MultiStepForm'>
+                        <div className='box'>
+                                <div className='BoxContent'>
+                                    <div className='QuestionContainer'>
+                                        <div className='QuestionContent'>
+                                            { RenderQuestionReponse() }
+                                        </div>
                                     </div>
+                                
+                                    {
+                                        Questions.current.map((question)=>{
+                                            if (step < Questions.current.length) {
+                                                return <Buttons onNext={onNext} onBack={onBack}/>;
+                                            }
+                                            else  return <Buttons onBack={onBack}/>;
+                                        })
+                                    }
                                 </div>
-                              
-                                {
-                                    Questions.current.map((question)=>{
-                                        if (step < Questions.current.length) {
-                                            return <Buttons onNext={onNext} onBack={onBack}/>;
-                                        }
-                                        else  return <Buttons onBack={onBack}/>;
-                                    })
-                                }
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        )
 }
 {/**<Step onBack={onBack} onNext={onNext} step={step}/> */}

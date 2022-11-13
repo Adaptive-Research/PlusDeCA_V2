@@ -322,6 +322,8 @@ const getInterviewQuestions = async (variable,tok,idInter, ForceRender) => {
         }
     });
 
+    console.log(response.data) ;
+
     const data =  getDataFromResponse(response) ;
     let pos = data.indexOf("ERROR") ;
     if (pos < 0) { 
@@ -342,7 +344,7 @@ const getInterviewAnswers = async (variable,tok,idInter, ForceRender) => {
     const url =  process.env.REACT_APP_API_SHOW_ANSWERS_URL;
     const response = await axios.post(url, {
         token: tok,
-        debug: 1,
+        //debug: 1,
         Submit: 1,
         idInterview:idInter
     }, {
@@ -350,6 +352,8 @@ const getInterviewAnswers = async (variable,tok,idInter, ForceRender) => {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     });
+
+    console.log(response.data) ;
 
     const data =  getDataFromResponse(response) ;
     let pos = data.indexOf("ERROR") ;
