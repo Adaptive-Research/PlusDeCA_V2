@@ -1,7 +1,5 @@
-import React, {useRef, useState} from "react";
+import React, {useRef, useState,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
-import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
-import {Link} from "react-router-dom";
 import {getUserInterviews} from "../../../data/customlibs/utils";
 import '../../../assets/css/InterviewsList.css';
 import CardInterview from "./CardInterview.js";
@@ -21,38 +19,48 @@ export default function InterviewList() {
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
-    const idUser = getIDFromToken(storedToken) ;
 
-    // pour le ForceRender
-   const downloaded_Interviews = useRef(false) ;
 
     // pour le Rerender
     const [compteur,setCompteur] = useState(0) ;
      // pour l'affichage de la fenetre modale
     const [showEditInterview, setShowEditInterview] = useState(false) ;
 
+
+    const isMounted = useRef(false) ;
+
+    useEffect(()=>{
+        isMounted.current = true ; 
+    })
+
+
+
     // le callback qui est appele apres le chargement des donnees
     function RenderAfterLoad(variable) {
-        if (variable === "userInterviews")
-            downloaded_Interviews.current = true ;
-
-        if (downloaded_Interviews.current === true)
-            setCompteur(compteur+1) ; ;
+        if (isMounted.current === true)
+            setCompteur(compteur+1) ; 
     }
     
+
+
+
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
+
+
+
 
     // recuperation des informations au depart
     if (reloadInfos === true)
     {
         getUserInterviews("userInterviews",storedToken,RenderAfterLoad) ;
-            
         setReloadInfos(false) ;
     }
 
+
+
     // Les différentes fonctions permettant d'éditer les Interviews 
-    const [modeEdit,setModeEdit]= useState("") ;
+    //const [modeEdit,setModeEdit]= useState("") ;
     const [id,setId] = useState("") ;
 
 
@@ -70,21 +78,9 @@ export default function InterviewList() {
     
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
     function SendInterviewData(ShowWindow, Interview) {
-        //console.log("SendCompanyData")
-        if (Interview === null)
-        {
-            setModeEdit("Add") ;
-            setId("") ;
-        }
-        else
-        {
-            setModeEdit("Edit") ;
-            console.log("Mode Edit") ;
-            console.log("Interview") ;
-            console.log(Interview) ;
 
-            setId(Interview.idInterview) ;
-        }
+        //setModeEdit("Edit") ;
+        setId(Interview.idInterview) ;
         
 
         if (ShowWindow === "false")
@@ -103,6 +99,9 @@ export default function InterviewList() {
     }
 
 
+
+
+
     // La fonction suivante servira à récupérer les interviews et à les rendre en fonction de leur type
     const renderInterviews = (TypeInterview) => {
     const interviews = JSON.parse(localStorage.getItem("userInterviews"));
@@ -114,7 +113,7 @@ export default function InterviewList() {
             return interviews.map((Interview) => {
                 if  (TypeInterview === 'A_Repondre') {
                     if (Interview.iscurrent === "1" && Interview.isValidated === "0" && Interview.isPublished === "0"){
-                        return <Col md={4}> 
+                        return <Col md={4} key={Interview.idInterview}> 
                                     <CardInterview 
                                         Interview={Interview}
                                         TypeInterview={TypeInterview}
@@ -125,7 +124,7 @@ export default function InterviewList() {
                     }
                 }else if(TypeInterview === 'Valide'){
                     if (Interview.iscurrent === "1" && Interview.isValidated === "1" && Interview.isPublished === "0")
-                        return  <Col md={4}> 
+                        return  <Col md={4} key={Interview.idInterview}> 
                                     <CardInterview 
                                         Interview={Interview}
                                         TypeInterview={TypeInterview}
@@ -135,7 +134,7 @@ export default function InterviewList() {
                                 </Col> ;
                 }else if(TypeInterview === 'Public'){
                     if (Interview.iscurrent === "1"  && Interview.isPublished === "1")
-                        return  <Col md={4}> 
+                        return  <Col md={4} key={Interview.idInterview}> 
                                     <CardInterview 
                                         Interview={Interview}
                                         TypeInterview={TypeInterview}
@@ -171,7 +170,7 @@ export default function InterviewList() {
                                             show={showEditInterview} 
                                             SendCloseMessage={ModalEditInterviewClose}  
                                             ForceRenderInterview ={ForceRenderInterview }
-                                            ModeEdit={modeEdit}
+                                            //ModeEdit={modeEdit}
                                             idInterview={id}
                                     />
 

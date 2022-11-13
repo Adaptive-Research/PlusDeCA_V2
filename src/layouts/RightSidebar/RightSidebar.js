@@ -47,6 +47,7 @@ export function RightSidebar() {
         document.querySelector(".sidebar-right").classList.remove("sidebar-open");
     }
 
+    let userMail = localStorage.getItem("userMail") ;
 
     //const storedToken = JSON.parse(localStorage.getItem('token'));
     const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL;
@@ -135,11 +136,11 @@ export function RightSidebar() {
                                         </div>
                                         <div className="user-info mg-t-20">
                                             <h6 className="fw-semibold  mt-2 mb-0">
-                                                Mintrona Pechon
+                                                {userMail}
                                             </h6>
                                             <span className="mb-0 text-muted fs-12">
-                        Premium Member
-                      </span>
+                                                Premium Member
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
