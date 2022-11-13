@@ -2,7 +2,7 @@ import React, {useState,useRef} from "react";
 import axios from "axios";
 import {  Row, Button, Modal} from "react-bootstrap";
 import InterviewQuestions  from "./InterviewQuestions";
-import {getUserInterviews} from "../../../data/customlibs/utils";
+import {getInterviewAnswers,getInterviewQuestions} from "../../../data/customlibs/utils";
 
 export default function ModalEditInterview(props) {
 
@@ -28,53 +28,29 @@ export default function ModalEditInterview(props) {
 
     // pour le ForceRender
     const downloaded_InterviewQuestions = useRef(false) ;
+    const downloaded_InterviewAnswers = useRef(false) ;
 
     function RenderAfterLoad(variable) {
         if (variable === "interviewQuestions")
             downloaded_InterviewQuestions.current = true ;
+
+        if (variable === "interviewAnswers")
+            downloaded_InterviewAnswers.current = true ;
+
     
-        if (downloaded_InterviewQuestions.current === true)
+        if (downloaded_InterviewQuestions.current === true &&  downloaded_InterviewAnswers.current === true)
             setCompteur(compteur+1) ; 
     
         downloaded_InterviewQuestions.current = false ;      
     }
     
-    // pour les reponses
-    const reponses = useRef([]) ;
+
+    
+    // pour les Answers
+    const Answers = useRef([]) ;
     
 
 
-
-    
-    const getInterviewQuestions = async (variable,tok,idInter, ForceRender) => {
-        console.log(" getInterviewQuestions") ;
-        //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
-        const url =  process.env.REACT_APP_API_SHOW_QUESTIONS_FOR_INTERVIEW_URL;
-        const response = await axios.post(url, {
-            token: tok,
-            //debug: 1,
-            Submit: 1,
-            idInterview:idInter
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        });
-
-        console.log("response.data") ;
-        console.log(response.data) ;
-        let data = response.data ;
-        let pos = data.indexOf("ERROR") ;
-        if (pos < 0) { 
-            let Questions = [];
-
-            data.forEach((element) => {
-                Questions.push(element);
-            });
-            localStorage.setItem(variable, JSON.stringify(Questions));
-        }
-        ForceRender(variable) ;
-    }   
 
 
 
@@ -83,7 +59,7 @@ export default function ModalEditInterview(props) {
     if (reloadInfos === true)
     {
         getInterviewQuestions("interviewQuestions",storedToken,props.idInterview,RenderAfterLoad) ;
-        //getInterviewAnswers("interviewReponses",storedToken,props.idInterview,RenderAfterLoad) ;
+        getInterviewAnswers("interviewAnswers",storedToken,props.idInterview,RenderAfterLoad) ;
 
         setReloadInfos(false) ;
     }
@@ -105,11 +81,11 @@ export default function ModalEditInterview(props) {
 
  
 
-    // callback pour que les reponses arrivent de InterviewQuestions a ModalEditInterview
-    function SendReponses(rep){
-        console.log("SendReponses") ;
+    // callback pour que les Answers arrivent de InterviewQuestions a ModalEditInterview
+    function SendAnswers(rep){
+        console.log("SendAnswers") ;
         console.log(rep.current) ;
-        reponses.current = rep.current ;
+        Answers.current = rep.current ;
     }
 
 
@@ -150,8 +126,8 @@ export default function ModalEditInterview(props) {
 
     function SaveInterview(){
         console.log("SaveInterview") ;
-        for (let i = 0 ; i < reponses.current.length ; i++ ){
-            let rep = reponses.current[i] ;
+        for (let i = 0 ; i < Answers.current.length ; i++ ){
+            let rep = Answers.current[i] ;
             let srep = rep.Reponse ;
             srep = srep.replace("'","''") ;
             SaveReponse (storedToken, props.idInterview, rep.idQuestion, srep ) 
@@ -186,7 +162,7 @@ export default function ModalEditInterview(props) {
 
                 <Modal.Body>
                 <Row className="mb-4">
-                    <InterviewQuestions Render={compteur} SendReponses={SendReponses}/>
+                    <InterviewQuestions Render={compteur} SendAnswers={SendAnswers}/>
                 </Row>
                 </Modal.Body>
 

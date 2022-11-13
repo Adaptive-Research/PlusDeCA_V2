@@ -124,12 +124,12 @@ const getActivitiesForUser = (variable, Token,UserId, ForceRender) => {
             
             let pos = data.indexOf("ERROR") ;
             if (pos < 0) { 
-                let Activities = [];
+                let res = [];
 
                 data.forEach((element) => {
-                    Activities.push(element);
+                    res.push(element);
                 });
-                localStorage.setItem(variable, JSON.stringify(Activities));
+                localStorage.setItem(variable, JSON.stringify(res));
             }
             else{
                 localStorage.removeItem(variable);
@@ -154,11 +154,11 @@ const getAllEnterprises = (variable,ForceRender) => {
 
             let pos = data.indexOf("ERROR") ;
             if (pos < 0) { 
-                const allEnterprises = [];
+                const res = [];
                 data.forEach((element) => {
-                        allEnterprises.push(element);
+                        res.push(element);
                 });
-                localStorage.setItem(variable, JSON.stringify(allEnterprises));
+                localStorage.setItem(variable, JSON.stringify(res));
             }
             else 
                 localStorage.removeItem(variable);
@@ -189,11 +189,11 @@ const getEnterprisesByUser = (variable,Token, UserId,ForceRender) => {
             //console.log(data) ;
             let pos = data.indexOf("ERROR") ;
             if (pos < 0) { 
-                let Entreprises = [];
+                let res = [];
                 data.forEach((element) => {
-                    Entreprises.push(element);
+                    res.push(element);
                 });
-                localStorage.setItem(variable, JSON.stringify(Entreprises));
+                localStorage.setItem(variable, JSON.stringify(res));
             }
             else 
                 localStorage.removeItem(variable);
@@ -215,11 +215,11 @@ const getAllActivities = (variable,ForceRender) => {
           
             let pos = data.indexOf("ERROR") ;
             if (pos < 0) { 
-                const allActivities = [];
+                const res = [];
                 data.forEach((element) => {
-                    allActivities.push(element);
+                    res.push(element);
                 });
-                localStorage.setItem(variable, JSON.stringify(allActivities));
+                localStorage.setItem(variable, JSON.stringify(res));
             }
             else 
                 localStorage.removeItem(variable);
@@ -253,12 +253,12 @@ const getUserArticles = async (variable,tok,ForceRender) => {
     if (pos < 0) { 
         //console.log("test1") ;
 
-        let Articles = [];
+        let res = [];
 
         data.forEach((element) => {
-            Articles.push(element);
+            res.push(element);
         });
-        localStorage.setItem(variable, JSON.stringify(Articles));
+        localStorage.setItem(variable, JSON.stringify(res));
     }
     else{
         localStorage.removeItem(variable);
@@ -272,7 +272,7 @@ const getUserArticles = async (variable,tok,ForceRender) => {
 
 
 //Method to get all articles created by this user
-const getUserInterviews = async (tok,ForceRender) => {
+const getUserInterviews = async (variable,tok,ForceRender) => {
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_INTERVIEWS_FOR_USER_URL;
     const response = await axios.post(url, {
@@ -285,24 +285,86 @@ const getUserInterviews = async (tok,ForceRender) => {
         }
     });
 
-    let variable = "userInterviews" ;
 
     const data =  getDataFromResponse(response) ;
 
     let pos = data.indexOf("ERROR") ;
     if (pos < 0) { 
-        let Interviews = [];
+        let res = [];
 
         data.forEach((element) => {
-            Interviews.push(element);
+            res.push(element);
         });
-        localStorage.setItem(variable, JSON.stringify(Interviews));
+        localStorage.setItem(variable, JSON.stringify(res));
     }
     else{
         localStorage.removeItem(variable);
     }
     ForceRender(variable) ;
 }
+
+
+
+
+
+const getInterviewQuestions = async (variable,tok,idInter, ForceRender) => {
+    console.log(" getInterviewQuestions") ;
+    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
+    const url =  process.env.REACT_APP_API_SHOW_QUESTIONS_FOR_INTERVIEW_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        //debug: 1,
+        Submit: 1,
+        idInterview:idInter
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    const data =  getDataFromResponse(response) ;
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    ForceRender(variable) ;
+}   
+
+
+
+const getInterviewAnswers = async (variable,tok,idInter, ForceRender) => {
+    console.log(" getInterviewAnswers") ;
+    const url =  process.env.REACT_APP_API_SHOW_ANSWERS_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        debug: 1,
+        Submit: 1,
+        idInterview:idInter
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    const data =  getDataFromResponse(response) ;
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    ForceRender(variable) ;
+}   
+
+
 
 
 
@@ -321,4 +383,6 @@ export {
     getAllActivities,
     getUserArticles,
     getUserInterviews,
+    getInterviewQuestions,
+    getInterviewAnswers  
 };

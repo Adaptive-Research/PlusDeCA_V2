@@ -11,38 +11,49 @@ import Buttons from './Buttons';
 export default function InterviewQuestions(props) {
     console.log("InterviewQuestions");
 
+   
+
+
     // les champs ci-dessous contiennent le contenu de la reponse pour la question en cours
     // il y a 3 types de champs de reponse (un inputText, un textarea, un select) 
     const [reponseInput,setReponseInput] = useState("") ;
     const [selectInput,setSelectInput] = useState("-1") ;
     const [text, setText] = useState("") ;
 
-
-    const path = useRef([]);  // sert pour sauvegarder l'enchainement des questions. utilise par le bouton Back et la fonction onBack()
-    const reponses = useRef([]) ; // sert a sauvegarder les reponses faites par l'utlisateur
+    const Questions = useRef([]) ;
+    const path = useRef([]);  // sert pour sauvegarder l'enchainement des Questions.current. utilise par le bouton Back et la fonction onBack()
+    const Answers = useRef([]) ; // sert a sauvegarder les Answers faites par l'utlisateur
 
 
     const [step, setStep] = useState(0); // contient l'index de la question en cours dans le tableau de questions
   
     
-
-    //Ici on récupère le Token de L'utilisateur et et on fait un texte pour voir si cela s'affiche
-    const storedToken = localStorage.getItem('token') ;
-    //console.log(storedToken);
-
+    // pour le reload des infos
+    const [reloadInfos, setReloadInfos] = useState(true) ;
 
     
     // on recupere les questions
-    const Questions = JSON.parse(localStorage.getItem("interviewQuestions"));
+    if (reloadInfos === true)
+    {
+        Questions.current = JSON.parse(localStorage.getItem("interviewQuestions"));
+        Answers.current = JSON.parse(localStorage.getItem("interviewAnswers"));
+
+        if (Answers.current === null)
+            Answers.current = [] ;
+
+        SetReponse(0) ;
+
+        setReloadInfos(false) ;
+    }
+
     console.log("Questions");
-    console.log(Questions);
-
-        
-
+    console.log(Questions.current);
+    console.log("Answers");
+    console.log(Answers.current);
 
 
     function RenderSelect(idQuestion) {
-        let OptionsList = Questions.map( (question)=>{
+        let OptionsList = Questions.current.map( (question)=>{
                 if (question.idQuestion === idQuestion) {
                     return <option key={question.idSelectOption} value={question.idSelectOption}> {question.SelectOption} </option> 
                 }
@@ -53,7 +64,7 @@ export default function InterviewQuestions(props) {
 
 
     function RenderQuestionReponse() {
-        if (step < Questions.length)
+        if (step < Questions.current.length)
         {
             if (InterviewQuestion.idSelectOption === "0")
             {
@@ -121,9 +132,9 @@ export default function InterviewQuestions(props) {
     
 
     function FindQuestionFromID(idQuestion) {
-        for (let i=0 ; i < Questions.length ; i++)
+        for (let i=0 ; i < Questions.current.length ; i++)
         {
-            if (Questions[i].idQuestion === idQuestion)
+            if (Questions.current[i].idQuestion === idQuestion)
                 return i ;
         }
         return -1 ;
@@ -133,11 +144,11 @@ export default function InterviewQuestions(props) {
         console.log("FindNextQuestionFromIDAndAnswer") ;
         console.log("idQuestion: " +idQuestion) ;
         console.log("Answer: "+Answer) ;
-        for (let i=0 ; i < Questions.length ; i++)
+        for (let i=0 ; i < Questions.current.length ; i++)
         {
-            if (Questions[i].idQuestion === idQuestion && Questions[i].idSelectOption === Answer) {
-                console.log("idQuestionSuivante: " + Questions[i].idQuestionSuivante) ;
-                return Questions[i].idQuestionSuivante ;
+            if (Questions.current[i].idQuestion === idQuestion && Questions.current[i].idSelectOption === Answer) {
+                console.log("idQuestionSuivante: " + Questions.current[i].idQuestionSuivante) ;
+                return Questions.current[i].idQuestionSuivante ;
             }
         }
         return -1 ;
@@ -146,13 +157,15 @@ export default function InterviewQuestions(props) {
 
 
     function RemoveReponse(idQuestion){
-        for (let i = 0 ; i < reponses.current.length; i++) {
-            if (reponses.current[i].idQuestion === idQuestion)
-                return reponses.current.splice(i,1) ;
+        for (let i = 0 ; i < Answers.current.length; i++) {
+            if (Answers.current[i].idQuestion === idQuestion)
+                return Answers.current.splice(i,1) ;
         }
     }
 
+
     function AddReponse() {
+        console.log("AddReponse") ;
         let rep = "" ;
         if (InterviewQuestion.idSelectOption === "0")
         {
@@ -160,28 +173,71 @@ export default function InterviewQuestions(props) {
 
                 RemoveReponse(InterviewQuestion.idQuestion) ;
                 rep = {"idQuestion":InterviewQuestion.idQuestion, "Reponse": reponseInput }
-                reponses.current.push(rep) ;
+                Answers.current.push(rep) ;
 
             }
             else {
                 RemoveReponse(InterviewQuestion.idQuestion) ;
                 rep = {"idQuestion":InterviewQuestion.idQuestion, "Reponse": text }
-                reponses.current.push(rep) ;
+                Answers.current.push(rep) ;
 
             }
         }
         else {
             RemoveReponse(InterviewQuestion.idQuestion) ;
             rep = {"idQuestion":InterviewQuestion.idQuestion, "Reponse": selectInput }
-            reponses.current.push(rep) ;
+            Answers.current.push(rep) ;
         }
 
-        console.log("reponses.current") ;
-        console.log(reponses.current) ;
+        console.log("Answers.current") ;
+        console.log(Answers.current) ;
 
-        if (props.SendReponses !== null)
-            props.SendReponses(reponses) ;
+        if (props.SendAnswers !== null)
+            props.SendAnswers(Answers) ;
     }
+
+
+
+
+    
+
+    function FindReponse(idQuestion) {
+        for (let i = 0 ; i < Answers.current.length; i++) {
+            if (Answers.current[i].idQuestion === idQuestion)
+                return Answers.current[i].Reponse ;
+        }
+        return "" ;
+    }
+
+
+    function SetReponse(s) {
+        console.log("SetReponse: "+s) ;
+
+        let rep = FindReponse(Questions.current[s].idQuestion) ;
+
+        if ( Questions.current[s].idSelectOption === "0")
+        {
+            if ( Questions.current[s].isMultiline === "0") {
+                setReponseInput(rep) ;
+            }
+            else {
+                setText(rep) ;
+            }
+        }
+        else {
+            if (rep !== "")
+                setSelectInput(rep) ;
+            else
+                setSelectInput(Questions.current[s].idSelectOption) ;
+        }
+        //console.log("reponseInput: " + reponseInput) ;
+        //console.log("text: "+text) ;
+        //console.log("selectInput: "+selectInput)
+    }
+
+
+
+
 
 
 
@@ -193,22 +249,22 @@ export default function InterviewQuestions(props) {
         AddReponse() ;
 
         let res = -1 ;
-        if (Questions[step].idSelectOption === "0") {
-            if (Questions[step].idQuestionSuivante > 0)
+        if (Questions.current[step].idSelectOption === "0") {
+            if (Questions.current[step].idQuestionSuivante > 0)
             {
                 path.current.push(step) ; 
-                res = FindQuestionFromID(Questions[step].idQuestionSuivante) ;
+                res = FindQuestionFromID(Questions.current[step].idQuestionSuivante) ;
                 if (res > -1) {
                     setStep(res) ;
                     SetReponse(res)
                 }
             }
             else 
-                setStep(Questions.length) ;
+                setStep(Questions.current.length) ;
         }
         else{
             //console.log("selectInput: " + selectInput) ;
-            res = FindNextQuestionFromIDAndAnswer(Questions[step].idQuestion,selectInput) ;
+            res = FindNextQuestionFromIDAndAnswer(Questions.current[step].idQuestion,selectInput) ;
             if (res > 0)
             {
                 path.current.push(step) ; 
@@ -223,7 +279,7 @@ export default function InterviewQuestions(props) {
             else {
                 if (res == 0)
                 {
-                    setStep(Questions.length) ;
+                    setStep(Questions.current.length) ;
                 }
             }
             
@@ -234,40 +290,7 @@ export default function InterviewQuestions(props) {
     }
 
 
-
-    function FindReponse(idQuestion) {
-        for (let i = 0 ; i < reponses.current.length; i++) {
-            if (reponses.current[i].idQuestion === idQuestion)
-                return reponses.current[i].Reponse ;
-        }
-        return "" ;
-    }
-
-
-    function SetReponse(s) {
-        //console.log("SetReponse: "+s) ;
-
-        let rep = FindReponse(Questions[s].idQuestion) ;
-
-        if ( Questions[s].idSelectOption === "0")
-        {
-            if ( Questions[s].isMultiline === "0") {
-                setReponseInput(rep) ;
-            }
-            else {
-                setText(rep) ;
-            }
-        }
-        else {
-            if (rep !== "")
-                setSelectInput(rep) ;
-            else
-                setSelectInput(Questions[s].idSelectOption) ;
-        }
-        //console.log("reponseInput: " + reponseInput) ;
-        //console.log("text: "+text) ;
-        //console.log("selectInput: "+selectInput)
-    }
+    
 
 
 
@@ -285,8 +308,8 @@ export default function InterviewQuestions(props) {
             //console.log("path.current") ;
             //console.log(path.current) ;
 
-            //console.log("reponses.current") ;
-            //console.log(reponses.current) ;
+            //console.log("Answers.current") ;
+            //console.log(Answers.current) ;
         }
     }
 
@@ -294,8 +317,8 @@ export default function InterviewQuestions(props) {
 
 
     let InterviewQuestion = "" ; 
-    if (step < Questions.length)
-        InterviewQuestion = Questions[step];
+    if (step < Questions.current.length)
+        InterviewQuestion = Questions.current[step];
 
 
 
@@ -316,21 +339,19 @@ export default function InterviewQuestions(props) {
                     <div className='box'>
                             <div className='BoxContent'>
                                 <div className='QuestionContainer'>
-                                        <div className='QuestionContent'>
-                                            { RenderQuestionReponse() }
-
-                                          
-                                        </div>
+                                    <div className='QuestionContent'>
+                                        { RenderQuestionReponse() }
+                                    </div>
                                 </div>
                               
                                 {
-                                                Questions.map((question)=>{
-                                                    if (step < Questions.length) {
-                                                        return <Buttons onNext={onNext} onBack={onBack}/>;
-                                                    }
-                                                    else  return <Buttons onBack={onBack}/>;
-                                                })
-                                            }
+                                    Questions.current.map((question)=>{
+                                        if (step < Questions.current.length) {
+                                            return <Buttons onNext={onNext} onBack={onBack}/>;
+                                        }
+                                        else  return <Buttons onBack={onBack}/>;
+                                    })
+                                }
                             </div>
                     </div>
                 </div>

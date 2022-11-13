@@ -46,8 +46,7 @@ export default function InterviewList() {
     // recuperation des informations au depart
     if (reloadInfos === true)
     {
-        getUserInterviews(storedToken,RenderAfterLoad) ;
-
+        getUserInterviews("userInterviews",storedToken,RenderAfterLoad) ;
             
         setReloadInfos(false) ;
     }
@@ -100,7 +99,7 @@ export default function InterviewList() {
         console.log("ForceRenderInterview") ;
         setShowEditInterview(false) ;
 
-        getUserInterviews(storedToken, RenderAfterLoad) ;
+        getUserInterviews("userInterviews",storedToken, RenderAfterLoad) ;
     }
 
 
