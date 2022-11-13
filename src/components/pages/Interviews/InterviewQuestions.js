@@ -82,8 +82,8 @@ export default function InterviewQuestions(props) {
                         return (
                             <>
                                 <h4 className='Question'>{InterviewQuestion.Question}</h4>
-                                <form action=''>
-                                <input type='text' name={InterviewQuestion.idQuestion} value={reponseInput} onChange={(e) =>  setReponseInput(e.target.value)}/>
+                                <form>
+                                    <input type='text' name={InterviewQuestion.idQuestion} value={reponseInput} onChange={(e) =>  setReponseInput(e.target.value)}/>
                                 </form>
                             </>
                         )
@@ -92,7 +92,7 @@ export default function InterviewQuestions(props) {
                         return (
                             <>
                                 <h4 className='Question'>{InterviewQuestion.Question}</h4>
-                                <form action=''>
+                                <form>
                                     <textarea  className="form-control not-resizable" name={InterviewQuestion.idQuestion} rows="11" value={text}  onChange={(e) =>  setText(e.target.value) }></textarea>
                                 </form>
                             </>
@@ -102,7 +102,7 @@ export default function InterviewQuestions(props) {
                     return (
                         <>
                             <h4 className='Question'>{InterviewQuestion.Question}</h4>
-                            <form action=''>
+                            <form>
                                 <select name={InterviewQuestion.idQuestion}  value={selectInput} onChange={(e) =>  setSelectInput(e.target.value)}>
                                     {RenderSelect(InterviewQuestion.idQuestion)}
                                 </select>
