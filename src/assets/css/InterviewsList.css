@@ -33,12 +33,12 @@ h1,h5{
 .Interview_Card_Btns_Container .Edit-Interview{
     margin-left: 10px;
 }
-
+.Edit-Valid-Interview:hover,
 .Edit-Valid-Interview{
     background: blue;
     margin-left: 50%;
 }
-.Edit-Valid-Interview a{
+.Edit-Valid-Interview svg{
     text-decoration: none;
     color: #ffffff;
     font-size: 1.1rem;

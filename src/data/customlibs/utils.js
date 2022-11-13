@@ -320,5 +320,5 @@ export {
     getEnterprisesByUser,
     getAllActivities,
     getUserArticles,
-    getUserInterviews
+    getUserInterviews,
 };

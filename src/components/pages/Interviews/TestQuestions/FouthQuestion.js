@@ -1,5 +1,5 @@
 import React from 'react'
-import Buttons from './Buttons';
+import Buttons from '../Buttons';
 
 const FouthQuestion = ({onNext, onBack, step}) => {
     // Définition de la Variable Pour l'Etape finale du Formulaire

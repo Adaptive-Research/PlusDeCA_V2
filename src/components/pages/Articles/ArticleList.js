@@ -19,7 +19,7 @@ export default function ArticleList() {
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
 
-    
+   
 
 
     // pour le Rerender

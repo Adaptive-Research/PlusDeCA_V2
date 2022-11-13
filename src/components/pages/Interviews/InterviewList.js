@@ -2,13 +2,18 @@ import React, {useRef, useState} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
 import {Link} from "react-router-dom";
-import {BsPencilSquare} from "react-icons/bs";
-import {FaPenAlt,FaEye,FaRegThumbsUp} from "react-icons/fa";
-import {AiOutlineSave} from "react-icons/ai";
 import {getUserInterviews} from "../../../data/customlibs/utils";
 import '../../../assets/css/InterviewsList.css';
 import CardInterview from "./CardInterview.js";
-import {useNavigate} from "react-router";
+import ModalEditInterview from "./ModalEditInterview.js";
+
+
+
+
+
+
+
+
 
 export default function InterviewList() {
 
@@ -19,11 +24,12 @@ export default function InterviewList() {
     const idUser = getIDFromToken(storedToken) ;
 
     // pour le ForceRender
-    const downloaded_Interviews = useRef(false) ;
+   const downloaded_Interviews = useRef(false) ;
 
-    const navigate = useNavigate() ; 
-
-
+    // pour le Rerender
+    const [compteur,setCompteur] = useState(0) ;
+     // pour l'affichage de la fenetre modale
+    const [showEditInterview, setShowEditInterview] = useState(false) ;
 
     // le callback qui est appele apres le chargement des donnees
     function RenderAfterLoad(variable) {
@@ -31,12 +37,8 @@ export default function InterviewList() {
             downloaded_Interviews.current = true ;
 
         if (downloaded_Interviews.current === true)
-            navigate(0) ;
+            setCompteur(compteur+1) ; ;
     }
-
-
-
-
     
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
@@ -44,133 +46,109 @@ export default function InterviewList() {
     // recuperation des informations au depart
     if (reloadInfos === true)
     {
-        //console.log("reloadInfos") ;
         getUserInterviews(storedToken,RenderAfterLoad) ;
 
             
         setReloadInfos(false) ;
     }
 
+    // Les différentes fonctions permettant d'éditer les Interviews 
+    const [modeEdit,setModeEdit]= useState("") ;
+    const [id,setId] = useState("") ;
 
 
 
-
-
-
-    //Pour rendre les interview auxquelles il faut encore répondre , (Ces Fonctions sont provisoires et seront utilisées uniquement pour la maquette)
-
-    function RenderCurrentInterviews(interview) {
-        //{interview.Titre}
-        return (
-            <Col md={4}>
-                <Card key={interview.id}>
-                    <img
-                        className="card-img-top br-tr-7 br-tl-7"
-                        src={require("../../../assets/images/media/19.jpg")}
-                        alt="Card cap"
-                    />
-                    <Card.Header>
-                        <Card.Title as="h5">Titre Interview</Card.Title>
-                        <div className='Interview_Card_Btns_Container'>
-                            <button className="btn Valide-Interview">
-                                    <Link
-                                        to={`${process.env.PUBLIC_URL}/MesInterviews`}
-                                        className="QuestionsDetailsView">
-                                       <AiOutlineSave/>
-                                    </Link>
-                            </button>
-                            <button className="btn Edit-Interview">
-                                    <Link
-                                        to={`${process.env.PUBLIC_URL}/QuestionsForInterview`}
-                                        className="QuestionsDetailsView">
-                                        <BsPencilSquare/>
-                                    </Link>
-                            </button>
-                        </div>
-                    </Card.Header>
-                   
-                </Card>
-            </Col>
-        )
-    }
-
-    const renderCurrentInterviews =()=> {
-        const interviews = JSON.parse(localStorage.getItem("userInterviews"));
-        return RenderCurrentInterviews(interviews);
-    }
-
-
- //Pour rendre les interview qui ont été validés par l'utilisateur (Ces Fonctions sont provisoires et seront utilisées uniquement pour la maquette)
-    const renderValideInterviews =()=> {
-        const interviews = JSON.parse(localStorage.getItem("userInterviews"));
-        return RenderValideInterviews(interviews);
-    }
-
-    function RenderValideInterviews(interview) {
-        //{interview.Titre}
-        return (
-            <Col md={4}>
-                <Card key={interview.id}>
-                    <img
-                        className="card-img-top br-tr-7 br-tl-7"
-                        src={require("../../../assets/images/media/19.jpg")}
-                        alt="Card cap"
-                    />
-                    <Card.Header>
-                        <Card.Title as="h5">Titre Interview</Card.Title>
-                            <button className="btn Edit-Valid-Interview">
-                                    <Link
-                                        to={`${process.env.PUBLIC_URL}/QuestionsForInterview`}
-                                        className="QuestionsDetailsView">
-                                        <FaPenAlt/>
-                                    </Link>
-                            </button>
-                    </Card.Header>
-                   
-                </Card>
-            </Col>
-        )
+    // C'est le callback appele quand on ferme ModalEditInterview
+    function ModalEditInterviewClose()
+    {
+        setShowEditInterview(false) ;
     }
 
 
 
- //Pour rendre les interview qui ont été publiéés par les administrateur (Ces Fonctions sont provisoires et seront utilisées uniquement pour la maquette)
-    const renderPublicInterviews =()=> {
-        const interviews = JSON.parse(localStorage.getItem("userInterviews"));
-        return RenderPublicInterviews(interviews);
+
+
+    
+    // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
+    function SendInterviewData(ShowWindow, Interview) {
+        //console.log("SendCompanyData")
+        if (Interview === null)
+        {
+            setModeEdit("Add") ;
+            setId("") ;
+        }
+        else
+        {
+            setModeEdit("Edit") ;
+            console.log("Mode Edit") ;
+            console.log("Interview") ;
+            console.log(Interview) ;
+
+            setId(Interview.id) ;
+        }
+        
+
+        if (ShowWindow === "false")
+            setShowEditInterview(false) ;
+        else
+            setShowEditInterview(true) ;
+    }  
+
+    //La fonction forceRender permettant de recharger automatiquement les données
+    function ForceRenderInterview() {
+            
+        console.log("ForceRenderInterview") ;
+        setShowEditInterview(false) ;
+
+        getUserInterviews(storedToken, RenderAfterLoad) ;
     }
 
 
+    // La fonction suivante servira à récupérer les interviews et à les rendre en fonction de leur type
+    const renderInterviews = (TypeInterview) => {
+    const interviews = JSON.parse(localStorage.getItem("userInterviews"));
+        if (interviews !== null)
+        {
+            console.log("interviews") ;
+            console.log(interviews);
 
-    function RenderPublicInterviews(interview) {
-        //{interview.Titre}
-        return (
-            <Col md={4}>
-                <Card key={interview.id}  className="Public-Interview">
-                        <Card.Title as="h5">Question Interview</Card.Title>
-                        <p>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda, dolor atque?
-                        </p>
-                        <div className='Public-Interview-Btns'>
-                            <button className="btn Like-Public-Interview">
-                                <Link
-                                    to={`${process.env.PUBLIC_URL}/MesInterviews`}
-                                    className="QuestionsDetailsView">
-                                    <FaRegThumbsUp/>
-                                </Link>
-                            </button>
-                            <button className="btn View-Public-Interview">
-                                <Link
-                                    to={`${process.env.PUBLIC_URL}/MesInterviews`}
-                                    className="QuestionsDetailsView">
-                                    <FaEye/>
-                                </Link>
-                            </button>
-                        </div>
-                </Card>
-            </Col>
-        )
+            return interviews.map((Interview) => {
+                if  (TypeInterview === 'A_Repondre') {
+                    if (Interview.iscurrent === "1" && Interview.isValidated === "0" && Interview.isPublished === "0"){
+                        return <Col md={4}> 
+                                    <CardInterview 
+                                        Interview={Interview}
+                                        TypeInterview={TypeInterview}
+                                        SendInterviewData={SendInterviewData}  
+                                        ForceRenderInterview = {ForceRenderInterview}
+                                    /> 
+                                </Col> ;
+                    }
+                }else if(TypeInterview === 'Valide'){
+                    if (Interview.iscurrent === "1" && Interview.isValidated === "1" && Interview.isPublished === "0")
+                        return  <Col md={4}> 
+                                    <CardInterview 
+                                        Interview={Interview}
+                                        TypeInterview={TypeInterview}
+                                        SendInterviewData={SendInterviewData}  
+                                        ForceRenderInterview = {ForceRenderInterview}
+                                    /> 
+                                </Col> ;
+                }else if(TypeInterview === 'Public'){
+                    if (Interview.iscurrent === "1"  && Interview.isPublished === "1")
+                        return  <Col md={4}> 
+                                    <CardInterview 
+                                        Interview={Interview}
+                                        TypeInterview={TypeInterview}
+                                        SendInterviewData={SendInterviewData}  
+                                        ForceRenderInterview = {ForceRenderInterview}
+                                    /> 
+                                </Col> ;
+                }
+            })
+        }
     }
+
 
 
     return (
@@ -179,21 +157,6 @@ export default function InterviewList() {
             <div className="page-header">
                 <div>
                     <h1 className="page-title">Mes Interviews</h1>
-                </div>
-                <div className="ms-auto pageheader-btn">
-                    <Link to={`${process.env.PUBLIC_URL}/pages/ArticleAdd`}
-                          className="btn btn-primary btn-icon text-white me-3">
-            <span>
-              <i className="fe fe-plus"></i>&nbsp;
-            </span>
-                        Ajouter
-                    </Link>
-                    <Link to={`${process.env.PUBLIC_URL}/dashboard`} className="btn btn-success btn-icon text-white">
-            <span>
-              <i className="fe fe-log-in"></i>&nbsp;
-            </span>
-                        Retour
-                    </Link>
                 </div>
             </div>
 
@@ -204,39 +167,48 @@ export default function InterviewList() {
                             <div className="wideget-user-tab">
                                 <div className="tab-menu-heading">
                                     <div className="tabs-menu1 ">
+
+                                    <ModalEditInterview 
+                                            Render={compteur}
+                                            show={showEditInterview } 
+                                            SendCloseMessage={ModalEditInterviewClose}  
+                                            ForceRenderInterview ={ForceRenderInterview }
+                                            ModeEdit={modeEdit}
+                                            idInterview={id}
+                                    />
+
+
                                         <Tabs
                                             variant="Tabs"
-                                            defaultActiveKey="Publié"
+                                            defaultActiveKey="A Répondre"
                                             id=" tab-51"
                                             className="tab-content tabesbody "
                                         >
-                                            <Tab eventKey="Publié" title="Publié">
-                                                <div className="tab-pane profiletab show">
-                                                    <Row className="row-cards ">
-                                                        {renderPublicInterviews()}
-                                                        {renderPublicInterviews()}
-                                                        {renderPublicInterviews()}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
-                                            <Tab eventKey="Validé" title="Validé">
-                                                <div className="tab-pane profiletab show">
-                                                    <Row className="row-cards ">
-                                                        {renderValideInterviews()}
-                                                        {renderValideInterviews()}
-                                                        {renderValideInterviews()}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
                                             <Tab eventKey="A Répondre" title="A Répondre">
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
-                                                        {renderCurrentInterviews()}
-                                                        {renderCurrentInterviews()}
-                                                        {renderCurrentInterviews()}
+                                                        {renderInterviews('A_Repondre')}
                                                     </Row>
                                                 </div>
                                             </Tab>
+
+                                            <Tab eventKey="Validé" title="Validé">
+                                                <div className="tab-pane profiletab show">
+                                                    <Row className="row-cards ">
+                                                         {renderInterviews('Valide')}
+                                                    </Row>
+                                                </div>
+                                            </Tab>
+
+                                            <Tab eventKey="Publié" title="Publié">
+                                                <div className="tab-pane profiletab show">
+                                                    <Row className="row-cards ">
+                                                        {renderInterviews('Public')}
+                                                    </Row>
+                                                </div>
+                                            </Tab>
+                                            
+                                            
                                         </Tabs>
                                     </div>
                                 </div>
@@ -252,59 +224,3 @@ export default function InterviewList() {
 
 
 
-
-
-
-
-
-
-    // La fonction suivante servira à récupérer les interviews et à les rendre en fonction de leur type
-   const renderInterviews = (TypeInterview) => {
-        const interviews = JSON.parse(localStorage.getItem("userInterviews"));
-       
-         return interviews.map((Ligne) => {
-            if  (TypeInterview === "A_Repondre") {
-                if (Ligne.isPublished === "0") {
-                    return <Col md={4}> 
-                    <CardInterview
-                        Interview={Ligne}
-                        /> 
-                    </Col> ;
-                }
-            }
-         })
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * 
-    if (!rendered) {
-        getUserInterviews(storedToken).then(r => console.log(`Interviews loaded`));
-    } else {
-        console.log("rendered")
-    }
-
- */
