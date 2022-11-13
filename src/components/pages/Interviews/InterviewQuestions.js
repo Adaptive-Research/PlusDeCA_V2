@@ -3,22 +3,26 @@ import "../../../assets/css/InterviewQuestions.css";
 import "../../../assets/css/style_Dan.css";
 import  InterviewImg  from "../../../assets/images/interviews/interview.png";
 import { useState,useRef } from 'react';
-import axios from "axios";
 import Buttons from './Buttons';
+
+
 
 
 export default function InterviewQuestions(props) {
     console.log("InterviewQuestions");
 
+    // les champs ci-dessous contiennent le contenu de la reponse pour la question en cours
+    // il y a 3 types de champs de reponse (un inputText, un textarea, un select) 
     const [reponseInput,setReponseInput] = useState("") ;
     const [selectInput,setSelectInput] = useState("-1") ;
     const [text, setText] = useState("") ;
 
-    const path = useRef([]);
-    const reponses = useRef([]) ;
+
+    const path = useRef([]);  // sert pour sauvegarder l'enchainement des questions. utilise par le bouton Back et la fonction onBack()
+    const reponses = useRef([]) ; // sert a sauvegarder les reponses faites par l'utlisateur
 
 
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(0); // contient l'index de la question en cours dans le tableau de questions
   
     
 
@@ -92,7 +96,7 @@ export default function InterviewQuestions(props) {
          return (
              <>
                 <h3>
-                Cette interview est terminée. Merci d'y avoir répondu.
+                Cette interview est terminée. Merci d'y avoir répondu. Vous pouvez maintenant la sauvegarder.
                 </h3>
              </>
 
@@ -174,6 +178,9 @@ export default function InterviewQuestions(props) {
 
         console.log("reponses.current") ;
         console.log(reponses.current) ;
+
+        if (props.SendReponses !== null)
+            props.SendReponses(reponses) ;
     }
 
 
@@ -200,7 +207,7 @@ export default function InterviewQuestions(props) {
                 setStep(Questions.length) ;
         }
         else{
-            console.log("selectInput: " + selectInput) ;
+            //console.log("selectInput: " + selectInput) ;
             res = FindNextQuestionFromIDAndAnswer(Questions[step].idQuestion,selectInput) ;
             if (res > 0)
             {
@@ -222,8 +229,8 @@ export default function InterviewQuestions(props) {
             
           
         }
-        console.log("path.current") ;
-        console.log(path.current) ;
+        //console.log("path.current") ;
+        //console.log(path.current) ;
     }
 
 
@@ -238,7 +245,7 @@ export default function InterviewQuestions(props) {
 
 
     function SetReponse(s) {
-        console.log("SetReponse: "+s) ;
+        //console.log("SetReponse: "+s) ;
 
         let rep = FindReponse(Questions[s].idQuestion) ;
 
@@ -257,14 +264,15 @@ export default function InterviewQuestions(props) {
             else
                 setSelectInput(Questions[s].idSelectOption) ;
         }
-        console.log("reponseInput: " + reponseInput) ;
-        console.log("text: "+text) ;
-        console.log("selectInput: "+selectInput)
+        //console.log("reponseInput: " + reponseInput) ;
+        //console.log("text: "+text) ;
+        //console.log("selectInput: "+selectInput)
     }
 
 
 
     const onBack = () =>{
+        console.log("onBack") ;
         if (path.current.length > 0)
         {
 
@@ -274,11 +282,11 @@ export default function InterviewQuestions(props) {
 
             SetReponse(s) ;
 
-            console.log("path.current") ;
-            console.log(path.current) ;
+            //console.log("path.current") ;
+            //console.log(path.current) ;
 
-            console.log("reponses.current") ;
-            console.log(reponses.current) ;
+            //console.log("reponses.current") ;
+            //console.log(reponses.current) ;
         }
     }
 

@@ -1,10 +1,8 @@
 import React, {useState,useRef} from "react";
-import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
-import * as formeditor from "../../../data/Form/formeditor/formeditor";
-import * as blogpost from "../../../data/Pages/blogpost/blogpost";
 import axios from "axios";
-import { FormGroup, Row, Button, Modal} from "react-bootstrap";
+import {  Row, Button, Modal} from "react-bootstrap";
 import InterviewQuestions  from "./InterviewQuestions";
+import {getUserInterviews} from "../../../data/customlibs/utils";
 
 export default function ModalEditInterview(props) {
 
@@ -41,10 +39,12 @@ export default function ModalEditInterview(props) {
         downloaded_InterviewQuestions.current = false ;      
     }
     
-
-
+    // pour les reponses
+    const reponses = useRef([]) ;
     
-//Method to get all Interviews created by this user
+
+
+
     
     const getInterviewQuestions = async (variable,tok,idInter, ForceRender) => {
         console.log(" getInterviewQuestions") ;
@@ -75,11 +75,15 @@ export default function ModalEditInterview(props) {
         }
         ForceRender(variable) ;
     }   
+
+
+
     
     // recuperation des informations au depart
     if (reloadInfos === true)
     {
         getInterviewQuestions("interviewQuestions",storedToken,props.idInterview,RenderAfterLoad) ;
+        //getInterviewAnswers("interviewReponses",storedToken,props.idInterview,RenderAfterLoad) ;
 
         setReloadInfos(false) ;
     }
@@ -101,73 +105,71 @@ export default function ModalEditInterview(props) {
 
  
 
+    // callback pour que les reponses arrivent de InterviewQuestions a ModalEditInterview
+    function SendReponses(rep){
+        console.log("SendReponses") ;
+        console.log(rep.current) ;
+        reponses.current = rep.current ;
+    }
 
 
-    // Function that sends axios requesst to create a new Interview
-    const SaveInterview = async () => {
+
+
+
+
+
+    // Function that sends axios requesst to save an answer for am Interview
+    async function SaveReponse (tok, idInter, idQ, rep ) {
         //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_INTERVIEW_URL;
         console.log("SaveInterview") ;
+      
+        const url =  process.env.REACT_APP_API_SAVE_ANSWER_URL;
+        const response = await axios.post(url, {
+            Submit: 1,
+            token: tok,
+            idInterview: idInter,
+            idQuestion: idQ,
+            Reponse: rep 
 
-/*        
-        if (modeEdit.current === "Add")
-        {
-            const url =  process.env.REACT_APP_API_CREATE_INTERVIEW_URL;
-            const response = await axios.post(url, {
-                Submit: 1,
-                token: storedToken,
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            });
-
-            //console.log(response.data)
-
-            if (response.data.includes("ERROR:")) {
-                console.log(`Error found: ${response.data}`);
-                setMsg("Une erreur est survenue, veuillez reessayer")
-            } else {
-                console.log("Interview created");
-                if (props.ForceRenderInterview !== null)
-                    props.ForceRenderInterview() ;
-
+        }, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
             }
-        }
-        else{
-            const url =  process.env.REACT_APP_API_EDIT_INTERVIEW_URL;
-            const response = await axios.post(url, {
-                Submit: 1,
-                token: storedToken,
-                idInterview: idInterview,
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            });
+        });
 
-            //console.log(response.data)
+        //console.log(response.data)
 
-            if (response.data.includes("ERROR:")) {
-                console.log(`Error found: ${response.data}`);
-                setMsg("Une erreur est survenue, veuillez reessayer")
-            } else {
-                console.log("Interview updated");
-                if (props.ForceRenderInterview !== null)
-                    props.ForceRenderInterview() ;
-            }
-
-        }
-        */
+        if (response.data.includes("ERROR:")) 
+            console.log(`Error found: ${response.data}`);
+         else 
+            console.log("Answer saved");
     }
 
 
-    // Function that validates the form
-    const inputsValidation = () => {
-        console.log("inputsValidation") ;
 
-        SaveInterview();
+
+    function SaveInterview(){
+        console.log("SaveInterview") ;
+        for (let i = 0 ; i < reponses.current.length ; i++ ){
+            let rep = reponses.current[i] ;
+            let srep = rep.Reponse ;
+            srep = srep.replace("'","''") ;
+            SaveReponse (storedToken, props.idInterview, rep.idQuestion, srep ) 
+        }
+
     }
 
+      // Function that handle the submit event on the form
+      const handleSave = (e) => {
+        e.preventDefault();
+        try {
+            SaveInterview();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+ 
 
 
     const handleCancel = () => {
@@ -177,8 +179,6 @@ export default function ModalEditInterview(props) {
 
 
 
- 
-
     return (
         <div>
 
@@ -186,7 +186,7 @@ export default function ModalEditInterview(props) {
 
                 <Modal.Body>
                 <Row className="mb-4">
-                    <InterviewQuestions Render={compteur}/>
+                    <InterviewQuestions Render={compteur} SendReponses={SendReponses}/>
                 </Row>
                 </Modal.Body>
 
@@ -194,6 +194,10 @@ export default function ModalEditInterview(props) {
 
                     <Button variant="secondary" onClick={handleCancel}>
                         Cancel
+                    </Button>
+
+                    <Button variant="primary" onClick={handleSave}>
+                        Save
                     </Button>
 
                 </Modal.Footer>

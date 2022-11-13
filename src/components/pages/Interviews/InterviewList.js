@@ -2,9 +2,6 @@ import React, {useRef, useState} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
 import {Link} from "react-router-dom";
-import {BsPencilSquare} from "react-icons/bs";
-import {FaPenAlt,FaEye,FaRegThumbsUp} from "react-icons/fa";
-import {AiOutlineSave} from "react-icons/ai";
 import {getUserInterviews} from "../../../data/customlibs/utils";
 import '../../../assets/css/InterviewsList.css';
 import CardInterview from "./CardInterview.js";
@@ -117,7 +114,7 @@ export default function InterviewList() {
 
             return interviews.map((Interview) => {
                 if  (TypeInterview === 'A_Repondre') {
-                    if (Interview.iscurrent === "1"){
+                    if (Interview.iscurrent === "1" && Interview.isValidated === "0" && Interview.isPublished === "0"){
                         return <Col md={4}> 
                                     <CardInterview 
                                         Interview={Interview}
@@ -128,6 +125,7 @@ export default function InterviewList() {
                                 </Col> ;
                     }
                 }else if(TypeInterview === 'Valide'){
+                    if (Interview.iscurrent === "1" && Interview.isValidated === "1" && Interview.isPublished === "0")
                         return  <Col md={4}> 
                                     <CardInterview 
                                         Interview={Interview}
@@ -137,6 +135,7 @@ export default function InterviewList() {
                                     /> 
                                 </Col> ;
                 }else if(TypeInterview === 'Public'){
+                    if (Interview.iscurrent === "1"  && Interview.isPublished === "1")
                         return  <Col md={4}> 
                                     <CardInterview 
                                         Interview={Interview}
@@ -158,18 +157,6 @@ export default function InterviewList() {
             <div className="page-header">
                 <div>
                     <h1 className="page-title">Mes Interviews</h1>
-                </div>
-                <div className="ms-auto pageheader-btn">
-                    <button className='btn btn-primary' onClick={() => {SendInterviewData(true, null) ;}} style={{marginRight:"15px"}}>
-                        <span> <i className="fe fe-plus"></i>&nbsp;</span>
-                        Ajouter un Interview
-                    </button>
-                    <Link to={`${process.env.PUBLIC_URL}/dashboard`} className="btn btn-success btn-icon text-white">
-                        <span>
-                        <i className="fe fe-log-in"></i>&nbsp;
-                        </span>
-                        Retour
-                    </Link>
                 </div>
             </div>
 
@@ -193,24 +180,10 @@ export default function InterviewList() {
 
                                         <Tabs
                                             variant="Tabs"
-                                            defaultActiveKey="Publié"
+                                            defaultActiveKey="A Répondre"
                                             id=" tab-51"
                                             className="tab-content tabesbody "
                                         >
-                                            <Tab eventKey="Publié" title="Publié">
-                                                <div className="tab-pane profiletab show">
-                                                    <Row className="row-cards ">
-                                                        {renderInterviews('Public')}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
-                                            <Tab eventKey="Validé" title="Validé">
-                                                <div className="tab-pane profiletab show">
-                                                    <Row className="row-cards ">
-                                                         {renderInterviews('Valide')}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
                                             <Tab eventKey="A Répondre" title="A Répondre">
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
@@ -218,6 +191,24 @@ export default function InterviewList() {
                                                     </Row>
                                                 </div>
                                             </Tab>
+
+                                            <Tab eventKey="Validé" title="Validé">
+                                                <div className="tab-pane profiletab show">
+                                                    <Row className="row-cards ">
+                                                         {renderInterviews('Valide')}
+                                                    </Row>
+                                                </div>
+                                            </Tab>
+
+                                            <Tab eventKey="Publié" title="Publié">
+                                                <div className="tab-pane profiletab show">
+                                                    <Row className="row-cards ">
+                                                        {renderInterviews('Public')}
+                                                    </Row>
+                                                </div>
+                                            </Tab>
+                                            
+                                            
                                         </Tabs>
                                     </div>
                                 </div>
