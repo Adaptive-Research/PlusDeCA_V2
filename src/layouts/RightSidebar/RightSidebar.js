@@ -15,7 +15,7 @@ import face15 from "../../assets/images/faces/15.jpg";
 import {FindTranslation, getIDFromToken} from "../../functions_Dan.js";
 import {useNavigate} from "react-router";
 
-import axios from "axios";
+import {getTranslations} from "../../data/customlibs/api";
 
 
 export function RightSidebar() {
@@ -49,57 +49,41 @@ export function RightSidebar() {
 
     let userMail = localStorage.getItem("userMail") ;
 
-    //const storedToken = JSON.parse(localStorage.getItem('token'));
+    
+
+
+
+    function TranslateAll(url, Page,VL) 
+    {
+        let data = getTranslations(url,Page,VL) ;
+
+        let t = FindTranslation(data, Page, VL, sMyProfile);
+        if (t !== "Not Found")
+            setMyProfile(t);
+        t = FindTranslation(data, Page, VL, sSignOut);
+        if (t !== "Not Found")
+            setSignOut(t);
+        t = FindTranslation(data, Page, VL, sAccountSettings);
+        if (t !== "Not Found")
+            setSettings(t);
+        t = FindTranslation(data, Page, VL, sMyMessages);
+        if (t !== "Not Found")
+            setMyMessages(t);
+        t = FindTranslation(data, Page, VL, sMyMails);
+        if (t !== "Not Found")
+            setMyMails(t);
+    }
+    
+
+
     const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL;
     const Page = "RightSidebar";
     const VL = "FR";
-
-
-    async function TranslateAll(url, Page, VL) {
-        const response = axios.post(url, {
-            Submit: 1,
-            Page: Page,
-            ValueLangue: VL
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        }).then(function (response) {
-
-            /*
-            console.log(response.data);
-            console.log("status: "+response.status);
-            console.log("statusText"+response.statusText);
-            console.log(response.headers);
-            console.log(response.config);
-            console.log(response.data[0]) ;
-
-            console.log("myProfile: "+myProfile) ;
-            */
-
-            let t = FindTranslation(response.data, Page, VL, sMyProfile);
-            if (t !== "Not Found")
-                setMyProfile(t);
-            t = FindTranslation(response.data, Page, VL, sSignOut);
-            if (t !== "Not Found")
-                setSignOut(t);
-            t = FindTranslation(response.data, Page, VL, sAccountSettings);
-            if (t !== "Not Found")
-                setSettings(t);
-            t = FindTranslation(response.data, Page, VL, sMyMessages);
-            if (t !== "Not Found")
-                setMyMessages(t);
-            t = FindTranslation(response.data, Page, VL, sMyMails);
-            if (t !== "Not Found")
-                setMyMails(t);
-
-        })
-    }
-
-
     TranslateAll(url, Page, VL);
 
 
+
+    
     return (
         <div className="sidebar sidebar-right sidebar-animate">
             <div className="panel panel-primary card mb-0 shadow-none border-0">

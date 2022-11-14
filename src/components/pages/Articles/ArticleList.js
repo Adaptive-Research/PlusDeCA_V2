@@ -1,7 +1,7 @@
 import React, { useState,useRef,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
-import {getUserArticles} from "../../../data/customlibs/utils";
+import {getUserArticles} from "../../../data/customlibs/api";
 import CardArticle from "./CardArticle" ;
 import ModalEditArticle from "./ModalEditArticle" ;
 

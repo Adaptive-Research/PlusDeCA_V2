@@ -1,6 +1,6 @@
 
 import {Table} from "react-bootstrap";
-import {DeleteActivity} from "../../../../data/customlibs/utils";
+import {DeleteActivity} from "../../../../data/customlibs/api";
 
 
 

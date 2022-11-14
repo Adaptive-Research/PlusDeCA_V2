@@ -2,9 +2,12 @@ import React, {useState} from "react";
 import {Card} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
-import axios from "axios";
+import {SaveNewUtilisateur} from "../../../data/customlibs/api";
+
+import {checkEmail} from "../../../data/customlibs/utils";
 import {encrypt} from "../../../data/customlibs/hasher";
-import {checkDuplicate, checkEmail} from "../../../data/customlibs/utils";
+
+
 
 export default function Register() {
     const [email, setEmail] = useState("");
@@ -24,40 +27,9 @@ export default function Register() {
         }
     }
 
-    const SaveNewUtilisateur = async (mail, pass) => {
-        const url = process.env.REACT_APP_API_SIGNUP_URL;
-
-        console.log("password: " + pass) ;
-        const pa =  encrypt(pass) ;
-        console.log("password crypte: " + pa) ;
 
 
-        if (checkEmail(email)) {
-            const response = await axios.post(url, {
-                Submit: 1,
-                debug:1,
-                Email: mail,
-                Password: pa
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            });
-
-         
-
-            if (response.data.includes("ERROR:")) {
-                setEmailMsg("Wrong email or password");
-                setPasswordMsg("Wrong email or password");
-
-            } else {
-                console.log("User created");
-                //console.log(response.data);
-                setRegisterMsg("User created");
-            }
-        }
-
-    }
+    
 
 
     const inputValidation = () => {
@@ -81,7 +53,13 @@ export default function Register() {
         }
 
         if (emailCheck && passwordCheck) {
-            SaveNewUtilisateur(email, password);
+            if (checkEmail(email)) {
+                let values = SaveNewUtilisateur(email, encrypt(password));
+                let res = values[0] ;
+                let data = values[1] ;
+                if (res === false)
+                    console.log(data) ;
+            }
         }
 
         //SaveNewUtilisateur(email, password);

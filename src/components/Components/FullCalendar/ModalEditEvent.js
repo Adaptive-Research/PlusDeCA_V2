@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import  { FindTranslation, getIDFromToken  } from "../../../functions_Dan.js" ;
-import axios from "axios";
-import {
-  FormGroup,
-  Modal, 
-  Button,
-} from "react-bootstrap";
-import { DayTimeColsView } from "@fullcalendar/timegrid";
+import {DeleteEvent,SaveEvent,UpdateEvent,getTranslations} from "../../../data/customlibs/api";
+import {FormGroup,Modal, Button} from "react-bootstrap";
+//import { DayTimeColsView } from "@fullcalendar/timegrid";
+
+
+
 
 
 export function ModalEditEvent(props) {
@@ -92,8 +91,8 @@ export function ModalEditEvent(props) {
   
   if (reloadInfos === true) {
 
-  console.log("reloadInfos") ;
-  console.log(props) ;
+    console.log("reloadInfos") ;
+    console.log(props) ;
 
 
     eventDay.current = printDate(dateStart) ;
@@ -249,47 +248,36 @@ export function ModalEditEvent(props) {
   const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
 
+  
 
 
-  async function TranslateAll(url, Page,VL) 
+
+
+
+
+  function TranslateAll(url, Page,VL) 
   {
-    const response = axios.post(url, {
-        Submit: 1,
-        Page: Page,
-        ValueLangue: VL
-    }, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-    }).then( function(response) {
+    let data = getTranslations(url,Page,VL) ;
    
 
-    let t = FindTranslation(response.data,Page,VL, sTitre) ;
+    let t = FindTranslation(data,Page,VL, sTitre) ;
     if (t !== "Not Found")
       stitre.current = t ;
-    t = FindTranslation(response.data,Page,VL, sData) ;
+    t = FindTranslation(data,Page,VL, sData) ;
     if (t !== "Not Found")
       sdata.current = t ;
-    t = FindTranslation(response.data,Page,VL, sLocation) ;
+    t = FindTranslation(data,Page,VL, sLocation) ;
     if (t !== "Not Found")
       slocation.current = t ;
 
-    t = FindTranslation(response.data,Page,VL, sAllDay) ;
+    t = FindTranslation(data,Page,VL, sAllDay) ;
     if (t !== "Not Found")
       sallday.current = t ;
         
 
     setReloadTraductions(false) ;               
-    })
   }
-
-
-
-
-
-
-
-
+  
 
   const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
   const Page = "FullCalendar" ;
@@ -345,87 +333,6 @@ export function ModalEditEvent(props) {
     
 
 
-    const SaveEvent = async () => {
-      console.log("SaveEvent") ;
-      //console.log("idEntreprise") ;
-      //console.log(idEntreprise) ;
-
-      console.log(props) ;
-
-      let sStartDate = printDate2(dateStart) + " " + padStr(eventStartHour.current) + ":" + padStr(eventStartMinute.current) ;
-      let sEndDate = printDate2(dateStart) + " " + padStr(eventEndHour.current) + ":" + padStr(eventEndMinute.current) ;
-
-      console.log(sStartDate) ;
-      console.log(sEndDate) ;
-      
-      let sAllDay = "0" ;
-      if (isAllDay.current === true)
-        sAllDay = "1"
-
-      
-      if (props.Mode === "Add")
-      {
-          const url = process.env.REACT_APP_API_CREATE_EVENT_URL ;
-          const response = await axios.post(url, {
-              token: storedToken,
-              Submit: 1,
-              debug:1,
-              Event_Type: eventType.current,
-              Event_Title: eventTitle ,
-              Event_AllDay: sAllDay ,
-              Event_Start: sStartDate,
-              Event_End: sEndDate,
-              Event_Location: eventLocation,
-              Event_Data: eventData,
-          }, {
-              headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-              }
-          })
-         
-
-          if (response.data.includes("ERROR:")) {
-              console.log(`Error: ${response.data}`);
-          } else {
-              console.log(response.data) ;
-              console.log("Event added");
-              
-          }
-      }
-      else{
-          const url = process.env.REACT_APP_API_EDIT_EVENT_URL;
-          const response = await axios.post(url, {
-              token: storedToken,
-              Submit: 1,
-              debug: 1,
-              idEvent: props.ID,
-              Event_Type: eventType.current,
-              Event_Title: eventTitle ,
-              Event_AllDay: sAllDay,
-              Event_Start: sStartDate,
-              Event_End: sEndDate,
-              Event_Location: eventLocation,
-              Event_Data: eventData,
-          }, {
-              headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-              }
-              
-          })
-
-          if (response.data.includes("ERROR:")) {
-              console.log(`Error: ${response.data}`);
-          } else {
-              console.log(response.data) ;
-              console.log("Event modified");
-            
-          }
-
-
-      }
-      
-  }
-
 
 
 
@@ -443,13 +350,20 @@ export function ModalEditEvent(props) {
 
     if (titreCheck === true)
     {
-      SaveEvent() ;
-      if (props.SendCloseMessage !== null)
-      {
-        props.SendCloseMessage() ;
-        if (props.ForceRender !== null)
-          props.ForceRender() ;
-      }
+      let sStartDate = printDate2(dateStart) + " " + padStr(eventStartHour.current) + ":" + padStr(eventStartMinute.current) ;
+      let sEndDate = printDate2(dateStart) + " " + padStr(eventEndHour.current) + ":" + padStr(eventEndMinute.current) ;
+
+      console.log(sStartDate) ;
+      console.log(sEndDate) ;
+      
+      let sAllDay = "0" ;
+      if (isAllDay.current === true)
+        sAllDay = "1"
+
+      if (props.Mode === "Add")
+        SaveEvent(storedToken,eventType.current,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,props.SendCloseMessage,props.ForceRender) ;
+      else
+        UpdateEvent(storedToken,props.ID,eventType.current,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,props.SendCloseMessage,props.ForceRender) ;
     }
 
   }
@@ -474,39 +388,13 @@ export function ModalEditEvent(props) {
 
 
 
-  const DeleteEvent = async () => {
-    console.log("DeleteEvent()") ;
+  
+  
 
-    const url = process.env.REACT_APP_API_DELETE_EVENT_URL;
-    const response = await axios.post(url, {
-        token: storedToken,
-        Submit: 1,
-        debug: 1,
-        idEvent: props.ID,
-    }, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-        
-    })
-
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error: ${response.data}`);
-    } else {
-        console.log(response.data) ;
-        console.log("Event deleted");
-    }
-
-    if (props.SendCloseMessage !== null)
-    {
-      props.SendCloseMessage() ;
-      if (props.ForceRender !== null)
-        props.ForceRender() ;
-    }
+  
+  function RemoveEvent(){
+    DeleteEvent(storedToken,props.ID,props.SendCloseMessage,props.ForceRender) ;
   }
-  
-
-  
 
 
 

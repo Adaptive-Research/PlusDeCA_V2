@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {Card} from "react-bootstrap";
-import axios from "axios";
-import {useNavigate} from "react-router";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
-import {checkDuplicate, checkEmail, getAllUsersEmail, getUserId} from "../../../data/customlibs/utils";
+import {checkDuplicate, checkEmail} from "../../../data/customlibs/utils";
+import {getAllUsersEmail,requestLogin} from "../../../data/customlibs/api";
 import {encrypt} from "../../../data/customlibs/hasher.js";
 import {remove_linebreaks} from "../../../functions_Dan";
 
 
 export default function Login() {
-    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [emailMsg, setEmailMsg] = useState("");
     const [password, setPassword] = useState("");
@@ -30,10 +28,6 @@ export default function Login() {
     }
 
 
-    const toLog = () => {
-        window.location.href = "https://plusdeca.fr";
-    }
-
 
     getAllUsersEmail();
 
@@ -47,62 +41,13 @@ export default function Login() {
     }
 
 
-    const requestLogin = async (mail, pass) => {
+    
 
-        const url = process.env.REACT_APP_API_LOGIN_URL;
-        if (checkEmail(mail, pass)) {
-            const response = await axios.post(url, {
-                Submit: 1,
-                Email: mail,
-                Password: pass
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            })
-
-            console.log(response.data);
-
-            if (response.data.includes("ERROR:")) {
-                console.log(`Error found: ${response.data}`);
-                setEmailMsg("Wrong email or password");
-                setPasswordMsg("Wrong email or password");
-                localStorage.setItem('logged', JSON.stringify(false));
-            } else {
-                console.log("User authenticated");
-
-                try {
-                    let temp = response.data
-                    //console.log(temp) ;
-                    temp = remove_linebreaks(temp); // le token contient des retours chariots, on doit les eliminer
-
-                    const now = new Date();
-
-                    setToken(elem => [token.push(temp)]);
-                    localStorage.setItem('token', temp);
-                    localStorage.setItem('userMail', mail);
-                    localStorage.setItem('logged', JSON.stringify(true));
-                    localStorage.setItem('lastLogin', now.toString());
-
-                    const lastLogin = localStorage.getItem('lastLogin');
-                    console.log("lastLogin");
-                    console.log(lastLogin);
-
-
-                } catch (e) {
-                    console.log(e);
-                } finally {
-                    window.location.href = `${process.env.PUBLIC_URL}/dashboard`;
-                }
-            }
-
-        }
-
-    }
+    
 
 
     const inputsValidation = () => {
-        let emailCheck, passwordCheck;
+        let emailCheck, passwordCheck,res, temp ;
         if (email === "") {
             setEmailMsg("Email is required");
             emailCheck = false;
@@ -128,12 +73,43 @@ export default function Login() {
             passwordCheck = true;
         }
 
-        if (emailCheck && passwordCheck) {
-            console.log("All good");
-            requestLogin(email, encrypt(password));
-        }
 
+
+        if (emailCheck && passwordCheck) {
+            if (checkEmail(email) )
+            {
+                let values = requestLogin(email,encrypt(password));
+                res = values[0];
+                temp = values[1];
+               
+                if (res === false)
+                    localStorage.setItem('logged', JSON.stringify(false));
+                } 
+                else {
+                    console.log("User logged");
+        
+                    temp = remove_linebreaks(temp); // le token contient des retours chariots, on doit les eliminer
+    
+                    const now = new Date();
+    
+                    setToken(elem => [token.push(temp)]);
+                    localStorage.setItem('token', temp);
+                    localStorage.setItem('userMail', email);
+                    localStorage.setItem('logged', JSON.stringify(true));
+                    localStorage.setItem('lastLogin', now.toString());
+    
+                    const lastLogin = localStorage.getItem('lastLogin');
+                    console.log("lastLogin");
+                    console.log(lastLogin);
+    
+    
+                    window.location.href = `${process.env.PUBLIC_URL}/dashboard`;
+                }
+        }
     }
+        
+
+    
 
 
     const handleSubmit = (event) => {

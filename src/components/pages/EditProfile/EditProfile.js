@@ -2,20 +2,12 @@ import React , { useState } from "react";
 //import * as formelement from "../../../data/Form/formelement/formelement";
 //import * as editprofile from "../../../data/Pages/editprofile/editprofile";
 import {useNavigate} from "react-router";
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
-  Breadcrumb,
-} from "react-bootstrap";
+import {Col,Row,Card,Form,FormGroup} from "react-bootstrap";
 
-import axios from "axios";
 import  { FindTranslation, getIDFromToken } from "../../../functions_Dan.js" ;
 
+
+import {getTranslations,getProfile,SaveProfile} from "../../../data/customlibs/api";
 
 
 export default function EditProfile(props) {
@@ -64,55 +56,48 @@ export default function EditProfile(props) {
 
 
 
-  async function TranslateAll(url, Page,VL)
+  function TranslateAll(url, Page,VL) 
   {
-    const response = axios.post(url, {
-        Submit: 1,
-        Page: Page,
-        ValueLangue: VL
-    }, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-    }).then( function(response) {
+      let data = getTranslations(url,Page,VL) ;
 
-      console.log(response.data) ;
-
-      let t = FindTranslation(response.data,Page,VL, sProfile) ;
+      let t = FindTranslation(data,Page,VL, sProfile) ;
       if (t !== "Not Found")
         setProfile(t) ;
 
-      t = FindTranslation(response.data,Page,VL, sEditProfile) ;
+      t = FindTranslation(data,Page,VL, sEditProfile) ;
       if (t !== "Not Found")
         setEditProfile(t) ;
 
-      t = FindTranslation(response.data,Page,VL, sAboutMe) ;
+      t = FindTranslation(data,Page,VL, sAboutMe) ;
       if (t !== "Not Found")
         setAboutMe(t) ;
 
-      t = FindTranslation(response.data,Page,VL, sContactNumber) ;
+      t = FindTranslation(data,Page,VL, sContactNumber) ;
       if (t !== "Not Found")
         setContactNumber(t) ;
 
-      t = FindTranslation(response.data,Page,VL, sEmailAddress) ;
+      t = FindTranslation(data,Page,VL, sEmailAddress) ;
       if (t !== "Not Found")
         setEmailAddress(t) ;
 
-      t = FindTranslation(response.data,Page,VL, sFirstName) ;
+      t = FindTranslation(data,Page,VL, sFirstName) ;
       if (t !== "Not Found")
         setFirstName(t) ;
 
-      t = FindTranslation(response.data,Page,VL, sLastName) ;
+      t = FindTranslation(data,Page,VL, sLastName) ;
       if (t !== "Not Found")
         setLastName(t) ;
 
-      t = FindTranslation(response.data,Page,VL, sVisibility) ;
+      t = FindTranslation(data,Page,VL, sVisibility) ;
       if (t !== "Not Found")
         setVisibility(t) ;
 
       setReloadTraductions(false) ;
-    })
+
   }
+  
+
+
 
   const url1 = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
   const Page = "EditProfile" ;
@@ -124,94 +109,46 @@ export default function EditProfile(props) {
 
 
 
+  function UseInfoFromDatabase(response){
+    console.log("response.data") ;
+    console.log(response.data) ;
+    let pos = response.data.indexOf("ERROR") ;
+    if (pos !== 0)
+    {
+      const profileDetails = response.data[0];
+      localStorage.setItem('profileDetails', JSON.stringify(profileDetails));
+      setPrenom(response.data[0].Prenom) ;
+      setNom(response.data[0].Nom) ;
+      setEmail(response.data[0].Email) ;
+      setTelephone(response.data[0].Telephone) ;
+      setBio(response.data[0].Bio) ;
 
-  async function GetInfo(url,t,id)
-  {
-    console.log("GetInfo") ;
-    console.log(url) ;
-    console.log(t) ;
-    console.log(id) ;
+      setBioVisible(false) ;
+      if (response.data[0].BioVisible === "1")
+        setBioVisible(true) ;
 
+      setTelephoneVisible(false) ;
+      if (response.data[0].TelephoneVisible === "1")
+        setTelephoneVisible(true) ;
 
-    const response = axios.post(url, {
-        Submit: 1,
-        token: t,
-        idUser: id
-    }, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-    }).then( function(response) {
-
-      console.log("response.data") ;
-      console.log(response.data) ;
-      let pos = response.data.indexOf("ERROR") ;
-      if (pos !== 0)
-      {
-        const profileDetails = response.data[0];
-        localStorage.setItem('profileDetails', JSON.stringify(profileDetails));
-        setPrenom(response.data[0].Prenom) ;
-        setNom(response.data[0].Nom) ;
-        setEmail(response.data[0].Email) ;
-        setTelephone(response.data[0].Telephone) ;
-        setBio(response.data[0].Bio) ;
-
-        setBioVisible(false) ;
-        if (response.data[0].BioVisible === "1")
-          setBioVisible(true) ;
-
-        setTelephoneVisible(false) ;
-        if (response.data[0].TelephoneVisible === "1")
-          setTelephoneVisible(true) ;
-
-        setEmailVisible(false) ;
-        if (response.data[0].EmailVisible === "1")
-          setEmailVisible(true) ;
+      setEmailVisible(false) ;
+      if (response.data[0].EmailVisible === "1")
+        setEmailVisible(true) ;
 
 
-        setReloadInfos(false) ;
-      }
-    })
+      setReloadInfos(false) ;
+    }
+
   }
 
-
-  const url2 = process.env.REACT_APP_API_SHOW_INFOS_UTILISATEUR_URL;
+  
+ 
   if (reloadInfos === true)
-    GetInfo(url2,storedToken,idUser) ;
+    getProfile(storedToken,idUser,UseInfoFromDatabase) ;
 
 
 
 
-  const SaveData = async (tok,p,n,e,ev,tel,telvis,b,bv) => {
-    const url = process.env.REACT_APP_API_CREATE_INFOS_UTILISATEUR_URL ;
-    const response = await axios.post(url, {
-      Submit: 1,
-      token:tok ,
-      Prenom:p,
-      Nom: n,
-      Email: e,
-      EmailVisible: ev,
-      Telephone: tel,
-      TelephoneVisible: telvis,
-      Bio: b,
-      BioVisible: bv
-    }, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      }
-    })
-
-    console.log(response.data);
-
-    if (response.data.includes("ERROR:")) {
-      console.log(`Error found: ${response.data}`);
-    }
-    else {
-      console.log("Saved");
-    }
-
-
-  }
 
 
 
@@ -232,7 +169,7 @@ export default function EditProfile(props) {
         ev = 1 ;
 
 
-      SaveData(storedToken,prenom,nom,email,ev,telephone,tv,bio,bv) ;
+      SaveProfile(storedToken,prenom,nom,email,ev,telephone,tv,bio,bv) ;
     } catch (e) {
       console.log(e);
     } finally {

@@ -2,9 +2,8 @@ import React, { useState,useRef} from "react";
 
 import {Button} from "react-bootstrap";
 
-import axios from "axios";
-import {FindTranslation,getIDFromToken} from "../../../../functions_Dan.js";
-import {getCompaniesForUser ,getActivitiesForUser} from "../../../../data/customlibs/utils";
+import {getIDFromToken} from "../../../../functions_Dan.js";
+import {getCompaniesForUser ,getActivitiesForUser,getTranslations} from "../../../../data/customlibs/api";
 import CardCompany from "./CardCompany" ;
 import ModalEditCompany from "./ModalEditCompany" ;
 import ModalEditActivity from "./ModalEditActivity" ;
@@ -78,34 +77,21 @@ export default function TabCompany(props) {
 
 
 
+    async function TranslateAll(url, Page,VL) 
+    {
+        let data = await getTranslations(url,Page,VL) ;
+
+        /*
+        let t = FindTranslation(data, Page, VL, sProfile);
+        if (t !== "Not Found")
+            setProfile(t);
+        t = FindTranslation(data, Page, VL, sCompany);
+        if (t !== "Not Found")
+            setCompany(t);
+        */    
+    }
     
 
-    function TranslateAll(url, Page, VL) {
-        //console.log("TranslateAll") ;
-        const response = axios.post(url, {
-            Submit: 1,
-            debug:1 ,
-            Page: Page,
-            ValueLangue: VL
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        }).then(function (response) {
-
-            //console.log(response.data) ;
-            /*
-            let t = FindTranslation(response.data, Page, VL, sProfile);
-            if (t !== "Not Found")
-                setProfile(t);
-            t = FindTranslation(response.data, Page, VL, sCompany);
-            if (t !== "Not Found")
-                setCompany(t);
-            */
-
-
-        })
-    }
 
     
 

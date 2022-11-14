@@ -2,7 +2,7 @@ import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import * as formeditor from "../../../data/Form/formeditor/formeditor";
 import { FormGroup, Row, Button, Modal} from "react-bootstrap";
-import {SaveArticle,UpdateArticle} from "../../../data/customlibs/utils";
+import {SaveArticle,UpdateArticle} from "../../../data/customlibs/api";
 
 
 

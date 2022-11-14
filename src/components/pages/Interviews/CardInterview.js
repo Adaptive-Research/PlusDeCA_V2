@@ -1,6 +1,6 @@
 import '../../../assets/css/InterviewsList.css';
 import {Card} from "react-bootstrap";
-import {ValidateInterview,InvalidateInterview} from "../../../data/customlibs/utils";
+import {ValidateInterview,InvalidateInterview} from "../../../data/customlibs/api";
 
 
 

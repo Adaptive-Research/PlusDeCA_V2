@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from "react";
 import {Button,Card, Table} from "react-bootstrap";
 import CardActivity from "./CardActivity" ;
-import {DeleteCompany} from "../../../../data/customlibs/utils";
+import {DeleteCompany} from "../../../../data/customlibs/api";
 
 
 

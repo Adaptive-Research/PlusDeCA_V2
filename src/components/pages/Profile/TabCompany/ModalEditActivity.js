@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button, Col, FormGroup, Row, Modal } from "react-bootstrap";
-import {SaveActivity,UpdateActivity} from "../../../../data/customlibs/utils";
+import {SaveActivity,UpdateActivity} from "../../../../data/customlibs/api";
 
 
 

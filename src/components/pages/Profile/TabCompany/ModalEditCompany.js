@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button, Col, FormGroup, Row, Modal } from "react-bootstrap";
-import {SaveCompany, UpdateCompany} from "../../../../data/customlibs/utils";
+import {SaveCompany, UpdateCompany} from "../../../../data/customlibs/api";
 
 
 

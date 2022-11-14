@@ -1,7 +1,7 @@
 import React, {useState,useRef} from "react";
 import {  Row, Button, Modal} from "react-bootstrap";
 import InterviewQuestions  from "./InterviewQuestions";
-import {getInterviewAnswers,getInterviewQuestions,SaveAnswer} from "../../../data/customlibs/utils";
+import {getInterviewAnswers,getInterviewQuestions,SaveAnswer} from "../../../data/customlibs/api";
 
 export default function ModalEditInterview(props) {
 

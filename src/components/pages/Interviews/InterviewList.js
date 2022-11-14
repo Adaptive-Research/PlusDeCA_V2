@@ -1,6 +1,6 @@
 import React, {useRef, useState,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
-import {getUserInterviews} from "../../../data/customlibs/utils";
+import {getUserInterviews} from "../../../data/customlibs/api";
 import '../../../assets/css/InterviewsList.css';
 import CardInterview from "./CardInterview.js";
 import ModalEditInterview from "./ModalEditInterview.js";

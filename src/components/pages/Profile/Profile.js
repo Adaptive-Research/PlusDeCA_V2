@@ -1,6 +1,5 @@
 import React, { useState} from "react";
 
-import axios from "axios";
 import {Breadcrumb, Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
@@ -11,7 +10,7 @@ import CardPersonalInformation from "./CardPersonalInformation" ;
 import TabFriends from "./TabFriends" ;
 import TabFollowers from "./TabFollowers" ;
 import TabCompany from "./TabCompany/TabCompany" ;
-
+import {getTranslations} from "../../../data/customlibs/api";
 
 
 
@@ -47,30 +46,22 @@ export default function Profile(props) {
 
 
 
-    async function TranslateAll(url, Page, VL) {
-        //console.log("TranslateAll") ;
-        const response = axios.post(url, {
-            Submit: 1,
-            debug:1 ,
-            Page: Page,
-            ValueLangue: VL
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        }).then(function (response) {
 
-            //console.log(response.data) ;
-                        
-            let t = FindTranslation(response.data, Page, VL, sProfile);
-            if (t !== "Not Found")
-                setProfile(t);
-            t = FindTranslation(response.data, Page, VL, sCompany);
-            if (t !== "Not Found")
-                setCompany(t);
-        })
+
+    function TranslateAll(url, Page,VL) 
+    {
+        let data = getTranslations(url,Page,VL) ;
+
+
+        let t = FindTranslation(data, Page, VL, sProfile);
+        if (t !== "Not Found")
+            setProfile(t);
+        t = FindTranslation(data, Page, VL, sCompany);
+        if (t !== "Not Found")
+            setCompany(t);
+    
     }
-
+    
 
 
 
