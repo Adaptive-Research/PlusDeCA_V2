@@ -1,8 +1,7 @@
-import {Link} from "react-router-dom";
-import {FaEye,FaRegThumbsUp} from "react-icons/fa";
 import '../../../assets/css/InterviewsList.css';
 import {Card} from "react-bootstrap";
-import axios from "axios";
+import {ValidateInterview,InvalidateInterview} from "../../../data/customlibs/utils";
+
 
 
 export default function CardInterview(props) {
@@ -18,66 +17,7 @@ export default function CardInterview(props) {
 
 
 
-    // Function that sends axios requesst to save an answer for am Interview
-    async function ValidateInterview (tok, idInter ) {
-        //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_INTERVIEW_URL;
-        console.log("ValidateInterview: " + idInter) ;
-
-      
-        const url =  process.env.REACT_APP_API_VALIDATE_INTERVIEW_URL;
-        const response = await axios.post(url, {
-            Submit: 1,
-            token: tok,
-            idInterview: idInter
-
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        });
-
-
-        if (response.data.includes("ERROR:")) 
-            console.log(response.data);
-         else {
-            console.log("Interview validated");
-            if (props.ForceRenderInterview !== null)
-                props.ForceRenderInterview() ;
-
-         }
-           
-    }
-
-
-    // Function that sends axios requesst to save an answer for am Interview
-    async function UnvalidateInterview (tok, idInter ) {
-        //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_INTERVIEW_URL;
-        console.log("ValidateInterview: " + idInter) ;
-
-      
-        const url =  process.env.REACT_APP_API_INVALIDATE_INTERVIEW_URL;
-        const response = await axios.post(url, {
-            Submit: 1,
-            token: tok,
-            idInterview: idInter
-
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        });
-
-
-        if (response.data.includes("ERROR:")) 
-            console.log(response.data);
-         else {
-            console.log("Interview validated");
-            if (props.ForceRenderInterview !== null)
-                props.ForceRenderInterview() ;
-
-         }
-           
-    }
+    
 
 
 
@@ -89,7 +29,7 @@ export default function CardInterview(props) {
 
 
 
-    if(props.TypeInterview == 'A_Repondre'){
+    if(props.TypeInterview === 'A_Repondre'){
         return  <Card key={props.Interview.id}>
                     <img
                         className="card-img-top br-tr-7 br-tl-7"
@@ -103,7 +43,7 @@ export default function CardInterview(props) {
                                 <i className="fa fa-edit"></i>
                             </button>
 
-                            <button className='btn btn-success add-hspace-10'  onClick={() =>  ValidateInterview(storedToken, props.Interview.idInterview)}>
+                            <button className='btn btn-success add-hspace-10'  onClick={() =>  ValidateInterview(storedToken, props.Interview.idInterview,props.ForceRenderInterview)}>
                                 <i className="fa fa-chevron-down"></i>
                             </button>                            
                     </Card.Body>
@@ -111,7 +51,7 @@ export default function CardInterview(props) {
                     </Card.Header>
                    
                 </Card>
-    }else  if(props.TypeInterview == 'Valide'){
+    }else  if(props.TypeInterview === 'Valide'){
         return  <Card key={props.Interview.id}>
                     <img
                         className="card-img-top br-tr-7 br-tl-7"
@@ -125,7 +65,7 @@ export default function CardInterview(props) {
                                     <i className="fe fe-eye"></i>
                             </button>
 
-                            <button className='btn btn-warning add-hspace-10'  onClick={() =>  UnvalidateInterview(storedToken, props.Interview.idInterview)}>
+                            <button className='btn btn-warning add-hspace-10'  onClick={() =>  InvalidateInterview(storedToken, props.Interview.idInterview,props.ForceRenderInterview)}>
                                 <i className="fa fa-history"></i>
                             </button>       
                          </Card.Body>

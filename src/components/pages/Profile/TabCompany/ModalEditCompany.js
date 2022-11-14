@@ -1,7 +1,10 @@
 import React, {useState} from "react";
 import {Button, Col, FormGroup, Row, Modal } from "react-bootstrap";
+import {SaveCompany, UpdateCompany} from "../../../../data/customlibs/utils";
 
-import axios from "axios";
+
+
+
 
 
 
@@ -76,78 +79,7 @@ export default function ModalEditCompany(props) {
 
 
 
-
-    const SaveCompany = async () => {
-        //console.log("SaveCompany") ;
-        //console.log("idEntreprise") ;
-        //console.log(idEntreprise) ;
     
-        
-        if (props.Mode === "Add")
-        {
-            const url = process.env.REACT_APP_API_CREATE_ENTERPRISE_URL;
-            const response = await axios.post(url, {
-                token: storedToken,
-                Submit: 1,
-                debug:1,
-                Nom: name,
-                SiteWeb: webSite,
-                Siret: siret,
-                Email: email,
-                Telephone: phone
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            })
-            console.log(response.data) ;
-            
-            if (response.data.includes("ERROR:")) {
-                console.log(`Error: ${response.data}`);
-            } else {
-                console.log("company added");
-                if (props.SendCloseMessage !== null)
-                {
-                    props.SendCloseMessage() ;
-                    if (props.ForceRender !== null)
-                        props.ForceRender() ;
-                }
-            }
-        }
-        else{
-            const url = process.env.REACT_APP_API_EDIT_ENTERPRISE_URL;
-            const response = await axios.post(url, {
-                token: storedToken,
-                Submit: 1,
-                debug: 1,
-                idEntreprise: idEntreprise ,
-                Nom: name,
-                SiteWeb: webSite,
-                Siret: siret,
-                Email: email,
-                Telephone: phone
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            })
-
-            if (response.data.includes("ERROR:")) {
-                console.log(`Error: ${response.data}`);
-            } else {
-                console.log("company modified");
-                if (props.SendCloseMessage !== null)
-                {
-                    props.SendCloseMessage() ;
-                    if (props.ForceRender !== null)
-                        props.ForceRender() ;
-                }
-            }
-
-
-        }
-    }
-
 
 
 
@@ -173,8 +105,12 @@ export default function ModalEditCompany(props) {
 
         
         if (nameCheck && siretCheck) 
-            SaveCompany() ;
-        
+        {
+            if (props.Mode === "Add")
+                SaveCompany(storedToken,name,webSite,siret,email,phone,props.SendCloseMessage, props.ForceRender) ;
+            else
+                UpdateCompany(storedToken,idEntreprise, name,webSite,siret,email,phone, props.SendCloseMessage, props.ForceRender) ;
+        }
     }
 
 

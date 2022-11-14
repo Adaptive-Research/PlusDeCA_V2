@@ -2,14 +2,14 @@ import React from 'react'
 import "../../../assets/css/InterviewQuestions.css";
 import "../../../assets/css/style_Dan.css";
 import  InterviewImg  from "../../../assets/images/interviews/interview.png";
-import { useState,useRef,useEffect } from 'react';
+import { useState,useRef } from 'react';
 import Buttons from './Buttons';
 
 
 
 
 export default function InterviewQuestions(props) {
-    console.log("InterviewQuestions");
+    //console.log("InterviewQuestions");
 
    
 
@@ -53,20 +53,20 @@ export default function InterviewQuestions(props) {
     }
 
 
-
+    /*
     console.log("Questions");
     console.log(Questions.current);
     console.log("Answers");
     console.log(Answers.current);
-
+    */
 
     function RenderSelect(idQuestion) {
         let OptionsList = Questions.current.map( (question)=>{
                 if (question.idQuestion === idQuestion) {
                     return <option key={question.idSelectOption} value={question.idSelectOption}> {question.SelectOption} </option> 
                 }
-                                                
-        })
+                return "" ;
+        }) ;
         return OptionsList ;
     }
 
@@ -168,7 +168,7 @@ export default function InterviewQuestions(props) {
         for (let i=0 ; i < Questions.current.length ; i++)
         {
             if (Questions.current[i].idQuestion === idQuestion && Questions.current[i].idSelectOption === Answer) {
-                console.log("idQuestionSuivante: " + Questions.current[i].idQuestionSuivante) ;
+                //console.log("idQuestionSuivante: " + Questions.current[i].idQuestionSuivante) ;
                 return Questions.current[i].idQuestionSuivante ;
             }
         }
@@ -186,7 +186,7 @@ export default function InterviewQuestions(props) {
 
 
     function AddReponse() {
-        console.log("AddReponse") ;
+        //console.log("AddReponse") ;
         let rep = "" ;
         if (InterviewQuestion.idSelectOption === "0")
         {
@@ -210,8 +210,8 @@ export default function InterviewQuestions(props) {
             Answers.current.push(rep) ;
         }
 
-        console.log("Answers.current") ;
-        console.log(Answers.current) ;
+        //console.log("Answers.current") ;
+        //console.log(Answers.current) ;
 
         if (props.SendAnswers !== null)
             props.SendAnswers(Answers) ;
@@ -232,7 +232,7 @@ export default function InterviewQuestions(props) {
 
 
     function SetReponse(s) {
-        console.log("SetReponse: "+s) ;
+        //console.log("SetReponse: "+s) ;
 
         if (s < Questions.current.length)
         {
@@ -267,7 +267,7 @@ export default function InterviewQuestions(props) {
 
 
     const onNext = () =>{
-        console.log("onNext") ;
+        //console.log("onNext") ;
 
 
         AddReponse() ;
@@ -301,7 +301,7 @@ export default function InterviewQuestions(props) {
                    
             }
             else {
-                if (res == 0)
+                if (res === 0)
                 {
                     setStep(Questions.current.length) ;
                 }
@@ -319,7 +319,7 @@ export default function InterviewQuestions(props) {
 
 
     const onBack = () =>{
-        console.log("onBack") ;
+        //console.log("onBack") ;
         if (path.current.length > 0)
         {
 

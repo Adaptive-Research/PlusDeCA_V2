@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import {Button, Col, FormGroup, Row, Modal } from "react-bootstrap";
+import {SaveActivity,UpdateActivity} from "../../../../data/customlibs/utils";
 
-import axios from "axios";
+
 
 
 
@@ -78,79 +79,7 @@ export default function ModalEditActivity(props) {
 
 
 
-    const SaveActivity = async () => {
-        //console.log("SaveActivity") ;
-
-        if (props.Mode === "Add")
-        {
-
-            const url = process.env.REACT_APP_API_CREATE_ACTIVITY_URL;
-
-            const response = await axios.post(url, {
-                token: storedToken,
-                Submit: 1,
-                debug:1,
-                idEntreprise: idEntreprise,
-                Nom: name,
-                SiteWeb: webSite,
-                Email: email,
-                Telephone: phone,
-                Description: description
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            })
-
-
-            if (response.data.includes("ERROR:")) {
-                console.log(`Error: ${response.data}`);
-            } else {
-                console.log("Activity added");
-                if (props.SendCloseMessage !== null)
-                {
-                    props.SendCloseMessage() ;
-                    if (props.ForceRenderActivity !== null)
-                        props.ForceRenderActivity() ;
-                }
-            }
-           
-        }
-        else {
-            const url = process.env.REACT_APP_API_EDIT_ACTIVITY_URL ;
-            const response = await axios.post(url, {
-                token: storedToken,
-                Submit: 1,
-                debug:1,
-                idEntreprise: idEntreprise,
-                idActivite: idActivite ,
-                Nom: name,
-                SiteWeb: webSite,
-                Email: email,
-                Telephone: phone,
-                Description: description
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            })
-
-
-            if (response.data.includes("ERROR:")) {
-                console.log(`Error: ${response.data}`);
-            } else {
-                console.log("Activity modified");
-                if (props.SendCloseMessage !== null)
-                {
-                    props.SendCloseMessage() ;
-                    if (props.ForceRenderActivity !== null)
-                        props.ForceRenderActivity() ;
-                }
-            }
-            
-            
-        }
-    }
+    
 
 
 
@@ -168,8 +97,12 @@ export default function ModalEditActivity(props) {
 
 
         
-        if (nameCheck) 
-            SaveActivity() ;
+        if (nameCheck) {
+            if (props.Mode === "Add")
+                SaveActivity(storedToken,idEntreprise, name,webSite,email,phone,description,props.SendCloseMessage,props.ForceRenderActivity) ;
+            else 
+                UpdateActivity(storedToken,idEntreprise,idActivite, name,webSite,email,phone,description,props.SendCloseMessage,props.ForceRenderActivity) ;
+        }
         
     
     }

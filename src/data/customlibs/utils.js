@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const checkEmail = (mail) => {
+function checkEmail(mail) {
     // Check if email is valid or not
     let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!validRegex.test(mail)) {
@@ -10,7 +10,7 @@ const checkEmail = (mail) => {
     return true;
 }
 
-const checkWordLength = (word) => {
+function checkWordLength(word) {
     if (word.length < 8) {
         return false;
     }
@@ -18,32 +18,31 @@ const checkWordLength = (word) => {
 }
 
 
-const getAllUsersEmail = async () => {
+async function getAllUsersEmail() {
     const url = process.env.REACT_APP_API_GET_USERS_URL;
 
 
     const usersEmail = [];
 
-    const response = await axios.get(url).then(
-        (response) => {
-            const data = response.data;
-            let pos = data.indexOf("ERROR") ;
-            if (pos < 0) { 
-                data.forEach((element) => {
-                    if (!usersEmail.includes(element.Email)) {
-                        usersEmail.push(element.Email);
-                    }
-                });
+    const response = await axios.get(url) ;
+
+    const data = response.data;
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+        data.forEach((element) => {
+            if (!usersEmail.includes(element.Email)) {
+                usersEmail.push(element.Email);
             }
-        }
-    )
+        });
+    }
+
     localStorage.fin = JSON.stringify(usersEmail);
     return usersEmail;
 };
 
 
-const checkDuplicate = (mail) => {
-
+function checkDuplicate(mail) {
+    localStorage.removeItem("fin");
     const newEmails = JSON.parse(localStorage.fin);
 
     if (newEmails.includes(mail)) {
@@ -51,16 +50,15 @@ const checkDuplicate = (mail) => {
     } else {
         return false;
     }
-    localStorage.removeItem("fin");
 }
 
 
-const toLog = () => {
+function toLog() {
     window.location.href = "https://plusdeca.fr";
 }
 
 
-const getUserId = (token) => {
+function getUserId(token) {
     // return the user id from the login token
     // user id is  a number sequence before ";"
     const userToken = localStorage.getItem("token");
@@ -107,7 +105,182 @@ function getDataFromResponse(response) {
 
 
 
-const getActivitiesForUser = (variable, Token,UserId, ForceRender) => {
+
+
+
+
+
+
+
+
+/*****************************************************************************************************************************************************
+ * 
+ * 
+ *  Company 
+ * 
+ * 
+ ****************************************************************************************************************************************************/
+
+
+
+ function getAllCompanies(variable,ForceRender) {
+    // retrieve all enterprises in server
+    // search and store enterprises created by active user
+    // return them in array
+    const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_URL;
+    axios.get(url).then(
+        (response) => {
+            const data =  getDataFromResponse(response) ;
+
+            let pos = data.indexOf("ERROR") ;
+            if (pos < 0) { 
+                const res = [];
+                data.forEach((element) => {
+                        res.push(element);
+                });
+                localStorage.setItem(variable, JSON.stringify(res));
+            }
+            else 
+                localStorage.removeItem(variable);
+           
+            ForceRender(variable) ;
+        })
+}
+
+
+function getCompaniesForUser(variable,tok, UserId,ForceRender) {
+    // retrieve all enterprises in server
+    // search and store enterprises created by active user
+    // return them in array
+    const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_FOR_USER_URL;
+    axios.post(url, {
+        token: tok,
+        Submit: 1,
+        idUtilisateur: UserId
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then(
+        (response) => {
+
+            const data =  getDataFromResponse(response) ;
+
+            //console.log(data) ;
+            let pos = data.indexOf("ERROR") ;
+            if (pos < 0) { 
+                let res = [];
+                data.forEach((element) => {
+                    res.push(element);
+                });
+                localStorage.setItem(variable, JSON.stringify(res));
+            }
+            else 
+                localStorage.removeItem(variable);
+            
+            ForceRender(variable) ;
+        })
+}
+
+
+
+async function SaveCompany (tok,name,webSite,siret,email,phone,SendCloseMessage,ForceRenderCompany) {
+    console.log("SaveCompany") ;
+    const url = process.env.REACT_APP_API_CREATE_ENTERPRISE_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug:1,
+        Nom: name,
+        SiteWeb: webSite,
+        Siret: siret,
+        Email: email,
+        Telephone: phone
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+    console.log(response.data) ;
+    
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error: ${response.data}`);
+    } else {
+        console.log("company added");
+        SendCloseMessage() ;
+        ForceRenderCompany() ;
+    }
+    
+}
+
+async function UpdateCompany (tok,idEntreprise, name,webSite,siret,email,phone,SendCloseMessage,ForceRenderCompany) {
+    console.log("UpdateCompany") ;
+    const url = process.env.REACT_APP_API_EDIT_ENTERPRISE_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug: 1,
+        idEntreprise: idEntreprise ,
+        Nom: name,
+        SiteWeb: webSite,
+        Siret: siret,
+        Email: email,
+        Telephone: phone
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error: ${response.data}`);
+    } else {
+        console.log("company modified");
+        SendCloseMessage() ;
+        ForceRenderCompany() ;
+    }
+}
+
+
+function DeleteCompany(tok,idEntreprise,ForceRenderCompany) {
+    //console.log("DeleteCompany") ;
+
+    const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
+    axios.post(
+        url, {
+            token: tok,
+            Submit: 1,
+            debug:1 ,
+            id: idEntreprise
+        }, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        }
+    ).then(
+        (response) => {
+            ForceRenderCompany() ;
+        }
+    )
+}
+
+
+
+
+
+
+
+
+/*****************************************************************************************************************************************************
+ * 
+ * 
+ *  Activities
+ * 
+ * 
+ ****************************************************************************************************************************************************/
+
+
+function getActivitiesForUser(variable, Token,UserId, ForceRender) {
     //console.log("getActivitiesForUser: "+ UserId) ;
     const url = process.env.REACT_APP_API_SHOW_ENTERPRISESETACTIVITES_FOR_USER_URL;
     axios.post(url, {
@@ -142,74 +315,12 @@ const getActivitiesForUser = (variable, Token,UserId, ForceRender) => {
 
 
 
-
-const getAllEnterprises = (variable,ForceRender) => {
-    // retrieve all enterprises in server
-    // search and store enterprises created by active user
-    // return them in array
-    const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_URL;
-    axios.get(url).then(
-        (response) => {
-            const data =  getDataFromResponse(response) ;
-
-            let pos = data.indexOf("ERROR") ;
-            if (pos < 0) { 
-                const res = [];
-                data.forEach((element) => {
-                        res.push(element);
-                });
-                localStorage.setItem(variable, JSON.stringify(res));
-            }
-            else 
-                localStorage.removeItem(variable);
-           
-            ForceRender(variable) ;
-        })
-}
-
-
-const getEnterprisesByUser = (variable,Token, UserId,ForceRender) => {
-    // retrieve all enterprises in server
-    // search and store enterprises created by active user
-    // return them in array
-    const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_FOR_USER_URL;
-    axios.post(url, {
-        token: Token,
-        Submit: 1,
-        idUtilisateur: UserId
-    }, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-    }).then(
-        (response) => {
-
-            const data =  getDataFromResponse(response) ;
-
-            //console.log(data) ;
-            let pos = data.indexOf("ERROR") ;
-            if (pos < 0) { 
-                let res = [];
-                data.forEach((element) => {
-                    res.push(element);
-                });
-                localStorage.setItem(variable, JSON.stringify(res));
-            }
-            else 
-                localStorage.removeItem(variable);
-            
-            ForceRender(variable) ;
-        })
-}
-
-
-
-const getAllActivities = (variable,ForceRender) => {
+function getAllActivities(variable,ForceRender) {
     // retrieve all activities in server
     // search and store activities created by active user
     // return them in array
     const url = process.env.REACT_APP_API_SHOW_ACTIVITY_URL;
-    const response = axios.get(url).then(
+    axios.get(url).then(
         (response) => {
             const data = response.data;
           
@@ -228,10 +339,108 @@ const getAllActivities = (variable,ForceRender) => {
         })
 }
 
+async function SaveActivity(tok,idEntreprise,name,webSite,email,phone,description,SendCloseMessage,ForceRenderActivity) {
+    console.log("SaveActivity") ;
+    const url = process.env.REACT_APP_API_CREATE_ACTIVITY_URL;
+
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug:1,
+        idEntreprise: idEntreprise,
+        Nom: name,
+        SiteWeb: webSite,
+        Email: email,
+        Telephone: phone,
+        Description: description
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error: ${response.data}`);
+    } else {
+        console.log("Activity added");
+        SendCloseMessage() ;
+        ForceRenderActivity() ;
+    }
+    
+}
+
+
+async function UpdateActivity(tok,idEntreprise,idActivite, name,webSite,email,phone,description,SendCloseMessage,ForceRenderActivity) {
+    const url = process.env.REACT_APP_API_EDIT_ACTIVITY_URL ;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug:1,
+        idEntreprise: idEntreprise,
+        idActivite: idActivite ,
+        Nom: name,
+        SiteWeb: webSite,
+        Email: email,
+        Telephone: phone,
+        Description: description
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error: ${response.data}`);
+    } else {
+        console.log("Activity modified");
+        SendCloseMessage() ;
+        ForceRenderActivity() ;
+    }
+    
+    
+}
+
+function DeleteActivity(tok,idActivite,ForceRenderActivity) {
+
+    const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
+    axios.post(url, {
+        token: tok,
+        Submit: 1,
+        id: idActivite
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then((response) => {
+        console.log(response.data);
+        ForceRenderActivity() ;
+    })
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+/*****************************************************************************************************************************************************
+ * 
+ * 
+ *  Articles
+ * 
+ * 
+ ****************************************************************************************************************************************************/
 
 
 //Method to get all articles created by this user
-const getUserArticles = async (variable,tok,ForceRender) => {
+async function getUserArticles(variable,tok,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_ARTICLES_BY_USER_URL;
     const response = await axios.post(url, {
@@ -270,9 +479,113 @@ const getUserArticles = async (variable,tok,ForceRender) => {
 
 
 
+// Function that sends axios requesst to create a new article
+async function SaveArticle(tok,title,category,texte,html,photo,ForceRenderArticle) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_ARTICLE_URL;
+    console.log("SaveArticle") ;
 
-//Method to get all articles created by this user
-const getUserInterviews = async (variable,tok,ForceRender) => {
+    const url =  process.env.REACT_APP_API_CREATE_ARTICLE_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        Article_Title: title,
+        Article_Category: category,
+        Article_Text: texte.current,
+        Article_Html: html,
+        Article_Image: photo
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    //console.log(response.data)
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error found: ${response.data}`);
+    } else {
+        console.log("Article created");
+        ForceRenderArticle() ;
+    }
+}
+
+
+
+// Function that sends axios request to update an article
+async function UpdateArticle(tok,idAncestor, title,category,texte,html,photo,ForceRenderArticle ){
+
+    const url =  process.env.REACT_APP_API_EDIT_ARTICLE_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        idAncestor: idAncestor,
+        Article_Title: title,
+        Article_Category: category,
+        Article_Text: texte,
+        Article_Html: html,
+        Article_Image: photo
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    //console.log(response.data)
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error found: ${response.data}`);
+    } else {
+        console.log("Article updated");
+        ForceRenderArticle() ;
+    }
+
+}
+
+
+
+
+function DeleteArticle(tok, id, ForceRenderArticle) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_ARTICLE_URL;
+    const url = process.env.REACT_APP_API_DELETE_ARTICLE_URL;
+    axios.post(url, {
+        Submit: 1,
+        token: tok,
+        debug: 1,
+        idAncestor: id
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then(
+        (response) => {
+            console.log(response.data);
+            ForceRenderArticle() ;
+        }
+    )
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*****************************************************************************************************************************************************
+ * 
+ * 
+ *  Interviews
+ * 
+ * 
+ ****************************************************************************************************************************************************/
+
+async function getUserInterviews(variable,tok,ForceRender) {
+    console.log("getUserInterviews") ;
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_INTERVIEWS_FOR_USER_URL;
     const response = await axios.post(url, {
@@ -307,7 +620,7 @@ const getUserInterviews = async (variable,tok,ForceRender) => {
 
 
 
-const getInterviewQuestions = async (variable,tok,idInter, ForceRender) => {
+async function getInterviewQuestions(variable,tok,idInter, ForceRender) {
     console.log(" getInterviewQuestions") ;
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_QUESTIONS_FOR_INTERVIEW_URL;
@@ -322,7 +635,7 @@ const getInterviewQuestions = async (variable,tok,idInter, ForceRender) => {
         }
     });
 
-    console.log(response.data) ;
+    //console.log(response.data) ;
 
     const data =  getDataFromResponse(response) ;
     let pos = data.indexOf("ERROR") ;
@@ -339,7 +652,7 @@ const getInterviewQuestions = async (variable,tok,idInter, ForceRender) => {
 
 
 
-const getInterviewAnswers = async (variable,tok,idInter, ForceRender) => {
+async function getInterviewAnswers(variable,tok,idInter, ForceRender) {
     console.log(" getInterviewAnswers") ;
     const url =  process.env.REACT_APP_API_SHOW_ANSWERS_URL;
     const response = await axios.post(url, {
@@ -353,7 +666,7 @@ const getInterviewAnswers = async (variable,tok,idInter, ForceRender) => {
         }
     });
 
-    console.log(response.data) ;
+    //console.log(response.data) ;
 
     const data =  getDataFromResponse(response) ;
     let pos = data.indexOf("ERROR") ;
@@ -367,6 +680,103 @@ const getInterviewAnswers = async (variable,tok,idInter, ForceRender) => {
     }
     ForceRender(variable) ;
 }   
+
+
+
+
+
+ // Function that sends axios requesst to save an answer for am Interview
+async function SaveAnswer (tok, idInter, idQ, rep ) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_INTERVIEW_URL;
+    console.log("SaveInterview") ;
+    
+    const url =  process.env.REACT_APP_API_SAVE_ANSWER_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        idInterview: idInter,
+        idQuestion: idQ,
+        Reponse: rep 
+
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    //console.log(response.data)
+
+    if (response.data.includes("ERROR:")) 
+        console.log(`Error found: ${response.data}`);
+        else 
+        console.log("Answer saved");
+}
+
+
+
+
+// Function that sends axios requesst to save an answer for am Interview
+async function ValidateInterview (tok, idInter,ForceRenderInterview ) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_INTERVIEW_URL;
+    console.log("ValidateInterview: " + idInter) ;
+
+  
+    const url =  process.env.REACT_APP_API_VALIDATE_INTERVIEW_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        idInterview: idInter
+
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+
+    if (response.data.includes("ERROR:")) 
+        console.log(response.data);
+     else {
+        console.log("Interview validated");
+        ForceRenderInterview() ;
+
+     }
+       
+}
+
+
+// Function that sends axios requesst to save an answer for am Interview
+async function InvalidateInterview (tok, idInter,ForceRenderInterview ) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_INTERVIEW_URL;
+    console.log("InvalidateInterview: " + idInter) ;
+
+  
+    const url =  process.env.REACT_APP_API_INVALIDATE_INTERVIEW_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        idInterview: idInter
+
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+
+    if (response.data.includes("ERROR:")) 
+        console.log(response.data);
+     else {
+        console.log("Interview validated");
+        ForceRenderInterview() ;
+     }
+       
+}
+
+
+
+
+
 
 
 
@@ -381,12 +791,29 @@ export {
     toLog,
     getDataFromResponse,
     getUserId,
+
+
+    getAllCompanies,
+    getCompaniesForUser,
+    SaveCompany,
+    UpdateCompany,
+    DeleteCompany,
+
     getActivitiesForUser,
-    getAllEnterprises,
-    getEnterprisesByUser,
     getAllActivities,
+    SaveActivity,
+    UpdateActivity,
+    DeleteActivity,
+
     getUserArticles,
+    SaveArticle,
+    UpdateArticle,
+    DeleteArticle,
+
     getUserInterviews,
     getInterviewQuestions,
-    getInterviewAnswers  
+    getInterviewAnswers,
+    SaveAnswer,
+    ValidateInterview,
+    InvalidateInterview 
 };

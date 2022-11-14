@@ -15,7 +15,7 @@ import ModalEditInterview from "./ModalEditInterview.js";
 
 export default function InterviewList() {
 
-    console.log("InterviewList") ;
+    //console.log("InterviewList") ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
@@ -92,7 +92,7 @@ export default function InterviewList() {
     //La fonction forceRender permettant de recharger automatiquement les données
     function ForceRenderInterview() {
             
-        console.log("ForceRenderInterview") ;
+        //console.log("ForceRenderInterview") ;
         setShowEditInterview(false) ;
 
         getUserInterviews("userInterviews",storedToken, RenderAfterLoad) ;

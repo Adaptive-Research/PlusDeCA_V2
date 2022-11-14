@@ -1,6 +1,9 @@
 
 import {Card} from "react-bootstrap";
-import axios from "axios";
+import {DeleteArticle} from "../../../data/customlibs/utils";
+
+
+
 
 
 export default function CardArticle(props) {
@@ -15,33 +18,6 @@ export default function CardArticle(props) {
     }
 
 
-
-
-    const DeleteArticle = async (id) => {
-        //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_ARTICLE_URL;
-        const url = process.env.REACT_APP_API_DELETE_ARTICLE_URL;
-        await axios.post(url, {
-            Submit: 1,
-            token: storedToken,
-            debug: 1,
-            idAncestor: id
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        }).then(
-            (response) => {
-                console.log(response.data);
-                if (props.ForceRenderArticle !== null)
-                    props.ForceRenderArticle() ;
-            }
-        )
-
-    }
-
-
-
-    
 
 
     return (
@@ -65,7 +41,7 @@ export default function CardArticle(props) {
                     <button className='btn btn-primary' onClick={() => EditArticle(props.Article)}>
                         <i className="fa fa-edit"></i>
                     </button>
-                    <button className='m-2 btn btn-danger' onClick={() => DeleteArticle(props.Article.idAncestor)}>
+                    <button className='m-2 btn btn-danger' onClick={() => DeleteArticle(storedToken, props.Article.idAncestor,props.ForceRenderArticle)}>
                         <i className="fa fa-trash"></i>
                     </button>
                     {/*

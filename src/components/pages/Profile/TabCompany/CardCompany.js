@@ -1,9 +1,8 @@
 
 import React, {useEffect, useState} from "react";
 import {Button,Card, Table} from "react-bootstrap";
-import {getIDFromToken} from "../../../../functions_Dan.js";
 import CardActivity from "./CardActivity" ;
-import axios from "axios";
+import {DeleteCompany} from "../../../../data/customlibs/utils";
 
 
 
@@ -20,14 +19,10 @@ export default function CardCompany(props) {
     let SendCompanyData = props.SendCompanyData ;
 
 
-  
-
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
-    const idUser = getIDFromToken(storedToken) ;
     //console.log(storedToken) ;  
-    //console.log(idUser) ;
     
 
 
@@ -36,14 +31,29 @@ export default function CardCompany(props) {
 
 
 
+    function EditCompany(ligne) {
+        //console.log("EditCompany") ;
+        if (SendCompanyData !== null)
+            SendCompanyData(true, ligne) ;
+    }
+
+
+
 
 
 
     // quand on n'a pas cree d'activite pour l'entreprise
-    const AddActivity = (e) => {
+    function AddActivity(e) {
         e.preventDefault();
         props.SendActivityData(true,Ligne.idEntreprise,null) ;
     }
+
+
+
+
+
+
+
 
 
 
@@ -75,6 +85,8 @@ export default function CardCompany(props) {
         }
     }
 
+
+
     function renderAll(idEntreprise){
         return ( 
             <>
@@ -82,45 +94,6 @@ export default function CardCompany(props) {
             {renderActivities(Ligne.idEntreprise)}
             </>
         ) ;
-    }
-
-
-
-
-
-
-
-    function EditCompany(idEntreprise,token) {
-        //console.log("EditCompany") ;
-        //console.log('Ligne.idEntreprise') ;
-        //console.log(Ligne.idEntreprise) ;
-        if (SendCompanyData !== null)
-            SendCompanyData(true, Ligne) ;
-    }
-
-
-
-    function DeleteCompany(idEntreprise,token) {
-        //console.log("DeleteCompany") ;
-
-        const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
-        const response = axios.post(
-            url, {
-                token: token,
-                Submit: 1,
-                debug:1 ,
-                id: idEntreprise
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            }
-        ).then(
-            (response) => {
-                //console.log(response.data);
-                props.ForceRenderCompany() ;
-            }
-        )
     }
 
 
@@ -137,12 +110,12 @@ export default function CardCompany(props) {
                     </button>
                     
                     <button type="btn" className="btn btn-danger mt-1 float-end" 
-                            onClick={ () => DeleteCompany(Ligne.idEntreprise,storedToken) }>
+                            onClick={ () => DeleteCompany(storedToken, Ligne.idEntreprise, props.ForceRenderCompany) }>
                             <i className="fe fe-trash"></i> 
                     </button>
 
                     <button type="btn" className="btn btn-primary  mt-1 float-end"
-                            onClick={ () => EditCompany(Ligne.idEntreprise,storedToken) }>
+                            onClick={ () => EditCompany(Ligne) }>
                             <i className="fe fe-edit"></i> 
                     </button>
 

@@ -1,9 +1,6 @@
 
-import {Card, Table} from "react-bootstrap";
-import axios from "axios";
-import {getIDFromToken} from "../../../../functions_Dan.js";
-
-
+import {Table} from "react-bootstrap";
+import {DeleteActivity} from "../../../../data/customlibs/utils";
 
 
 
@@ -16,9 +13,7 @@ export default function CardActivity(props) {
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
-    const idUser = getIDFromToken(storedToken) ;
     //console.log(storedToken) ;  
-    //console.log(idUser) ;
 
     let SendActivityData = props.SendActivityData ;
 
@@ -34,24 +29,7 @@ export default function CardActivity(props) {
 
 
 
-    function DeleteActivity(idActivite,token) {
-
-        const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
-        const response = axios.post(url, {
-            token: token,
-            Submit: 1,
-            id: idActivite
-        }, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        }).then((response) => {
-            console.log(response.data);
-            props.ForceRenderActivity() ;
-        })
-      
-    }
-
+    
 
     return  (                              
 
@@ -65,7 +43,7 @@ export default function CardActivity(props) {
 
 
                 <button type="btn" className="btn btn-danger mt-1 float-end"
-                        onClick={() => DeleteActivity(Ligne.idActivite,storedToken)}>
+                        onClick={() => DeleteActivity(storedToken,Ligne.idActivite,props.ForceRenderActivity)}>
                         <i className="fe fe-trash"></i> 
                 </button>
 

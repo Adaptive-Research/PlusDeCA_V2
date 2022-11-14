@@ -4,7 +4,7 @@ import {Button} from "react-bootstrap";
 
 import axios from "axios";
 import {FindTranslation,getIDFromToken} from "../../../../functions_Dan.js";
-import {getEnterprisesByUser ,getActivitiesForUser} from "../../../../data/customlibs/utils";
+import {getCompaniesForUser ,getActivitiesForUser} from "../../../../data/customlibs/utils";
 import CardCompany from "./CardCompany" ;
 import ModalEditCompany from "./ModalEditCompany" ;
 import ModalEditActivity from "./ModalEditActivity" ;
@@ -80,7 +80,7 @@ export default function TabCompany(props) {
 
     
 
-    async function TranslateAll(url, Page, VL) {
+    function TranslateAll(url, Page, VL) {
         //console.log("TranslateAll") ;
         const response = axios.post(url, {
             Submit: 1,
@@ -116,7 +116,7 @@ export default function TabCompany(props) {
     {
         //console.log("reloadInfos") ;
         getActivitiesForUser("userActivities",storedToken,idUser,RenderAfterLoad) ;
-        getEnterprisesByUser("userEnterprises",storedToken,idUser,RenderAfterLoad) ;
+        getCompaniesForUser("userEnterprises",storedToken,idUser,RenderAfterLoad) ;
 
 
         // Pour la traduction
@@ -219,7 +219,7 @@ export default function TabCompany(props) {
         //console.log("ForceRenderCompany") ;
 
         downloaded_UserEnterprises.current = false ;
-        getEnterprisesByUser("userEnterprises",storedToken,idUser,RenderAfterLoad) ;
+        getCompaniesForUser("userEnterprises",storedToken,idUser,RenderAfterLoad) ;
     }
 
 

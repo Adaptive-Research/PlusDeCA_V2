@@ -6,7 +6,6 @@ import CardArticle from "./CardArticle" ;
 import ModalEditArticle from "./ModalEditArticle" ;
 
 
-  // le callback qui est appele apres le chargement des donnees
     
   
 

@@ -1,12 +1,15 @@
 import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import * as formeditor from "../../../data/Form/formeditor/formeditor";
-import * as blogpost from "../../../data/Pages/blogpost/blogpost";
-import axios from "axios";
 import { FormGroup, Row, Button, Modal} from "react-bootstrap";
+import {SaveArticle,UpdateArticle} from "../../../data/customlibs/utils";
+
+
+
+
+
 
 export default function ModalEditArticle(props) {
-
 
     const storedToken = localStorage.getItem('token');
 
@@ -67,71 +70,8 @@ export default function ModalEditArticle(props) {
 
 
 
-    // Function that sends axios requesst to create a new article
-    const SaveArticle = async () => {
-        //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_ARTICLE_URL;
-        console.log("SaveArticle") ;
-        console.log("modeEdit: " + modeEdit.current) ;
 
-        if (modeEdit.current === "Add")
-        {
-            const url =  process.env.REACT_APP_API_CREATE_ARTICLE_URL;
-            const response = await axios.post(url, {
-                Submit: 1,
-                token: storedToken,
-                Article_Title: title,
-                Article_Category: category,
-                Article_Text: texte.current,
-                Article_Html: html,
-                Article_Image: photo
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            });
-
-            //console.log(response.data)
-
-            if (response.data.includes("ERROR:")) {
-                console.log(`Error found: ${response.data}`);
-                setMsg("Une erreur est survenue, veuillez reessayer")
-            } else {
-                console.log("Article created");
-                if (props.ForceRenderArticle !== null)
-                    props.ForceRenderArticle() ;
-
-            }
-        }
-        else{
-            const url =  process.env.REACT_APP_API_EDIT_ARTICLE_URL;
-            const response = await axios.post(url, {
-                Submit: 1,
-                token: storedToken,
-                idAncestor: idAncestor,
-                Article_Title: title,
-                Article_Category: category,
-                Article_Text: texte.current,
-                Article_Html: html,
-                Article_Image: photo
-            }, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            });
-
-            //console.log(response.data)
-
-            if (response.data.includes("ERROR:")) {
-                console.log(`Error found: ${response.data}`);
-                setMsg("Une erreur est survenue, veuillez reessayer")
-            } else {
-                console.log("Article updated");
-                if (props.ForceRenderArticle !== null)
-                    props.ForceRenderArticle() ;
-            }
-
-        }
-    }
+    
 
 
     // Function that validates the form
@@ -185,7 +125,10 @@ export default function ModalEditArticle(props) {
         }
 
         if (titleCheck && categoryCheck && descriptionCheck) {
-            SaveArticle();
+            if (modeEdit.current === "Add")
+                SaveArticle(storedToken,title,category,texte.current,html,photo, props.ForceRenderArticle);
+            else
+                UpdateArticle(storedToken,idAncestor, title,category,texte.current,html,photo, props.ForceRenderArticle);
         }
     }
 
