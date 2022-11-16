@@ -95,12 +95,11 @@ async function requestLogin(mail, pass)  {
         }
     })
 
+    console.log("response.data");
     console.log(response.data);
 
-    if (response.data.includes("ERROR:")) {
-        console.log(response.data) ;
+    if (response.data.includes("ERROR:")) 
         return [false,response.data] ;
-    } 
     else 
         return [true,response.data] ;
 

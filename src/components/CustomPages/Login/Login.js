@@ -46,7 +46,7 @@ export default function Login() {
     
 
 
-    const inputsValidation = () => {
+    async function inputsValidation() {
         let emailCheck, passwordCheck,res, temp ;
         if (email === "") {
             setEmailMsg("Email is required");
@@ -78,13 +78,17 @@ export default function Login() {
         if (emailCheck && passwordCheck) {
             if (checkEmail(email) )
             {
-                let values = requestLogin(email,encrypt(password));
+                let values = await requestLogin(email,encrypt(password));
                 res = values[0];
                 temp = values[1];
+
+                //console.log("res") ;
+                //console.log(res) ;
                
-                if (res === false)
+                if (res === false) {
+                    console.log("res===false") ;
                     localStorage.setItem('logged', JSON.stringify(false));
-                } 
+                }
                 else {
                     console.log("User logged");
         
@@ -99,12 +103,13 @@ export default function Login() {
                     localStorage.setItem('lastLogin', now.toString());
     
                     const lastLogin = localStorage.getItem('lastLogin');
-                    console.log("lastLogin");
-                    console.log(lastLogin);
+                    //console.log("lastLogin");
+                    //console.log(lastLogin);
     
-    
+                    //console.log("window.location.href") ;
                     window.location.href = `${process.env.PUBLIC_URL}/dashboard`;
                 }
+            }
         }
     }
         
@@ -118,14 +123,7 @@ export default function Login() {
             inputsValidation();
         } catch (e) {
             console.log(e);
-        } finally {
-            console.log(`Login attempt and logged status: ${JSON.parse(localStorage.getItem('logged'))}`);
-            console.log("Last  login: " + localStorage.getItem('lastLogin'));
-            setEmail("");
-            setPassword("");
-        }
-
-
+        } 
     }
 
 
