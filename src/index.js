@@ -188,7 +188,7 @@ const Root = () => {
                                 element={<Dashboard/>}
                             />
                             <Route
-                                path={`${process.env.PUBLIC_URL}/Journal`}
+                                path={`${process.env.PUBLIC_URL}/Journal/Page1`}
                                 element={<Journal/>}
                             />
 

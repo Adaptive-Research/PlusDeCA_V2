@@ -12,6 +12,10 @@ const Journal = () => {
   return (
     <div>
         <Journal_NavBar/>
+
+        
+
+
         <div className='Journal'>
             <div className='Journal_Header'>
                 <div className='Logo'>
@@ -80,8 +84,9 @@ const Journal = () => {
                     </div>
                 </div>
             </div>
-            <RecentsArticles />
+             <RecentsArticles /> 
         </div>
+  
     </div>
   )
 }

@@ -12,26 +12,48 @@ const Journal_NavBar = () => {
     <nav className='Journal_NavBar'>
         <div className='Journal_Navbar_Container'>
             <ul className='Onglets_Container'>
-                <li className='Onglet primary' >
-                    <Link to={`${process.env.PUBLIC_URL}/Journal`} className='nav__Link active' >
+                <li className='Onglet primary'>
+                    <Link  to={`${process.env.PUBLIC_URL}/Journal/Page1`} >
                         A la Une
                     </Link>
                 </li>
                 <li className='Onglet'>
-                    <Link className='nav__Link'>
+                    <Link  to={`${process.env.PUBLIC_URL}/Journal/News`} >
                         Actualités du réseau
                     </Link>
                 </li>
                 <li className='Onglet'>
-                    <Link className='nav__Link'>
+                    <Link  to={`${process.env.PUBLIC_URL}/Journal/NextMeetings`} >
                         Prochaines réunions
                     </Link>
                 </li>
+
                 <li className='Onglet'>
-                    <Link className='nav__Link'>
+                    <Link  to={`${process.env.PUBLIC_URL}/Journal/OurArticles`} >
                         Articles des Entrepreneurs
                     </Link>
                 </li>
+
+                <li className='Onglet'>
+                    <Link  to={`${process.env.PUBLIC_URL}/Journal/FoundOnInternet`} >
+                        Trouvé sur le net
+                    </Link>
+                </li>
+
+                
+                <li className='Onglet'>
+                    <Link  to={`${process.env.PUBLIC_URL}/Journal/Entrepreneur`} >
+                        Un entrepreneur en lumière
+                    </Link>
+                </li>
+
+
+
+
+
+
+
+                {/*
                 <div className='Supp_Nav_Links'>
                     <button className='Supp_Nav_Btn' onClick={()=>{setIsNavShowing(prev => !prev)}}>
                         <CgMenuGridO />
@@ -69,6 +91,8 @@ const Journal_NavBar = () => {
                         </li> 
                     </ul>
                 </div>
+                */}
+
             </ul>
         </div>
     </nav>

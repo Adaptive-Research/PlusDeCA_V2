@@ -13,7 +13,6 @@ export default function Dashboard() {
  
   return (
     <div>
-      <Journal_NavBar/>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Dashboard 01</h1>

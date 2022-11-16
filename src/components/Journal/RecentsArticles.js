@@ -24,7 +24,7 @@ const RecentsArticles = () => {
                         <div className='Recent_Article_Desc'>
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam quo excepturi!
                         </div>
-                        <Link>
+                        <Link to={`${process.env.PUBLIC_URL}/Journal/NextMeetings`}>
                             Lire
                         </Link>
                     </div>
@@ -40,7 +40,7 @@ const RecentsArticles = () => {
                         <div className='Recent_Article_Desc'>
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam quo excepturi!
                         </div>
-                        <Link>
+                        <Link  to={`${process.env.PUBLIC_URL}/Journal/NextMeetings`}>
                             Lire
                         </Link>
                     </div>
@@ -56,7 +56,7 @@ const RecentsArticles = () => {
                         <div className='Recent_Article_Desc'>
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam quo excepturi!
                         </div>
-                        <Link>
+                        <Link  to={`${process.env.PUBLIC_URL}/Journal/NextMeetings`}>
                             Lire
                         </Link>
                     </div>
@@ -72,7 +72,7 @@ const RecentsArticles = () => {
                         <div className='Recent_Article_Desc'>
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam quo excepturi!
                         </div>
-                        <Link>
+                        <Link  to={`${process.env.PUBLIC_URL}/Journal/NextMeetings`}>
                             Lire
                         </Link>
                     </div>
@@ -88,7 +88,7 @@ const RecentsArticles = () => {
                         <div className='Recent_Article_Desc'>
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam quo excepturi!
                         </div>
-                        <Link>
+                        <Link  to={`${process.env.PUBLIC_URL}/Journal/NextMeetings`}>
                             Lire
                         </Link>
                     </div>
@@ -104,7 +104,7 @@ const RecentsArticles = () => {
                         <div className='Recent_Article_Desc'>
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam quo excepturi!
                         </div>
-                        <Link>
+                        <Link  to={`${process.env.PUBLIC_URL}/Journal/NextMeetings`}>
                             Lire
                         </Link>
                     </div>

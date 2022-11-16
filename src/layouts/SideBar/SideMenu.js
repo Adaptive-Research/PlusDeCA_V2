@@ -3,48 +3,12 @@ export const MENUITEMS = [
         menutitle: "JOURNAL",
         Items: [
             {
-                path: `${process.env.PUBLIC_URL}/page1`,
+                path: `${process.env.PUBLIC_URL}/Journal/Page1`,
                 icon: "list",
                 type: "link",
                 active: false,
                 title: "A la une",
-            },
-            {
-                path: `${process.env.PUBLIC_URL}/news`,
-                icon: "globe",
-                type: "link",
-                active: false,
-                title: "Actualités du réseau",
-            },
-            {
-                path: `${process.env.PUBLIC_URL}/components/defaultCalendar`,
-                icon: "calendar",
-                type: "link",
-                active: false,
-                title: "Les prochaines réunions",
-            },
-            {
-                path: `${process.env.PUBLIC_URL}/ArticlesReseau`,
-                icon: "edit",
-                type: "link",
-                active: false,
-                title: "Les articles de nos entrepreneurs",
-            },
-            {
-                path: `${process.env.PUBLIC_URL}/found`,
-                icon: "eye",
-                type: "link",
-                active: false,
-                title: "Trouvé sur le net",
-            },
-            {
-                path: `${process.env.PUBLIC_URL}/entrepreneur`,
-                icon: "thumbs-up",
-                type: "link",
-                active: false,
-                title: "Un entrepreneur en lumière",
-            },
-
+            }
 
         ],
     },

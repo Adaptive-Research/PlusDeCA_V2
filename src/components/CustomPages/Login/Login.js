@@ -107,7 +107,7 @@ export default function Login() {
                     //console.log(lastLogin);
     
                     //console.log("window.location.href") ;
-                    window.location.href = `${process.env.PUBLIC_URL}/dashboard`;
+                    window.location.href = `${process.env.PUBLIC_URL}/Journal/Page1`;
                 }
             }
         }
