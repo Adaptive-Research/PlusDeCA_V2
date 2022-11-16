@@ -4,6 +4,7 @@ import ReactApexChart from "react-apexcharts";
 import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
 import * as dashboard from "../../data/dashboard/dashboard";
 import { Link } from "react-router-dom";
+import { Journal_NavBar } from "../Journal/Journal_NavBar";
 
 
 export default function Dashboard() {
@@ -12,6 +13,7 @@ export default function Dashboard() {
  
   return (
     <div>
+      <Journal_NavBar/>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Dashboard 01</h1>

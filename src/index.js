@@ -10,6 +10,8 @@ const Custompages = React.lazy(() => import("./components/custompages"));
 
 //Dashboard
 const Dashboard = React.lazy(() => import("./components/Dashboard/Dashboard"));
+//Journal
+const Journal = React.lazy(() => import("./components/Journal/Journal"));
 //Widgets
 const Widgets = React.lazy(() => import("./components/Widgets/Widgets"));
 //Components
@@ -107,7 +109,6 @@ const InterviewList = React.lazy(() => import("./components/pages/Interviews/Int
 const InterviewQuestions = React.lazy(() => import("./components/pages/Interviews/InterviewQuestions"));
 
 
-
 //Blog
 const Blog = React.lazy(() => import("./components/pages/Blog/Blog/Blog"));
 const BlogDetails = React.lazy(() => import("./components/pages/Blog/BlogDetails/BlogDetails"));
@@ -185,6 +186,10 @@ const Root = () => {
                             <Route
                                 path={`${process.env.PUBLIC_URL}/dashboard`}
                                 element={<Dashboard/>}
+                            />
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/Journal`}
+                                element={<Journal/>}
                             />
 
 
@@ -703,7 +708,7 @@ const Root = () => {
                                 element={<Errorpage503/>}
                             />
                             <Route path="*" element={<Errorpage400/>}/>
-                        </Route>
+                        </Route> 
                     </Routes>
                 </React.Suspense>
             </BrowserRouter>
