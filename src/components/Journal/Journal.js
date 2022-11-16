@@ -1,5 +1,5 @@
 import React from 'react';
-import { Journal_NavBar } from './Journal_NavBar';
+import  Journal_NavBar  from './Journal_NavBar';
 import Logo from '../../assets/images/brand/logo-2.png';
 import Journal_Img1 from '../../assets/images/journal/Journal_Img1.jpg';
 import Journal_Img2 from '../../assets/images/journal/Journal_Img2.jpg';

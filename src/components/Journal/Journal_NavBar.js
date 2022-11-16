@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Bar } from 'react-chartjs-2';
 import { Link } from 'react-router-dom';
 import '../../assets/css/Journal_NavBar.css';
 import { CgMenuGridO } from 'react-icons/cg';
 
 
 
-export const Journal_NavBar = () => {
+const Journal_NavBar = () => {
     const [isNavShowing, setIsNavShowing] = useState(false);
 
   return (
@@ -75,3 +74,5 @@ export const Journal_NavBar = () => {
     </nav>
   )
 }
+
+export default Journal_NavBar;
