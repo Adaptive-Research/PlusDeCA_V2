@@ -591,6 +591,74 @@ function DeleteArticle(tok, id, ForceRenderArticle) {
 
 
 
+// La fonction qui permet de Valider un Article
+async function ValidateArticle (tok, idArticle, ForceRenderArticle) {
+    console.log("ValidateArticle: " + idArticle) ;
+  
+    const url=process.env.REACT_APP_API_VALIDATE_ARTICLE_URL;
+    console.log("New URL " + url);
+
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        id: idArticle
+
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+
+    if (response.data.includes("ERROR:")) 
+        console.log(response.data);
+    else {
+        console.log("Article validated");
+        ForceRenderArticle() ;
+     }
+       
+}
+
+
+// La fonction permettant d'invalider un article
+async function InvalidateArticle (tok, idArticle, ForceRenderArticle) {
+    console.log("InvalidateArticle: " + idArticle) ;
+
+  
+    const url =  process.env.REACT_APP_API_INVALIDATE_ARTICLE_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        id: idArticle
+
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+
+    if (response.data.includes("ERROR:")) 
+        console.log(response.data);
+     else {
+        console.log("Article invalidated");
+        ForceRenderArticle() ;
+     }
+       
+}
+
+
+///Mamao
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -744,6 +812,7 @@ async function ValidateInterview (tok, idInter,ForceRenderInterview ) {
 
   
     const url =  process.env.REACT_APP_API_VALIDATE_INTERVIEW_URL;
+    console.log("URL Valide  " + url);
     const response = await axios.post(url, {
         Submit: 1,
         token: tok,
@@ -1053,6 +1122,8 @@ export {
     SaveArticle,
     UpdateArticle,
     DeleteArticle,
+    ValidateArticle,
+    InvalidateArticle,
 
     getUserInterviews,
     getInterviewQuestions,

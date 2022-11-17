@@ -1,6 +1,7 @@
 
 import {Card} from "react-bootstrap";
 import {DeleteArticle} from "../../../data/customlibs/api";
+import {ValidateArticle,InvalidateArticle} from "../../../data/customlibs/api";
 
 
 
@@ -20,8 +21,89 @@ export default function CardArticle(props) {
 
 
 
-    return (
-        
+    if(props.TypeArticle === 'Brouillon'){
+        return  <Card key={props.Article.id}>
+                    <img
+                        className="card-img-top br-tr-7 br-tl-7"
+                        src={require("../../../assets/images/media/19.jpg")}
+                        alt="Card cap"
+                    />
+                    <Card.Header style={{padding: '2rem'}}>
+                        <Card.Title as="h5">{props.Article.Article_Title}</Card.Title>
+                        <Card.Body  style={{position: 'absolute', right: '10px'}}>
+                            <button className='btn btn-primary' onClick={() => EditArticle(props.Article)}>
+                                <i className="fa fa-edit"></i>
+                            </button>
+                            <button className='btn btn-success add-hspace-10'  onClick={() =>  ValidateArticle(storedToken, props.Article.id,props.ForceRenderArticle)}>
+                                <i className="fa fa-chevron-down"></i>
+                            </button>     
+                            <button className='m-2 btn btn-danger' onClick={() => DeleteArticle(storedToken, props.Article.idAncestor,props.ForceRenderArticle)}>
+                                <i className="fa fa-trash"></i>
+                            </button>                     
+                        </Card.Body>
+                        
+                    </Card.Header>
+                   
+                </Card>
+    }else  if(props.TypeArticle === 'Valide'){
+        return  <Card key={props.Article.id}>
+                    <img
+                        className="card-img-top br-tr-7 br-tl-7"
+                        src={require("../../../assets/images/media/19.jpg")}
+                        alt="Card cap"
+                    />
+                    <Card.Header style={{padding: '2rem'}}>
+                        <Card.Title as="h5">{props.Article.Article_Title}</Card.Title>
+                        <Card.Body style={{position: 'absolute', right: '10px'}}>
+                            <button className='btn btn-primary' onClick={() => EditArticle(props.Article)}>
+                                <i className="fa fa-edit"></i>
+                            </button>
+                            <button className='btn btn-warning add-hspace-10'  onClick={() =>  InvalidateArticle(storedToken, props.Article.id,props.ForceRenderArticle)}>
+                                <i className="fa fa-history"></i>
+                            </button>      
+                            <button className='m-2 btn btn-danger' onClick={() => DeleteArticle(storedToken, props.Article.idAncestor,props.ForceRenderArticle)}>
+                                <i className="fa fa-trash"></i>
+                            </button>      
+                         </Card.Body>
+                    </Card.Header>
+                </Card>
+    }else  {
+        return  <Card key={props.Article.id}>
+                    <img
+                        className="card-img-top br-tr-7 br-tl-7"
+                        src={require("../../../assets/images/media/19.jpg")}
+                        alt="Card cap"
+                    />
+                    <Card.Header style={{padding: '2rem'}}>
+                        <Card.Title as="h5">{props.Article.Article_Title}</Card.Title>
+                        <Card.Body style={{position: 'absolute', right: '10px'}}>
+                            <button className='btn btn-primary' onClick={() => EditArticle(props.Article)}>
+                                <i className="fa fa-edit"></i>
+                            </button>
+                            <button className='m-2 btn btn-danger' onClick={() => DeleteArticle(storedToken, props.Article.idAncestor,props.ForceRenderArticle)}>
+                                <i className="fa fa-trash"></i>
+                            </button>
+                        </Card.Body>
+                    </Card.Header>
+                </Card>
+    }
+    
+
+
+
+
+
+
+
+    /* {/*
+     <Link
+     to={`${process.env.PUBLIC_URL}/pages/propsDetail`}
+     className="float-end">
+     Read more <i
+     className="fa fa-angle-double-right"></i>
+ </Link>
+ }
+ 
             <Card key={props.Article.id}>
                 <img
                     className="card-img-top br-tr-7 br-tl-7"
@@ -30,9 +112,6 @@ export default function CardArticle(props) {
                 />
                 <Card.Header>
                     <Card.Title as="h5"> {props.Article.Article_Title} </Card.Title>
-                    <button className="btn btn-success" style={{marginLeft: "50%"}}>
-                        {props.Article.props_Category}
-                    </button>
                 </Card.Header>
                 <Card.Body>
                     <Card.Text>
@@ -44,19 +123,8 @@ export default function CardArticle(props) {
                     <button className='m-2 btn btn-danger' onClick={() => DeleteArticle(storedToken, props.Article.idAncestor,props.ForceRenderArticle)}>
                         <i className="fa fa-trash"></i>
                     </button>
-                    {/*
-                    <Link
-                        to={`${process.env.PUBLIC_URL}/pages/propsDetail`}
-                        className="float-end">
-                        Read more <i
-                        className="fa fa-angle-double-right"></i>
-                    </Link>
-                    */}
                 </Card.Body>
             </Card>
-
-    )
-    
-
+ */
 
 }

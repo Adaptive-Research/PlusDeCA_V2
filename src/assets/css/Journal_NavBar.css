@@ -114,6 +114,7 @@
     color: #ffffff;
     font-weight: bold;
     font-size: 1.3rem;
+    display: none;
 }
 
 .Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Onglet{
@@ -137,6 +138,12 @@
 @media screen and (max-width: 1225px){
     .Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Onglet{
         display: none;
+    }
+    .Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Btn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
     }
     .Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Onglet.primary{
         display: flex;

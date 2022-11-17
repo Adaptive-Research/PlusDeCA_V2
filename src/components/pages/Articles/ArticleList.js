@@ -135,7 +135,7 @@ export default function ArticleList() {
 
     function ForceRenderArticle() {
         
-        console.log("ForceRenderArticle") ;
+        //console.log("ForceRenderArticle") ;
         setShowEditArticle(false) ;
 
         getUserArticles("userArticles",storedToken, RenderAfterLoad) ;
@@ -176,25 +176,28 @@ export default function ArticleList() {
             return articles.map((Ligne) => {
                 //console.log("Ligne.id: "+Ligne.id) ;
                 if  (TypeArticle === "Brouillon") {
-                    if (Ligne.isPublished === "0") 
+                    if (Ligne.iscurrent === "1" && Ligne.isValidated === "0" && Ligne.isPublished === "0") 
                         return <Col md={4}  key={Ligne.id}> 
                                     <CardArticle 
                                         Article={Ligne}
+                                        TypeArticle={TypeArticle}
                                         SendArticleData={SendArticleData}  
                                         ForceRenderArticle = {ForceRenderArticle}
                                     /> 
                                 </Col> ;
                 }
-                else {
-                    if (Ligne.isPublished === "1") 
+                else if(TypeArticle === "Valide"){
+                    if(Ligne.iscurrent === "1" && Ligne.isValidated === "1" && Ligne.isPublished === "0"){
                         return <Col md={4}  key={Ligne.id}> 
                                     <CardArticle 
                                         key={Ligne.id}
                                         Article={Ligne}
+                                        TypeArticle={TypeArticle}
                                         SendArticleData={SendArticleData}  
                                         ForceRenderArticle = {ForceRenderArticle}
                                     /> 
                                 </Col> ;
+                    }
                 }
             })
         }
@@ -265,6 +268,13 @@ export default function ArticleList() {
                                             </Tab>
 
 
+                                            <Tab eventKey="Valide" title="Valide">
+                                                <div className="tab-pane profiletab show">
+                                                    <Row className="row-cards ">
+                                                        {renderArticles("Valide")}
+                                                    </Row>
+                                                </div>
+                                            </Tab>
                                             <Tab eventKey="Publié" title="Publié">
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
