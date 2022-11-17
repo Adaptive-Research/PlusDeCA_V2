@@ -36,9 +36,9 @@ export default function CardInterview(props) {
                         src={require("../../../assets/images/media/19.jpg")}
                         alt="Card cap"
                     />
-                    <Card.Header>
+                    <Card.Header  style={{padding: '2rem'}}>
                         <Card.Title as="h5">{props.Interview.titre}</Card.Title>
-                        <Card.Body>
+                        <Card.Body style={{position: 'absolute', right: '10px'}}>
                             <button className='btn btn-primary'  onClick={() =>  EditInterview(props.Interview)}>
                                 <i className="fa fa-edit"></i>
                             </button>
@@ -58,9 +58,9 @@ export default function CardInterview(props) {
                         src={require("../../../assets/images/media/19.jpg")}
                         alt="Card cap"
                     />
-                    <Card.Header>
+                    <Card.Header style={{padding: '2rem'}}>
                         <Card.Title as="h5">{props.Interview.titre}</Card.Title>
-                        <Card.Body>
+                        <Card.Body style={{position: 'absolute', right: '10px'}}>
                             <button className='btn btn-primary' onClick={() =>  ShowInterview(props.Interview)}>
                                     <i className="fe fe-eye"></i>
                             </button>
@@ -78,9 +78,9 @@ export default function CardInterview(props) {
                         src={require("../../../assets/images/media/19.jpg")}
                         alt="Card cap"
                     />
-                    <Card.Header>
+                    <Card.Header style={{padding: '2rem'}}>
                         <Card.Title as="h5">{props.Interview.titre}</Card.Title>
-                        <Card.Body>
+                        <Card.Body style={{position: 'absolute', right: '10px'}}>
                             <button className='btn btn-primary' onClick={() =>  ShowInterview(props.Interview)}>
                                     <i className="fe fe-eye"></i>
                             </button>
