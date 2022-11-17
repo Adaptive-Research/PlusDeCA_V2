@@ -14,7 +14,7 @@ export const MENUITEMS = [
     },
 
     {
-        menutitle: "MES RENCONTRES",
+        menutitle: "MES EVENEMENTS",
         Items: [
             {
                 path: `${process.env.PUBLIC_URL}/components/FullCalendar`,
@@ -23,13 +23,7 @@ export const MENUITEMS = [
                 active: false,
                 title: "Mon planning",
             },
-            {
-                path: `${process.env.PUBLIC_URL}/BusinessCard`,
-                icon: "file-plus",
-                type: "link",
-                active: false,
-                title: "Saisir une carte de visite",
-            },
+           
             {
                 path: `${process.env.PUBLIC_URL}/CompteRendu`,
                 icon: "user-plus",
@@ -42,7 +36,7 @@ export const MENUITEMS = [
                 icon: "star",
                 type: "link",
                 active: false,
-                title: "Bilan des rencontres",
+                title: "Bilan des évènements",
             },
         ],
     },
