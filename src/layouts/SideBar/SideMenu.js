@@ -24,6 +24,13 @@ export const MENUITEMS = [
                 title: "Mon planning",
             },
             {
+                path: `${process.env.PUBLIC_URL}/BusinessCard`,
+                icon: "file-plus",
+                type: "link",
+                active: false,
+                title: "Saisir une carte de visite",
+            },
+            {
                 path: `${process.env.PUBLIC_URL}/CompteRendu`,
                 icon: "user-plus",
                 type: "link",
