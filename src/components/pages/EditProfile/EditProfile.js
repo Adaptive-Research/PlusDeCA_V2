@@ -2,12 +2,13 @@ import React , { useState } from "react";
 //import * as formelement from "../../../data/Form/formelement/formelement";
 //import * as editprofile from "../../../data/Pages/editprofile/editprofile";
 import {useNavigate} from "react-router";
-import {Col,Row,Card,Form,FormGroup} from "react-bootstrap";
+import {Col,Row,Card,Form,Button,FormGroup} from "react-bootstrap";
 
 import  { FindTranslation, getIDFromToken } from "../../../functions_Dan.js" ;
 
 
 import {getTranslations,getProfile,SaveProfile} from "../../../data/customlibs/api";
+import { Link } from "react-router-dom";
 
 
 export default function EditProfile(props) {
@@ -167,9 +168,8 @@ export default function EditProfile(props) {
       let ev = 0 ;
       if (emailVisible === true)
         ev = 1 ;
-
-
       SaveProfile(storedToken,prenom,nom,email,ev,telephone,tv,bio,bv) ;
+      navigate(`${process.env.PUBLIC_URL}/pages/profile`)
     } catch (e) {
       console.log(e);
     } finally {
@@ -184,7 +184,6 @@ export default function EditProfile(props) {
     setReloadInfos(true) ;
     navigate(-1);
   }
-
 
 
 
@@ -264,13 +263,12 @@ export default function EditProfile(props) {
             </Card.Body>
 
             <Card.Footer className="text-end">
-            <button onClick={handleSubmit} className="btn btn-success mt-1 me-2">
-                Save
-              </button>
-
-              <button onClick={handleCancel} className="btn btn-danger">
+            <Button onClick={handleCancel} variant="secondary" style={{marginRight: "15px"}}>
                 Cancel
-              </button>
+            </Button>
+            <Button onClick={handleSubmit} variant="primary">
+                    Save
+            </Button>
             </Card.Footer>
           </Card>
         </Col>
@@ -338,6 +336,7 @@ export default function EditProfile(props) {
 
             </Card.Body>
 
+            {/*
             <Card.Footer className="text-end">
 
               <button onClick={handleSubmit} className="btn btn-success mt-1 me-2">
@@ -349,6 +348,7 @@ export default function EditProfile(props) {
               </button>
 
             </Card.Footer>
+            */}
 
           </Card>
 

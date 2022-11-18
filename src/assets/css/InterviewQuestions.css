@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&family=Poppins&display=swap');
+::-webkit-scrollbar{
+    display: none;
+}
+
 .InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent,
 .InterviewQuestions .AnswerContainer .MultiStepForm .box,
 .InterviewQuestions .AnswerContainer .MultiStepForm,
@@ -54,9 +59,39 @@
     border-radius: 
     1.2rem;
 }
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .title{
+    text-transform: uppercase;
+    font-size: 15px;
+    font-family: 'Domine', serif;
+    color: indigo;
+    font-weight: bold;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .Interview-View-Mode{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: start;
+    width: 80%;
+    height: auto;
+    overflow-y: scroll;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .Interview-View-Mode .View-Question-Reponse{
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: justify;
+}
 
-
-
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .Interview-View-Mode .View-Question-Reponse .Question{
+    font-family: 'Domine', serif;
+    font-weight: bolder;
+}
+.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .Interview-View-Mode .View-Question-Reponse .Reponse{
+    font-family: 'Poppins', sans-serif;
+}
 /*
 
 .InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .Question_Btns_Container{
@@ -161,14 +196,18 @@
         align-items: center;
         text-align: center;
         width: 100%;
-        height: auto;
+        height: 100%;
     }
     .InterviewQuestions .AnswerContainer,
     .InterviewQuestions .InterviewQuestionsIMG{
         width: 85%;
         height: auto;
+        position: relative;
     }
     .InterviewQuestions .AnswerContainer{
         height: 300px !important;
+    }
+    .InterviewQuestions.View .InterviewQuestionsIMG{
+        display: none;
     }
 }

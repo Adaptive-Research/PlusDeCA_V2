@@ -1,5 +1,6 @@
 
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -1061,7 +1062,18 @@ async function getProfile(tok,id, UseInfoFromDatabase)
       console.log(`Error found: ${response.data}`);
     }
     else {
-      console.log("Profile Saved");
+        const profileDetails = {
+            Prenom:p,
+            Nom: n,
+            Email: e,
+            EmailVisible: ev,
+            Telephone: tel,
+            TelephoneVisible: telvis,
+            Bio: b,
+            BioVisible: bv
+        }
+        localStorage.setItem('profileDetails', JSON.stringify(profileDetails));
+        console.log("Profile Saved");
     }
   }
 

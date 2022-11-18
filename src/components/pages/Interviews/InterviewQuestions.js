@@ -2,6 +2,7 @@ import React from 'react'
 import "../../../assets/css/InterviewQuestions.css";
 import "../../../assets/css/style_Dan.css";
 import  InterviewImg  from "../../../assets/images/interviews/interview.png";
+import  InterviewImg2  from "../../../assets/images/interviews/Interview2.png";
 import { useState,useRef } from 'react';
 import Buttons from './Buttons';
 
@@ -136,7 +137,12 @@ export default function InterviewQuestions(props) {
     }
 
 
+/****** */
 
+const AllInterviewQuestions = JSON.parse(localStorage.getItem('interviewQuestions'));
+const AllInterviewAnswers = JSON.parse(localStorage.getItem('interviewAnswers'));
+
+/****** */
 
 
 
@@ -348,38 +354,66 @@ export default function InterviewQuestions(props) {
 
 
 
-
-
-
-
-    return (
-        <div className='InterviewQuestions'>
-            <div className='InterviewQuestionsIMG'>
-                <img src={InterviewImg} alt=''/>
-            </div> 
-            <div className='AnswerContainer'>
-                <div className='MultiStepForm'>
-                    <div className='box'>
-                            <div className='BoxContent'>
-                                <div className='QuestionContainer'>
-                                    <div className='QuestionContent'>
-                                        { RenderQuestionReponse() }
-                                    </div>
-                                </div>
-                            
-                                {
-                                    Questions.current.map((question)=>{
-                                        if (step < Questions.current.length) {
-                                            return <Buttons onNext={onNext} onBack={onBack}/>;
+    console.log("Le mode Edition");
+    console.log(props.Mode);
+    if(props.Mode == "Edit"){
+        return  <div className='InterviewQuestions'>
+                    <div className='InterviewQuestionsIMG'>
+                        <img src={InterviewImg} alt=''/>
+                    </div> 
+                    <div className='AnswerContainer'>
+                        <div className='MultiStepForm'>
+                            <div className='box'>
+                                    <div className='BoxContent'>
+                                        <div className='QuestionContainer'>
+                                            <div className='QuestionContent'>
+                                                {RenderQuestionReponse()}
+                                            </div>
+                                        </div>
+                                    
+                                        {
+                                            Questions.current.map((question)=>{
+                                                if (step < Questions.current.length) {
+                                                    return <Buttons onNext={onNext} onBack={onBack}/>;
+                                                }
+                                                else  return <Buttons onBack={onBack}/>;
+                                            })
                                         }
-                                        else  return <Buttons onBack={onBack}/>;
-                                    })
-                                }
+                                    </div>
                             </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    )
+    }else if(props.Mode =="Show_Only")
+    {
+        return  <div className='InterviewQuestions View'>
+                    <div className='InterviewQuestionsIMG'>
+                        <img src={InterviewImg2} alt=''/>
+                    </div> 
+                    <div className='AnswerContainer'>
+                        <div className='MultiStepForm'>
+                            <div className='box'>
+                                <div className='BoxContent'>
+                                    <h4 className='title'>Votre Interview</h4>
+                                    <div className='Interview-View-Mode'>
+                                        {AllInterviewQuestions.map((InterviewQuestion)=>{
+                                        for (let i = 0; i < AllInterviewAnswers.length; i++) {
+                                            const InterviewAnswer = AllInterviewAnswers[i];
+                                            if (InterviewAnswer.idQuestion == InterviewQuestion.idQuestion) {
+                                                return  <div className='View-Question-Reponse'>
+                                                            <h5 className='Question'>{InterviewQuestion.Question}</h5>
+                                                            <p className='Reponse'>{InterviewAnswer.Reponse}</p>
+                                                        </div>
+                                            }
+                                        }
+                                        })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
     
-}
+}}
+{/**  */}

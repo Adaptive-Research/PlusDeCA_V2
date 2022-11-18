@@ -60,8 +60,8 @@ export default function InterviewList() {
 
 
     // Les différentes fonctions permettant d'éditer les Interviews 
-    //const [modeEdit,setModeEdit]= useState("") ;
     const [id,setId] = useState("") ;
+    const [modeEdit,setModeEdit]= useState("") ;
 
 
 
@@ -77,17 +77,24 @@ export default function InterviewList() {
 
     
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
+    
     function SendInterviewData(ShowWindow, Interview) {
-
-        //setModeEdit("Edit") ;
         setId(Interview.idInterview) ;
         
-
         if (ShowWindow === "false")
             setShowEditInterview(false) ;
         else
             setShowEditInterview(true) ;
     }  
+    //Mode d'Edition de l'Interview
+    function EditMode(Mode){
+        if(Mode == "Edit"){
+            setModeEdit("Edit");
+        }else{
+            setModeEdit("Show_Only");
+        }
+    }
+
 
     //La fonction forceRender permettant de recharger automatiquement les données
     function ForceRenderInterview() {
@@ -107,6 +114,7 @@ export default function InterviewList() {
     const interviews = JSON.parse(localStorage.getItem("userInterviews"));
         if (interviews !== null)
         {
+            
             //console.log("interviews") ;
             //console.log(interviews);
 
@@ -119,6 +127,7 @@ export default function InterviewList() {
                                         TypeInterview={TypeInterview}
                                         SendInterviewData={SendInterviewData}  
                                         ForceRenderInterview = {ForceRenderInterview}
+                                        EditMode={EditMode}
                                     /> 
                                 </Col> ;
                     }
@@ -130,6 +139,7 @@ export default function InterviewList() {
                                         TypeInterview={TypeInterview}
                                         SendInterviewData={SendInterviewData}  
                                         ForceRenderInterview = {ForceRenderInterview}
+                                        EditMode={EditMode}
                                     /> 
                                 </Col> ;
                 }else if(TypeInterview === 'Public'){
@@ -140,6 +150,7 @@ export default function InterviewList() {
                                         TypeInterview={TypeInterview}
                                         SendInterviewData={SendInterviewData}  
                                         ForceRenderInterview = {ForceRenderInterview}
+                                        EditMode={EditMode}
                                     /> 
                                 </Col> ;
                 }
@@ -170,7 +181,8 @@ export default function InterviewList() {
                                             show={showEditInterview} 
                                             SendCloseMessage={ModalEditInterviewClose}  
                                             ForceRenderInterview ={ForceRenderInterview }
-                                            //ModeEdit={modeEdit}
+                                            EditMode={EditMode}
+                                            Mode={modeEdit}
                                             idInterview={id}
                                     />
 

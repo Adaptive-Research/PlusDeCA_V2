@@ -11,6 +11,7 @@ import TabFriends from "./TabFriends" ;
 import TabFollowers from "./TabFollowers" ;
 import TabCompany from "./TabCompany/TabCompany" ;
 import {getTranslations} from "../../../data/customlibs/api";
+import {getProfile} from "../../../data/customlibs/api";
 
 
 
@@ -44,8 +45,14 @@ export default function Profile(props) {
 
 
 
+  // pour le reload des infos
+  //const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
 
+    const UserProfile = JSON.parse(localStorage.getItem("profileDetails"));
+
+    console.log("Profile Utilisateur");
+    console.log(UserProfile);
 
 
     function TranslateAll(url, Page,VL) 
@@ -63,6 +70,7 @@ export default function Profile(props) {
     }
     
 
+    
 
 
     // recuperation des informations au depart
@@ -110,7 +118,8 @@ export default function Profile(props) {
                             </Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <div className="ms-auto pageheader-btn">
+                    {/*
+                     <div className="ms-auto pageheader-btn">
                         <Link to="#" className="btn btn-primary btn-icon text-white me-3">
                             <span>
                             <i className="fe fe-plus"></i>&nbsp;
@@ -124,12 +133,13 @@ export default function Profile(props) {
                             Export
                         </Link>
                     </div>
+                    */}
                 </div>
 
                 <Row id="user-profile">
                     <Col lg={12}>
                         <Card className=" bg-transparent shadow-none border-0">
-                            <CardBodyProfile />
+                            <CardBodyProfile UserProfile={UserProfile}/>
 
 
                             <div className="border-top ">
@@ -147,7 +157,7 @@ export default function Profile(props) {
                                                 <Tab eventKey="Profile" title={profile}>
                                                     <div className="tab-pane profiletab show">
                                                         <div id="profile-log-switch">
-                                                            <CardPersonalInformation />
+                                                            <CardPersonalInformation UserProfile={UserProfile}/>
                                                         </div>
                                                     </div>
                                                 </Tab>

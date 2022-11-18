@@ -2,6 +2,10 @@ import React, {useState,useRef} from "react";
 import {  Row, Button, Modal} from "react-bootstrap";
 import InterviewQuestions  from "./InterviewQuestions";
 import {getInterviewAnswers,getInterviewQuestions,SaveAnswer} from "../../../data/customlibs/api";
+import "../../../assets/css/InterviewQuestions.css";
+
+
+
 
 export default function ModalEditInterview(props) {
 
@@ -144,15 +148,14 @@ export default function ModalEditInterview(props) {
     }
 
 
-
-    return (
-        <div>
+    if(props.Mode == 'Edit'){
+        return <div>
 
             <Modal size="xl" show={isModalOpen}>
 
                 <Modal.Body>
                 <Row className="mb-4">
-                    <InterviewQuestions IsLoaded={isLoaded} SendAnswers={SendAnswers}/>
+                    <InterviewQuestions IsLoaded={isLoaded} SendAnswers={SendAnswers} Mode={props.Mode}/>
                 </Row>
                 </Modal.Body>
 
@@ -171,5 +174,26 @@ export default function ModalEditInterview(props) {
             </Modal>
 
         </div>
-    );
+    }
+    if(props.Mode == 'Show_Only'){
+        return <div>
+
+            <Modal size="xl" show={isModalOpen} className='Modal-View'>
+
+                <Modal.Body>
+                <Row className="mb-4 Modal-R">
+                    <InterviewQuestions IsLoaded={isLoaded} SendAnswers={SendAnswers} Mode={props.Mode}/>
+                </Row>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCancel}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+
+            </Modal>
+
+        </div>
+    }
 }

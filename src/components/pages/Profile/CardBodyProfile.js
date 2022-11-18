@@ -16,7 +16,7 @@ export default function CardBodyProfile(props){
                         <img className="" src={user8} alt="img"/>
                     </div>
                     <div className="user-wrap">
-                        <h4>Elizabeth Dyer</h4>
+                        <h4>{props.UserProfile.Prenom} {props.UserProfile.Nom}</h4>
                         <h6 className="text-muted mb-3">
                             Member Since: November 2017
                         </h6>
