@@ -2,14 +2,30 @@ import React, { Fragment, useState, useEffect } from "react";
 import { MENUITEMS } from "./SideMenu";
 import { Link, NavLink } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars";
+
+
+
+
 const Sidebar = () => {
   const [mainmenu, setMainMenu] = useState(MENUITEMS);
+  
+  
   useEffect(() => {
-    const currentUrl = window.location.pathname.slice(0, -1);
+    let chemin =  window.location.pathname ;
+    let LastChar = chemin.charAt(chemin.length-1) ;
+
+    let currentUrl = chemin ;
+    if (LastChar === "\\")
+       currentUrl = chemin.slice(0,-1) ;
+
+    //console.log("currentUrl") ;
+    //console.log(currentUrl) ;
     MENUITEMS.map((items) => {
+      
       items.Items.filter((Items) => {
         if (Items.path === currentUrl) setNavActive(Items);
         if (!Items.children) return false;
+        
         Items.children.filter((subItems) => {
           if (subItems.path === currentUrl) setNavActive(subItems);
           if (!subItems.children) return false;
@@ -28,6 +44,8 @@ const Sidebar = () => {
       return items;
     });
   }, []);
+
+
   const setNavActive = (item) => {
     MENUITEMS.map((menuItems) => {
       menuItems.Items.filter((Items) => {
@@ -55,6 +73,8 @@ const Sidebar = () => {
     item.active = !item.active;
     setMainMenu({ mainmenu: MENUITEMS });
   };
+
+
 
   const toggletNavActive = (item) => {
     if (window.innerWidth <= 991) {

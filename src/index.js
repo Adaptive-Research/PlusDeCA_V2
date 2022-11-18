@@ -103,6 +103,9 @@ const UnderConstruction = React.lazy(() => import("./components/pages/UnderConst
 const ArticleList = React.lazy(() => import("./components/pages/Articles/ArticleList"));
 
 
+//Contact
+const ContactList = React.lazy(() => import("./components/pages/Contacts/ContactList"));
+
 
 //Interview
 const InterviewList = React.lazy(() => import("./components/pages/Interviews/InterviewList"));
@@ -604,6 +607,10 @@ const Root = () => {
                                     element={<ArticleList/>}
                                 />
 
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/MesContacts`}
+                                    element={<ContactList/>}
+                                />
 
 
                                 <Route
