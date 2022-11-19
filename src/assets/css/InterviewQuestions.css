@@ -59,6 +59,8 @@
     border-radius: 
     1.2rem;
 }
+
+
 .InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .title{
     text-transform: uppercase;
     font-size: 15px;
@@ -66,7 +68,9 @@
     color: indigo;
     font-weight: bold;
 }
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .Interview-View-Mode{
+
+
+.Interview-View-Mode{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -76,7 +80,7 @@
     height: auto;
     overflow-y: scroll;
 }
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .Interview-View-Mode .View-Question-Reponse{
+.Interview-View-Mode .View-Question-Reponse{
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
@@ -85,47 +89,19 @@
     text-align: justify;
 }
 
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .Interview-View-Mode .View-Question-Reponse .Question{
+.Interview-View-Mode .View-Question-Reponse .Question{
     font-family: 'Domine', serif;
-    font-weight: bolder;
+    font-size: 17px;
+    font-weight: bold;
 }
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .Interview-View-Mode .View-Question-Reponse .Reponse{
+
+.Interview-View-Mode .View-Question-Reponse .Reponse{
     font-family: 'Poppins', sans-serif;
 }
-/*
 
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .Question_Btns_Container{
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    bottom: 20px;
-    width: 100%;
-    height: auto;
-}
-
-
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .Question_Btns_Container button{
-  border: none;
-  outline: none;
-  padding: 0.88rem 1.5rem;
-  background: blue;
-  border-radius: 0.5rem;
-  color: #fff;
-}
-
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .Question_Btns_Container button.NextBtn{
-    background: #088340;
-}
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .Question_Btns_Container button.BackBtn{
-    margin-right: 20px;
-}
-
-*/
-
-
-
+.scroll{
+    overflow: scroll;
+    float: left; }
 
 
 

@@ -89,42 +89,4 @@ export default function CardArticle(props) {
     }
     
 
-
-
-
-
-
-
-    /* {/*
-     <Link
-     to={`${process.env.PUBLIC_URL}/pages/propsDetail`}
-     className="float-end">
-     Read more <i
-     className="fa fa-angle-double-right"></i>
- </Link>
- }
- 
-            <Card key={props.Article.id}>
-                <img
-                    className="card-img-top br-tr-7 br-tl-7"
-                    src={require("../../../assets/images/media/19.jpg")}
-                    alt="Card cap"
-                />
-                <Card.Header>
-                    <Card.Title as="h5"> {props.Article.Article_Title} </Card.Title>
-                </Card.Header>
-                <Card.Body>
-                    <Card.Text>
-                        {props.Article.Article_Text.length > 100 ? props.Article.Article_Text.substring(0, 100) + "..." : props.Article.Article_Text}
-                    </Card.Text>
-                    <button className='btn btn-primary' onClick={() => EditArticle(props.Article)}>
-                        <i className="fa fa-edit"></i>
-                    </button>
-                    <button className='m-2 btn btn-danger' onClick={() => DeleteArticle(storedToken, props.Article.idAncestor,props.ForceRenderArticle)}>
-                        <i className="fa fa-trash"></i>
-                    </button>
-                </Card.Body>
-            </Card>
- */
-
 }

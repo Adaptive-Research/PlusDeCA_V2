@@ -14,7 +14,7 @@ export default function CardInterview(props) {
     function EditInterview(Interview) {
         if (props.SendInterviewData !== null)
             props.SendInterviewData(true, Interview) ;
-            props.EditMode("Edit");
+        props.EditMode("Edit");
     }
 
 
@@ -25,7 +25,7 @@ export default function CardInterview(props) {
     function ShowInterview(Interview) {
         if (props.SendInterviewData !== null)
             props.SendInterviewData(true, Interview) ;
-            props.EditMode("Show_Only");
+        props.EditMode("Show_Only");
 
     }
 

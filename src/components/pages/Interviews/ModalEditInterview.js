@@ -1,6 +1,7 @@
 import React, {useState,useRef} from "react";
 import {  Row, Button, Modal} from "react-bootstrap";
 import InterviewQuestions  from "./InterviewQuestions";
+import InterviewArticle  from "./InterviewArticle";
 import {getInterviewAnswers,getInterviewQuestions,SaveAnswer} from "../../../data/customlibs/api";
 import "../../../assets/css/InterviewQuestions.css";
 
@@ -21,12 +22,6 @@ export default function ModalEditInterview(props) {
     const [isModalOpen,setIsModalOpen] = useState(false) ;
 
     
-    // pour le Rerender du composant InterviewQuestions
-    const [isLoaded,setIsLoaded] = useState(false) ;
-    
-    // pour eviter de reloader les infos en permanence
-    const [reloadInfos, setReloadInfos] = useState(true) ;
-
 
     // pour le ForceRender
     const downloaded_InterviewQuestions = useRef(false) ;
@@ -34,11 +29,9 @@ export default function ModalEditInterview(props) {
 
 
     
-      
-
 
     function RenderAfterLoad(variable) {
-        //console.log("RenderAfterLoad") ;
+        console.log("RenderAfterLoad: "+variable) ;
         if (variable === "interviewQuestions")
             downloaded_InterviewQuestions.current = true ;
 
@@ -48,47 +41,43 @@ export default function ModalEditInterview(props) {
 
         // quand tout a ete charge, on peut envoyer l'info au composant InterviewQuestions
         if (downloaded_InterviewQuestions.current === true &&  downloaded_InterviewAnswers.current === true)
-            setIsLoaded(true) ; 
+        {
+            setIsModalOpen(props.show) ;
+            setLastIsModalOpen(props.show) ;
+            return Render() ;
+        }
     
     }
     
 
 
-    // pour les Answers
-    const Answers = useRef([]) ;
     
-
-
-  // recuperation des informations au depart
-  if (props.show === true)
-  {
-    if (reloadInfos === true)
-    {
-      //console.log("props.show === true") ;
-      getInterviewQuestions("interviewQuestions",storedToken,props.idInterview,RenderAfterLoad) ;
-      getInterviewAnswers("interviewAnswers",storedToken,props.idInterview,RenderAfterLoad) ;
-      setReloadInfos(false) ;
-    }
-
-  }
-
-
-    
-  
-
-
-
 
 
     if (props.show !== lastIsModalOpen)
     {
-        setIsModalOpen(props.show) ;
-        setLastIsModalOpen(props.show) ;
-        /*
         if (props.show === true)
-            setReloadInfos(true) ;
-        */
+        {
+            downloaded_InterviewQuestions.current = false ;
+            downloaded_InterviewAnswers.current = false ;
+
+            getInterviewQuestions("interviewQuestions",storedToken,props.idInterview,RenderAfterLoad) ;
+            getInterviewAnswers("interviewAnswers",storedToken,props.idInterview,RenderAfterLoad) ;
+        }
+        else
+        {
+            setIsModalOpen(props.show) ;
+            setLastIsModalOpen(props.show) ;
+        }
     }
+
+
+  
+
+
+
+    // pour les Answers
+    const Answers = useRef([]) ;
 
 
 
@@ -118,14 +107,15 @@ export default function ModalEditInterview(props) {
             srep = srep.replace("'","''") ;
             SaveAnswer(storedToken, props.idInterview, rep.idQuestion, srep ) ;
         }
-        setIsLoaded(false) ;
-        setReloadInfos(true) ;
+
+        downloaded_InterviewQuestions.current = false ;
+        downloaded_InterviewAnswers.current = false ;
+        getInterviewQuestions("interviewQuestions",storedToken,props.idInterview,RenderAfterLoad) ;
+        getInterviewAnswers("interviewAnswers",storedToken,props.idInterview,RenderAfterLoad) ;
+
         if (props.ForceRenderInterview !== null)
             props.ForceRenderInterview() ;
     }
-
-
-
 
 
 
@@ -148,52 +138,59 @@ export default function ModalEditInterview(props) {
     }
 
 
-    if(props.Mode == 'Edit'){
-        return <div>
 
-            <Modal size="xl" show={isModalOpen}>
+    function Render() 
+    {
+        //console.log("Render()") ;
 
-                <Modal.Body>
-                <Row className="mb-4">
-                    <InterviewQuestions IsLoaded={isLoaded} SendAnswers={SendAnswers} Mode={props.Mode}/>
-                </Row>
-                </Modal.Body>
+        if(props.Mode === 'Edit'){
+            return <div>
 
-                <Modal.Footer>
+                <Modal size="xl" show={isModalOpen}>
 
-                    <Button variant="secondary" onClick={handleCancel}>
-                        Cancel
-                    </Button>
+                    <Modal.Body>
+                    <Row className="mb-4">
+                        <InterviewQuestions SendAnswers={SendAnswers} />
+                    </Row>
+                    </Modal.Body>
 
-                    <Button variant="primary" onClick={handleSave}>
-                        Save
-                    </Button>
+                    <Modal.Footer>
 
-                </Modal.Footer>
+                        <Button variant="secondary" onClick={handleCancel}>
+                            Cancel
+                        </Button>
 
-            </Modal>
+                        <Button variant="primary" onClick={handleSave}>
+                            Save
+                        </Button>
 
-        </div>
+                    </Modal.Footer>
+
+                </Modal>
+
+            </div>
+        }
+        else if(props.Mode === 'Show_Only'){
+            return <div>
+
+                <Modal size="xl" show={isModalOpen} className='Modal-View'>
+
+                    <Modal.Body>
+                        <InterviewArticle />
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCancel}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+
+                </Modal>
+
+            </div>
+        }
     }
-    if(props.Mode == 'Show_Only'){
-        return <div>
 
-            <Modal size="xl" show={isModalOpen} className='Modal-View'>
 
-                <Modal.Body>
-                <Row className="mb-4 Modal-R">
-                    <InterviewQuestions IsLoaded={isLoaded} SendAnswers={SendAnswers} Mode={props.Mode}/>
-                </Row>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCancel}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-
-            </Modal>
-
-        </div>
-    }
+    return Render() ;
 }

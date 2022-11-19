@@ -5,12 +5,13 @@ import  InterviewImg  from "../../../assets/images/interviews/interview.png";
 import  InterviewImg2  from "../../../assets/images/interviews/Interview2.png";
 import { useState,useRef } from 'react';
 import Buttons from './Buttons';
+import {createArticle} from "../../../data/customlibs/utils";
 
 
 
 
 export default function InterviewQuestions(props) {
-    //console.log("InterviewQuestions");
+    console.log("InterviewQuestions");
 
    
 
@@ -19,6 +20,7 @@ export default function InterviewQuestions(props) {
     // il y a 3 types de champs de reponse (un inputText, un textarea, un select) 
     const [reponseInput,setReponseInput] = useState("") ;
     const [selectInput,setSelectInput] = useState("-1") ;
+    const reponseSelect = useRef("") ;
     const [text, setText] = useState("") ;
 
     const Questions = useRef([]) ;
@@ -28,38 +30,44 @@ export default function InterviewQuestions(props) {
 
     const [step, setStep] = useState(0); // contient l'index de la question en cours dans le tableau de questions
   
-     // pour le reload des infos
-     const [reloadInfos, setReloadInfos] = useState(true) ;
+    // pour le reload des infos
+    const [reloadInfos, setReloadInfos] = useState(true) ;
 
 
-    if (props.IsLoaded === true)
+
+
+    const Texte = useRef("") ;
+
+
+    if (reloadInfos === true)
     {
-        if (reloadInfos === true)
-        {
-            Questions.current = JSON.parse(localStorage.getItem("interviewQuestions"));
-            Answers.current = JSON.parse(localStorage.getItem("interviewAnswers"));
+        Questions.current = JSON.parse(localStorage.getItem("interviewQuestions"));
+        Answers.current = JSON.parse(localStorage.getItem("interviewAnswers"));
 
-            if (Questions.current === null)
-                Questions.current = [] ;
+        console.log("reloadInfos === true");
+        console.log("Questions");
+        console.log(Questions.current);
+        console.log("Answers");
+        console.log(Answers.current);
 
-            if (Answers.current === null)
-                Answers.current = [] ;
+        if (Questions.current === null)
+            Questions.current = [] ;
 
-            if (Questions.current !== null)    
-                SetReponse(0) ;
+        if (Answers.current === null)
+            Answers.current = [] ;
 
-            setReloadInfos(false) ;
-        }
-
+        if (Questions.current !== null)    
+            SetReponse(0) ;
+        
+        
+        setReloadInfos(false) ;
     }
 
 
-    /*
-    console.log("Questions");
-    console.log(Questions.current);
-    console.log("Answers");
-    console.log(Answers.current);
-    */
+
+    
+   
+    
 
     function RenderSelect(idQuestion) {
         let OptionsList = Questions.current.map( (question)=>{
@@ -70,6 +78,9 @@ export default function InterviewQuestions(props) {
         }) ;
         return OptionsList ;
     }
+
+
+
 
 
     function RenderQuestionReponse() {
@@ -137,14 +148,6 @@ export default function InterviewQuestions(props) {
     }
 
 
-/****** */
-
-const AllInterviewQuestions = JSON.parse(localStorage.getItem('interviewQuestions'));
-const AllInterviewAnswers = JSON.parse(localStorage.getItem('interviewAnswers'));
-
-/****** */
-
-
 
 
 
@@ -183,6 +186,7 @@ const AllInterviewAnswers = JSON.parse(localStorage.getItem('interviewAnswers'))
     
 
 
+
     function RemoveReponse(idQuestion){
         for (let i = 0 ; i < Answers.current.length; i++) {
             if (Answers.current[i].idQuestion === idQuestion)
@@ -192,7 +196,8 @@ const AllInterviewAnswers = JSON.parse(localStorage.getItem('interviewAnswers'))
 
 
     function AddReponse() {
-        //console.log("AddReponse") ;
+
+        console.log("AddReponse") ;
         let rep = "" ;
         if (InterviewQuestion.idSelectOption === "0")
         {
@@ -216,11 +221,9 @@ const AllInterviewAnswers = JSON.parse(localStorage.getItem('interviewAnswers'))
             Answers.current.push(rep) ;
         }
 
-        //console.log("Answers.current") ;
-        //console.log(Answers.current) ;
-
         if (props.SendAnswers !== null)
             props.SendAnswers(Answers) ;
+        
     }
 
 
@@ -229,6 +232,8 @@ const AllInterviewAnswers = JSON.parse(localStorage.getItem('interviewAnswers'))
     
 
     function FindReponse(idQuestion) {
+        //console.log("FindReponse:" + idQuestion) ;
+        //console.log(Answers) ;
         for (let i = 0 ; i < Answers.current.length; i++) {
             if (Answers.current[i].idQuestion === idQuestion)
                 return Answers.current[i].Reponse ;
@@ -240,9 +245,17 @@ const AllInterviewAnswers = JSON.parse(localStorage.getItem('interviewAnswers'))
     function SetReponse(s) {
         //console.log("SetReponse: "+s) ;
 
+        let rep = "" ;
+
+        // on remet a zero tous les champs des reponse
+        setReponseInput("") ;
+        setText("") ;
+        setSelectInput("-1") ;
+
+
         if (s < Questions.current.length)
         {
-            let rep = FindReponse(Questions.current[s].idQuestion) ;
+            rep = FindReponse(Questions.current[s].idQuestion) ;
 
             if ( Questions.current[s].idSelectOption === "0")
             {
@@ -254,15 +267,18 @@ const AllInterviewAnswers = JSON.parse(localStorage.getItem('interviewAnswers'))
                 }
             }
             else {
-                if (rep !== "")
+                if (rep !== "") {
                     setSelectInput(rep) ;
-                else
+                    //console.log("reponseSelect.current") ;
+                    //console.log(reponseSelect.current) ;
+                }
+                else {
                     setSelectInput(Questions.current[s].idSelectOption) ;
+                    //console.log("reponseSelect.current") ;
+                    //console.log(reponseSelect.current) ;
+                }
             }
         }
-        //console.log("reponseInput: " + reponseInput) ;
-        //console.log("text: "+text) ;
-        //console.log("selectInput: "+selectInput)
     }
 
 
@@ -273,7 +289,7 @@ const AllInterviewAnswers = JSON.parse(localStorage.getItem('interviewAnswers'))
 
 
     const onNext = () =>{
-        //console.log("onNext") ;
+        console.log("onNext") ;
 
 
         AddReponse() ;
@@ -354,66 +370,31 @@ const AllInterviewAnswers = JSON.parse(localStorage.getItem('interviewAnswers'))
 
 
 
-    console.log("Le mode Edition");
-    console.log(props.Mode);
-    if(props.Mode == "Edit"){
-        return  <div className='InterviewQuestions'>
-                    <div className='InterviewQuestionsIMG'>
-                        <img src={InterviewImg} alt=''/>
-                    </div> 
-                    <div className='AnswerContainer'>
-                        <div className='MultiStepForm'>
-                            <div className='box'>
-                                    <div className='BoxContent'>
-                                        <div className='QuestionContainer'>
-                                            <div className='QuestionContent'>
-                                                {RenderQuestionReponse()}
-                                            </div>
-                                        </div>
-                                    
-                                        {
-                                            Questions.current.map((question)=>{
-                                                if (step < Questions.current.length) {
-                                                    return <Buttons onNext={onNext} onBack={onBack}/>;
-                                                }
-                                                else  return <Buttons onBack={onBack}/>;
-                                            })
-                                        }
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    }else if(props.Mode =="Show_Only")
-    {
-        return  <div className='InterviewQuestions View'>
-                    <div className='InterviewQuestionsIMG'>
-                        <img src={InterviewImg2} alt=''/>
-                    </div> 
-                    <div className='AnswerContainer'>
-                        <div className='MultiStepForm'>
-                            <div className='box'>
+    return  <div className='InterviewQuestions'>
+                <div className='InterviewQuestionsIMG'>
+                    <img src={InterviewImg} alt=''/>
+                </div> 
+                <div className='AnswerContainer'>
+                    <div className='MultiStepForm'>
+                        <div className='box'>
                                 <div className='BoxContent'>
-                                    <h4 className='title'>Votre Interview</h4>
-                                    <div className='Interview-View-Mode'>
-                                        {AllInterviewQuestions.map((InterviewQuestion)=>{
-                                        for (let i = 0; i < AllInterviewAnswers.length; i++) {
-                                            const InterviewAnswer = AllInterviewAnswers[i];
-                                            if (InterviewAnswer.idQuestion == InterviewQuestion.idQuestion) {
-                                                return  <div className='View-Question-Reponse'>
-                                                            <h5 className='Question'>{InterviewQuestion.Question}</h5>
-                                                            <p className='Reponse'>{InterviewAnswer.Reponse}</p>
-                                                        </div>
-                                            }
-                                        }
-                                        })
-                                        }
+                                    <div className='QuestionContainer'>
+                                        <div className='QuestionContent'>
+                                            {RenderQuestionReponse()}
+                                        </div>
                                     </div>
+                                
+                                    {
+                                        Questions.current.map((question)=>{
+                                            if (step < Questions.current.length) {
+                                                return <Buttons onNext={onNext} onBack={onBack}/>;
+                                            }
+                                            else  return <Buttons onBack={onBack}/>;
+                                        })
+                                    }
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-    
-}}
-{/**  */}
+            </div>
+}

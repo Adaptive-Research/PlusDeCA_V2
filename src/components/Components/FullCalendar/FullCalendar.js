@@ -232,25 +232,6 @@ export default function FullCalendars() {
     setData("") ;
 
 
-
-
-
-
-
-    /*
-    let calendarApi = selectInfo.view.calendar;
-    calendarApi.unselect();
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-      });
-    }
-    */
   };
 
 

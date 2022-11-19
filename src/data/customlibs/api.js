@@ -1,6 +1,5 @@
 
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 
 
@@ -677,6 +676,8 @@ async function InvalidateArticle (tok, idArticle, ForceRenderArticle) {
 
 async function getUserInterviews(variable,tok,ForceRender) {
     console.log("getUserInterviews") ;
+
+    localStorage.removeItem(variable);
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_INTERVIEWS_FOR_USER_URL;
     const response = await axios.post(url, {
@@ -701,9 +702,6 @@ async function getUserInterviews(variable,tok,ForceRender) {
         });
         localStorage.setItem(variable, JSON.stringify(res));
     }
-    else{
-        localStorage.removeItem(variable);
-    }
     ForceRender(variable) ;
 }
 
@@ -713,6 +711,8 @@ async function getUserInterviews(variable,tok,ForceRender) {
 
 async function getInterviewQuestions(variable,tok,idInter, ForceRender) {
     console.log(" getInterviewQuestions") ;
+    localStorage.removeItem(variable);
+
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_QUESTIONS_FOR_INTERVIEW_URL;
     const response = await axios.post(url, {
@@ -745,6 +745,11 @@ async function getInterviewQuestions(variable,tok,idInter, ForceRender) {
 
 async function getInterviewAnswers(variable,tok,idInter, ForceRender) {
     console.log(" getInterviewAnswers") ;
+    console.log("token: ",tok) ;
+    console.log("idInter: ",idInter) ; 
+
+    localStorage.removeItem(variable);
+
     const url =  process.env.REACT_APP_API_SHOW_ANSWERS_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -757,7 +762,8 @@ async function getInterviewAnswers(variable,tok,idInter, ForceRender) {
         }
     });
 
-    //console.log(response.data) ;
+    console.log("response.data") ;
+    console.log(response.data) ;
 
     const data =  getDataFromResponse(response) ;
     let pos = data.indexOf("ERROR") ;
@@ -767,7 +773,10 @@ async function getInterviewAnswers(variable,tok,idInter, ForceRender) {
         data.forEach((element) => {
             res.push(element);
         });
-        localStorage.setItem(variable, JSON.stringify(res));
+        let s = JSON.stringify(res) ;
+        //console.log("s") ;
+        //console.log(s) ;
+        localStorage.setItem(variable,s );
     }
     ForceRender(variable) ;
 }   
@@ -799,7 +808,7 @@ async function SaveAnswer (tok, idInter, idQ, rep ) {
 
     if (response.data.includes("ERROR:")) 
         console.log(`Error found: ${response.data}`);
-        else 
+    else 
         console.log("Answer saved");
 }
 

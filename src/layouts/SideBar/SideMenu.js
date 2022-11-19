@@ -25,14 +25,7 @@ export const MENUITEMS = [
             },
            
             {
-                path: `${process.env.PUBLIC_URL}/CompteRendu`,
-                icon: "user-plus",
-                type: "link",
-                active: false,
-                title: "Ajouter un compte rendu",
-            },
-            {
-                path: `${process.env.PUBLIC_URL}/Bilan`,
+                path: `${process.env.PUBLIC_URL}/dashboard`,
                 icon: "star",
                 type: "link",
                 active: false,
@@ -58,14 +51,6 @@ export const MENUITEMS = [
                 active: false,
                 title: "Mes mails",
             },
-            {
-                path: `${process.env.PUBLIC_URL}/dashboard`,
-                icon: "activity",
-                type: "link",
-                active: true,
-                title: "Mon activité",
-            },
-
 
         ],
     },

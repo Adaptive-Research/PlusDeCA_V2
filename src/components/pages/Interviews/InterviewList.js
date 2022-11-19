@@ -9,13 +9,8 @@ import ModalEditInterview from "./ModalEditInterview.js";
 
 
 
-
-
-
-
 export default function InterviewList() {
 
-    //console.log("InterviewList") ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
@@ -27,17 +22,10 @@ export default function InterviewList() {
     const [showEditInterview, setShowEditInterview] = useState(false) ;
 
 
-    const isMounted = useRef(false) ;
-
-    useEffect(()=>{
-        isMounted.current = true ; 
-    })
-
 
 
     // le callback qui est appele apres le chargement des donnees
     function RenderAfterLoad(variable) {
-        if (isMounted.current === true)
             setCompteur(compteur+1) ; 
     }
     
@@ -86,9 +74,11 @@ export default function InterviewList() {
         else
             setShowEditInterview(true) ;
     }  
+
+
     //Mode d'Edition de l'Interview
     function EditMode(Mode){
-        if(Mode == "Edit"){
+        if(Mode === "Edit"){
             setModeEdit("Edit");
         }else{
             setModeEdit("Show_Only");
@@ -96,13 +86,15 @@ export default function InterviewList() {
     }
 
 
+
+
+
+
     //La fonction forceRender permettant de recharger automatiquement les données
     function ForceRenderInterview() {
-            
-        //console.log("ForceRenderInterview") ;
         setShowEditInterview(false) ;
-
-        getUserInterviews("userInterviews",storedToken, RenderAfterLoad) ;
+        // la fonction ci-dessous est obligatoire pour recharger quand on a valide ou devalide une interview
+        getUserInterviews("userInterviews",storedToken,RenderAfterLoad) ;
     }
 
 
@@ -178,6 +170,7 @@ export default function InterviewList() {
                                     <div className="tabs-menu1 ">
 
                                     <ModalEditInterview 
+                                            Compteur={compteur}
                                             show={showEditInterview} 
                                             SendCloseMessage={ModalEditInterviewClose}  
                                             ForceRenderInterview ={ForceRenderInterview }

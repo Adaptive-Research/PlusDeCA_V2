@@ -488,7 +488,10 @@ export function ModalEditEvent(props) {
 
                   <label className="add-hspace-15"> - </label>
 
-                  <select id="endHour" className="form-control-Dan add-hspace-15" onChange={(e) =>  eventEndHour.current = e.target.value }>
+                  <select id="endHour" className="form-control-Dan add-hspace-15" onChange={(e) => { 
+                    eventEndHour.current = e.target.value ; 
+                    console.log("change endHour") ;
+                  } }>
                     <option value="0">0h</option>
                     <option value="1">1h</option>
                     <option value="2">2h</option>
