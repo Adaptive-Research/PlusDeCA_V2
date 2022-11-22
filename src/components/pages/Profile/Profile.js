@@ -42,6 +42,8 @@ export default function Profile(props) {
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
 
+    const [userProfile,setUserProfile] = useState([]) ;
+
 
 
 
@@ -49,10 +51,8 @@ export default function Profile(props) {
   //const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
 
-    const UserProfile = JSON.parse(localStorage.getItem("profileDetails"));
+ 
 
-    console.log("Profile Utilisateur");
-    console.log(UserProfile);
 
 
     function TranslateAll(url, Page,VL) 
@@ -70,12 +70,27 @@ export default function Profile(props) {
     }
     
 
-    
+
+
+
+
+    function RenderAfterLoad(response){
+        console.log("RenderAfterLoad") ;
+        setUserProfile(JSON.parse(localStorage.getItem("profileDetails")));
+        console.log("Profil Utilisateur");
+        console.log(userProfile);
+    }
+
+
 
 
     // recuperation des informations au depart
     if (reloadInfos === true)
     {
+       
+        getProfile(storedToken,idUser, RenderAfterLoad) ;
+     
+
         let k = localStorage.getItem('key_Profile') ;
         if (k != null)
             setKey(k) ;
@@ -139,7 +154,7 @@ export default function Profile(props) {
                 <Row id="user-profile">
                     <Col lg={12}>
                         <Card className=" bg-transparent shadow-none border-0">
-                            <CardBodyProfile UserProfile={UserProfile}/>
+                            <CardBodyProfile UserProfile={userProfile}/>
 
 
                             <div className="border-top ">
@@ -157,7 +172,7 @@ export default function Profile(props) {
                                                 <Tab eventKey="Profile" title={profile}>
                                                     <div className="tab-pane profiletab show">
                                                         <div id="profile-log-switch">
-                                                            <CardPersonalInformation UserProfile={UserProfile}/>
+                                                            <CardPersonalInformation UserProfile={userProfile}/>
                                                         </div>
                                                     </div>
                                                 </Tab>

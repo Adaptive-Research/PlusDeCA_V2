@@ -1025,12 +1025,12 @@ async function DeleteEvent(tok,idEvent,SendCloseMessage,ForceRender ) {
  ****************************************************************************************************************************************************/
 
 
-async function getProfile(tok,id, UseInfoFromDatabase)
+async function getProfile(tok,id, ForceRender)
   {
-    console.log("getProfile") ;
+    console.log("getProfile: ", id) ;
 
     const url = process.env.REACT_APP_API_SHOW_INFOS_UTILISATEUR_URL;
-    const response = await axios.post(url, {
+    axios.post(url, {
         Submit: 1,
         token: tok,
         idUser: id
@@ -1038,10 +1038,19 @@ async function getProfile(tok,id, UseInfoFromDatabase)
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
-    })
+    }).then ( response => {
+        console.log("response.data") ;
+        console.log(response.data) ;
+        let pos = response.data.indexOf("ERROR") ;
+        if (pos !== 0)
+        {
+          const profileDetails = response.data[0];
+          localStorage.setItem('profileDetails', JSON.stringify(profileDetails));
     
-
-    UseInfoFromDatabase(response)  ;
+          if (ForceRender !== null)
+            ForceRender(response)  ;
+        }
+    }) ;
   }
 
 

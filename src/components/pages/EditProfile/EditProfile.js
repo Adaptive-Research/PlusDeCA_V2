@@ -110,14 +110,12 @@ export default function EditProfile(props) {
 
 
 
-  function UseInfoFromDatabase(response){
+  function RenderAfterLoad(response){
     console.log("response.data") ;
     console.log(response.data) ;
     let pos = response.data.indexOf("ERROR") ;
     if (pos !== 0)
     {
-      const profileDetails = response.data[0];
-      localStorage.setItem('profileDetails', JSON.stringify(profileDetails));
       setPrenom(response.data[0].Prenom) ;
       setNom(response.data[0].Nom) ;
       setEmail(response.data[0].Email) ;
@@ -135,17 +133,16 @@ export default function EditProfile(props) {
       setEmailVisible(false) ;
       if (response.data[0].EmailVisible === "1")
         setEmailVisible(true) ;
-
-
-      setReloadInfos(false) ;
     }
 
   }
 
   
  
-  if (reloadInfos === true)
-    getProfile(storedToken,idUser,UseInfoFromDatabase) ;
+  if (reloadInfos === true) {
+    getProfile(storedToken,idUser,RenderAfterLoad) ;
+    setReloadInfos(false) ;
+  }
 
 
 

@@ -1,0 +1,13 @@
+
+/* pour le composant draftjs*/
+
+div.DraftEditor-root {
+    border: 1px solid #EEEEEE ;
+    height:400px ;
+    width:auto ;
+    overflow-y:auto ;
+}
+
+div.DraftEditor-editorContainer, div.public-DraftEditor-content {
+    height: 100%;
+}

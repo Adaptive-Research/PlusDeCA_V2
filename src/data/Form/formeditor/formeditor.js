@@ -6,6 +6,8 @@ import { EditorState,convertFromRaw, convertToRaw,ContentState } from "draft-js"
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from 'html-to-draftjs';
 
+import "../../../assets/css/style_draftjs.css" ;
+
 
 
 
