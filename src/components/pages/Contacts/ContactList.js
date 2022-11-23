@@ -1,7 +1,7 @@
 import React, { useState,useRef,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
-import {getUserArticles} from "../../../data/customlibs/api";
+import {getUserContacts} from "../../../data/customlibs/api";
 import CardContact from "./CardContact" ;
 import ModalEditContact from "./ModalEditContact" ;
 
@@ -26,10 +26,10 @@ export default function ContactList() {
     
 
     // pour l'affichage de la fenetre modale
-    const [showEditArticle, setShowEditArticle] = useState(false) ;
+    const [showEditContact, setShowEditContact] = useState(false) ;
 
     // pour le ForceRender
-    const downloaded_Articles = useRef(false) ;
+    const downloaded_Contacts = useRef(false) ;
 
     // pour 
     const [modeEdit,setModeEdit]= useState("") ;
@@ -51,7 +51,7 @@ export default function ContactList() {
     if (reloadInfos.current === true)
     {
         console.log("reloadInfos") ;
-        getUserArticles("userArticles",storedToken,RenderAfterLoad) ;
+        getUserContacts("userContacts",storedToken,RenderAfterLoad) ;
             
         reloadInfos.current = false ;
     }
@@ -61,18 +61,18 @@ export default function ContactList() {
 
     function RenderAfterLoad(variable) {
         console.log("RenderAfterLoad") ;
-        //console.log("downloaded_Articles.current") ;
-        //console.log(downloaded_Articles.current) ;
+        //console.log("downloaded_Contacts.current") ;
+        //console.log(downloaded_Contacts.current) ;
         
-        if (variable === "userArticles")
-            downloaded_Articles.current = true ;
+        if (variable === "userContacts")
+            downloaded_Contacts.current = true ;
 
 
     
-        if (downloaded_Articles.current === true)
+        if (downloaded_Contacts.current === true)
             setCompteur(compteur+1) ; 
     
-        downloaded_Articles.current = false ;      
+        downloaded_Contacts.current = false ;      
     }
   
 
@@ -80,26 +80,26 @@ export default function ContactList() {
 
 
 
-    // Callbacks pour la fenetre ModalEditArticle
+    // Callbacks pour la fenetre ModalEditContact
     // il y en a 3
-    // - ModalEditArticleClose
-    // - SendArticleData
-    // - ForceRenderArticle
+    // - ModalEditContactClose
+    // - SendContactData
+    // - ForceRenderContact
 
 
 
-    // C'est le callback appele quand on ferme ModalEditArticle
-    function ModalEditArticleClose()
+    // C'est le callback appele quand on ferme ModalEditContact
+    function ModalEditContactClose()
     {
-        setShowEditArticle(false) ;
+        setShowEditContact(false) ;
     }
 
 
 
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
-    function SendArticleData(ShowWindow, Article) {
+    function SendContactData(ShowWindow, Contact) {
         //console.log("SendCompanyData")
-        if (Article === null)
+        if (Contact === null)
         {
             setModeEdit("Add") ;
             setIdAncestor("") ;
@@ -113,32 +113,32 @@ export default function ContactList() {
         {
             setModeEdit("Edit") ;
             console.log("Mode Edit") ;
-            //console.log("Article") ;
-            //console.log(Article) ;
+            //console.log("Contact") ;
+            //console.log(Contact) ;
 
-            setIdAncestor(Article.idAncestor) ;
-            setTitle(Article.Article_Title) ;
-            setCategory(Article.Article_Category) ;
-            setText(Article.Article_Text) ;
-            setHtml(Article.Article_Html) ;
-            setPhoto(Article.Article_Image) ;
+            setIdAncestor(Contact.idAncestor) ;
+            setTitle(Contact.Contact_Title) ;
+            setCategory(Contact.Contact_Category) ;
+            setText(Contact.Contact_Text) ;
+            setHtml(Contact.Contact_Html) ;
+            setPhoto(Contact.Contact_Image) ;
         }
         
 
 
         if (ShowWindow === "false")
-            setShowEditArticle(false) ;
+            setShowEditContact(false) ;
         else
-            setShowEditArticle(true) ;
+            setShowEditContact(true) ;
     }    
 
 
-    function ForceRenderArticle() {
+    function ForceRenderContact() {
         
-        //console.log("ForceRenderArticle") ;
-        setShowEditArticle(false) ;
+        //console.log("ForceRenderContact") ;
+        setShowEditContact(false) ;
 
-        getUserArticles("userArticles",storedToken, RenderAfterLoad) ;
+        getUserContacts("userContacts",storedToken, RenderAfterLoad) ;
     }
 
 
@@ -164,37 +164,37 @@ export default function ContactList() {
 
 
 
-    // Separate drafts from published articles
-    const renderArticles = (TypeArticle) => {
-        const articles = JSON.parse(localStorage.getItem("userArticles"));
+    // Separate drafts from published Contacts
+    const renderContacts = (TypeContact) => {
+        const Contacts = JSON.parse(localStorage.getItem("userContacts"));
 
-        if (articles !== null)
+        if (Contacts !== null)
         {
-            //console.log("articles") ;
-            //console.log(articles);
+            //console.log("Contacts") ;
+            //console.log(Contacts);
 
-            return articles.map((Ligne) => {
+            return Contacts.map((Ligne) => {
                 //console.log("Ligne.id: "+Ligne.id) ;
-                if  (TypeArticle === "Brouillon") {
+                if  (TypeContact === "Brouillon") {
                     if (Ligne.iscurrent === "1" && Ligne.isValidated === "0" && Ligne.isPublished === "0") 
                         return <Col md={4}  key={Ligne.id}> 
                                     <CardContact
-                                        Article={Ligne}
-                                        TypeArticle={TypeArticle}
-                                        SendArticleData={SendArticleData}  
-                                        ForceRenderArticle = {ForceRenderArticle}
+                                        Contact={Ligne}
+                                        TypeContact={TypeContact}
+                                        SendContactData={SendContactData}  
+                                        ForceRenderContact = {ForceRenderContact}
                                     /> 
                                 </Col> ;
                 }
-                else if(TypeArticle === "Valide"){
+                else if(TypeContact === "Valide"){
                     if(Ligne.iscurrent === "1" && Ligne.isValidated === "1" && Ligne.isPublished === "0"){
                         return <Col md={4}  key={Ligne.id}> 
                                     <CardContact
                                         key={Ligne.id}
-                                        Article={Ligne}
-                                        TypeArticle={TypeArticle}
-                                        SendArticleData={SendArticleData}  
-                                        ForceRenderArticle = {ForceRenderArticle}
+                                        Contact={Ligne}
+                                        TypeContact={TypeContact}
+                                        SendContactData={SendContactData}  
+                                        ForceRenderContact = {ForceRenderContact}
                                     /> 
                                 </Col> ;
                     }
@@ -221,7 +221,7 @@ export default function ContactList() {
                     <h1 className="page-title">Contacts</h1>
                 </div>
                 <div className="ms-auto pageheader-btn">
-                    <button className='btn btn-primary' onClick={() => {SendArticleData(true, null) ;}}>
+                    <button className='btn btn-primary' onClick={() => {SendContactData(true, null) ;}}>
                         <span> <i className="fe fe-plus"></i>&nbsp;</span>
                         Ajouter un contact
                     </button>
@@ -240,9 +240,9 @@ export default function ContactList() {
 
                                         <ModalEditContact
                                             Render={compteur}
-                                            show={showEditArticle} 
-                                            SendCloseMessage={ModalEditArticleClose}  
-                                            ForceRenderArticle={ForceRenderArticle}
+                                            show={showEditContact} 
+                                            SendCloseMessage={ModalEditContactClose}  
+                                            ForceRenderContact={ForceRenderContact}
                                             ModeEdit={modeEdit}
                                             idAncestor={idAncestor}
                                             Title={title} 
@@ -262,7 +262,7 @@ export default function ContactList() {
                                             <Tab eventKey="Brouillon" title="Réseau PlusDeCA">
                                                 <div className="tab-pane " id="tab-61">
                                                     <Row className="row-cards ">
-                                                        {renderArticles("Brouillon")}
+                                                        {renderContacts("Brouillon")}
                                                     </Row>
                                                 </div>
                                             </Tab>
@@ -271,7 +271,7 @@ export default function ContactList() {
                                             <Tab eventKey="Valide" title="Cartes de visite">
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
-                                                        {renderArticles("Valide")}
+                                                        {renderContacts("Valide")}
                                                     </Row>
                                                 </div>
                                             </Tab>

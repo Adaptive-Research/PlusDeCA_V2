@@ -2,7 +2,7 @@ import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import * as formeditor from "../../../data/Form/formeditor/formeditor";
 import { FormGroup, Row, Button, Modal} from "react-bootstrap";
-import {SaveArticle,UpdateArticle} from "../../../data/customlibs/api";
+import {SaveContact,UpdateContact} from "../../../data/customlibs/api";
 
 
 
@@ -13,7 +13,7 @@ export default function ModalEditContact(props) {
 
     const storedToken = localStorage.getItem('token');
 
-    console.log("ModalEditArticle") ;
+    console.log("ModalEditContact") ;
     //console.log("props") ;
     //console.log(props) ;
 
@@ -126,9 +126,9 @@ export default function ModalEditContact(props) {
 
         if (titleCheck && categoryCheck && descriptionCheck) {
             if (modeEdit.current === "Add")
-                SaveArticle(storedToken,title,category,texte.current,html,photo, props.ForceRenderArticle);
+                SaveContact(storedToken,title,category,texte.current,html,photo, props.ForceRenderContact);
             else
-                UpdateArticle(storedToken,idAncestor, title,category,texte.current,html,photo, props.ForceRenderArticle);
+                UpdateContact(storedToken,idAncestor, title,category,texte.current,html,photo, props.ForceRenderContact);
         }
     }
 

@@ -1100,6 +1100,281 @@ async function getProfile(tok,id, ForceRender)
 
 
 
+/*****************************************************************************************************************************************************
+ * 
+ * 
+ *  Contacts
+ * 
+ * 
+ ****************************************************************************************************************************************************/
+
+
+//Method to get all Contacts created by this user
+async function getUserContacts(variable,tok,ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Contacts';
+    const url =  process.env.REACT_APP_API_SHOW_CONTACTS_BY_USER_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        debug:1,
+        Submit: 1,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+    
+    //let variable = "userContacts" ;
+
+    const data =  getDataFromResponse(response) ;
+        
+    //console.log("test") ;
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+        //console.log("test1") ;
+
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    else{
+        localStorage.removeItem(variable);
+    }
+    //console.log("test2") ;
+
+    ForceRender(variable) ;
+}
+
+
+
+// Function that sends axios requesst to create a new Contact
+async function SaveContact(tok,title,category,texte,html,photo,ForceRenderContact) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_Contact_URL;
+    console.log("SaveContact") ;
+
+    const url =  process.env.REACT_APP_API_CREATE_CONTACT_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        Contact_Title: title,
+        Contact_Category: category,
+        Contact_Text: texte.current,
+        Contact_Html: html,
+        Contact_Image: photo
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    //console.log(response.data)
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error found: ${response.data}`);
+    } else {
+        console.log("Contact created");
+        ForceRenderContact() ;
+    }
+}
+
+
+
+// Function that sends axios request to update an Contact
+async function UpdateContact(tok,idAncestor, title,category,texte,html,photo,ForceRenderContact ){
+
+    const url =  process.env.REACT_APP_API_EDIT_CONTACT_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        idAncestor: idAncestor,
+        Contact_Title: title,
+        Contact_Category: category,
+        Contact_Text: texte,
+        Contact_Html: html,
+        Contact_Image: photo
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    //console.log(response.data)
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error found: ${response.data}`);
+    } else {
+        console.log("Contact updated");
+        ForceRenderContact() ;
+    }
+
+}
+
+
+
+
+function DeleteContact(tok, id, ForceRenderContact) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_Contact_URL;
+    const url = process.env.REACT_APP_API_DELETE_CONTACT_URL;
+    axios.post(url, {
+        Submit: 1,
+        token: tok,
+        debug: 1,
+        idAncestor: id
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then(
+        (response) => {
+            console.log(response.data);
+            ForceRenderContact() ;
+        }
+    )
+
+}  
+
+
+
+/*****************************************************************************************************************************************************
+ * 
+ * 
+ *  BusinessCards
+ * 
+ * 
+ ****************************************************************************************************************************************************/
+
+
+//Method to get all BusinessCards created by this user
+async function getUserBusinessCards(variable,tok,ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-BusinessCards';
+    const url =  process.env.REACT_APP_API_SHOW_BUSINESSCARDS_BY_USER_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        debug:1,
+        Submit: 1,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+    
+    //let variable = "userBusinessCards" ;
+
+    const data =  getDataFromResponse(response) ;
+        
+    //console.log("test") ;
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+        //console.log("test1") ;
+
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    else{
+        localStorage.removeItem(variable);
+    }
+    //console.log("test2") ;
+
+    ForceRender(variable) ;
+}
+
+
+
+// Function that sends axios requesst to create a new BusinessCard
+async function SaveBusinessCard(tok,title,category,texte,html,photo,ForceRenderBusinessCard) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_BusinessCard_URL;
+    console.log("SaveBusinessCard") ;
+
+    const url =  process.env.REACT_APP_API_CREATE_BUSINESSCARD_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        BusinessCard_Title: title,
+        BusinessCard_Category: category,
+        BusinessCard_Text: texte.current,
+        BusinessCard_Html: html,
+        BusinessCard_Image: photo
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    //console.log(response.data)
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error found: ${response.data}`);
+    } else {
+        console.log("BusinessCard created");
+        ForceRenderBusinessCard() ;
+    }
+}
+
+
+
+// Function that sends axios request to update an BusinessCard
+async function UpdateBusinessCard(tok,idAncestor, title,category,texte,html,photo,ForceRenderBusinessCard ){
+
+    const url =  process.env.REACT_APP_API_EDIT_BUSINESSCARD_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        idAncestor: idAncestor,
+        BusinessCard_Title: title,
+        BusinessCard_Category: category,
+        BusinessCard_Text: texte,
+        BusinessCard_Html: html,
+        BusinessCard_Image: photo
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    //console.log(response.data)
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error found: ${response.data}`);
+    } else {
+        console.log("BusinessCard updated");
+        ForceRenderBusinessCard() ;
+    }
+
+}
+
+
+
+
+function DeleteBusinessCard(tok, id, ForceRenderBusinessCard) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_BusinessCard_URL;
+    const url = process.env.REACT_APP_API_DELETE_BUSINESSCARD_URL;
+    axios.post(url, {
+        Submit: 1,
+        token: tok,
+        debug: 1,
+        idAncestor: id
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then(
+        (response) => {
+            console.log(response.data);
+            ForceRenderBusinessCard() ;
+        }
+    )
+
+}  
+
+
+
+
 
 /*****************************************************************************************************************************************************
  * 
@@ -1171,6 +1446,17 @@ export {
 
     getProfile,
     SaveProfile,
+
+
+    getUserContacts,
+    SaveContact,
+    UpdateContact,
+    DeleteContact,
+
+    getUserBusinessCards,
+    SaveBusinessCard,
+    UpdateBusinessCard,
+    DeleteBusinessCard,
 
 
     getTranslations
