@@ -1,0 +1,19 @@
+.modal-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-footer{
+    display: flex;
+    align-items: flex-end;
+}
+.modal-footer,
+.modal-body{
+    width: 80%;
+}
+@media screen and (max-width: 992px){
+    .modal-footer,
+    .modal-body{
+        width: 100%;
+    }  
+}

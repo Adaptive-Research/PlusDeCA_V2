@@ -1126,6 +1126,7 @@ async function getUserContacts(variable,tok,ForceRender) {
     //let variable = "userContacts" ;
 
     const data =  getDataFromResponse(response) ;
+
         
     //console.log("test") ;
     let pos = data.indexOf("ERROR") ;
@@ -1263,7 +1264,7 @@ async function getUserBusinessCards(variable,tok,ForceRender) {
     //let variable = "userBusinessCards" ;
 
     const data =  getDataFromResponse(response) ;
-        
+
     //console.log("test") ;
     let pos = data.indexOf("ERROR") ;
     if (pos < 0) { 
@@ -1294,6 +1295,7 @@ async function SaveBusinessCard(tok,lr,ent, sw,sexe,pre,nom,fo,tel,em,ForceRende
     const url =  process.env.REACT_APP_API_CREATE_BUSINESSCARD_URL;
     const response = await axios.post(url, {
         Submit: 1,
+        debug:1,
         token: tok,
         LieuRencontre: lr,
         Entreprise: ent,

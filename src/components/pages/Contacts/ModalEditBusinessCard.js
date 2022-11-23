@@ -25,35 +25,42 @@ export default function ModalEditBusinessCard(props) {
     const [reloadInfos, setReloadInfos] = useState(true) ;
 
     const modeEdit = useRef("") ;
-    const [idAncestor,setIdAncestor] = useState("") ;
-    const [title, setTitle] = useState("");
-    const category = useRef("");
 
 
-    const [content, setContent] = useState(""); // ceci est utilise pour initialiser l'Editor
-    const [result, setResult] = useState("");   // ceci est ce que l'on recoit en sortie de l'editor
-    const [html, setHtml] = useState("");  // ceci est ce que l'on recoit en sortie de l'editor
-    const texte = useRef("");   // ceci est le texte contenu dans l'objet Result 
+    //Les variables pour la sauvegarde des Cartes de Visites
 
-    const [photo, setPhoto] = useState("");
-    const [titleMsg, setTitleMsg] = useState("");
-    const [categoryMsg, setCategoryMsg] = useState("");
-    const [photoMsg, setPhotoMsg] = useState("");
-    const [Msg, setMsg] = useState("");
+    const [lieuRencontre,setLieuRencontre] = useState("");
+    const [entreprise,setEntreprise] = useState("");
+    const [siteWeb,setSiteWeb] = useState("");
+    const sexe = useRef("");
+    const [prenom,setPrenom] = useState("");
+    const [nom,setNom] = useState("");
+    const [fonction,setFonction] = useState("");
+    const [telephone,setTelephone] = useState("");
+    const [email,setEmail] = useState("");
 
-
-
+//Pour les messages d'erreurs 
+const [lieuRencontreMsg,setLieuRencontreMsg] = useState("");
+const [entrepriseMsg,setEntrepriseMsg] = useState("");
+const [siteWebMsg,setSiteWebMsg] = useState("");
+const [prenomMsg,setPrenomMsg] = useState("");
+const [nomMsg,setNomMsg] = useState("");
+const [fonctionMsg,setFonctionMsg] = useState("");
+const [telephoneMsg,setTelephoneMsg] = useState("");
+const [emailMsg,setEmailMsg] = useState("");
 
     if (reloadInfos === true)
     {
         modeEdit.current = props.ModeEdit ;
-        setIdAncestor(props.idAncestor) ;
-        setTitle(props.Title) ;
-        category.current = props.Category ;
-        setContent(props.Html) ;
-        setHtml(props.Html) ;
-        texte.current = props.Text ;
-        setPhoto(props.Photo) ;
+        sexe.current = props.Sexe ;
+        setLieuRencontre(props.LieuRencontre);
+        setEntreprise(props.Entreprise);
+        setSiteWeb(props.SiteWeb);
+        setPrenom(props.Prenom);
+        setNom(props.Nom);
+        setFonction(props.Fonction);
+        setTelephone(props.Telephone);
+        setEmail(props.Email);
         setReloadInfos(false) ;
     }
 
@@ -70,65 +77,87 @@ export default function ModalEditBusinessCard(props) {
 
 
 
-
     
 
 
     // Function that validates the form
     const inputsValidation = () => {
-        console.log("inputsValidation") ;
+        console.log("inputsValidation") ;  
 
-        
-        console.log("title: " + title) ;
-        console.log("category: " + category.current) ;
-        console.log("result") ;
-        console.log(result) ;
-        console.log("html") ;
-        console.log(html) ;
-        console.log("texte") ;
-        console.log(texte.current) ;
-        
+        console.log("LieuRencontre: " + lieuRencontre) ;
+        console.log("SiteWeb: " + siteWeb) ;
+        console.log("Entreprise: " + entreprise) ;
+        console.log("Sexe: " + sexe.current) ;
+        console.log("Prenom: " + prenom) ;
+        console.log("Nom: " + nom) ;
+        console.log("Fonction: " + fonction) ;
+        console.log("Telephone: " + telephone) ;
+        console.log("Email: " + email) ;
 
-        if (result !== "")
-        {
-            if (result.blocks !== undefined)
-                texte.current = String(result.blocks[0].text) ;
-        }
-
-        console.log("texte2") ;
-        console.log(texte.current) ;
-
-
-        let titleCheck, categoryCheck, descriptionCheck;
-        if (title.length > 0) {
-            titleCheck = true;
-            setTitleMsg("");
+        let  lieuRencontreCheck, siteWebCheck, entrepriseCheck, prenomCheck, nomCheck, fonctionCheck, telephoneCheck, emailCheck;
+        if (lieuRencontre.length > 0) {
+            lieuRencontreCheck = true;
+            setLieuRencontreMsg("");
         } else {
-            titleCheck = false;
-            setTitleMsg("Le titre est obligatoire");
+            lieuRencontreCheck = false;
+            setLieuRencontreMsg("Le Lieu de Rencontre est obligatoire");
         }
-
-        if (category.current.length > 0) {
-            categoryCheck = true;
-            setCategoryMsg("");
+        if (entreprise.length > 0) {
+            entrepriseCheck = true;
+            setEntrepriseMsg("");
         } else {
-            categoryCheck = false;
-            setCategoryMsg("La categorie est obligatoire");
+            entrepriseCheck = false;
+            setEntrepriseMsg("L'Entreprise est obligatoire");
         }
-
-        if (texte.current.length > 0) {
-            descriptionCheck = true;
-            //setDescriptionMsg("");
+        if (siteWeb.length > 0) {
+            siteWebCheck = true;
+            setSiteWebMsg("");
         } else {
-            descriptionCheck = false;
-            //setDescriptionMsg("La description est obligatoire");
+            siteWebCheck = false;
+            setSiteWebMsg("Le Site Web est obligatoire");
         }
-
-        if (titleCheck && categoryCheck && descriptionCheck) {
+        if (prenom.length > 0) {
+            prenomCheck = true;
+            setPrenomMsg("");
+        } else {
+            prenomCheck = false;
+            setPrenomMsg("Le Prenom est obligatoire");
+        }
+        if (nom.length > 0) {
+            nomCheck = true;
+            setNomMsg("");
+        } else {
+            nomCheck = false;
+            setNomMsg("Le Nom est obligatoire");
+        }
+        if (fonction.length > 0) {
+            fonctionCheck = true;
+            setFonctionMsg("");
+        } else {
+            fonctionCheck = false;
+            setFonctionMsg("La Fonction est obligatoire");
+        }
+        if (telephone.length > 0) {
+            telephoneCheck = true;
+            setTelephoneMsg("");
+        } else {
+            telephoneCheck = false;
+            setTelephoneMsg("Le Telephone est obligatoire");
+        }
+        if (email.length > 0) {
+            emailCheck = true;
+            setEmailMsg("");
+        } else {
+            emailCheck = false;
+            setEmailMsg("L'email est obligatoire");
+        }
+        if(lieuRencontreCheck &&  siteWebCheck &&  entrepriseCheck && prenomCheck &&  nomCheck &&  fonctionCheck &&  telephoneCheck &&  emailCheck){
             if (modeEdit.current === "Add")
-                SaveBusinessCard(storedToken,title,category,texte.current,html,photo, props.ForceRenderBusinessCard);
+                //alert("Vous souhaitez ajouter une Carte");
+                SaveBusinessCard(storedToken, lieuRencontre, entreprise, siteWeb,sexe,prenom,nom,fonction,telephone,email,props.ForceRenderBusinessCard);
             else
-                UpdateBusinessCard(storedToken,idAncestor, title,category,texte.current,html,photo, props.ForceRenderBusinessCard);
+                alert("Vous souhaitez modifier une Carte");
+            //alert("Tout est ok");
         }
     }
 
@@ -153,84 +182,127 @@ export default function ModalEditBusinessCard(props) {
 
 
     return (
-        <div>
+        <div className="ModalEditBusinessCard">
 
             <Modal size="xl" show={isModalOpen}>
 
                 <Modal.Body>
-                    <Row className="mb-4">
-                        <label className="col-md-3 form-label">Titre :</label>
+            
+                <Row className="mb-4">
+                        <label className="col-md-3 form-label">Lieu Rencontre:</label>
                         <div className="">
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder={titleMsg === "" ? "Titre ..." : titleMsg}
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
+                                onChange={(e) => setLieuRencontre(e.target.value)}
+                                placeholder={lieuRencontreMsg === "" ? "Lieu de Rencontre ..." : lieuRencontreMsg}
                             />
                         </div>
-                    </Row>
-
-                    <Row className="mb-4">
-                        <label className="col-md-3 form-label">Categorie :</label>
+                </Row>
+            
+                <Row>
+                        <label className="col-md-3 form-label">Entreprise :</label>
                         <div className="">
-                            <select id="Categories"  className="form-control"  onChange={(e) =>  category.current = e.target.value}>
-                            <option value="1">Techno</option>
-                            <option value="2">Juridique</option>
-                            <option value="3">Compta</option>
-                            <option value="4">News</option>
-                            <option value="5">Autre</option>
+                            <input
+                                type="text"
+                                className="form-control"
+                                onChange={(e) => setEntreprise(e.target.value)}
+                                placeholder={entrepriseMsg === "" ? "Entreprise ..." : entrepriseMsg}
+                            />
+                        </div>
+                </Row>
+                <Row>
+                        <label className="col-md-3 form-label">Tel Entreprise :</label>
+                        <div className="">
+                            <input
+                                type="text"
+                                className="form-control"
+                                onChange={(e) => setTelephone(e.target.value)}
+                                placeholder={telephoneMsg === "" ? "Telephone ..." : telephoneMsg}
+                            />
+                        </div>
+                </Row>
+                <Row>
+                        <label className="col-md-3 form-label">Site Web :</label>
+                        <div className="">
+                            <input
+                                type="text"
+                                className="form-control"
+                                onChange={(e) => setSiteWeb(e.target.value)}
+                                placeholder={siteWebMsg === "" ? "Site Web ..." : siteWebMsg}
+                            />
+                        </div>
+                </Row>
+                <Row>
+                        <label className="col-md-3 form-label">Sexe :</label>
+                        <div className="">
+                            <select id="Sexes"  className="form-control" onChange={(e) =>  sexe.current = e.target.value}>
+                                <option value="1">Feminin</option>
+                                <option value="2">Masculin</option>
                             </select>
                         </div>
 
 
-                    </Row>
+                </Row>
 
-
-
-                    <Row>
-                        <label className="col-md-3 form-label mb-4">
-                            Content:
-                        </label>
-                        <div className="mb-4">
-
-                            <formeditor.EditorConvertToHTML Content={content} 
-                                onEditorChange={(v) => {
-                                    setHtml(v) ;
-                                    console.log("onEditorChange") ;
-                                    console.log("Html") ;
-                                    console.log(html) ;
-                                }}
-                                
-                                onChange={(v) => {
-                                    setResult(v) ;
-                                    console.log("onChange") ;
-                                    console.log("result") ;
-                                    console.log(result) ;
-                                }}
-                                
+                <Row>
+                        <label className="col-md-3 form-label"> Prénoms:</label>
+                        <div className="">
+                            <input
+                                type="text"
+                                className="form-control"
+                                onChange={(e) => setPrenom(e.target.value)}
+                                placeholder={prenomMsg === "" ? "Prenom ..." : prenomMsg}
 
                             />
                         </div>
+                </Row>
+                <Row>
+                        <label className="col-md-3 form-label"> Nom:</label>
+                        <div className="">
+                            <input
+                                type="text"
+                                className="form-control"
+                                onChange={(e) => setNom(e.target.value)}
+                                placeholder={nomMsg === "" ? "Nom ..." : nomMsg}
+                            />
+                        </div>
+                </Row>
+                <Row>
+                        <label className="col-md-3 form-label"> Fonction:</label>
+                        <div className="">
+                            <input
+                                type="text"
+                                className="form-control"
+                                onChange={(e) => setFonction(e.target.value)}
+                                placeholder={fonctionMsg === "" ? "Fonction ..." : fonctionMsg}
+                            />
+                        </div>
+                </Row>
+             {
+                /**   <Row>
+                        <label className="col-md-3 form-label"> Tel Contact:</label>
+                        <div className="">
+                            <input
+                                type="text"
+                                className="form-control"
+                            />
+                        </div>
+                </Row> */
+             }
+                <Row className="mb-4">
+                        <label className="col-md-3 form-label"> Email:</label>
+                        <div className="">
+                            <input
+                                type="email"
+                                className="form-control"
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder={emailMsg === "" ? "Email ..." : emailMsg}
+                            />
+                        </div>
+                </Row>
 
-                    </Row>
-
-                    <FormGroup className="mb-0 file">
-                        <label className="col-md-3 form-label mb-4">
-                            Photo :
-                        </label>
-                        <formadvanced.OuterDropzone
-                            id="demo"
-                            type="file"
-                            name="files"
-                            accept=".jpg, .png, image/jpeg, image/png"
-                            multiple
-                            onChange={(e) => setPhoto(e.target.value)}
-                        />
-                    </FormGroup>    
-
-
-
+                    
 
                 </Modal.Body>
 
