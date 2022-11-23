@@ -1,13 +1,13 @@
 import React, { useState,useRef,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
-import {getUserContacts,getUserBusinessCards} from "../../../data/customlibs/api";
+import {/*getUserContacts,*/getUserBusinessCards} from "../../../data/customlibs/api";
 import CardContact from "./CardContact" ;
 import ModalEditContact from "./ModalEditContact" ;
 import CardBusinessCard from "./CardBusinessCard" ;
 import ModalEditBusinessCard from "./ModalEditBusinessCard" ;
-
-
+import {FaUpload} from 'react-icons/fa';
+import '../../../assets/css/ModalEditBusinessCard.css';
     
   
 
@@ -39,6 +39,21 @@ export default function ContactList() {
     // pour 
     const [modeEdit,setModeEdit]= useState("") ;
 
+
+    //Les variables pour la sauvegarde des Cartes de Visites
+
+    const [lieuRencontre,setLieuRencontre] = useState("");
+    const [entreprise,setEntreprise] = useState("");
+    const [siteWeb,setSiteWeb] = useState("");
+    const [sexe,setSexe] = useState("");
+    const [prenom,setPrenom] = useState("");
+    const [nom,setNom] = useState("");
+    const [fonction,setFonction] = useState("");
+    const [telephone,setTelephone] = useState("");
+    const [email,setEmail] = useState("");
+
+
+
     /*
     const [idAncestor,setIdAncestor] = useState("") ;
     const [title, setTitle] = useState("");
@@ -59,29 +74,25 @@ export default function ContactList() {
     if (reloadInfos.current === true)
     {
         console.log("reloadInfos") ;
-        getUserContacts("userContacts",storedToken,RenderAfterLoad) ;
+        //console.log(reloadInfos.current) ;
+        //getUserContacts("userContacts",storedToken,RenderAfterLoad) ;
         getUserBusinessCards("userBusinessCards",storedToken,RenderAfterLoad) ;
             
         reloadInfos.current = false ;
     }
 
-
-
-
     function RenderAfterLoad(variable) {
         console.log("RenderAfterLoad") ;
-        //console.log("downloaded_Contacts.current") ;
-        //console.log(downloaded_Contacts.current) ;
+       // console.log("downloaded_BusinessCards.current") ;
+        //console.log(downloaded_BusinessCards.current) ;
         
-        if (variable === "userContacts")
+      /*  if (variable === "userContacts")
             downloaded_Contacts.current = true ;
-
+*/
         if (variable === "userBusinessCards")
             downloaded_BusinessCards.current = true ;            
-
-
     
-        if ( (downloaded_Contacts.current === true) && (downloaded_BusinessCards.current === true) )
+        if ( downloaded_BusinessCards.current === true )
             setCompteur(compteur+1) ; 
     }
   
@@ -153,7 +164,7 @@ export default function ContactList() {
         setShowEditContact(false) ;
 
         downloaded_Contacts.current = false ;
-        getUserContacts("userContacts",storedToken, RenderAfterLoad) ;
+        //getUserContacts("userContacts",storedToken, RenderAfterLoad) ;
     }
 
 
@@ -183,38 +194,51 @@ function SendBusinessCardData(ShowWindow, BusinessCard) {
     if (BusinessCard === null)
     {
         setModeEdit("Add") ;
-        /*
-        setIdAncestor("") ;
-        setTitle("") ;
-        setCategory("1") ;
-        setText("") ;
-        setHtml("") ;
-        setPhoto("") ;
-        */
+        console.log("Mode Edit des BusinessCard") ;
+        console.log(modeEdit) ;
+
+        setLieuRencontre("");
+        setEntreprise("");
+        setSiteWeb("");
+        setSexe(1);
+        setPrenom("");
+        setNom("");
+        setFonction("");
+        setTelephone("");
+        setEmail("");
+        
     }
     else
     {
         setModeEdit("Edit") ;
         console.log("Mode Edit") ;
-        //console.log("BusinessCard") ;
-        //console.log(BusinessCard) ;
-
-        /*
-        setIdAncestor(BusinessCard.idAncestor) ;
-        setTitle(BusinessCard.BusinessCard_Title) ;
-        setCategory(BusinessCard.BusinessCard_Category) ;
-        setText(BusinessCard.BusinessCard_Text) ;
-        setHtml(BusinessCard.BusinessCard_Html) ;
-        setPhoto(BusinessCard.BusinessCard_Image) ;
-        */
+        console.log("BusinessCard") ;
+        console.log(BusinessCard) ;
+        setLieuRencontre(BusinessCard.LieuRencontre);
+        setEntreprise(BusinessCard.Entreprise);
+        setSiteWeb(BusinessCard.SiteWeb);
+        setSexe(BusinessCard.Sexe);
+        setPrenom(BusinessCard.Prenom);
+        setNom(BusinessCard.Nom);
+        setFonction(BusinessCard.Fonction);
+        setTelephone(BusinessCard.Telephone);
+        setEmail(BusinessCard.Email);
     }
-    
-
-
-    if (ShowWindow === "false")
-        setShowEditBusinessCard(false) ;
-    else
+    if(ShowWindow === true){
+        //alert("C'est bon");
         setShowEditBusinessCard(true) ;
+    }
+
+
+    /*if (ShowWindow === "true")
+        setShowEditBusinessCard(true) ;
+    else
+        setShowEditBusinessCard(false) ;
+    */
+console.log("ShowWindow");
+console.log(ShowWindow);
+console.log("showEditBusinessCard");
+console.log(showEditBusinessCard);
 }    
 
 
@@ -275,7 +299,9 @@ function ForceRenderBusinessCard() {
 
 
     const renderBusinessCards = () => {
-        const BusinessCards = JSON.parse(localStorage.getItem("userContacts"));
+        const BusinessCards = JSON.parse(localStorage.getItem("userBusinessCards"));
+        console.log("BusinessCards");
+        console.log(BusinessCards);
 
         if (BusinessCards !== null)
         {
@@ -284,7 +310,7 @@ function ForceRenderBusinessCard() {
                         return <Col md={4}  key={Ligne.id}> 
                                     <CardBusinessCard
                                         BusinessCard={Ligne}
-                                        SendBusinessCardData={SendBusinessCardData}  
+                                        //SendBusinessCardData={SendBusinessCardData}  
                                         ForceRenderBusinessCard = {ForceRenderBusinessCard}
                                     /> 
                                 </Col> ;
@@ -300,7 +326,8 @@ function ForceRenderBusinessCard() {
 
 
 
-
+    console.log("setShowEditBusinessCard");
+    console.log(showEditBusinessCard);
     return (
         <div>
 
@@ -309,11 +336,14 @@ function ForceRenderBusinessCard() {
                     <h1 className="page-title">Contacts</h1>
                 </div>
                 <div className="ms-auto pageheader-btn">
-                    <button className='btn btn-primary' onClick={() => {SendContactData(true, null) ;}}>
-                        <span> <i className="fe fe-plus"></i>&nbsp;</span>
-                        Ajouter un contact
+                    <button className='btn btn-primary' onClick={() => {SendContactData(true, null) ;}} style={{marginRight: "20px"}}>
+                        <span style={{marginRight: '5px'}}><FaUpload/></span>
+                        Importer Contacts
                     </button>
-
+                    <button className='btn btn-success' onClick={() => {SendBusinessCardData(true,null)}}>
+                        <span> <i className="fe fe-plus"></i></span>
+                        Ajouter une Carte
+                    </button>
                 </div>
             </div>
 
@@ -341,6 +371,15 @@ function ForceRenderBusinessCard() {
                                             SendCloseMessage={ModalEditBusinessCardClose}  
                                             ForceRenderBusinessCard={ForceRenderBusinessCard}
                                             ModeEdit={modeEdit}
+                                            LieuRencontre={lieuRencontre}
+                                            Entreprise={entreprise}
+                                            SiteWeb={siteWeb}
+                                            Sexe={sexe}
+                                            Prenom={prenom}
+                                            Nom={nom}
+                                            Fonction={fonction}
+                                            Telephone={telephone}
+                                            Email={email}
                                         />
 
                                         <Tabs
