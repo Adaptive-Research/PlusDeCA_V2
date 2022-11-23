@@ -1287,7 +1287,7 @@ async function getUserBusinessCards(variable,tok,ForceRender) {
 
 
 // Function that sends axios requesst to create a new BusinessCard
-async function SaveBusinessCard(tok,title,category,texte,html,photo,ForceRenderBusinessCard) {
+async function SaveBusinessCard(tok,lr,ent, sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_BusinessCard_URL;
     console.log("SaveBusinessCard") ;
 
@@ -1295,11 +1295,15 @@ async function SaveBusinessCard(tok,title,category,texte,html,photo,ForceRenderB
     const response = await axios.post(url, {
         Submit: 1,
         token: tok,
-        BusinessCard_Title: title,
-        BusinessCard_Category: category,
-        BusinessCard_Text: texte.current,
-        BusinessCard_Html: html,
-        BusinessCard_Image: photo
+        LieuRencontre: lr,
+        Entreprise: ent,
+        SiteWeb: sw,
+        Sexe: sexe,
+        Prenom: pre,
+        Nom: nom,
+        Fonction: fo,
+        Telephone: tel,
+        Email: em
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -1319,18 +1323,22 @@ async function SaveBusinessCard(tok,title,category,texte,html,photo,ForceRenderB
 
 
 // Function that sends axios request to update an BusinessCard
-async function UpdateBusinessCard(tok,idAncestor, title,category,texte,html,photo,ForceRenderBusinessCard ){
+async function UpdateBusinessCard(tok,id,lr,ent, sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard ){
 
     const url =  process.env.REACT_APP_API_EDIT_BUSINESSCARD_URL;
     const response = await axios.post(url, {
         Submit: 1,
         token: tok,
-        idAncestor: idAncestor,
-        BusinessCard_Title: title,
-        BusinessCard_Category: category,
-        BusinessCard_Text: texte,
-        BusinessCard_Html: html,
-        BusinessCard_Image: photo
+        id: id,
+        LieuRencontre: lr,
+        Entreprise: ent,
+        SiteWeb: sw,
+        Sexe: sexe,
+        Prenom: pre,
+        Nom: nom,
+        Fonction: fo,
+        Telephone: tel,
+        Email: em
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -1358,7 +1366,7 @@ function DeleteBusinessCard(tok, id, ForceRenderBusinessCard) {
         Submit: 1,
         token: tok,
         debug: 1,
-        idAncestor: id
+        id: id
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
