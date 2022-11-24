@@ -38,6 +38,7 @@ export default function ModalEditBusinessCard(props) {
     const [fonction,setFonction] = useState("");
     const [telephone,setTelephone] = useState("");
     const [email,setEmail] = useState("");
+    const [idBusinessCard,setIdBusinessCard] = useState("");
 
 //Pour les messages d'erreurs 
 const [lieuRencontreMsg,setLieuRencontreMsg] = useState("");
@@ -61,6 +62,7 @@ const [emailMsg,setEmailMsg] = useState("");
         setFonction(props.Fonction);
         setTelephone(props.Telephone);
         setEmail(props.Email);
+        setIdBusinessCard(props.IdBusinessCard);
         setReloadInfos(false) ;
     }
 
@@ -154,13 +156,13 @@ const [emailMsg,setEmailMsg] = useState("");
         if(lieuRencontreCheck &&  siteWebCheck &&  entrepriseCheck && prenomCheck &&  nomCheck &&  fonctionCheck &&  telephoneCheck &&  emailCheck){
             if (modeEdit.current === "Add")
                 //alert("Vous souhaitez ajouter une Carte");
-                SaveBusinessCard(storedToken, lieuRencontre, entreprise, siteWeb,sexe,prenom,nom,fonction,telephone,email,props.ForceRenderBusinessCard);
+                SaveBusinessCard(storedToken, lieuRencontre, entreprise, siteWeb,sexe.current,prenom,nom,fonction,telephone,email, props.ForceRenderBusinessCard);
             else
-                alert("Vous souhaitez modifier une Carte");
+                UpdateBusinessCard(storedToken,idBusinessCard, lieuRencontre, entreprise, siteWeb,sexe.current,prenom,nom,fonction,telephone,email, props.ForceRenderBusinessCard);
+                //alert("Vous souhaitez modifier une Carte");
             //alert("Tout est ok");
         }
     }
-
 
 
     const handleCancel = () => {
@@ -195,6 +197,7 @@ const [emailMsg,setEmailMsg] = useState("");
                                 type="text"
                                 className="form-control"
                                 onChange={(e) => setLieuRencontre(e.target.value)}
+                                value={lieuRencontre}
                                 placeholder={lieuRencontreMsg === "" ? "Lieu de Rencontre ..." : lieuRencontreMsg}
                             />
                         </div>
@@ -207,17 +210,19 @@ const [emailMsg,setEmailMsg] = useState("");
                                 type="text"
                                 className="form-control"
                                 onChange={(e) => setEntreprise(e.target.value)}
+                                value={entreprise}
                                 placeholder={entrepriseMsg === "" ? "Entreprise ..." : entrepriseMsg}
                             />
                         </div>
                 </Row>
                 <Row>
-                        <label className="col-md-3 form-label">Tel Entreprise :</label>
+                        <label className="col-md-3 form-label">Tel Contact :</label>
                         <div className="">
                             <input
                                 type="text"
                                 className="form-control"
                                 onChange={(e) => setTelephone(e.target.value)}
+                                value={telephone}
                                 placeholder={telephoneMsg === "" ? "Telephone ..." : telephoneMsg}
                             />
                         </div>
@@ -229,6 +234,7 @@ const [emailMsg,setEmailMsg] = useState("");
                                 type="text"
                                 className="form-control"
                                 onChange={(e) => setSiteWeb(e.target.value)}
+                                value={siteWeb}
                                 placeholder={siteWebMsg === "" ? "Site Web ..." : siteWebMsg}
                             />
                         </div>
@@ -253,6 +259,7 @@ const [emailMsg,setEmailMsg] = useState("");
                                 type="text"
                                 className="form-control"
                                 onChange={(e) => setPrenom(e.target.value)}
+                                value={prenom}
                                 placeholder={prenomMsg === "" ? "Prenom ..." : prenomMsg}
 
                             />
@@ -265,6 +272,7 @@ const [emailMsg,setEmailMsg] = useState("");
                                 type="text"
                                 className="form-control"
                                 onChange={(e) => setNom(e.target.value)}
+                                value={nom}
                                 placeholder={nomMsg === "" ? "Nom ..." : nomMsg}
                             />
                         </div>
@@ -276,6 +284,7 @@ const [emailMsg,setEmailMsg] = useState("");
                                 type="text"
                                 className="form-control"
                                 onChange={(e) => setFonction(e.target.value)}
+                                value={fonction}
                                 placeholder={fonctionMsg === "" ? "Fonction ..." : fonctionMsg}
                             />
                         </div>
@@ -298,6 +307,7 @@ const [emailMsg,setEmailMsg] = useState("");
                                 type="email"
                                 className="form-control"
                                 onChange={(e) => setEmail(e.target.value)}
+                                value={email}
                                 placeholder={emailMsg === "" ? "Email ..." : emailMsg}
                             />
                         </div>

@@ -50,6 +50,7 @@ export default function ContactList() {
     const [nom,setNom] = useState("");
     const [fonction,setFonction] = useState("");
     const [telephone,setTelephone] = useState("");
+    const [idBusinessCard,setIdBusinessCard] = useState("");
     const [email,setEmail] = useState("");
 
 
@@ -216,6 +217,7 @@ function SendBusinessCardData(ShowWindow, BusinessCard) {
         console.log(BusinessCard) ;
         setLieuRencontre(BusinessCard.LieuRencontre);
         setEntreprise(BusinessCard.Entreprise);
+        setIdBusinessCard(BusinessCard.id);
         setSiteWeb(BusinessCard.SiteWeb);
         setSexe(BusinessCard.Sexe);
         setPrenom(BusinessCard.Prenom);
@@ -300,17 +302,16 @@ function ForceRenderBusinessCard() {
 
     const renderBusinessCards = () => {
         const BusinessCards = JSON.parse(localStorage.getItem("userBusinessCards"));
-        console.log("BusinessCards");
+        console.log("BusinessCards Affiche");
         console.log(BusinessCards);
 
         if (BusinessCards !== null)
         {
             return BusinessCards.map((Ligne) => {
-                    if (Ligne.iscurrent === "1") 
-                        return <Col md={4}  key={Ligne.id}> 
+                        return <Col md={6}  key={Ligne.id}> 
                                     <CardBusinessCard
                                         BusinessCard={Ligne}
-                                        //SendBusinessCardData={SendBusinessCardData}  
+                                        SendBusinessCardData={SendBusinessCardData}  
                                         ForceRenderBusinessCard = {ForceRenderBusinessCard}
                                     /> 
                                 </Col> ;
@@ -338,7 +339,7 @@ function ForceRenderBusinessCard() {
                 <div className="ms-auto pageheader-btn">
                     <button className='btn btn-primary' onClick={() => {SendContactData(true, null) ;}} style={{marginRight: "20px"}}>
                         <span style={{marginRight: '5px'}}><FaUpload/></span>
-                        Importer Contacts
+                        Importer Prospects
                     </button>
                     <button className='btn btn-success' onClick={() => {SendBusinessCardData(true,null)}}>
                         <span> <i className="fe fe-plus"></i></span>
@@ -380,6 +381,7 @@ function ForceRenderBusinessCard() {
                                             Fonction={fonction}
                                             Telephone={telephone}
                                             Email={email}
+                                            IdBusinessCard={idBusinessCard}
                                         />
 
                                         <Tabs
@@ -388,7 +390,7 @@ function ForceRenderBusinessCard() {
                                             id=" tab-51"
                                             className="tab-content tabesbody "
                                         >
-                                            <Tab eventKey="Prospects" title="Prospects">
+                                            <Tab eventKey="Brouillon" title="Prospects">
                                                 <div className="tab-pane " id="tab-61">
                                                     <Row className="row-cards ">
                                                         {renderContacts()}
@@ -405,12 +407,13 @@ function ForceRenderBusinessCard() {
                                                 </div>
                                             </Tab>
 
-                                            <Tab eventKey="A Recontacter" title="A Recontacter">
+                                            <Tab eventKey="Contact" title="A Contacter">
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
+                                                        {renderContacts()}
                                                     </Row>
                                                 </div>
-                                            </Tab>                                                     
+                                            </Tab>
 
                                         </Tabs>
                                     </div>
