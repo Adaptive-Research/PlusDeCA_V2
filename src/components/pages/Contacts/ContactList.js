@@ -384,11 +384,11 @@ function ForceRenderBusinessCard() {
 
                                         <Tabs
                                             variant="Tabs"
-                                            defaultActiveKey="Brouillon"
+                                            defaultActiveKey="Prospects"
                                             id=" tab-51"
                                             className="tab-content tabesbody "
                                         >
-                                            <Tab eventKey="Brouillon" title="Réseau PlusDeCA">
+                                            <Tab eventKey="Prospects" title="Prospects">
                                                 <div className="tab-pane " id="tab-61">
                                                     <Row className="row-cards ">
                                                         {renderContacts()}
@@ -397,13 +397,20 @@ function ForceRenderBusinessCard() {
                                             </Tab>
 
 
-                                            <Tab eventKey="Valide" title="Cartes de visite">
+                                            <Tab eventKey="BusinessCard" title="Cartes de visite">
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
                                                         {renderBusinessCards()}
                                                     </Row>
                                                 </div>
                                             </Tab>
+
+                                            <Tab eventKey="A Recontacter" title="A Recontacter">
+                                                <div className="tab-pane profiletab show">
+                                                    <Row className="row-cards ">
+                                                    </Row>
+                                                </div>
+                                            </Tab>                                                     
 
                                         </Tabs>
                                     </div>
