@@ -1,9 +1,10 @@
 import React, { useState,useRef,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
-import {getUserFormations} from "../../../data/customlibs/api";
+import {getUserFormations,getFormationsCategories,getFormationsGroupes} from "../../../data/customlibs/api";
 import CardFormation from "./CardFormation" ;
 import ModalEditFormation from "./ModalEditFormation" ;
+import ModalShowFormation from "./ModalShowFormation" ;
 
 
     
@@ -27,35 +28,36 @@ export default function FormationList() {
 
     // pour l'affichage de la fenetre modale
     const [showEditFormation, setShowEditFormation] = useState(false) ;
+    const [showFormation, setShowFormation] = useState(false) ;
 
     // pour le ForceRender
     const downloaded_Formations = useRef(false) ;
+    const downloaded_Formations_categories = useRef(false) ;
+    const downloaded_Formations_groupes = useRef(false) ;
+
 
     // pour 
     const [modeEdit,setModeEdit]= useState("") ;
     const [idAncestor,setIdAncestor] = useState("") ;
     const [title, setTitle] = useState("");
-    const [category, setCategory] = useState("");
+    const [categorie, setCategorie] = useState("");
     const [text, setText] = useState("");
-    const [html, setHtml] = useState("<p>Hey this <strong>test</strong> rocks 😀</p>");
-    const [photo, setPhoto] = useState("");
+    const [html, setHtml] = useState("");
+    const [duree,setDuree] = useState("") ;
+    const [tarif,setTarif] = useState("") ;
+    const [groupe,setGroupe] = useState("") ;
+
+
+
 
     // pour le reload des infos
     const reloadInfos = useRef(true) ;
 
    
-
+    let ValueLangue = "FR" ;
     
 
-    // recuperation des informations au depart
-    if (reloadInfos.current === true)
-    {
-        console.log("reloadInfos") ;
-        getUserFormations("userFormations",storedToken,RenderAfterLoad) ;
-            
-        reloadInfos.current = false ;
-    }
-
+    
 
 
 
@@ -66,16 +68,31 @@ export default function FormationList() {
         
         if (variable === "userFormations")
             downloaded_Formations.current = true ;
+        
+        if (variable === "Formations_categories")
+            downloaded_Formations_categories.current = true ;
 
+        if (variable === "Formations_groupes")
+            downloaded_Formations_groupes.current = true ;
 
-    
-        if (downloaded_Formations.current === true)
+            
+        if ( (downloaded_Formations.current === true) && (downloaded_Formations_categories.current === true) && (downloaded_Formations_groupes.current === true) )
             setCompteur(compteur+1) ; 
-    
-        downloaded_Formations.current = false ;      
     }
   
 
+
+    // recuperation des informations au depart
+    if (reloadInfos.current === true)
+    {
+        console.log("reloadInfos") ;
+        getUserFormations("userFormations",storedToken,RenderAfterLoad) ;
+        getFormationsGroupes("Formations_groupes",storedToken,"fr", RenderAfterLoad) ;
+        getFormationsCategories("Formations_categories",storedToken,"fr", RenderAfterLoad) ;
+
+            
+        reloadInfos.current = false ;
+    }
 
 
 
@@ -98,30 +115,32 @@ export default function FormationList() {
 
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
     function SendFormationData(ShowWindow, Formation) {
-        //console.log("SendCompanyData")
+        console.log("SendFormationData")
         if (Formation === null)
         {
             setModeEdit("Add") ;
             setIdAncestor("") ;
             setTitle("") ;
-            setCategory("1") ;
+            setCategorie("1") ;
             setText("") ;
             setHtml("") ;
-            setPhoto("") ;
+            setDuree("") ;
+            setTarif("") ;
+            setGroupe("") ;
         }
         else
         {
             setModeEdit("Edit") ;
             console.log("Mode Edit") ;
-            //console.log("Formation") ;
-            //console.log(Formation) ;
 
             setIdAncestor(Formation.idAncestor) ;
             setTitle(Formation.Formation_Title) ;
-            setCategory(Formation.Formation_Category) ;
+            setCategorie(Formation.Formation_Categorie) ;
             setText(Formation.Formation_Text) ;
             setHtml(Formation.Formation_Html) ;
-            setPhoto(Formation.Formation_Image) ;
+            setDuree(Formation.Formation_Duree) ;
+            setTarif(Formation.Formation_Tarif) ;
+            setGroupe(Formation.Formation_Groupe) ;
         }
         
 
@@ -138,6 +157,7 @@ export default function FormationList() {
         //console.log("ForceRenderFormation") ;
         setShowEditFormation(false) ;
 
+        downloaded_Formations.current = false ;   
         getUserFormations("userFormations",storedToken, RenderAfterLoad) ;
     }
 
@@ -145,6 +165,39 @@ export default function FormationList() {
 
 
 
+
+
+
+    // Callbacks pour la fenetre ModalShowFormation
+    // il y en a 3
+    // - ModalShowFormationClose
+    // - SendFormationData
+    // - ForceRenderFormation est le meme que pour la  ModalEditFormation
+
+
+
+    // C'est le callback appele quand on ferme ModalEditFormation
+    function ModalShowFormationClose()
+    {
+        setShowFormation(false) ;
+    }
+
+
+
+    // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
+    function SendShowFormationData(Formation) {
+
+        setIdAncestor(Formation.idAncestor) ;
+        setTitle(Formation.Formation_Title) ;
+        setCategorie(Formation.Formation_Categorie) ;
+        setText(Formation.Formation_Text) ;
+        setHtml(Formation.Formation_Html) ;
+        setDuree(Formation.Formation_Duree) ;
+        setTarif(Formation.Formation_Tarif) ;
+        setGroupe(Formation.Formation_Groupe) ;
+        
+        setShowFormation(true) ;
+    }    
 
 
 
@@ -170,13 +223,11 @@ export default function FormationList() {
 
         if (formations !== null)
         {
-            //console.log("formations") ;
-            //console.log(formations);
 
             return formations.map((Ligne) => {
                 //console.log("Ligne.id: "+Ligne.id) ;
                 if  (TypeFormation === "Brouillon") {
-                    if (Ligne.iscurrent === "1" && Ligne.isValidated === "0" && Ligne.isPublished === "0") 
+                    if (Ligne.iscurrent === "1" && Ligne.isValidated === "0") 
                         return <Col md={4}  key={Ligne.id}> 
                                     <CardFormation 
                                         Formation={Ligne}
@@ -187,13 +238,13 @@ export default function FormationList() {
                                 </Col> ;
                 }
                 else if(TypeFormation === "Valide"){
-                    if(Ligne.iscurrent === "1" && Ligne.isValidated === "1" && Ligne.isPublished === "0"){
+                    if(Ligne.iscurrent === "1" && Ligne.isValidated === "1"){
                         return <Col md={4}  key={Ligne.id}> 
                                     <CardFormation 
                                         key={Ligne.id}
                                         Formation={Ligne}
                                         TypeFormation={TypeFormation}
-                                        SendFormationData={SendFormationData}  
+                                        SendShowFormationData={SendShowFormationData}  
                                         ForceRenderFormation = {ForceRenderFormation}
                                     /> 
                                 </Col> ;
@@ -246,11 +297,25 @@ export default function FormationList() {
                                             ModeEdit={modeEdit}
                                             idAncestor={idAncestor}
                                             Title={title} 
-                                            Category = {category} 
+                                            Categorie = {categorie} 
                                             Html= {html}
                                             Text={text}
-                                            Photo = {photo}
+                                            Duree={duree}
+                                            Tarif={tarif}
+                                            Groupe={groupe}
                                         />
+
+                                        <ModalShowFormation 
+                                            //Render={compteur}
+                                            show={showFormation} 
+                                            SendCloseMessage={ModalShowFormationClose}  
+                                            Title={title} 
+                                            Html= {html}
+                                            Duree={duree}
+                                            Tarif={tarif}
+                                            Groupe={groupe}
+                                        />
+
 
 
                                         <Tabs
@@ -268,7 +333,7 @@ export default function FormationList() {
                                             </Tab>
 
 
-                                            <Tab eventKey="Valide" title="Validées">
+                                            <Tab eventKey="Valide" title="Prêtes à être dispensées">
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
                                                         {renderFormations("Valide")}

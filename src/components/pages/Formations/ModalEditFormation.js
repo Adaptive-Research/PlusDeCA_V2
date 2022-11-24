@@ -12,6 +12,11 @@ import {SaveFormation,UpdateFormation} from "../../../data/customlibs/api";
 export default function ModalEditFormation(props) {
 
     const storedToken = localStorage.getItem('token');
+    const Formations_groupes = JSON.parse(localStorage.getItem('Formations_groupes')); 
+    const Formations_categories = JSON.parse(localStorage.getItem('Formations_categories')); 
+
+
+    
 
     console.log("ModalEditFormation") ;
     //console.log("props") ;
@@ -27,7 +32,10 @@ export default function ModalEditFormation(props) {
     const modeEdit = useRef("") ;
     const [idAncestor,setIdAncestor] = useState("") ;
     const [title, setTitle] = useState("");
-    const category = useRef("");
+    const categorie = useRef("");
+    const groupe = useRef("") ;
+    const [duree, setDuree] = useState("");
+    const [tarif, setTarif] = useState("");
 
 
     const [content, setContent] = useState(""); // ceci est utilise pour initialiser l'Editor
@@ -37,7 +45,7 @@ export default function ModalEditFormation(props) {
 
     const [photo, setPhoto] = useState("");
     const [titleMsg, setTitleMsg] = useState("");
-    const [categoryMsg, setCategoryMsg] = useState("");
+    const [categorieMsg, setCategoryMsg] = useState("");
     const [photoMsg, setPhotoMsg] = useState("");
     const [Msg, setMsg] = useState("");
 
@@ -46,12 +54,18 @@ export default function ModalEditFormation(props) {
 
     if (reloadInfos === true)
     {
+
         modeEdit.current = props.ModeEdit ;
         setIdAncestor(props.idAncestor) ;
         setTitle(props.Title) ;
-        category.current = props.Category ;
+        categorie.current = props.Categorie ;
         setContent(props.Html) ;
         setHtml(props.Html) ;
+        setDuree(props.Duree) ;
+        setTarif(props.Tarif) ;
+        groupe.current = props.Groupe ;
+
+
         texte.current = props.Text ;
         setPhoto(props.Photo) ;
         setReloadInfos(false) ;
@@ -68,6 +82,15 @@ export default function ModalEditFormation(props) {
 
 
 
+    function renderSelectOption(tableau, colValue, colTexte) {
+        let so  = tableau.map((Ligne) => {
+            return <option value={Ligne[colValue]}> {Ligne[colTexte]} </option>
+        }) ;
+
+        return so ;
+    }
+
+        
 
 
 
@@ -80,7 +103,7 @@ export default function ModalEditFormation(props) {
 
         
         console.log("title: " + title) ;
-        console.log("category: " + category.current) ;
+        console.log("categorie: " + categorie.current) ;
         console.log("result") ;
         console.log(result) ;
         console.log("html") ;
@@ -99,7 +122,7 @@ export default function ModalEditFormation(props) {
         console.log(texte.current) ;
 
 
-        let titleCheck, categoryCheck, descriptionCheck;
+        let titleCheck, categorieCheck, descriptionCheck;
         if (title.length > 0) {
             titleCheck = true;
             setTitleMsg("");
@@ -108,11 +131,11 @@ export default function ModalEditFormation(props) {
             setTitleMsg("Le titre est obligatoire");
         }
 
-        if (category.current.length > 0) {
-            categoryCheck = true;
+        if (categorie.current.length > 0) {
+            categorieCheck = true;
             setCategoryMsg("");
         } else {
-            categoryCheck = false;
+            categorieCheck = false;
             setCategoryMsg("La categorie est obligatoire");
         }
 
@@ -124,11 +147,11 @@ export default function ModalEditFormation(props) {
             //setDescriptionMsg("La description est obligatoire");
         }
 
-        if (titleCheck && categoryCheck && descriptionCheck) {
+        if (titleCheck && categorieCheck && descriptionCheck) {
             if (modeEdit.current === "Add")
-                SaveFormation(storedToken,title,category,texte.current,html,photo, props.ForceRenderFormation);
+                SaveFormation(storedToken,title,duree,groupe.current, tarif,categorie.current,texte.current,html,photo, props.ForceRenderFormation);
             else
-                UpdateFormation(storedToken,idAncestor, title,category,texte.current,html,photo, props.ForceRenderFormation);
+                UpdateFormation(storedToken,idAncestor, title,duree,groupe.current, tarif,categorie.current,texte.current,html,photo, props.ForceRenderFormation);
         }
     }
 
@@ -172,25 +195,56 @@ export default function ModalEditFormation(props) {
                     </Row>
 
                     <Row className="mb-4">
-                        <label className="col-md-3 form-label">Categorie :</label>
+                        <label className="col-md-3 form-label">Durée :</label>
                         <div className="">
-                            <select id="Categories"  className="form-control"  onChange={(e) =>  category.current = e.target.value}>
-                            <option value="1">Techno</option>
-                            <option value="2">Juridique</option>
-                            <option value="3">Compta</option>
-                            <option value="4">News</option>
-                            <option value="5">Autre</option>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Duree ..." 
+                                value={duree}
+                                onChange={(e) => setDuree(e.target.value)}
+                            />
+                        </div>
+                    </Row>
+
+                    <Row className="mb-4">
+                        <label className="col-md-3 form-label">Nombre de personnes pour la formation:</label>
+                        <div className="">
+                            
+                            <select id="Groupes"  className="form-control"  defaultValue={groupe.current} onChange={(e) =>  groupe.current = e.target.value}>
+                            {renderSelectOption(Formations_groupes,"groupe","groupe")}
                             </select>
                         </div>
+                    </Row>
 
+                    <Row className="mb-4">
+                        <label className="col-md-3 form-label">Tarif HT par personne:</label>
+                        <div className="">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Tarif ..." 
+                                value={tarif}
+                                onChange={(e) => setTarif(e.target.value)}
+                            />
+                        </div>
+                    </Row>
 
+                    <Row className="mb-4">
+                        <label className="col-md-3 form-label">Catégorie :</label>
+                        <div className="">
+                            
+                            <select id="Categories"  className="form-control" defaultValue={categorie.current} onChange={(e) =>  categorie.current = e.target.value}>
+                            {renderSelectOption(Formations_categories,"categorie","categorie")}
+                            </select>
+                        </div>
                     </Row>
 
 
 
                     <Row>
                         <label className="col-md-3 form-label mb-4">
-                            Content:
+                            Contenu:
                         </label>
                         <div className="mb-4">
 

@@ -512,7 +512,7 @@ async function SaveArticle(tok,title,category,texte,html,photo,ForceRenderArticl
         token: tok,
         Article_Title: title,
         Article_Category: category,
-        Article_Text: texte.current,
+        Article_Text: texte,
         Article_Html: html,
         Article_Image: photo
     }, {
@@ -1396,7 +1396,7 @@ function DeleteBusinessCard(tok, id, ForceRenderBusinessCard) {
 
 //Method to get all formations created by this user
 async function getUserFormations(variable,tok,ForceRender) {
-    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Formations';
+    console.log("getUserFormations") ;
     const url =  process.env.REACT_APP_API_SHOW_FORMATIONS_BY_USER_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -1433,21 +1433,102 @@ async function getUserFormations(variable,tok,ForceRender) {
 }
 
 
+//Method to get all formations created by this user
+async function getFormationsGroupes(variable,tok,vl, ForceRender) {
+    console.log("getFormationsGroupes") ;
+    const url =  process.env.REACT_APP_API_SHOW_GROUPESFORMATIONS_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        ValueLangue: vl
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+    
+    console.log(response.data) ;
+
+
+    const data =  getDataFromResponse(response) ;
+        
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+        //console.log("test1") ;
+
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    else{
+        localStorage.removeItem(variable);
+    }
+    //console.log("test2") ;
+
+    ForceRender(variable) ;
+}
+
+
+async function getFormationsCategories(variable,tok,vl, ForceRender) {
+    console.log("getFormationsCategories") ;
+    const url =  process.env.REACT_APP_API_SHOW_CATEGORIESFORMATIONS_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        ValueLangue: vl
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    console.log(response.data) ;
+
+
+    const data =  getDataFromResponse(response) ;
+        
+    //console.log("test") ;
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+        //console.log("test1") ;
+
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    else{
+        localStorage.removeItem(variable);
+    }
+    //console.log("test2") ;
+
+    ForceRender(variable) ;
+}
+
 
 // Function that sends axios requesst to create a new formation
-async function SaveFormation(tok,title,category,texte,html,photo,ForceRenderFormation) {
+async function SaveFormation(tok,title,duree,groupe,tarif, category,texte,html,photo,ForceRenderFormation) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_FORMATION_URL;
     console.log("SaveFormation") ;
 
     const url =  process.env.REACT_APP_API_CREATE_FORMATION_URL;
     const response = await axios.post(url, {
         Submit: 1,
+        debug:1,
         token: tok,
+        Formation_Duree:duree,
+        Formation_Groupe:groupe,
+        Formation_Tarif: tarif,
         Formation_Title: title,
-        Formation_Category: category,
-        Formation_Text: texte.current,
+        Formation_Categorie: category,
+        Formation_Text: texte,
         Formation_Html: html,
-        Formation_Image: photo
+        Formation_Image: photo,
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -1467,18 +1548,22 @@ async function SaveFormation(tok,title,category,texte,html,photo,ForceRenderForm
 
 
 // Function that sends axios request to update  formation
-async function UpdateFormation(tok,idAncestor, title,category,texte,html,photo,ForceRenderFormation ){
+async function UpdateFormation(tok,idAncestor, title,duree,groupe,tarif,category,texte,html,photo,ForceRenderFormation ){
 
     const url =  process.env.REACT_APP_API_EDIT_FORMATION_URL;
     const response = await axios.post(url, {
         Submit: 1,
+        debug:1,
         token: tok,
         idAncestor: idAncestor,
         Formation_Title: title,
-        Formation_Category: category,
+        Formation_Duree:duree,
+        Formation_Groupe:groupe,
+        Formation_Tarif: tarif,
+        Formation_Categorie: category,
         Formation_Text: texte,
         Formation_Html: html,
-        Formation_Image: photo
+        Formation_Image: photo,
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -1671,6 +1756,9 @@ export {
     DeleteFormation,
     ValidateFormation,
     InvalidateFormation,
+    getFormationsCategories,
+    getFormationsGroupes,
+
 
 
     getTranslations

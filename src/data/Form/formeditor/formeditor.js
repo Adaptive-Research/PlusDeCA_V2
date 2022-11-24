@@ -153,10 +153,6 @@ export class EditorConvertToHTML extends Component {
 
     this.props = props ; 
 
-    //console.log("EditorConvertToHTML") ;
-    //console.log("props") ;
-    //console.log(props) ;
-
     const html = props.Content ;
     const contentBlock = htmlToDraft(html);
     if (contentBlock) {
@@ -214,18 +210,12 @@ export class EditorConvertToHTML extends Component {
 
 
 
-
-
-//EditorConvertToHTML
+//HTMLViewer
 export class HTMLViewer extends Component {
   constructor(props) {
     super(props);
 
     this.props = props ; 
-
-    //console.log("EditorConvertToHTML") ;
-    //console.log("props") ;
-    //console.log(props) ;
 
     const html = props.Content ;
     const contentBlock = htmlToDraft(html);
@@ -238,31 +228,6 @@ export class HTMLViewer extends Component {
     }
   }
 
-  /*
-  onContentStateChange = contentState => {
-    console.log("onContentStateChange")
-    this.setState({
-      contentState
-    });
-    console.log("contentState") ;
-    console.log(contentState) ;
-
-    //this.props.onChange(draftToHtml(convertToRaw(contentState.getCurrentContent())));
-  };
-
-
-  onEditorStateChange = editorState => {
-    console.log("onEditorStateChange")
-    this.setState({
-      editorState
-    });
-
-    //console.log("editorState.getCurrentContent()") ;
-    //console.log(draftToHtml(convertToRaw(editorState.getCurrentContent()))) ;
-    this.props.onEditorChange(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-  };
-*/
-  
 
   render() {
     const { editorState } = this.state;
@@ -274,10 +239,6 @@ export class HTMLViewer extends Component {
           editorState={editorState}
           wrapperClassName="demo-wrapper"
           editorClassName="demo-editor"
-          /*
-          onEditorStateChange={this.onEditorStateChange}
-          onContentStateChange={this.onContentStateChange}
-          */
         />
       </div>
     );
