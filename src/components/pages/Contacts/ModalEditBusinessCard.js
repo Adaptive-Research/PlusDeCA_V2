@@ -243,8 +243,9 @@ const [emailMsg,setEmailMsg] = useState("");
                         <label className="col-md-3 form-label">Sexe :</label>
                         <div className="">
                             <select id="Sexes"  className="form-control" onChange={(e) =>  sexe.current = e.target.value}>
-                                <option value="1">Feminin</option>
                                 <option value="2">Masculin</option>
+                                <option value="1">Feminin</option>
+                               
                             </select>
                         </div>
 

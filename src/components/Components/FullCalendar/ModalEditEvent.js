@@ -23,6 +23,7 @@ export function ModalEditEvent(props) {
 
   // pour le reload des infos
   const [reloadInfos, setReloadInfos] = useState(true) ;
+  const [compteur, setCompteur] = useState(0) ;
 
 
 
@@ -88,7 +89,122 @@ export function ModalEditEvent(props) {
 
 
   
+  function SetHourAndMinute(){
+    console.log("SetHourAndMinute") ;
+
+      // pour mettre a jour la checkbox AllDay et faire ou ne pas faire afficher la plage horaire
+      if (props.AllDay === true) {
+        let i = document.getElementById("AllDay") ;
+        if (i !== null)
+          i.checked = true;
   
+        let d = document.getElementById("StartEnd") ;
+        if (d !== null)
+          d.classList.add("not-visible") ;
+        isAllDay.current = true ;
+      }
+  
+      // pour selectionner la bonne option dans le select TypeReunion
+      let s = document.getElementById("TypeReunion") ;
+      if (s !== null)
+      {
+        for (var option of s.options) 
+        {
+          if (props.TypeReunion === option.value)
+            option.selected = true ;
+        }
+      }
+  
+      // pour selectionner la bonne option dans le select startHour et startMinute
+      let h = dateStart.getHours() ;
+      //console.log("h") ;
+      //console.log(h) ;
+      s = document.getElementById("startHour") ;
+      if (s !== null)
+      {
+        for (var option of s.options) 
+        {
+          //console.log(option.value) ;
+          if (h == option.value)
+          {
+            option.selected = true ;
+            eventStartHour.current = option.value ;
+          }
+        }
+      }
+  
+      let m = dateStart.getMinutes() ;
+      s = document.getElementById("startMinute") ;
+      if (s !== null)
+      {
+        
+        var option_1 = "" ;
+        for (var option of s.options) 
+        {
+          if (m == option.value)
+          {
+            option.selected = true ;
+            eventStartMinute.current = option.value ;
+          }
+          else {
+            if (m > option_1.value &&  m < option.value)
+            {
+              option_1.selected = true ;
+              eventStartMinute.current = option_1.value ;
+            }
+          }
+          option_1 = option ;
+        }
+      }
+  
+  
+      // pour selectionner la bonne option dans le select endHour et endMinute
+      h = dateEnd.getHours() ;
+      //console.log("h") ;
+      //console.log(h) ;
+      s = document.getElementById("endHour") ;
+      if (s !== null)
+      {
+        for (var option of s.options) 
+        {
+          //console.log(option.value) ;
+          if (h == option.value)
+          {
+            eventEndHour.current = option.value ;
+            option.selected = true ;
+          }
+        }
+      }
+  
+      m = dateEnd.getMinutes() ;
+      s = document.getElementById("endMinute") ;
+      if (s !== null)
+      {
+        
+        var option_1 = "" ;
+        for (var option of s.options) 
+        {
+          if (m == option.value)
+          {
+            option.selected = true ;
+            eventEndMinute.current = option.value ;
+          }
+          else {
+            if (m > option_1.value &&  m < option.value)
+            {
+              eventEndMinute.current = option.value ;
+              option.selected = true ;
+            }
+          }
+          option_1 = option ;
+        }
+      }
+  }
+  
+
+
+
+
   if (reloadInfos === true) {
 
     console.log("reloadInfos") ;
@@ -102,6 +218,7 @@ export function ModalEditEvent(props) {
     setEventData(props.Data) ;
 
 
+    setCompteur(0) ;
     setReloadInfos(false) ;
   }
 
@@ -111,115 +228,11 @@ export function ModalEditEvent(props) {
   useEffect(() => {
     console.log("ModalEditEvent useEffect") ;
 
-    // pour mettre a jour la checkbox AllDay et faire ou ne pas faire afficher la plage horaire
-    if (props.AllDay === true) {
-      let i = document.getElementById("AllDay") ;
-      if (i !== null)
-        i.checked = true;
-
-      let d = document.getElementById("StartEnd") ;
-      if (d !== null)
-        d.classList.add("not-visible") ;
-      isAllDay.current = true ;
+    if (compteur === 0) {
+      SetHourAndMinute() ;
+      setCompteur(1) ;
     }
-
-    // pour selectionner la bonne option dans le select TypeReunion
-    let s = document.getElementById("TypeReunion") ;
-    if (s !== null)
-    {
-      for (var option of s.options) 
-      {
-        if (props.TypeReunion === option.value)
-          option.selected = true ;
-      }
-    }
-
-    // pour selectionner la bonne option dans le select startHour et startMinute
-    let h = dateStart.getHours() ;
-    //console.log("h") ;
-    //console.log(h) ;
-    s = document.getElementById("startHour") ;
-    if (s !== null)
-    {
-      for (var option of s.options) 
-      {
-        //console.log(option.value) ;
-        if (h == option.value)
-        {
-          option.selected = true ;
-          eventStartHour.current = option.value ;
-        }
-      }
-    }
-
-    let m = dateStart.getMinutes() ;
-    s = document.getElementById("startMinute") ;
-    if (s !== null)
-    {
-      
-      var option_1 = "" ;
-      for (var option of s.options) 
-      {
-        if (m == option.value)
-        {
-          option.selected = true ;
-          eventStartMinute.current = option.value ;
-        }
-        else {
-          if (m > option_1.value &&  m < option.value)
-          {
-            option_1.selected = true ;
-            eventStartMinute.current = option_1.value ;
-          }
-        }
-        option_1 = option ;
-      }
-    }
-
-
-    // pour selectionner la bonne option dans le select endHour et endMinute
-    h = dateEnd.getHours() ;
-    //console.log("h") ;
-    //console.log(h) ;
-    s = document.getElementById("endHour") ;
-    if (s !== null)
-    {
-      for (var option of s.options) 
-      {
-        //console.log(option.value) ;
-        if (h == option.value)
-        {
-          eventEndHour.current = option.value ;
-          option.selected = true ;
-        }
-      }
-    }
-
-    m = dateEnd.getMinutes() ;
-    s = document.getElementById("endMinute") ;
-    if (s !== null)
-    {
-      
-      var option_1 = "" ;
-      for (var option of s.options) 
-      {
-        if (m == option.value)
-        {
-          option.selected = true ;
-          eventEndMinute.current = option.value ;
-        }
-        else {
-          if (m > option_1.value &&  m < option.value)
-          {
-            eventEndMinute.current = option.value ;
-            option.selected = true ;
-          }
-        }
-        option_1 = option ;
-      }
-    }
-
-
+   
   });
 
 
@@ -413,7 +426,7 @@ export function ModalEditEvent(props) {
 
         <Modal.Header closeButton>
 
-          <button onClick={DeleteEvent}><i className={`Dan_icon fe fe-trash-2`}></i></button>
+          <button onClick={RemoveEvent}><i className={`Dan_icon fe fe-trash-2`}></i></button>
 
         </Modal.Header>
 
