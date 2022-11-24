@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&family=Poppins&family=Play:wght@400;700&display=swap');
+.BusinessCard{
+    border: 10px solid indigo !important;
+}
+h5{
+    font-family: 'Poppins', serif;
+    font-weight: 100;
+    font-size: 14px !important;
+}
+.BusinessCard-Content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.BusinessCard-Content h4{
+    font-family: 'Play', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: indigo;
+}
+.BusinessCard-Content p{
+    margin-bottom: 5px;
+    font-family: 'Poppins', serif;
+}
+.BusinessCard-Content p svg{
+    color: indigo;
+    font-size: 1.5rem;
+    margin-right: 7px;
+}
+
+.Prospect-SiteWeb{
+    font-family: 'Play', sans-serif !important;
+}
+
+.BusinessCardBtns{
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    transition: all 300ms ease-in-out;
+}
