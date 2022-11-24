@@ -6,14 +6,57 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
 const App = React.lazy(() => import("./components/app"));
-const Custompages = React.lazy(() => import("./components/custompages"));
+
 
 //Dashboard
 const Dashboard = React.lazy(() => import("./components/Dashboard/Dashboard"));
 //Journal
 const Journal = React.lazy(() => import("./components/Journal/Journal"));
+
+
+//Article
+const ArticleList = React.lazy(() => import("./components/pages/Articles/ArticleList"));
+
+//Formation
+const FormationList = React.lazy(() => import("./components/pages/Formations/FormationList"));
+
+
+//Contact
+const ContactList = React.lazy(() => import("./components/pages/Contacts/ContactList"));
+
+
+//Interview
+const InterviewList = React.lazy(() => import("./components/pages/Interviews/InterviewList"));
+const InterviewQuestions = React.lazy(() => import("./components/pages/Interviews/InterviewQuestions"));
+
+
+//pages
+const Profile = React.lazy(() => import("./components/pages/Profile/Profile"));
+const EditProfile = React.lazy(() => import("./components/pages/EditProfile/EditProfile"));
+
+//custom Pages
+const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
+const Register = React.lazy(() => import("./components/CustomPages/Register/Register"));
+const ForgotPassword = React.lazy(() => import("./components/CustomPages/ForgotPassword/ForgotPassword"));
+const LockScreen = React.lazy(() => import("./components/CustomPages/LockScreen/LockScreen"));
+
+
+
+
+
+
+
+
+
+
+
+//CustomPages
+const Custompages = React.lazy(() => import("./components/custompages"));
+
 //Widgets
 const Widgets = React.lazy(() => import("./components/Widgets/Widgets"));
+
+
 //Components
 const CardDesign = React.lazy(() => import("./components/Components/CardDesign/CardDesign"));
 const ContentScrollBar = React.lazy(() => import("./components/Components/ContentScrollBar/ContentScrollBar"));
@@ -85,8 +128,6 @@ const ThemifyIcons = React.lazy(() => import("./components/Icons/ThemifyIcons/Th
 const TypiconsIcons = React.lazy(() => import("./components/Icons/TypiconsIcons/TypiconsIcons"));
 const WeatherIcons = React.lazy(() => import("./components/Icons/WeatherIcons/WeatherIcons"));
 //pages
-const Profile = React.lazy(() => import("./components/pages/Profile/Profile"));
-const EditProfile = React.lazy(() => import("./components/pages/EditProfile/EditProfile"));
 const MailInbox = React.lazy(() => import("./components/pages/MailInbox/MailInbox"));
 const MailCompose = React.lazy(() => import("./components/pages/MailCompose/MailCompose"));
 const Gallery = React.lazy(() => import("./components/pages/Gallery/Gallery"));
@@ -98,19 +139,6 @@ const Invoice = React.lazy(() => import("./components/pages/Invoice/Invoice"));
 const PricingTables = React.lazy(() => import("./components/pages/PricingTables/PricingTables"));
 const Empty = React.lazy(() => import("./components/pages/Empty/Empty"));
 const UnderConstruction = React.lazy(() => import("./components/pages/UnderConstruction/UnderConstruction"));
-
-//Article
-const ArticleList = React.lazy(() => import("./components/pages/Articles/ArticleList"));
-
-
-//Contact
-const ContactList = React.lazy(() => import("./components/pages/Contacts/ContactList"));
-
-
-//Interview
-const InterviewList = React.lazy(() => import("./components/pages/Interviews/InterviewList"));
-const InterviewQuestions = React.lazy(() => import("./components/pages/Interviews/InterviewQuestions"));
-
 
 //Blog
 const Blog = React.lazy(() => import("./components/pages/Blog/Blog/Blog"));
@@ -125,17 +153,12 @@ const Checkout = React.lazy(() => import("./components/pages/E-Commerce/Checkout
 const ProductDetails = React.lazy(() => import("./components/pages/E-Commerce/ProductDetails/ProductDetails"));
 const ShoppingCarts = React.lazy(() => import("./components/pages/E-Commerce/ShoppingCarts/ShoppingCarts"));
 const Wishlist = React.lazy(() => import("./components/pages/E-Commerce/Wishlist/Wishlist"));
-//FileManger
+//FileManager
 const FileManager = React.lazy(() => import("./components/pages/FileManager/FileManager/FileManager"));
 const FileAttachments = React.lazy(() => import("./components/pages/FileManager/FileAttachments/FileAttachments"));
 const FileDetails = React.lazy(() => import("./components/pages/FileManager/FileDetails/FileDetails"));
 const FileManagerList = React.lazy(() => import("./components/pages/FileManager/FileManagerList/FileManagerList"));
 
-//custom Pages
-const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
-const Register = React.lazy(() => import("./components/CustomPages/Register/Register"));
-const ForgotPassword = React.lazy(() => import("./components/CustomPages/ForgotPassword/ForgotPassword"));
-const LockScreen = React.lazy(() => import("./components/CustomPages/LockScreen/LockScreen"));
 //Errorpages
 const Errorpage400 = React.lazy(() => import("./components/ErrorPages/ErrorPages/400/400"));
 const Errorpage401 = React.lazy(() => import("./components/ErrorPages/ErrorPages/401/401"));
@@ -195,12 +218,63 @@ const Root = () => {
                                 element={<Journal/>}
                             />
 
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/pages/profile`}
+                                element={<Profile/>}
+                            />
 
                             <Route
-                                path={`${process.env.PUBLIC_URL}/widgets`}
-                                element={<Widgets/>}
+                                path={`${process.env.PUBLIC_URL}/pages/editProfile`}
+                                element={<EditProfile/>}
                             />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/components/fullCalendar`}
+                                element={<FullCalendar/>}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/MesInterviews`}
+                                element={<InterviewList/>}
+                            />
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/QuestionsForInterview`}
+                                element={<InterviewQuestions/>}
+                            />
+
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/MesArticles`}
+                                element={<ArticleList/>}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/MesFormations`}
+                                element={<FormationList/>}
+                            />
+
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/MesContacts`}
+                                element={<ContactList/>}
+                            />
+
+
+
+
+
+
+                           
+
+
+
+
                             <Route>
+                                <Route
+                                    path={`${process.env.PUBLIC_URL}/widgets`}
+                                    element={<Widgets/>}
+                                />
+
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/components/cardsDesign`}
                                     element={<CardDesign/>}
@@ -210,10 +284,7 @@ const Root = () => {
                                     element={<DefaultCalendar/>}
                                 />
 
-                                <Route
-                                    path={`${process.env.PUBLIC_URL}/components/fullCalendar`}
-                                    element={<FullCalendar/>}
-                                />
+                               
 
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/components/defaultChat`}
@@ -262,6 +333,10 @@ const Root = () => {
                                     element={<Treeview/>}
                                 />
                             </Route>
+
+
+
+
                             <Route>
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/elements/alerts`}
@@ -342,6 +417,8 @@ const Root = () => {
                                     element={<Thumbnails/>}
                                 />
                             </Route>
+
+
                             <Route>
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/advancedElements/mediaObject`}
@@ -408,6 +485,8 @@ const Root = () => {
                                     element={<Cryptocurrencies/>}
                                 />
                             </Route>
+
+
                             <Route>
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/charts/chartJs`}
@@ -429,6 +508,8 @@ const Root = () => {
                                     element={<PieCharts/>}
                                 />
                             </Route>
+
+
                             <Route>
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/tables/defaultTables`}
@@ -440,6 +521,8 @@ const Root = () => {
                                     element={<DataTables/>}
                                 />
                             </Route>
+
+
                             <Route>
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/form/formElements`}
@@ -466,6 +549,9 @@ const Root = () => {
                                     element={<FormValidation/>}
                                 />
                             </Route>
+
+
+
                             <Route>
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/icon/fontAwesome`}
@@ -522,16 +608,10 @@ const Root = () => {
                                     element={<TypiconsIcons/>}
                                 />
                             </Route>
-                            <Route>
-                                <Route
-                                    path={`${process.env.PUBLIC_URL}/pages/profile`}
-                                    element={<Profile/>}
-                                />
 
-                                <Route
-                                    path={`${process.env.PUBLIC_URL}/pages/editProfile`}
-                                    element={<EditProfile/>}
-                                />
+
+
+                            <Route>
 
 
 
@@ -592,25 +672,7 @@ const Root = () => {
                                     element={<BlogPost/>}
                                 />
 
-                                <Route
-                                    path={`${process.env.PUBLIC_URL}/MesInterviews`}
-                                    element={<InterviewList/>}
-                                />
-                                <Route
-                                    path={`${process.env.PUBLIC_URL}/QuestionsForInterview`}
-                                    element={<InterviewQuestions/>}
-                                />
 
-
-                                <Route
-                                    path={`${process.env.PUBLIC_URL}/MesArticles`}
-                                    element={<ArticleList/>}
-                                />
-
-                                <Route
-                                    path={`${process.env.PUBLIC_URL}/MesContacts`}
-                                    element={<ContactList/>}
-                                />
 
 
                                 <Route

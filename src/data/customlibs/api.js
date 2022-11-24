@@ -461,7 +461,7 @@ function DeleteActivity(tok,idActivite,ForceRenderActivity) {
  ****************************************************************************************************************************************************/
 
 
-//Method to get all articles created by this user
+//Method to get all formations created by this user
 async function getUserArticles(variable,tok,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_ARTICLES_BY_USER_URL;
@@ -501,7 +501,7 @@ async function getUserArticles(variable,tok,ForceRender) {
 
 
 
-// Function that sends axios requesst to create a new article
+// Function that sends axios requesst to create a new formation
 async function SaveArticle(tok,title,category,texte,html,photo,ForceRenderArticle) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_ARTICLE_URL;
     console.log("SaveArticle") ;
@@ -533,7 +533,7 @@ async function SaveArticle(tok,title,category,texte,html,photo,ForceRenderArticl
 
 
 
-// Function that sends axios request to update an article
+// Function that sends axios request to update an formation
 async function UpdateArticle(tok,idAncestor, title,category,texte,html,photo,ForceRenderArticle ){
 
     const url =  process.env.REACT_APP_API_EDIT_ARTICLE_URL;
@@ -620,7 +620,7 @@ async function ValidateArticle (tok, idArticle, ForceRenderArticle) {
 }
 
 
-// La fonction permettant d'invalider un article
+// La fonction permettant d'invalider un formation
 async function InvalidateArticle (tok, idArticle, ForceRenderArticle) {
     console.log("InvalidateArticle: " + idArticle) ;
 
@@ -1385,6 +1385,203 @@ function DeleteBusinessCard(tok, id, ForceRenderBusinessCard) {
 
 
 
+/*****************************************************************************************************************************************************
+ * 
+ * 
+ *  Formations
+ * 
+ * 
+ ****************************************************************************************************************************************************/
+
+
+//Method to get all formations created by this user
+async function getUserFormations(variable,tok,ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Formations';
+    const url =  process.env.REACT_APP_API_SHOW_FORMATIONS_BY_USER_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        debug:1,
+        Submit: 1,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+    
+    //let variable = "userFormations" ;
+
+    const data =  getDataFromResponse(response) ;
+        
+    //console.log("test") ;
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+        //console.log("test1") ;
+
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    else{
+        localStorage.removeItem(variable);
+    }
+    //console.log("test2") ;
+
+    ForceRender(variable) ;
+}
+
+
+
+// Function that sends axios requesst to create a new formation
+async function SaveFormation(tok,title,category,texte,html,photo,ForceRenderFormation) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_FORMATION_URL;
+    console.log("SaveFormation") ;
+
+    const url =  process.env.REACT_APP_API_CREATE_FORMATION_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        Formation_Title: title,
+        Formation_Category: category,
+        Formation_Text: texte.current,
+        Formation_Html: html,
+        Formation_Image: photo
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    //console.log(response.data)
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error found: ${response.data}`);
+    } else {
+        console.log("Formation created");
+        ForceRenderFormation() ;
+    }
+}
+
+
+
+// Function that sends axios request to update  formation
+async function UpdateFormation(tok,idAncestor, title,category,texte,html,photo,ForceRenderFormation ){
+
+    const url =  process.env.REACT_APP_API_EDIT_FORMATION_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        idAncestor: idAncestor,
+        Formation_Title: title,
+        Formation_Category: category,
+        Formation_Text: texte,
+        Formation_Html: html,
+        Formation_Image: photo
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    //console.log(response.data)
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error found: ${response.data}`);
+    } else {
+        console.log("Formation updated");
+        ForceRenderFormation() ;
+    }
+
+}
+
+
+
+
+function DeleteFormation(tok, id, ForceRenderFormation) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_FORMATION_URL;
+    const url = process.env.REACT_APP_API_DELETE_FORMATION_URL;
+    axios.post(url, {
+        Submit: 1,
+        token: tok,
+        debug: 1,
+        idAncestor: id
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then(
+        (response) => {
+            console.log(response.data);
+            ForceRenderFormation() ;
+        }
+    )
+
+}
+
+
+
+
+
+// La fonction qui permet de Valider une Formation
+async function ValidateFormation (tok, idFormation, ForceRenderFormation) {
+    console.log("ValidateFormation: " + idFormation) ;
+  
+    const url=process.env.REACT_APP_API_VALIDATE_FORMATION_URL;
+    console.log("New URL " + url);
+
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        id: idFormation
+
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+
+    if (response.data.includes("ERROR:")) 
+        console.log(response.data);
+    else {
+        console.log("Formation validated");
+        ForceRenderFormation() ;
+     }
+       
+}
+
+
+// La fonction permettant d'invalider une formation
+async function InvalidateFormation (tok, idFormation, ForceRenderFormation) {
+    console.log("InvalidateFormation: " + idFormation) ;
+
+  
+    const url =  process.env.REACT_APP_API_INVALIDATE_FORMATION_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        id: idFormation
+
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+
+    if (response.data.includes("ERROR:")) 
+        console.log(response.data);
+     else {
+        console.log("Formation invalidated");
+        ForceRenderFormation() ;
+     }
+       
+}
+
+
+
 
 /*****************************************************************************************************************************************************
  * 
@@ -1467,6 +1664,13 @@ export {
     SaveBusinessCard,
     UpdateBusinessCard,
     DeleteBusinessCard,
+
+    getUserFormations,
+    SaveFormation,
+    UpdateFormation,
+    DeleteFormation,
+    ValidateFormation,
+    InvalidateFormation,
 
 
     getTranslations

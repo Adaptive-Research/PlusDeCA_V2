@@ -438,7 +438,8 @@ export function ModalEditEvent(props) {
                   <option value="2">Salon</option>
                   <option value="3">Rendez-vous client</option>
                   <option value="4">Webinaire</option>
-                  <option value="5">Autre</option>
+                  <option value="5">Séance de Téléprospection</option>
+                  <option value="6">Autre</option>
                 </select>
 
 

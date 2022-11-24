@@ -14,7 +14,7 @@ export const MENUITEMS = [
     },
 
     {
-        menutitle: "MES EVENEMENTS",
+        menutitle: "TROUVER DES CLIENTS",
         Items: [
             {
                 path: `${process.env.PUBLIC_URL}/components/FullCalendar`,
@@ -23,16 +23,27 @@ export const MENUITEMS = [
                 active: false,
                 title: "Mon planning",
             },
+            {
+                path: `${process.env.PUBLIC_URL}/Suivi`,
+                icon: "user-plus",
+                type: "link",
+                active: false,
+                title: "Le suivi commercial",
+            },
            
             {
                 path: `${process.env.PUBLIC_URL}/dashboard`,
                 icon: "star",
                 type: "link",
                 active: false,
-                title: "Bilan des évènements",
+                title: "Bilan",
             },
+
+
         ],
     },
+
+
 
     {
         menutitle: "MON RESEAU",
@@ -73,11 +84,11 @@ export const MENUITEMS = [
                 title: "Mes interviews",
             },
             {
-                path: `${process.env.PUBLIC_URL}/MesGroupes`,
-                icon: "users",
+                path: `${process.env.PUBLIC_URL}/MesFormations`,
+                icon: "share-2",
                 type: "link",
                 active: false,
-                title: "Mes groupes",
+                title: "Proposer une formation",
             },
         ],
     },

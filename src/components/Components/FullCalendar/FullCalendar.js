@@ -60,7 +60,9 @@ export default function FullCalendars() {
       
       
       
-        let bgColor= "#06377e" ;
+        let bgColor= "#CCCCCC" ;
+        if  (obj[i].Event_Type === "1")
+          bgColor = "#06377e" ;
         if  (obj[i].Event_Type === "2")
           bgColor= "#006600" ;
         if  (obj[i].Event_Type === "3")
@@ -69,11 +71,12 @@ export default function FullCalendars() {
           bgColor= "#168c7f" ;
         if  (obj[i].Event_Type === "5")
           bgColor= "#b05002" ;
+        
       
       
       
-        console.log("bgColor") ;  
-        console.log(bgColor) ;  
+        //console.log("bgColor") ;  
+        //console.log(bgColor) ;  
       
         let s = {
           
