@@ -19,7 +19,7 @@ const ArticleList = React.lazy(() => import("./components/pages/Articles/Article
 
 //Formation
 const FormationList = React.lazy(() => import("./components/pages/Formations/FormationList"));
-
+const FormationAvailableList =  React.lazy(() => import("./components/pages/FormationsAvailables/FormationAvailableList"));
 
 //Contact
 const ContactList = React.lazy(() => import("./components/pages/Contacts/ContactList"));
@@ -251,6 +251,10 @@ const Root = () => {
                             <Route
                                 path={`${process.env.PUBLIC_URL}/MesFormations`}
                                 element={<FormationList/>}
+                            />
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/Formations`}
+                                element={<FormationAvailableList/>}
                             />
 
 
