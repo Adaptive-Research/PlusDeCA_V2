@@ -328,13 +328,6 @@ export default function FormationAvailableList() {
                 <div>
                     <h1 className="page-title">Formations</h1>
                 </div>
-                <div className="ms-auto pageheader-btn">
-                    <button className='btn btn-primary' onClick={() => {SendFormationData(true, null) ;}}>
-                        <span> <i className="fe fe-plus"></i>&nbsp;</span>
-                        Ajouter une formation
-                    </button>
-
-                </div>
             </div>
 
             <Row id="user-profile">
