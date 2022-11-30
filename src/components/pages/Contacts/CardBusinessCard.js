@@ -35,7 +35,7 @@ export default function CardBusinessCard(props) {
             <Card.Body>
                 <div className='BusinessCard-Content'>
                     <h4 className='Prospect-FullName'>{props.BusinessCard.Prenom} {props.BusinessCard.Nom}</h4>
-                    <p className='Prospect-Fonction'><h4>{props.BusinessCard.Fonction}</h4></p>
+                    <span className='Prospect-Fonction'><h4>{props.BusinessCard.Fonction}</h4></span>
                     <div className='BusinessCard-Coordonees'>
                         <p className='Prospect-Email'><IoMdMail /> {props.BusinessCard.Email}</p>
                         <p className='Prospect-Telephone'><IoMdPhonePortrait /> {props.BusinessCard.TelephoneContact}</p>

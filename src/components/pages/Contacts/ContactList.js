@@ -6,6 +6,7 @@ import CardBusinessCard from "./CardBusinessCard" ;
 import ModalEditBusinessCard from "./ModalEditBusinessCard" ;
 import {FaUpload} from 'react-icons/fa';
 import '../../../assets/css/ModalEditBusinessCard.css';
+import ModalImportBusinessCard from "./ModalImportBusinessCard.js";
     
   
 
@@ -168,6 +169,11 @@ function ModalEditBusinessCardClose()
     setShowEditBusinessCard(false) ;
 }
 
+function ModalImportBusinessCardClose()
+{
+    setShowEditContact(false) ;
+}
+
 
 
 // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
@@ -231,7 +237,7 @@ function ForceRenderBusinessCard() {
     
     //console.log("ForceRenderBusinessCard") ;
     setShowEditBusinessCard(false) ;
-
+    setShowEditContact(false);
     downloaded_BusinessCards.current = false ;    
     getUserBusinessCards("userBusinessCards",storedToken, RenderAfterLoad) ;
 }
@@ -355,6 +361,12 @@ function ForceRenderBusinessCard() {
                                             Telephone={telephone}
                                             Email={email}
                                             IdBusinessCard={idBusinessCard}
+                                        />
+                                        <ModalImportBusinessCard
+                                            Render={compteur}
+                                            show={showEditContact} 
+                                            SendCloseMessage={ModalImportBusinessCardClose}  
+                                            ForceRenderBusinessCard={ForceRenderBusinessCard}
                                         />
 
                                         <Tabs

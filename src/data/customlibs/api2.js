@@ -23,7 +23,7 @@ function getLastLineFromResponse(response) {
 
 
 
-function Upload(url, tok, Fichier,RenderUpload) {
+function Upload(url, tok, Fichier, RenderUpload) {
 
     const formData = new FormData();
     formData.append('Submit','1') ;
