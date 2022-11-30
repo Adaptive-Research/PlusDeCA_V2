@@ -1288,7 +1288,7 @@ async function getUserBusinessCards(variable,tok,ForceRender) {
 
 
 // Function that sends axios requesst to create a new BusinessCard
-async function SaveBusinessCard(tok,lr,ent, sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard) {
+async function SaveBusinessCard(tok,lr,ent, tele,sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_BusinessCard_URL;
     console.log("SaveBusinessCard") ;
 
@@ -1299,12 +1299,13 @@ async function SaveBusinessCard(tok,lr,ent, sw,sexe,pre,nom,fo,tel,em,ForceRende
         token: tok,
         LieuRencontre: lr,
         Entreprise: ent,
+        TelephoneEntreprise: tele,
         SiteWeb: sw,
         Sexe: sexe,
         Prenom: pre,
         Nom: nom,
         Fonction: fo,
-        Telephone: tel,
+        TelephoneContact: tel,
         Email: em
     }, {
         headers: {
@@ -1325,21 +1326,23 @@ async function SaveBusinessCard(tok,lr,ent, sw,sexe,pre,nom,fo,tel,em,ForceRende
 
 
 // Function that sends axios request to update an BusinessCard
-async function UpdateBusinessCard(tok,id,lr,ent, sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard ){
+async function UpdateBusinessCard(tok,id,lr,ent, tele, sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard ){
 
     const url =  process.env.REACT_APP_API_EDIT_BUSINESSCARD_URL;
     const response = await axios.post(url, {
         Submit: 1,
+        debug:1,
         token: tok,
         id: id,
         LieuRencontre: lr,
         Entreprise: ent,
+        TelephoneEntreprise: tele,
         SiteWeb: sw,
         Sexe: sexe,
         Prenom: pre,
         Nom: nom,
         Fonction: fo,
-        Telephone: tel,
+        TelephoneContact: tel,
         Email: em
     }, {
         headers: {

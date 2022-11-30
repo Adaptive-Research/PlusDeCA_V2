@@ -19,8 +19,14 @@ export default function CardBusinessCard(props) {
     }
 
 
+    let SiteWeb, S;
+    S = props.BusinessCard.SiteWeb.toUpperCase() ;
+    if ( S.includes("HTTP:") ) 
+        SiteWeb = props.BusinessCard.SiteWeb ;
+    else
+        SiteWeb = "https://"+ props.BusinessCard.SiteWeb ;
 
-        return(
+    return(
         <Card key={props.BusinessCard.id} className = 'BusinessCard'>
             <Card.Header style={{padding: '2rem',justifyContent: 'space-between',border:'none'}}>
                 <Card.Title as="h5">{props.BusinessCard.Entreprise}</Card.Title>            
@@ -29,11 +35,11 @@ export default function CardBusinessCard(props) {
             <Card.Body>
                 <div className='BusinessCard-Content'>
                     <h4 className='Prospect-FullName'>{props.BusinessCard.Prenom} {props.BusinessCard.Nom}</h4>
-                    <p className='Prospect-Fonction'>{props.BusinessCard.Fonction}</p>
+                    <p className='Prospect-Fonction'><h4>{props.BusinessCard.Fonction}</h4></p>
                     <div className='BusinessCard-Coordonees'>
                         <p className='Prospect-Email'><IoMdMail /> {props.BusinessCard.Email}</p>
-                        <p className='Prospect-Telephone'><IoMdPhonePortrait /> {props.BusinessCard.Telephone}</p>
-                        <p className='Prospect-SiteWeb'><FaGlobe /> {props.BusinessCard.SiteWeb}</p>
+                        <p className='Prospect-Telephone'><IoMdPhonePortrait /> {props.BusinessCard.TelephoneContact}</p>
+                        <p className='Prospect-SiteWeb'><FaGlobe /> <a href={SiteWeb} target="_blank" rel="noreferrer" >{props.BusinessCard.SiteWeb}</a> </p>
                     </div>
                 </div>                  
                 <div className='BusinessCardBtns'>
@@ -46,7 +52,7 @@ export default function CardBusinessCard(props) {
                 </div>                  
             </Card.Body> 
         </Card>
-                   
+                    
     );
 
 

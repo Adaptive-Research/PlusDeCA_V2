@@ -1,9 +1,7 @@
 import React, { useState,useRef,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
-import {/*getUserContacts,*/getUserBusinessCards} from "../../../data/customlibs/api";
-import CardContact from "./CardContact" ;
-import ModalEditContact from "./ModalEditContact" ;
+import {getUserBusinessCards} from "../../../data/customlibs/api";
 import CardBusinessCard from "./CardBusinessCard" ;
 import ModalEditBusinessCard from "./ModalEditBusinessCard" ;
 import {FaUpload} from 'react-icons/fa';
@@ -44,6 +42,7 @@ export default function ContactList() {
 
     const [lieuRencontre,setLieuRencontre] = useState("");
     const [entreprise,setEntreprise] = useState("");
+    const [telephoneEntreprise,setTelephoneEntreprise] = useState("");
     const [siteWeb,setSiteWeb] = useState("");
     const [sexe,setSexe] = useState("");
     const [prenom,setPrenom] = useState("");
@@ -124,30 +123,12 @@ export default function ContactList() {
         if (Contact === null)
         {
             setModeEdit("Add") ;
-            /*
-            setIdAncestor("") ;
-            setTitle("") ;
-            setCategory("1") ;
-            setText("") ;
-            setHtml("") ;
-            setPhoto("") ;
-            */
         }
         else
         {
             setModeEdit("Edit") ;
             console.log("Mode Edit") ;
-            //console.log("Contact") ;
-            //console.log(Contact) ;
 
-            /*
-            setIdAncestor(Contact.idAncestor) ;
-            setTitle(Contact.Contact_Title) ;
-            setCategory(Contact.Contact_Category) ;
-            setText(Contact.Contact_Text) ;
-            setHtml(Contact.Contact_Html) ;
-            setPhoto(Contact.Contact_Image) ;
-            */
         }
         
 
@@ -200,6 +181,7 @@ function SendBusinessCardData(ShowWindow, BusinessCard) {
 
         setLieuRencontre("");
         setEntreprise("");
+        setTelephoneEntreprise("");
         setSiteWeb("");
         setSexe(1);
         setPrenom("");
@@ -217,13 +199,14 @@ function SendBusinessCardData(ShowWindow, BusinessCard) {
         console.log(BusinessCard) ;
         setLieuRencontre(BusinessCard.LieuRencontre);
         setEntreprise(BusinessCard.Entreprise);
+        setTelephoneEntreprise(BusinessCard.TelephoneEntreprise);
         setIdBusinessCard(BusinessCard.id);
         setSiteWeb(BusinessCard.SiteWeb);
         setSexe(BusinessCard.Sexe);
         setPrenom(BusinessCard.Prenom);
         setNom(BusinessCard.Nom);
         setFonction(BusinessCard.Fonction);
-        setTelephone(BusinessCard.Telephone);
+        setTelephone(BusinessCard.TelephoneContact);
         setEmail(BusinessCard.Email);
     }
     if(ShowWindow === true){
@@ -273,27 +256,24 @@ function ForceRenderBusinessCard() {
 
 
     const renderContacts = () => {
-        const Contacts = JSON.parse(localStorage.getItem("userContacts"));
+        const BusinessCards = JSON.parse(localStorage.getItem("userBusinessCards"));
+        console.log("BusinessCards");
+        console.log(BusinessCards);
 
-        if (Contacts !== null)
+        if (BusinessCards !== null)
         {
-            //console.log("Contacts") ;
-            //console.log(Contacts);
-
-            return Contacts.map((Ligne) => {
-                //console.log("Ligne.id: "+Ligne.id) ;
-                    if (Ligne.iscurrent === "1") 
-                        return <Col md={4}  key={Ligne.id}> 
-                                    <CardContact
-                                        Contact={Ligne}
-                                        SendContactData={SendContactData}  
-                                        ForceRenderContact = {ForceRenderContact}
+            return BusinessCards.map((Ligne) => {
+                        return <Col md={6}  key={Ligne.id}> 
+                                    <CardBusinessCard
+                                        BusinessCard={Ligne}
+                                        SendBusinessCardData={SendBusinessCardData}  
+                                        ForceRenderBusinessCard = {ForceRenderBusinessCard}
                                     /> 
                                 </Col> ;
                 })
         }
         else
-            return "" ;
+            return "" ;        
     }
 
 
@@ -302,7 +282,7 @@ function ForceRenderBusinessCard() {
 
     const renderBusinessCards = () => {
         const BusinessCards = JSON.parse(localStorage.getItem("userBusinessCards"));
-        console.log("BusinessCards Affiche");
+        console.log("BusinessCards");
         console.log(BusinessCards);
 
         if (BusinessCards !== null)
@@ -357,14 +337,6 @@ function ForceRenderBusinessCard() {
                                     <div className="tabs-menu1 ">
 
 
-                                        <ModalEditContact
-                                            Render={compteur}
-                                            show={showEditContact} 
-                                            SendCloseMessage={ModalEditContactClose}  
-                                            ForceRenderContact={ForceRenderContact}
-                                            ModeEdit={modeEdit}
-                                        />
-
 
                                         <ModalEditBusinessCard
                                             Render={compteur}
@@ -374,6 +346,7 @@ function ForceRenderBusinessCard() {
                                             ModeEdit={modeEdit}
                                             LieuRencontre={lieuRencontre}
                                             Entreprise={entreprise}
+                                            TelephoneEntreprise={telephoneEntreprise}
                                             SiteWeb={siteWeb}
                                             Sexe={sexe}
                                             Prenom={prenom}
@@ -386,18 +359,10 @@ function ForceRenderBusinessCard() {
 
                                         <Tabs
                                             variant="Tabs"
-                                            defaultActiveKey="Prospects"
+                                            defaultActiveKey="BusinessCard"
                                             id=" tab-51"
                                             className="tab-content tabesbody "
                                         >
-                                            <Tab eventKey="Brouillon" title="Prospects">
-                                                <div className="tab-pane " id="tab-61">
-                                                    <Row className="row-cards ">
-                                                        {renderContacts()}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
-
 
                                             <Tab eventKey="BusinessCard" title="Cartes de visite">
                                                 <div className="tab-pane profiletab show">

@@ -131,6 +131,8 @@ export function ResponsiveTimePickers() {
     </LocalizationProvider>
   );
 }
+
+
 //Dropimg
 export function Dropimg() {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
@@ -153,28 +155,50 @@ export function Dropimg() {
     </section>
   );
 }
+
+
 // //OuterDropzone
-export function OuterDropzone() {
+export function OuterDropzone(props) {
+
+  const getUploadParams = () => {
+    return { url: props.url }
+  }
+
   const handleChangeStatus = ({ meta }, status) => {
     console.log(status, meta);
   };
 
   const handleSubmit = (files, allFiles) => {
-    console.log(files.map((f) => f.meta));
-    allFiles.forEach((f) => f.remove());
+    console.log("handleSubmit") ;
+
+    if (props.onSubmit !== null)
+      props.onSubmit(files,allFiles) ;
+
+    //console.log(files.map((f) => f.meta));
+    //allFiles.forEach((f) => f.remove());
   };
 
   return (
     <Dropzone
       onChangeStatus={handleChangeStatus}
       onSubmit={handleSubmit}
-      maxFiles={3}
-      inputContent="Drop Files"
-      inputWithFilesContent={(files) => `${3 - files.length} more`}
-      submitButtonDisabled={(files) => files.length < 3}
+      maxFiles={props.maxFiles}
+      multiple={props.multiple}
+      inputContent={props.inputContent}
+
+      inputWithFilesContent={(files) => `${props.maxFiles - files.length} more allowed`}
+
+      /*
+      submitButtonDisabled={(files) => files.length < props.maxFiles}
+      */
+
+      submitButtonDisabled={false}
+      submitButtonContent={props.submitButtonContent}
     />
   );
 }
+
+
 //Dropimg2
 export function Dropimg2() {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
@@ -216,6 +240,8 @@ export function Dropimg1() {
     />
   );
 }
+
+
 //BasicMutipleSelect
 export const BasicMutipleSelect = () => {
     const [selected, setSelected] = useState([]);

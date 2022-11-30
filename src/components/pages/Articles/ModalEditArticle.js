@@ -3,6 +3,7 @@ import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import * as formeditor from "../../../data/Form/formeditor/formeditor";
 import { FormGroup, Row, Button, Modal} from "react-bootstrap";
 import {SaveArticle,UpdateArticle} from "../../../data/customlibs/api";
+import {Upload_Image} from "../../../data/customlibs/api2";
 
 
 
@@ -151,6 +152,23 @@ export default function ModalEditArticle(props) {
         } 
     }
 
+    function RenderUpload(NomFichierUploade){
+        console.log("NomFichierUploade") ;
+        console.log(NomFichierUploade) ;
+
+        setPhoto(NomFichierUploade) ;
+    }
+
+    const submitForm = (files, allFiles) => {
+        console.log("submitForm") ;
+        console.log(files);
+       
+        let Fichier = files[0].file ;
+
+        Upload_Image(process.env.REACT_APP_API_UPLOAD_IMAGE_ARTICLE_URL, storedToken, Fichier,RenderUpload) ;
+      };
+
+
 
     return (
         <div>
@@ -215,20 +233,35 @@ export default function ModalEditArticle(props) {
 
                     </Row>
 
+
+                    <Row>
+                        <label className="col-md-3 form-label mb-4">
+                            Fichier Photo: 
+                        </label>
+                        {photo}
+                    </Row>
+
+
+
+                    
                     <FormGroup className="mb-0 file">
                         <label className="col-md-3 form-label mb-4">
-                            Photo :
+                            Envoyer Photo :
                         </label>
+
                         <formadvanced.OuterDropzone
                             id="demo"
                             type="file"
                             name="files"
                             accept=".jpg, .png, image/jpeg, image/png"
-                            multiple
-                            onChange={(e) => setPhoto(e.target.value)}
+                            maxFiles={1}
+                            multiple={false}
+                            inputContent="Ajouter une image"
+                            submitButtonContent="Envoyer l'image"
+                            onSubmit={submitForm}
                         />
                     </FormGroup>    
-
+                    
 
 
 

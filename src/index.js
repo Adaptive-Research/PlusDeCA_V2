@@ -259,7 +259,12 @@ const Root = () => {
 
 
                             <Route
-                                path={`${process.env.PUBLIC_URL}/MesContacts`}
+                                path={`${process.env.PUBLIC_URL}/Prospection`}
+                                element={<ContactList/>}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/Mes`}
                                 element={<ContactList/>}
                             />
 

@@ -24,11 +24,11 @@ export const MENUITEMS = [
                 title: "Mon planning",
             },
             {
-                path: `${process.env.PUBLIC_URL}/Suivi`,
+                path: `${process.env.PUBLIC_URL}/Prospection`,
                 icon: "user-plus",
                 type: "link",
                 active: false,
-                title: "Le suivi commercial",
+                title: "La prospection",
             },
            
             {
@@ -49,11 +49,11 @@ export const MENUITEMS = [
         menutitle: "MON RESEAU",
         Items: [
             {
-                path: `${process.env.PUBLIC_URL}/MesContacts`,
+                path: `${process.env.PUBLIC_URL}/MyNetwork`,
                 icon: "user-plus",
                 type: "link",
                 active: false,
-                title: "Mes contacts",
+                title: "Mon réseau",
             },
             {
                 path: `${process.env.PUBLIC_URL}/MesMails`,
