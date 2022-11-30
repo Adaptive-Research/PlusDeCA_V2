@@ -48,19 +48,16 @@ export default function ModalImportBusinessCard(props) {
 
     
 
-    const handleCancel = () => {
+    const handleClose = () => {
         if (props.SendCloseMessage !== null)
             props.SendCloseMessage() ;
     }
-    const handleSave = () => {
-            props.ForceRenderBusinessCard() ;
-    }
-
     function RenderUpload(NomFichierUploade){
         console.log("NomFichierUploade") ;
         console.log(NomFichierUploade) ;
 
         setBusinessCardsFile(NomFichierUploade) ;
+        props.ForceRenderBusinessCard() ;
     }
 
 
@@ -107,14 +104,9 @@ export default function ModalImportBusinessCard(props) {
 
                 <Modal.Footer>
 
-                    <Button variant="primary" onClick={handleSave}>
-                        Save
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
                     </Button>
-
-                    <Button variant="secondary" onClick={handleCancel}>
-                        Cancel
-                    </Button>
-
                 </Modal.Footer>
 
             </Modal>

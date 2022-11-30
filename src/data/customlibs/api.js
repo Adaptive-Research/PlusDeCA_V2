@@ -1674,6 +1674,124 @@ async function InvalidateFormation (tok, idFormation, ForceRenderFormation) {
 /*****************************************************************************************************************************************************
  * 
  * 
+ *  Categories
+ * 
+ * 
+ ****************************************************************************************************************************************************/
+//La fonction permettant de Récupérer les Categories de BusinessCards
+
+async function getBusinessCardCategories (variable,tok,ForceRender) {
+    console.log("getBusinessCardsCategories") ;
+    const url =  process.env.REACT_APP_API_SHOW_CATEGORIESBUSINESSSCARDS_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug: 1
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    console.log(response.data) ;
+
+
+    const data =  getDataFromResponse(response) ;
+        
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    else{
+        localStorage.removeItem(variable);
+    }
+
+    ForceRender(variable) ; 
+}
+
+//La fonction permettant de Créer les Categories de BusinessCards
+
+async function SaveBusinessCardCategory (tok,categorie,SendCloseMessage,ForceRenderCategory) {
+    console.log("SaveBusinessCardCategory") ;
+    const url = process.env.REACT_APP_API_CREATE_CATEGORIEBUSINESSSCARD_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug:1,
+        Categorie: categorie
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+    console.log(response.data) ;
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error: ${response.data}`);
+    } else {
+        console.log("Category added");
+        SendCloseMessage();
+        ForceRenderCategory() ;
+    }
+    
+}
+
+//La fonction permettant de Modifier les Categories de BusinessCards
+
+
+async function UpdateBusinessCardCategory (tok,idCategorie,categorie,SendCloseMessage,ForceRenderCategory) {
+    console.log("UpdateBusinessCardCategory") ;
+    const url = process.env.REACT_APP_API_UPDATE_CATEGORIEBUSINESSSCARD_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug:1,
+        id:idCategorie,
+        Categorie: categorie
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+    console.log(response.data) ;
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error: ${response.data}`);
+    } else {
+        console.log("Category Updated");
+        SendCloseMessage();
+        ForceRenderCategory() ;
+    }
+    
+}
+
+//La fonction permettant de Supprimer les Categories de BusinessCards
+
+async function DeleteBusinessCardCategory (tok,idCategorie,ForceRenderCategory) {
+    const url = process.env.REACT_APP_API_DELETE_CATEGORIEBUSINESSSCARD_URL;
+    axios.post(url, {
+        Submit: 1,
+        token: tok,
+        debug: 1,
+        id: idCategorie
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then(
+        (response) => {
+            console.log(response.data);
+            ForceRenderCategory() ;
+        }
+    )
+}
+/*****************************************************************************************************************************************************
+ * 
+ * 
  *  Traductions
  * 
  * 
@@ -1762,7 +1880,10 @@ export {
     getFormationsCategories,
     getFormationsGroupes,
 
-
+    getBusinessCardCategories,
+    SaveBusinessCardCategory,
+    UpdateBusinessCardCategory,
+    DeleteBusinessCardCategory,
 
     getTranslations
 
