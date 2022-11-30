@@ -23,32 +23,12 @@ function getLastLineFromResponse(response) {
 
 
 
-function Upload_BusinessCards(NomFichier,Fichier) {
-
-  const formData = new FormData();
-  formData.append(NomFichier, Fichier);
-
-  // Post the form, just make sure to set the 'Content-Type' header
-  axios.post('/Upload-BusinessCards', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (response) {
-    console.log(response);
-  });
-}
-
-function Upload_Image(url, tok, Fichier,RenderUpload) {
+function Upload(url, tok, Fichier,RenderUpload) {
 
     const formData = new FormData();
     formData.append('Submit','1') ;
     formData.append('debug','1') ;
     formData.append('token',tok) ;
-    //formData.append(NomFichier, Fichier);
     formData.append('data', Fichier);
 
     axios({
@@ -73,6 +53,5 @@ function Upload_Image(url, tok, Fichier,RenderUpload) {
 
 
 export {
-    Upload_BusinessCards,
-    Upload_Image,
+    Upload,
 } ;

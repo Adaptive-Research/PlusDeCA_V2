@@ -3,7 +3,7 @@ import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import * as formeditor from "../../../data/Form/formeditor/formeditor";
 import { FormGroup, Row, Button, Modal} from "react-bootstrap";
 import {SaveArticle,UpdateArticle} from "../../../data/customlibs/api";
-import {Upload_Image} from "../../../data/customlibs/api2";
+import {Upload} from "../../../data/customlibs/api2";
 
 
 
@@ -165,7 +165,7 @@ export default function ModalEditArticle(props) {
        
         let Fichier = files[0].file ;
 
-        Upload_Image(process.env.REACT_APP_API_UPLOAD_IMAGE_ARTICLE_URL, storedToken, Fichier,RenderUpload) ;
+        Upload(process.env.REACT_APP_API_Upload_ARTICLE_URL, storedToken, Fichier,RenderUpload) ;
       };
 
 
