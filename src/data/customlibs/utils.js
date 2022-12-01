@@ -166,6 +166,48 @@ function createArticle(Questions,Answers,RenderQuestionReponse)
 
 
 
+function Up(Liste,value) {
+    let i,arr,index ;
+    
+    arr =[] ;
+    index = Liste.indexOf(value);
+    if (index > 0) {
+        for (i = 0 ; i < index-1 ; i++)
+            arr.push(Liste[i]) ;
+        arr.push(Liste[index]) ;
+        for (i = index-1 ; i < Liste.length ; i++)
+            if (i !== index)
+                arr.push(Liste[i]) ;
+        return [arr,true] ;
+    } 
+    else 
+        arr = Liste ;
+
+    return [arr,false] ;
+}
+
+function Down(Liste,value) {
+    let i,arr,index ;
+    
+    arr =[] ;
+    index = Liste.indexOf(value);
+    if (index < Liste.length-1) {
+        for (i = 0 ; i < index+2 ; i++)
+            if (i !== index)
+                arr.push(Liste[i]) ;
+        arr.push(Liste[index]) ;
+        for (i = index+2 ; i < Liste.length ; i++)
+                arr.push(Liste[i]) ;
+
+        return [arr,true] ;
+    } 
+    else 
+        arr = Liste ;
+
+    return [arr,false] ;
+}
+
+
 export {
     checkEmail,
     checkWordLength,
@@ -173,6 +215,7 @@ export {
     toLog,
     getUserId,
     createArticle,
+    Up, Down,
    
 };
 

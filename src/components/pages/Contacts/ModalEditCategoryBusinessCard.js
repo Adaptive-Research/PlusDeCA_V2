@@ -2,8 +2,10 @@ import React, {useState,useRef} from "react";
 import { FormGroup, Row, Col, Button, Modal, Card} from "react-bootstrap";
 import '../../../assets/css/ModalImportBusinessCard.css';
 import { SaveBusinessCardCategory, UpdateBusinessCardCategory } from "../../../data/customlibs/api";
+import { Up, Down } from "../../../data/customlibs/utils";
 
-
+import ListBox from 'react-listbox';
+import 'react-listbox/dist/react-listbox.css';
 
 
 
@@ -20,10 +22,11 @@ export default function ModalEditCategoryBusinessCard(props) {
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
     const [isModalOpen,setIsModalOpen] = useState(false) ;
 
+    const [compteur,setCompteur] = useState(0) ;
 
-    const [content, setContent] = useState(""); // ceci est utilise pour initialiser l'Editor
-    const [result, setResult] = useState("");   // ceci est ce que l'on recoit en sortie de l'editor
-    const [idCategoryBusinessCard, setIdCategoryBusinessCard]=useState("");
+    const Categorie= useRef("") ;
+    const ListeCategories = useRef([]) ;
+
 
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
@@ -34,8 +37,6 @@ export default function ModalEditCategoryBusinessCard(props) {
     if (reloadInfos === true)
     {
         modeEdit.current = props.ModeEditCategories ;
-        setIdCategoryBusinessCard(props.idCategoryBusinessCard) ;
-        setContent(props.Html) ;
         setReloadInfos(false) ;
     }
 
@@ -54,6 +55,7 @@ export default function ModalEditCategoryBusinessCard(props) {
     const inputsValidation = () => {
         console.log("inputsValidation") ;
 
+        /*
         console.log("result") ;
         console.log(result) ;
 
@@ -73,6 +75,7 @@ export default function ModalEditCategoryBusinessCard(props) {
             
                
         }
+        */
 
     }
 
@@ -92,11 +95,64 @@ export default function ModalEditCategoryBusinessCard(props) {
     }
 
 
+    function renderOptions() {
+        return ListeCategories.current.map((Ligne) => {
+            return <option value={Ligne}> {Ligne}</option> ;
+        })
+    }
+
+
+    const handleAdd = (e) => {
+        if (Categorie.current !== "")
+            ListeCategories.current.push(Categorie.current) ;
+        Categorie.current = "" ;
+        console.log(ListeCategories.current) ;
+        document.getElementById('Categorie').value = "";
+        setCompteur(compteur+1) ;
+      };
+
+
+    const handleUp = (e) => {
+
+        console.log("handleUp") ;
+        let res, select,arr ;
+        select = document.getElementById('ListeCategories') ;
+        console.log(select.selectedOptions) ;
+        if  (select.selectedOptions !== undefined){
+            const temp = Array.from(select.selectedOptions) ;
+            
+            arr = Up(ListeCategories.current,temp[0].value) ;
+            ListeCategories.current = arr[0] ;
+            res = arr[1] ;
+
+            if (res === true)
+                select.selectedIndex = select.selectedIndex-1 ;
+
+            setCompteur(compteur+1) ;
+        }
+      };
+      
+    const handleDown = (e) => {
+        console.log("handleDown") ;
+        let res, select,arr ;
+        select = document.getElementById('ListeCategories') ;
+        console.log(select.selectedOptions) ;
+        if  (select.selectedOptions !== undefined){
+            const temp = Array.from(select.selectedOptions) ;
+            arr = Down(ListeCategories.current,temp[0].value) ;
+            ListeCategories.current = arr[0] ;
+            res = arr[1] ;
+
+            if (res === true)
+                select.selectedIndex = select.selectedIndex+1 ;
+            setCompteur(compteur+1) ;
+        }
+    };
 
     return (
         <div className="ModalEditBusinessCard">
 
-            <Modal size="xl" className="Dan-modal"  show={isModalOpen} >
+            <Modal size="xl" className="Dan-modal" compteur={compteur} show={isModalOpen} >
 
                 <Modal.Body >
                 
@@ -104,27 +160,39 @@ export default function ModalEditCategoryBusinessCard(props) {
                     <label className="col-md-3 form-label mb-4">
                         Categories:
                     </label>
+
                     <div className="mb-4">
-                        <textarea className="Dan-Textarea" rows="10" cols="50"  onChange={(e) => {
-                                console.log("onChange: ") ;
-                                console.log(e.target.value) ;
 
-                                setResult(e.target.value) ;
-                            }}>
-                        </textarea>
+                        <input className="Dan-input-text" type="text" id="Categorie" onChange={(e) => {
+                            Categorie.current = e.target.value ;
+                        }} />
 
-                        <input type="text"  onChange={(e) => {
-                                console.log("onChange: ") ;
-                                console.log(e.target.value) ;
+                        <Button variant="primary" onClick={handleAdd}>
+                            Ajouter
+                        </Button>
+                    </div>
 
-                                setResult(e.target.value) ;
-                            }} />
+                    <div className="mb-4">
+                        <Row>
+                            <Col>
+                                <select className="Dan-select-multiple" id="ListeCategories" size="10"  multiple>
+                                    {renderOptions()}
+                                </select>
+                            </Col>
 
-                        <ul>
-                            <li>Coffee</li>
-                            <li>Tea</li>
-                            <li>Milk</li>
-                        </ul> 
+                            <Col>
+                                <div>
+                                    <Button variant="primary" onClick={handleUp}>
+                                        Up
+                                    </Button>
+                                </div>
+                                <div>
+                                    <Button variant="primary" onClick={handleDown}>
+                                        Down
+                                    </Button>
+                                </div>
+                            </Col>
+                        </Row>
 
 
                     </div>

@@ -217,3 +217,13 @@
     border-width: 1px;
     resize: none;
 }
+
+.Dan-select-multiple {
+    width:300px ;
+}
+
+.Dan-input-text {
+    border-style: solid;
+    border-width: 1px;
+    resize: none;
+}
