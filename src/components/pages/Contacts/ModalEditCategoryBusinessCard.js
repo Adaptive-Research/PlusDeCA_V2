@@ -1,10 +1,9 @@
 import React, {useState,useRef} from "react";
 import { FormGroup, Row, Col, Button, Modal, Card} from "react-bootstrap";
-import '../../../assets/css/ModalImportBusinessCard.css';
+import '../../../assets/css/ModalEditCategoryBusinessCard.css';
 import { SaveBusinessCardCategory, UpdateBusinessCardCategory } from "../../../data/customlibs/api";
 import { Up, Down } from "../../../data/customlibs/utils";
-
-import ListBox from 'react-listbox';
+import { GoArrowSmallDown, GoArrowSmallUp } from 'react-icons/go';
 import 'react-listbox/dist/react-listbox.css';
 
 
@@ -54,7 +53,19 @@ export default function ModalEditCategoryBusinessCard(props) {
     // Function that validates the form
     const inputsValidation = () => {
         console.log("inputsValidation") ;
-
+        console.log("Les Categories ajoutés");
+        console.log(ListeCategories);
+        if ((ListeCategories.current).length > 0) {
+            if (modeEdit.current === "Add"){
+                    (ListeCategories.current).map(Categorie =>{
+                        let Index=(ListeCategories.current).indexOf(Categorie);
+                        if(Categorie !== ''){
+                            //console.log(Categorie + ' Ordre: ' + Index);
+                            SaveBusinessCardCategory(storedToken, Categorie,Index,props.SendCloseMessage, props.ForceRenderCategoriesBusinessCards);
+                        }
+                    })
+            }  
+        } 
         /*
         console.log("result") ;
         console.log(result) ;
@@ -156,12 +167,12 @@ export default function ModalEditCategoryBusinessCard(props) {
 
                 <Modal.Body >
                 
-                <Row>
+                <Row className="ListBoxContainer">
                     <label className="col-md-3 form-label mb-4">
                         Categories:
                     </label>
 
-                    <div className="mb-4">
+                    <div className="mb-4 AddingForm" >
 
                         <input className="Dan-input-text" type="text" id="Categorie" onChange={(e) => {
                             Categorie.current = e.target.value ;
@@ -172,29 +183,24 @@ export default function ModalEditCategoryBusinessCard(props) {
                         </Button>
                     </div>
 
-                    <div className="mb-4">
-                        <Row>
-                            <Col>
-                                <select className="Dan-select-multiple" id="ListeCategories" size="10"  multiple>
-                                    {renderOptions()}
-                                </select>
-                            </Col>
-
-                            <Col>
-                                <div>
+                    <div className="mb-4 ListBox">
+                        <div className="ListBoxContent">
+                            <select className="Dan-select-multiple" id="ListeCategories" size="10"  multiple>
+                                {renderOptions()}
+                            </select>
+                        </div>
+                        <div className="ListBoxBtns">
+                                <div style={{marginBottom: '20px'}}>
                                     <Button variant="primary" onClick={handleUp}>
-                                        Up
+                                        <GoArrowSmallUp />
                                     </Button>
                                 </div>
                                 <div>
                                     <Button variant="primary" onClick={handleDown}>
-                                        Down
+                                       <GoArrowSmallDown />
                                     </Button>
                                 </div>
-                            </Col>
-                        </Row>
-
-
+                        </div>
                     </div>
 
                 </Row>

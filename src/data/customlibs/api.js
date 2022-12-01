@@ -1717,14 +1717,15 @@ async function getBusinessCardCategories (variable,tok,ForceRender) {
 
 //La fonction permettant de Créer les Categories de BusinessCards
 
-async function SaveBusinessCardCategory (tok,categorie,SendCloseMessage,ForceRenderCategory) {
+async function SaveBusinessCardCategory (tok,categorie,ordre,SendCloseMessage,ForceRenderCategory) {
     console.log("SaveBusinessCardCategory") ;
     const url = process.env.REACT_APP_API_CREATE_CATEGORIEBUSINESSSCARD_URL;
     const response = await axios.post(url, {
         token: tok,
         Submit: 1,
         debug:1,
-        Categorie: categorie
+        Categorie: categorie,
+        Ordre: ordre
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -1744,7 +1745,7 @@ async function SaveBusinessCardCategory (tok,categorie,SendCloseMessage,ForceRen
 //La fonction permettant de Modifier les Categories de BusinessCards
 
 
-async function UpdateBusinessCardCategory (tok,idCategorie,categorie,SendCloseMessage,ForceRenderCategory) {
+async function UpdateBusinessCardCategory (tok,idCategorie,categorie,ordre,SendCloseMessage,ForceRenderCategory) {
     console.log("UpdateBusinessCardCategory") ;
     const url = process.env.REACT_APP_API_UPDATE_CATEGORIEBUSINESSSCARD_URL;
     const response = await axios.post(url, {
@@ -1752,7 +1753,8 @@ async function UpdateBusinessCardCategory (tok,idCategorie,categorie,SendCloseMe
         Submit: 1,
         debug:1,
         id:idCategorie,
-        Categorie: categorie
+        Categorie: categorie,
+        Ordre: ordre
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

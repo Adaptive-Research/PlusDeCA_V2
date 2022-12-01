@@ -1,0 +1,57 @@
+.ListBoxContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.AddingForm{
+    width: 90%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.AddingForm .Dan-input-text{
+    width: 80%;
+    padding: 0.68rem;
+    border: none;
+    border-radius: 0.88rem;
+    background: #eee;
+    margin-right: 10px;
+}
+.ListBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ListBox .ListBoxContent{
+    width: 75%;
+    padding: 0.68rem;
+    border: none;
+    border-radius: 0.88rem;
+    background: #eee;
+    margin-right: 10px;
+}
+.ListBox .ListBoxContent .Dan-select-multiple{
+    border: none;
+    background: transparent;
+}
+.ListBox .ListBoxContent .Dan-select-multiple option{
+    padding: 0.68rem;
+}
+.ListBoxBtns{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.ListBoxBtns button{
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    text-shadow: 1px 1px 1px #000;
+}
