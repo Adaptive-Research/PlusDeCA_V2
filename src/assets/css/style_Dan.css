@@ -212,3 +212,8 @@
   }
   
 
+.Dan-Textarea {
+    border-style: solid;
+    border-width: 1px;
+    resize: none;
+}

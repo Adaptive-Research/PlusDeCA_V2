@@ -387,7 +387,7 @@ function ForceRenderCategoriesBusinessCards() {
                     </button>
                     <button className='btn btn-success' onClick={() => {SendCategoriesBusinessCardData(true,null)}} style={{marginLeft: "20px"}}>
                         <span> <i className="fe fe-plus"></i></span>
-                        Ajouter Categories
+                        Gérer les Catégories
                     </button>
                 </div>
             </div>

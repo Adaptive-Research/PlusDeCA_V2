@@ -1,9 +1,6 @@
 import React, {useState,useRef} from "react";
-import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
-import * as formeditor from "../../../data/Form/formeditor/formeditor";
 import { FormGroup, Row, Col, Button, Modal, Card} from "react-bootstrap";
 import '../../../assets/css/ModalImportBusinessCard.css';
-import {Upload} from "../../../data/customlibs/api2";
 import { SaveBusinessCardCategory, UpdateBusinessCardCategory } from "../../../data/customlibs/api";
 
 
@@ -26,8 +23,6 @@ export default function ModalEditCategoryBusinessCard(props) {
 
     const [content, setContent] = useState(""); // ceci est utilise pour initialiser l'Editor
     const [result, setResult] = useState("");   // ceci est ce que l'on recoit en sortie de l'editor
-    const [html, setHtml] = useState("");  // ceci est ce que l'on recoit en sortie de l'editor
-    const texte = useRef("");   // ceci est le texte contenu dans l'objet Result 
     const [idCategoryBusinessCard, setIdCategoryBusinessCard]=useState("");
 
     // pour le reload des infos
@@ -41,8 +36,6 @@ export default function ModalEditCategoryBusinessCard(props) {
         modeEdit.current = props.ModeEditCategories ;
         setIdCategoryBusinessCard(props.idCategoryBusinessCard) ;
         setContent(props.Html) ;
-        setHtml(props.Html) ;
-        texte.current = props.Text ;
         setReloadInfos(false) ;
     }
 
@@ -63,44 +56,22 @@ export default function ModalEditCategoryBusinessCard(props) {
 
         console.log("result") ;
         console.log(result) ;
-        console.log("html") ;
-        console.log(html) ;
-        console.log("texte") ;
-        console.log(texte.current) ;
 
-        let Categories = html.split('\n');
-
-        if (result !== "")
-        {
-            if (result.blocks !== undefined)
-                texte.current = String(result.blocks[0].text) ;
-        }
-
-        console.log("texte2") ;
-        console.log(texte.current) ;
+        let Categories = result.split('\n');
+        console.log("Categories") ;
+        console.log(Categories) ;
 
 
-        let descriptionCheck;
-        if (texte.current.length > 0) {
-            descriptionCheck = true;
-            //setDescriptionMsg("");
-        } else {
-            descriptionCheck = false;
-            //setDescriptionMsg("La description est obligatoire");
-        }
-
-        if (descriptionCheck) {
+        if (result.length > 0) {
             if (modeEdit.current === "Add"){
-                 //
-                console.log("Les Categories entrées");
                 Categories.map(Categorie =>{
                     if(Categorie !== ''){
                         SaveBusinessCardCategory(storedToken, Categorie ,props.SendCloseMessage, props.ForceRenderCategoriesBusinessCards);
                     }
                 })
             }
-            else
-                UpdateBusinessCardCategory(storedToken,idCategoryBusinessCard, html ,props.SendCloseMessage, props.ForceRenderArticle);
+            
+               
         }
 
     }
@@ -121,6 +92,7 @@ export default function ModalEditCategoryBusinessCard(props) {
     }
 
 
+
     return (
         <div className="ModalEditBusinessCard">
 
@@ -129,29 +101,35 @@ export default function ModalEditCategoryBusinessCard(props) {
                 <Modal.Body >
                 
                 <Row>
-                        <label className="col-md-3 form-label mb-4">
-                            Categories:
-                        </label>
-                        <div className="mb-4">
+                    <label className="col-md-3 form-label mb-4">
+                        Categories:
+                    </label>
+                    <div className="mb-4">
+                        <textarea className="Dan-Textarea" rows="10" cols="50"  onChange={(e) => {
+                                console.log("onChange: ") ;
+                                console.log(e.target.value) ;
 
-                            <formeditor.EditorConvertToHTML Content={content}
-                                onEditorChange={(v) => {
-                                    setHtml(v) ;
-                                    console.log("onEditorChange") ;
-                                    console.log("Html") ;
-                                    console.log(html) ;
-                                }}
-                                
-                                onChange={(v) => {
-                                    setResult(v) ;
-                                    console.log("onChange") ;
-                                    console.log("result") ;
-                                    console.log(result) ;
-                                }}
-                            />
-                        </div>
+                                setResult(e.target.value) ;
+                            }}>
+                        </textarea>
 
-                    </Row>
+                        <input type="text"  onChange={(e) => {
+                                console.log("onChange: ") ;
+                                console.log(e.target.value) ;
+
+                                setResult(e.target.value) ;
+                            }} />
+
+                        <ul>
+                            <li>Coffee</li>
+                            <li>Tea</li>
+                            <li>Milk</li>
+                        </ul> 
+
+
+                    </div>
+
+                </Row>
               
                 </Modal.Body>
 
