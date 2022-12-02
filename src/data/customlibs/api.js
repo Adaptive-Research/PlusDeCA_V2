@@ -1711,7 +1711,9 @@ async function getBusinessCardCategories (variable,tok,ForceRender) {
         localStorage.removeItem(variable);
     }
 
-    ForceRender(variable) ; 
+    if (ForceRender !== undefined)
+        if (ForceRender !== null)
+            ForceRender(variable) ; 
 }
 
 //La fonction permettant de Créer les Categories de BusinessCards
