@@ -24,15 +24,19 @@
     align-items: center;
 }
 .ListBox .ListBoxContent{
-    width: 75%;
+    width: 100%;
     padding: 0.68rem;
     border: none;
     background: #eee;
     margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .ListBox .ListBoxContent .Dan-select-multiple{
     border: none;
     background: transparent;
+    width: 100%;
 }
 .ListBox .ListBoxContent .Dan-select-multiple option{
     padding: 0.68rem;
