@@ -5,6 +5,7 @@ import { SaveBusinessCardCategory, UpdateBusinessCardCategory } from "../../../d
 import { Up, Down } from "../../../data/customlibs/utils";
 import { GoArrowSmallDown, GoArrowSmallUp } from 'react-icons/go';
 import 'react-listbox/dist/react-listbox.css';
+import { map } from "leaflet";
 
 
 
@@ -20,12 +21,16 @@ export default function ModalEditCategoryBusinessCard(props) {
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
     const [isModalOpen,setIsModalOpen] = useState(false) ;
+    const [addingMode,setAddingMode] = useState(true) ;
 
     const [compteur,setCompteur] = useState(0) ;
 
     const Categorie= useRef("") ;
     const ListeCategories = useRef([]) ;
+    let ListeSavedCategories = useRef(JSON.parse(localStorage.getItem("BusinessCardsCategories")));
 
+
+    console.log('Longueur :' + ListeSavedCategories.current.length);
 
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
@@ -58,9 +63,8 @@ export default function ModalEditCategoryBusinessCard(props) {
         if ((ListeCategories.current).length > 0) {
             if (modeEdit.current === "Add"){
                     (ListeCategories.current).map(Categorie =>{
-                        let Index=(ListeCategories.current).indexOf(Categorie);
+                        let Index = ListeSavedCategories.current.length + 1;
                         if(Categorie !== ''){
-                            //console.log(Categorie + ' Ordre: ' + Index);
                             SaveBusinessCardCategory(storedToken, Categorie,Index,props.SendCloseMessage, props.ForceRenderCategoriesBusinessCards);
                         }
                     })
@@ -107,9 +111,22 @@ export default function ModalEditCategoryBusinessCard(props) {
 
 
     function renderOptions() {
-        return ListeCategories.current.map((Ligne) => {
-            return <option value={Ligne}> {Ligne}</option> ;
-        })
+        if(addingMode){
+            console.log("Categorie simples");
+            console.log(ListeCategories.current);
+            return ListeCategories.current.map((Ligne) => {
+                return <option value={Ligne}> {Ligne}</option> ;
+            })
+        }
+        else if(!addingMode){
+           if(ListeSavedCategories.current !== null ){
+            console.log("Catégories sauvegardés");
+            console.log(ListeSavedCategories.current);
+            return ListeSavedCategories.current.map((SavedCategorie)=>{
+                return <option value={SavedCategorie.Categorie}> {SavedCategorie.Categorie}</option>
+            })
+           }
+        }
     }
 
 
@@ -130,7 +147,7 @@ export default function ModalEditCategoryBusinessCard(props) {
         select = document.getElementById('ListeCategories') ;
         console.log(select.selectedOptions) ;
         if  (select.selectedOptions !== undefined){
-            const temp = Array.from(select.selectedOptions) ;
+            let temp = Array.from(select.selectedOptions) ;
             
             arr = Up(ListeCategories.current,temp[0].value) ;
             ListeCategories.current = arr[0] ;
@@ -149,7 +166,7 @@ export default function ModalEditCategoryBusinessCard(props) {
         select = document.getElementById('ListeCategories') ;
         console.log(select.selectedOptions) ;
         if  (select.selectedOptions !== undefined){
-            const temp = Array.from(select.selectedOptions) ;
+            let temp = Array.from(select.selectedOptions) ;
             arr = Down(ListeCategories.current,temp[0].value) ;
             ListeCategories.current = arr[0] ;
             res = arr[1] ;
@@ -159,14 +176,61 @@ export default function ModalEditCategoryBusinessCard(props) {
             setCompteur(compteur+1) ;
         }
     };
+    /**
+     * 
+     *    const handleUpEdit = (e) => {
 
+        console.log("handleUpEdit") ;
+        let res, select,arr ;
+        select = document.getElementById('ListeCategoriesEdit') ;
+        console.log(select.selectedOptions) ;
+        if  (select.selectedOptions !== undefined){
+            const temp = Array.from(select.selectedOptions) ;
+            
+            arr = Up(ListeSavedCategories.current,temp[0].value) ;
+            ListeSavedCategories.current = arr[0] ;
+            res = arr[1] ;
+
+            if (res === true)
+                select.selectedIndex = select.selectedIndex-1 ;
+
+            setCompteur(compteur+1) ;
+        }
+      };
+    const handleDownEdit = (e) => {
+        console.log("handleDownEdit") ;
+        let res, select,arr ;
+        select = document.getElementById('ListeCategoriesEdit') ;
+        console.log(select.selectedOptions) ;
+        if  (select.selectedOptions !== undefined){
+            const temp = Array.from(select.selectedOptions) ;
+            arr = Down(ListeSavedCategories.current,temp[0].value) ;
+            ListeSavedCategories.current = arr[0] ;
+            res = arr[1] ;
+
+            if (res === true)
+                select.selectedIndex = select.selectedIndex+1 ;
+            setCompteur(compteur+1) ;
+        }
+    };
+
+     */
+    const handleEdit = (e) => {
+        setAddingMode(prev => !prev);
+        //console.log("Mode Edit: "+modeEdit.current);
+        //alert("Vous souhaitez passez en mode EDition")
+    }
     return (
         <div className="ModalEditBusinessCard">
 
             <Modal size="xl" className="Dan-modal" compteur={compteur} show={isModalOpen} >
-
+            
                 <Modal.Body >
-                
+                <Row style={{justifyContent:'flex-end'}}>
+                        <Button variant="primary" onClick={handleEdit} style={{width:'40px',height:'40px'}}>
+                            <i className="fa fa-edit"></i>
+                        </Button>
+                </Row>
                 <Row className="ListBoxContainer">
                     <label className="col-md-3 form-label mb-4">
                         Categories:
@@ -204,7 +268,6 @@ export default function ModalEditCategoryBusinessCard(props) {
                     </div>
 
                 </Row>
-              
                 </Modal.Body>
 
                 <Modal.Footer>

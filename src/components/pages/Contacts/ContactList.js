@@ -362,6 +362,28 @@ function ForceRenderCategoriesBusinessCards() {
     }
 
    
+    const RenderBusinessCardsCategoriesTabs = () =>{
+        const BusinessCardsCategories = JSON.parse(localStorage.getItem("BusinessCardsCategories"));
+        if(BusinessCardsCategories !== null){
+            console.log('BusinessCardsCategories');
+            console.log(BusinessCardsCategories);
+            return BusinessCardsCategories.map((BusinessCardCategorie) => {
+                if(BusinessCardCategorie.Categorie !== null){
+                    return  <Tab eventKey={BusinessCardCategorie.Categorie} title={BusinessCardCategorie.Categorie}>
+                                <div className="tab-pane " id="tab-61">
+                                    <Row className="row-cards ">
+                                        Nothing Added
+                                    </Row>
+                                </div>
+                            </Tab>
+                }
+            });
+
+        }else{
+            console.log("Aucune formation n'est disponible");
+        }
+    }
+
 
 
 
@@ -452,14 +474,7 @@ function ForceRenderCategoriesBusinessCards() {
                                                 </div>
                                             </Tab>
 
-                                            <Tab eventKey="Contact" title="A Contacter">
-                                                <div className="tab-pane profiletab show">
-                                                    <Row className="row-cards ">
-                                                        {renderContacts()}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
-
+                                            {RenderBusinessCardsCategoriesTabs()}
                                         </Tabs>
                                     </div>
                                 </div>
