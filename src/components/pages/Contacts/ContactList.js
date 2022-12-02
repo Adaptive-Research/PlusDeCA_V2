@@ -57,11 +57,8 @@ export default function ContactList() {
     const [email,setEmail] = useState("");
 
     //Les variables Pour la sauvegarde des Categories de Cartes de Visites;
-    const [categoriesBusinessCards, setCategoriesBusinessCards] = useState("");
     const [showEditCategoryBusinessCard, setShowEditCategoryBusinessCard] = useState(false);
-    const [idCategoryBusinessCard, setIdCategoryBusinessCard] = useState("");
-    const [html, setHtml] = useState("<p>Hey this <strong>test</strong> rocks 😀</p>");
-
+    
     /*
     const [idAncestor,setIdAncestor] = useState("") ;
     const [title, setTitle] = useState("");
@@ -92,23 +89,14 @@ export default function ContactList() {
 
     function RenderAfterLoad(variable) {
         console.log("RenderAfterLoad") ;
-       // console.log("downloaded_BusinessCards.current") ;
-        //console.log(downloaded_BusinessCards.current) ;
-        
-      /*  if (variable === "userContacts")
-            downloaded_Contacts.current = true ;
-*/
+
         if (variable === "userBusinessCards")
             downloaded_BusinessCards.current = true ;            
     
-        if ( downloaded_BusinessCards.current === true )
-            setCompteur(compteur+1) ; 
-        
-
         if (variable === "BusinessCardsCategories")
             downloaded_BusinessCardsCategories.current = true ;            
         
-        if ( downloaded_BusinessCardsCategories.current === true )
+        if ( downloaded_BusinessCards.current === true && downloaded_BusinessCardsCategories.current === true )
             setCompteur(compteur+1) ; 
         
     }
@@ -261,40 +249,18 @@ console.log(showEditBusinessCard);
 
 
 
-// C'est la fonction permettant d'ajouter ou d'éditer les catégories
-function SendCategoriesBusinessCardData(ShowWindow, CategoriesBusinessCardData) {
-    //console.log("SendCompanyData")
-    if (CategoriesBusinessCardData === null)
-    {
-        setModeEditCategories("Add") ;
-        console.log("Mode Edit des CategoriesBusinessCardData") ;
-        console.log(modeEditCategories) ;
-        setIdCategoryBusinessCard("");
-        setHtml("");
-    }
-    else
-    {
-        console.log("Mode Edit des CategoriesBusinessCardData") ;
-        console.log(modeEditCategories);
-        console.log("CategoriesBusinessCardData") ;
-        console.log(CategoriesBusinessCardData) ;
-        setIdCategoryBusinessCard(CategoriesBusinessCardData.id)
-        setHtml(CategoriesBusinessCardData.Categorie);
-    }
 
-    if(ShowWindow === true){
-        setShowEditCategoryBusinessCard(true) ;
-    }
-}    
 
 
 function ForceRenderBusinessCard() {
 
     setShowEditBusinessCard(false) ;
     setShowEditContact(false);
+
     downloaded_BusinessCards.current = false ;    
     getUserBusinessCards("userBusinessCards",storedToken, RenderAfterLoad) ;
 }
+
 
 //la fonction de ForceRender des Categories de BusinessCards
 function ForceRenderCategoriesBusinessCards() {
@@ -407,7 +373,7 @@ function ForceRenderCategoriesBusinessCards() {
                         <span> <i className="fe fe-plus"></i></span>
                         Ajouter une Carte
                     </button>
-                    <button className='btn btn-success' onClick={() => {SendCategoriesBusinessCardData(true,null)}} style={{marginLeft: "20px"}}>
+                    <button className='btn btn-success' onClick={() => {setShowEditCategoryBusinessCard(true)}} style={{marginLeft: "20px"}}>
                         <span> <i className="fe fe-plus"></i></span>
                         Gérer les Catégories
                     </button>
@@ -452,9 +418,6 @@ function ForceRenderCategoriesBusinessCards() {
                                         <ModalEditCategoryBusinessCard
                                             Render={compteur}
                                             show={showEditCategoryBusinessCard} 
-                                            ModeEditCategories={modeEditCategories}
-                                            idCategoryBusinessCard=''
-                                            Html=''
                                             SendCloseMessage={ModalEditCategoryBusinessCardClose}  
                                             ForceRenderCategoriesBusinessCards={ForceRenderCategoriesBusinessCards}
                                         />

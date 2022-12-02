@@ -166,7 +166,8 @@ function createArticle(Questions,Answers,RenderQuestionReponse)
 
 
 
-function Up(Liste,value) {
+
+function UpInArray(Liste,value) {
     let i,arr,index ;
     
     arr =[] ;
@@ -186,7 +187,7 @@ function Up(Liste,value) {
     return [arr,false] ;
 }
 
-function Down(Liste,value) {
+function DownInArray(Liste,value) {
     let i,arr,index ;
     
     arr =[] ;
@@ -208,6 +209,20 @@ function Down(Liste,value) {
 }
 
 
+function DeleteFromArray(Liste,value) {
+    let index ;
+    
+    
+    index = Liste.indexOf(value);
+    if (index > -1) {
+        Liste.splice(index, 1);
+      }
+
+    return Liste ;
+}
+
+
+
 export {
     checkEmail,
     checkWordLength,
@@ -215,7 +230,7 @@ export {
     toLog,
     getUserId,
     createArticle,
-    Up, Down,
+    UpInArray, DownInArray, DeleteFromArray
    
 };
 

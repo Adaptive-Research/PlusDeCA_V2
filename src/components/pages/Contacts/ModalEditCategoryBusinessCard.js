@@ -1,12 +1,8 @@
 import React, {useState,useRef} from "react";
-import { FormGroup, Row, Col, Button, Modal, Card} from "react-bootstrap";
+import {  Row, Button, Modal} from "react-bootstrap";
 import '../../../assets/css/ModalEditCategoryBusinessCard.css';
-import { SaveBusinessCardCategory, UpdateBusinessCardCategory } from "../../../data/customlibs/api";
-import { Up, Down } from "../../../data/customlibs/utils";
-import { GoArrowSmallDown, GoArrowSmallUp } from 'react-icons/go';
-import 'react-listbox/dist/react-listbox.css';
-import { map } from "leaflet";
-
+import { DeleteAllBusinessCardCategories, SaveBusinessCardCategory, UpdateBusinessCardCategory } from "../../../data/customlibs/api";
+import { UpInArray, DownInArray, DeleteFromArray } from "../../../data/customlibs/utils";
 
 
 
@@ -21,26 +17,31 @@ export default function ModalEditCategoryBusinessCard(props) {
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
     const [isModalOpen,setIsModalOpen] = useState(false) ;
-    const [addingMode,setAddingMode] = useState(true) ;
 
     const [compteur,setCompteur] = useState(0) ;
 
     const Categorie= useRef("") ;
     const ListeCategories = useRef([]) ;
-    let ListeSavedCategories = useRef(JSON.parse(localStorage.getItem("BusinessCardsCategories")));
 
+    const CompteurSave = useRef(0) ;
+   
+      
 
-    console.log('Longueur :' + ListeSavedCategories.current.length);
 
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
 
-    const modeEdit = useRef("") ;
 
 
     if (reloadInfos === true)
     {
-        modeEdit.current = props.ModeEditCategories ;
+        let arr = JSON.parse(localStorage.getItem("BusinessCardsCategories")) ;
+        if (arr !== null)
+        {
+            ListeCategories.current = [] ;
+            for (let i = 0 ; i < arr.length ; i++) 
+                ListeCategories.current.push(arr[i].Categorie) ;
+        }
         setReloadInfos(false) ;
     }
 
@@ -55,53 +56,50 @@ export default function ModalEditCategoryBusinessCard(props) {
 
 
 
-    // Function that validates the form
-    const inputsValidation = () => {
-        console.log("inputsValidation") ;
-        console.log("Les Categories ajoutés");
-        console.log(ListeCategories);
-        if ((ListeCategories.current).length > 0) {
-            if (modeEdit.current === "Add"){
-                    (ListeCategories.current).map(Categorie =>{
-                        let Index = ListeSavedCategories.current.length + 1;
-                        if(Categorie !== ''){
-                            SaveBusinessCardCategory(storedToken, Categorie,Index,props.SendCloseMessage, props.ForceRenderCategoriesBusinessCards);
-                        }
-                    })
-            }  
-        } 
-        /*
-        console.log("result") ;
-        console.log(result) ;
 
-        let Categories = result.split('\n');
-        console.log("Categories") ;
-        console.log(Categories) ;
-
-
-        if (result.length > 0) {
-            if (modeEdit.current === "Add"){
-                Categories.map(Categorie =>{
-                    if(Categorie !== ''){
-                        SaveBusinessCardCategory(storedToken, Categorie ,props.SendCloseMessage, props.ForceRenderCategoriesBusinessCards);
-                    }
-                })
-            }
-            
-               
+    function RenderAfterSave() {
+        if (CompteurSave.current >=  ListeCategories.current.length)
+        {
+            if (props.ForceRenderCategoriesBusinessCards !== null)
+                props.ForceRenderCategoriesBusinessCards() ;
         }
-        */
+    }
 
+    function RenderAfterDelete() {
+        if  (ListeCategories.current.length === 0)
+        {
+            if (props.ForceRenderCategoriesBusinessCards !== null)
+                props.ForceRenderCategoriesBusinessCards() ;
+        }
+        else {
+
+            if (ListeCategories.current.length > 0) {
+                CompteurSave.current = 1 ;
+                ListeCategories.current.map(Categorie =>{
+                    if(Categorie !== '')
+                        SaveBusinessCardCategory(storedToken, Categorie,CompteurSave.current,null,RenderAfterSave);
+                    CompteurSave.current = CompteurSave.current+1 ;
+                })
+            } 
+        }
+      
+    }
+
+
+    // Function that validates the form
+    async function inputsValidation() {
+        //console.log("inputsValidation") ;
+        //console.log("ListeCategories");
+        //console.log(ListeCategories.current);
+        DeleteAllBusinessCardCategories(storedToken,RenderAfterDelete) ;
     }
 
 
     const handleSave = (e) => {
         e.preventDefault();
-        try {
-            inputsValidation();
-        } catch (e) {
-            console.log(e);
-        } 
+        inputsValidation();
+        
+       
     }    
 
     const handleCancel = () => {
@@ -111,26 +109,16 @@ export default function ModalEditCategoryBusinessCard(props) {
 
 
     function renderOptions() {
-        if(addingMode){
-            console.log("Categorie simples");
-            console.log(ListeCategories.current);
-            return ListeCategories.current.map((Ligne) => {
-                return <option value={Ligne}> {Ligne}</option> ;
-            })
-        }
-        else if(!addingMode){
-           if(ListeSavedCategories.current !== null ){
-            console.log("Catégories sauvegardés");
-            console.log(ListeSavedCategories.current);
-            return ListeSavedCategories.current.map((SavedCategorie)=>{
-                return <option value={SavedCategorie.Categorie}> {SavedCategorie.Categorie}</option>
-            })
-           }
-        }
+        console.log("renderOptions");
+        console.log(ListeCategories.current);
+        return ListeCategories.current.map((Ligne) => {
+            return <option value={Ligne}> {Ligne}</option> ;
+        })
     }
 
 
     const handleAdd = (e) => {
+        console.log("handleAdd") ;
         if (Categorie.current !== "")
             ListeCategories.current.push(Categorie.current) ;
         Categorie.current = "" ;
@@ -139,9 +127,19 @@ export default function ModalEditCategoryBusinessCard(props) {
         setCompteur(compteur+1) ;
       };
 
+      const handleDelete = (e) => {
+        console.log("handleDelete") ;
+        let select = document.getElementById('ListeCategories') ;
+        if  (select.selectedOptions !== undefined){
+            let temp = Array.from(select.selectedOptions) ;
+            ListeCategories.current = DeleteFromArray(ListeCategories.current,temp[0].value) ;
+
+            setCompteur(compteur+1) ;
+        }        
+      };      
+
 
     const handleUp = (e) => {
-
         console.log("handleUp") ;
         let res, select,arr ;
         select = document.getElementById('ListeCategories') ;
@@ -149,7 +147,7 @@ export default function ModalEditCategoryBusinessCard(props) {
         if  (select.selectedOptions !== undefined){
             let temp = Array.from(select.selectedOptions) ;
             
-            arr = Up(ListeCategories.current,temp[0].value) ;
+            arr = UpInArray(ListeCategories.current,temp[0].value) ;
             ListeCategories.current = arr[0] ;
             res = arr[1] ;
 
@@ -160,6 +158,7 @@ export default function ModalEditCategoryBusinessCard(props) {
         }
       };
       
+
     const handleDown = (e) => {
         console.log("handleDown") ;
         let res, select,arr ;
@@ -167,7 +166,7 @@ export default function ModalEditCategoryBusinessCard(props) {
         console.log(select.selectedOptions) ;
         if  (select.selectedOptions !== undefined){
             let temp = Array.from(select.selectedOptions) ;
-            arr = Down(ListeCategories.current,temp[0].value) ;
+            arr = DownInArray(ListeCategories.current,temp[0].value) ;
             ListeCategories.current = arr[0] ;
             res = arr[1] ;
 
@@ -176,61 +175,13 @@ export default function ModalEditCategoryBusinessCard(props) {
             setCompteur(compteur+1) ;
         }
     };
-    /**
-     * 
-     *    const handleUpEdit = (e) => {
-
-        console.log("handleUpEdit") ;
-        let res, select,arr ;
-        select = document.getElementById('ListeCategoriesEdit') ;
-        console.log(select.selectedOptions) ;
-        if  (select.selectedOptions !== undefined){
-            const temp = Array.from(select.selectedOptions) ;
-            
-            arr = Up(ListeSavedCategories.current,temp[0].value) ;
-            ListeSavedCategories.current = arr[0] ;
-            res = arr[1] ;
-
-            if (res === true)
-                select.selectedIndex = select.selectedIndex-1 ;
-
-            setCompteur(compteur+1) ;
-        }
-      };
-    const handleDownEdit = (e) => {
-        console.log("handleDownEdit") ;
-        let res, select,arr ;
-        select = document.getElementById('ListeCategoriesEdit') ;
-        console.log(select.selectedOptions) ;
-        if  (select.selectedOptions !== undefined){
-            const temp = Array.from(select.selectedOptions) ;
-            arr = Down(ListeSavedCategories.current,temp[0].value) ;
-            ListeSavedCategories.current = arr[0] ;
-            res = arr[1] ;
-
-            if (res === true)
-                select.selectedIndex = select.selectedIndex+1 ;
-            setCompteur(compteur+1) ;
-        }
-    };
-
-     */
-    const handleEdit = (e) => {
-        setAddingMode(prev => !prev);
-        //console.log("Mode Edit: "+modeEdit.current);
-        //alert("Vous souhaitez passez en mode EDition")
-    }
     return (
         <div className="ModalEditBusinessCard">
 
             <Modal size="xl" className="Dan-modal" compteur={compteur} show={isModalOpen} >
             
                 <Modal.Body >
-                <Row style={{justifyContent:'flex-end'}}>
-                        <Button variant="primary" onClick={handleEdit} style={{width:'40px',height:'40px'}}>
-                            <i className="fa fa-edit"></i>
-                        </Button>
-                </Row>
+                
                 <Row className="ListBoxContainer">
                     <label className="col-md-3 form-label mb-4">
                         Categories:
@@ -249,19 +200,24 @@ export default function ModalEditCategoryBusinessCard(props) {
 
                     <div className="mb-4 ListBox">
                         <div className="ListBoxContent">
-                            <select className="Dan-select-multiple" id="ListeCategories" size="10"  multiple>
+                            <select className="Dan-select-multiple" id="ListeCategories" size="10">
                                 {renderOptions()}
                             </select>
                         </div>
                         <div className="ListBoxBtns">
                                 <div style={{marginBottom: '20px'}}>
+                                    <button className='m-2 btn btn-danger' onClick={handleDelete}>
+                                        <i className="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                                <div style={{marginBottom: '20px'}}>
                                     <Button variant="primary" onClick={handleUp}>
-                                        <GoArrowSmallUp />
+                                        <i className="fe fe-chevron-up"></i>
                                     </Button>
                                 </div>
                                 <div>
                                     <Button variant="primary" onClick={handleDown}>
-                                       <GoArrowSmallDown />
+                                        <i className="fe fe-chevron-down"></i>
                                     </Button>
                                 </div>
                         </div>

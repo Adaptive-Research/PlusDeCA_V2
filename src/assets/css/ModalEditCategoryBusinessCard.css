@@ -15,7 +15,6 @@
     width: 80%;
     padding: 0.68rem;
     border: none;
-    border-radius: 0.88rem;
     background: #eee;
     margin-right: 10px;
 }
@@ -28,7 +27,6 @@
     width: 75%;
     padding: 0.68rem;
     border: none;
-    border-radius: 0.88rem;
     background: #eee;
     margin-right: 10px;
 }
@@ -39,6 +37,7 @@
 .ListBox .ListBoxContent .Dan-select-multiple option{
     padding: 0.68rem;
 }
+
 .ListBoxBtns{
     display: flex;
     flex-direction: column;

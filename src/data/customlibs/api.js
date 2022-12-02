@@ -1695,7 +1695,6 @@ async function getBusinessCardCategories (variable,tok,ForceRender) {
 
     console.log(response.data) ;
 
-
     const data =  getDataFromResponse(response) ;
         
     let pos = data.indexOf("ERROR") ;
@@ -1723,7 +1722,7 @@ async function SaveBusinessCardCategory (tok,categorie,ordre,SendCloseMessage,Fo
     const response = await axios.post(url, {
         token: tok,
         Submit: 1,
-        debug:1,
+        //debug:1,
         Categorie: categorie,
         Ordre: ordre
     }, {
@@ -1736,8 +1735,12 @@ async function SaveBusinessCardCategory (tok,categorie,ordre,SendCloseMessage,Fo
         console.log(`Error: ${response.data}`);
     } else {
         console.log("Category added");
-        SendCloseMessage();
-        ForceRenderCategory() ;
+        if (SendCloseMessage !== undefined)
+            if (SendCloseMessage !== null)
+                SendCloseMessage();
+        if (ForceRenderCategory !== undefined)            
+            if (ForceRenderCategory !== null)
+                ForceRenderCategory() ;
     }
     
 }
@@ -1765,21 +1768,22 @@ async function UpdateBusinessCardCategory (tok,idCategorie,categorie,ordre,SendC
         console.log(`Error: ${response.data}`);
     } else {
         console.log("Category Updated");
-        SendCloseMessage();
-        ForceRenderCategory() ;
+        if (SendCloseMessage != null)
+            SendCloseMessage();
+        if (ForceRenderCategory !== null)
+            ForceRenderCategory() ;
     }
     
 }
 
 //La fonction permettant de Supprimer les Categories de BusinessCards
 
-async function DeleteBusinessCardCategory (tok,idCategorie,ForceRenderCategory) {
+async function DeleteAllBusinessCardCategories (tok,ForceRenderCategory) {
     const url = process.env.REACT_APP_API_DELETE_CATEGORIEBUSINESSSCARD_URL;
     axios.post(url, {
         Submit: 1,
         token: tok,
         debug: 1,
-        id: idCategorie
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -1787,7 +1791,8 @@ async function DeleteBusinessCardCategory (tok,idCategorie,ForceRenderCategory) 
     }).then(
         (response) => {
             console.log(response.data);
-            ForceRenderCategory() ;
+            if (ForceRenderCategory !== null)
+                ForceRenderCategory() ;
         }
     )
 }
@@ -1885,7 +1890,7 @@ export {
     getBusinessCardCategories,
     SaveBusinessCardCategory,
     UpdateBusinessCardCategory,
-    DeleteBusinessCardCategory,
+    DeleteAllBusinessCardCategories,
 
     getTranslations
 
