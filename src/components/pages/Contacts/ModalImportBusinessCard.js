@@ -10,107 +10,81 @@ import {Upload} from "../../../data/customlibs/api2";
 
 
 export default function ModalImportBusinessCard(props) {
+    const [businessCardsFile, setBusinessCardsFile] = useState("");
 
     const storedToken = localStorage.getItem('token');
 
-    console.log("ModalImportBusinessCard") ;
-    console.log("ModalImportBusinessCard props") ;
-    console.log(props) ;
+
+    if (props.show !== true)
+        return "" ;
+    else {
+   
+        console.log("ModalImportBusinessCard") ;
+        console.log("ModalImportBusinessCard props") ;
+        console.log(props) ;
+
+        
+
+        const handleClose = () => {
+            if (props.SendCloseMessage !== null)
+                props.SendCloseMessage() ;
+        }
+
+        
+        function RenderUpload(NomFichierUploade){
+            console.log("NomFichierUploade") ;
+            console.log(NomFichierUploade) ;
+
+            setBusinessCardsFile(NomFichierUploade) ;
+            props.ForceRenderBusinessCard() ;
+        }
 
 
-    const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
-    const [isModalOpen,setIsModalOpen] = useState(false) ;
-    const [businessCardsFile, setBusinessCardsFile] = useState("");
+        const submitForm = (files, allFiles) => {
+            console.log("submitForm") ;
+            console.log(files);
+        
+            let Fichier = files[0].file ;
 
-    // pour le reload des infos
-    const [reloadInfos, setReloadInfos] = useState(true) ;
+            Upload(process.env.REACT_APP_API_UPLOAD_BUSINESSCARDS_URL, storedToken, Fichier,RenderUpload) ;
+        };
 
-    const modeEdit = useRef("") ;
+        return (
+            <div className="ModalEditBusinessCard">
 
+                <Modal size="xl" className="Dan-modal"  show={props.show} >
 
-    if (reloadInfos === true)
-    {
-        modeEdit.current = props.ModeEdit ;
+                    <Modal.Body >
+
+                        <FormGroup className="mb-0 file">
+                            <label className="col-md-3 form-label mb-4">
+                                Importer Cartes de Visite
+                            </label>
+
+                            <formadvanced.OuterDropzone
+                                id="demo"
+                                type="file"
+                                name="files"
+                                accept=".csv"
+                                maxFiles={1}
+                                multiple={false}
+                                inputContent="Ajouter un Fichier"
+                                submitButtonContent="Envoyer le Fichier"
+                                onSubmit={submitForm}
+                            />
+                        </FormGroup>    
+                    </Modal.Body>
+
+                    <Modal.Footer>
+
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+
+                </Modal>
+
+            </div>
+        );
     }
-
-
-    if (props.show !== lastIsModalOpen)
-    {
-        setIsModalOpen(props.show) ;
-        setLastIsModalOpen(props.show) ;
-        if (props.show === true)
-            setReloadInfos(true) ;
-    }
-
-
-
-
-
-    
-
-    const handleClose = () => {
-        if (props.SendCloseMessage !== null)
-            props.SendCloseMessage() ;
-    }
-    function RenderUpload(NomFichierUploade){
-        console.log("NomFichierUploade") ;
-        console.log(NomFichierUploade) ;
-
-        setBusinessCardsFile(NomFichierUploade) ;
-        props.ForceRenderBusinessCard() ;
-    }
-
-
-    const submitForm = (files, allFiles) => {
-        console.log("submitForm") ;
-        console.log(files);
-       
-        let Fichier = files[0].file ;
-
-        Upload(process.env.REACT_APP_API_UPLOAD_BUSINESSCARDS_URL, storedToken, Fichier,RenderUpload) ;
-    };
-
-    return (
-        <div className="ModalEditBusinessCard">
-
-            <Modal size="xl" className="Dan-modal"  show={isModalOpen} >
-
-                <Modal.Body >
-                    <Row>
-                        <label className="col-md-3 form-label mb-4">
-                            Fichier BusinessCards: 
-                        </label>
-                        {businessCardsFile}
-                    </Row>
-
-                    <FormGroup className="mb-0 file">
-                        <label className="col-md-3 form-label mb-4">
-                            Importer Cartes de Visite
-                        </label>
-
-                        <formadvanced.OuterDropzone
-                            id="demo"
-                            type="file"
-                            name="files"
-                            accept=".csv"
-                            maxFiles={1}
-                            multiple={false}
-                            inputContent="Ajouter une Carte"
-                            submitButtonContent="Envoyer la Carte"
-                            onSubmit={submitForm}
-                        />
-                    </FormGroup>    
-                </Modal.Body>
-
-                <Modal.Footer>
-
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-
-            </Modal>
-
-        </div>
-    );
 }

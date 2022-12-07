@@ -1439,7 +1439,7 @@ async function getUserFormations(variable,tok,ForceRender) {
 //Method to get all formations created by this user
 async function getFormationsGroupes(variable,tok,vl, ForceRender) {
     console.log("getFormationsGroupes") ;
-    const url =  process.env.REACT_APP_API_SHOW_GROUPESFORMATIONS_URL;
+    const url =  process.env.REACT_APP_API_SHOW_GROUPES_FORMATIONS_URL;
     const response = await axios.post(url, {
         token: tok,
         Submit: 1,
@@ -1477,7 +1477,7 @@ async function getFormationsGroupes(variable,tok,vl, ForceRender) {
 
 async function getFormationsCategories(variable,tok,vl, ForceRender) {
     console.log("getFormationsCategories") ;
-    const url =  process.env.REACT_APP_API_SHOW_CATEGORIESFORMATIONS_URL;
+    const url =  process.env.REACT_APP_API_SHOW_CATEGORIES_FORMATIONS_URL;
     const response = await axios.post(url, {
         token: tok,
         Submit: 1,
@@ -1682,7 +1682,7 @@ async function InvalidateFormation (tok, idFormation, ForceRenderFormation) {
 
 async function getBusinessCardCategories (variable,tok,ForceRender) {
     console.log("getBusinessCardsCategories") ;
-    const url =  process.env.REACT_APP_API_SHOW_CATEGORIESBUSINESSSCARDS_URL;
+    const url =  process.env.REACT_APP_API_SHOW_CATEGORIES_BUSINESSCARDS_URL;
     const response = await axios.post(url, {
         token: tok,
         Submit: 1,
@@ -1717,14 +1717,14 @@ async function getBusinessCardCategories (variable,tok,ForceRender) {
 }
 
 //La fonction permettant de Créer les Categories de BusinessCards
-
-async function SaveBusinessCardCategory (tok,categorie,ordre,SendCloseMessage,ForceRenderCategory) {
+async function SaveBusinessCardCategory (tok,idancestor, categorie,ordre,SendCloseMessage,ForceRenderCategory) {
     console.log("SaveBusinessCardCategory") ;
-    const url = process.env.REACT_APP_API_CREATE_CATEGORIEBUSINESSSCARD_URL;
+    const url = process.env.REACT_APP_API_CREATE_CATEGORIE_BUSINESSCARD_URL;
     const response = await axios.post(url, {
         token: tok,
         Submit: 1,
-        //debug:1,
+        debug:1,
+        idAncestor: idancestor,
         Categorie: categorie,
         Ordre: ordre
     }, {
@@ -1747,12 +1747,16 @@ async function SaveBusinessCardCategory (tok,categorie,ordre,SendCloseMessage,Fo
     
 }
 
+
+
+
+
 //La fonction permettant de Modifier les Categories de BusinessCards
 
 
 async function UpdateBusinessCardCategory (tok,idCategorie,categorie,ordre,SendCloseMessage,ForceRenderCategory) {
     console.log("UpdateBusinessCardCategory") ;
-    const url = process.env.REACT_APP_API_UPDATE_CATEGORIEBUSINESSSCARD_URL;
+    const url = process.env.REACT_APP_API_UPDATE_CATEGORIE_BUSINESSCARD_URL;
     const response = await axios.post(url, {
         token: tok,
         Submit: 1,
@@ -1781,9 +1785,10 @@ async function UpdateBusinessCardCategory (tok,idCategorie,categorie,ordre,SendC
 //La fonction permettant de Supprimer les Categories de BusinessCards
 
 async function DeleteAllBusinessCardCategories (tok,ForceRenderCategory) {
-    const url = process.env.REACT_APP_API_DELETE_CATEGORIEBUSINESSSCARD_URL;
+    const url = process.env.REACT_APP_API_DELETE_CATEGORIE_BUSINESSCARD_URL;
     axios.post(url, {
         Submit: 1,
+        debug:1,
         token: tok,
         debug: 1,
     }, {
@@ -1798,6 +1803,63 @@ async function DeleteAllBusinessCardCategories (tok,ForceRenderCategory) {
         }
     )
 }
+
+
+
+
+
+
+async function SaveClassementBusinessCard (tok,idBusinessCard, idCategorie,ForceRender) {
+    console.log("SaveClassementBusinessCard") ;
+    const url = process.env.REACT_APP_API_CREATE_CLASSEMENT_BUSINESSCARD_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug:1,
+        idBusinessCard: idBusinessCard,
+        idCategorie: idCategorie
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+    console.log(response.data) ;
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error: ${response.data}`);
+    } else {
+        if (ForceRender !== undefined)            
+            if (ForceRender!== null)
+                ForceRender() ;
+    }
+    
+}
+
+
+async function UpdateClassementBusinessCardsForNonExistingCategory (tok,ForceRender) {
+    const url = process.env.REACT_APP_API_UPDATE_CLASSEMENT_BUSINESSCARD_FOR_NON_EXISTING_CATEGORIES_URL;
+    axios.post(url, {
+        Submit: 1,
+        debug:1,
+        token: tok,
+        debug: 1,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then(
+        (response) => {
+            console.log(response.data);
+            if (ForceRender !== null)
+                ForceRender() ;
+        }
+    )
+}
+
+
+
+
+
+
 /*****************************************************************************************************************************************************
  * 
  * 
@@ -1893,8 +1955,8 @@ export {
     SaveBusinessCardCategory,
     UpdateBusinessCardCategory,
     DeleteAllBusinessCardCategories,
+    UpdateClassementBusinessCardsForNonExistingCategory, 
+    SaveClassementBusinessCard,
 
     getTranslations
-
-
 };

@@ -167,11 +167,16 @@ function createArticle(Questions,Answers,RenderQuestionReponse)
 
 
 
-function UpInArray(Liste,value) {
+function UpInArray(Liste,get,value) {
     let i,arr,index ;
     
     arr =[] ;
-    index = Liste.indexOf(value);
+
+    index = -1 ;
+    for (i = 0 ; i < Liste.length; i++)
+        if (get(Liste[i]) === value) 
+            index = i ;
+
     if (index > 0) {
         for (i = 0 ; i < index-1 ; i++)
             arr.push(Liste[i]) ;
@@ -187,11 +192,16 @@ function UpInArray(Liste,value) {
     return [arr,false] ;
 }
 
-function DownInArray(Liste,value) {
+function DownInArray(Liste,get,value) {
     let i,arr,index ;
     
     arr =[] ;
-    index = Liste.indexOf(value);
+    
+    index = -1 ;
+    for (i = 0 ; i < Liste.length; i++)
+        if (get(Liste[i]) === value) 
+            index = i ;
+
     if (index < Liste.length-1) {
         for (i = 0 ; i < index+2 ; i++)
             if (i !== index)
@@ -209,11 +219,15 @@ function DownInArray(Liste,value) {
 }
 
 
-function DeleteFromArray(Liste,value) {
-    let index ;
+function DeleteFromArray(Liste,get,value) {
+    let index,i ;
     
     
-    index = Liste.indexOf(value);
+    index = -1 ;
+    for (i = 0 ; i < Liste.length; i++)
+        if (get(Liste[i]) === value) 
+            index = i ;
+
     if (index > -1) {
         Liste.splice(index, 1);
       }

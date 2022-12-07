@@ -24,12 +24,20 @@ export const MENUITEMS = [
                 title: "Mon planning",
             },
             {
-                path: `${process.env.PUBLIC_URL}/Prospection`,
+                path: `${process.env.PUBLIC_URL}/Contacts`,
                 icon: "user-plus",
+                type: "link",
+                active: false,
+                title: "Mes contacts",
+            },
+            {
+                path: `${process.env.PUBLIC_URL}/Prospection`,
+                icon: "phone",
                 type: "link",
                 active: false,
                 title: "La prospection",
             },
+
            
             {
                 path: `${process.env.PUBLIC_URL}/dashboard`,

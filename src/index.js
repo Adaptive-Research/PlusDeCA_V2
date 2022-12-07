@@ -257,16 +257,17 @@ const Root = () => {
                                 element={<FormationAvailableList/>}
                             />
 
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/Contacts`}
+                                element={<ContactList/>}
+                            />
+
 
                             <Route
                                 path={`${process.env.PUBLIC_URL}/Prospection`}
                                 element={<ContactList/>}
                             />
 
-                            <Route
-                                path={`${process.env.PUBLIC_URL}/Mes`}
-                                element={<ContactList/>}
-                            />
 
 
 
