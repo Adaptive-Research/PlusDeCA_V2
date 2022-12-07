@@ -284,15 +284,15 @@ export default function ContactList() {
                     <h1 className="page-title">Contacts</h1>
                 </div>
                 <div className="ms-auto pageheader-btn">
-                    <button className='btn btn-primary' onClick={() => {setShowImportContact(true)  ;}} style={{marginRight: "20px"}}>
+                    <button className='btn btn-primary' onClick={() => {setShowImportContact(true)  ;}}>
                         <span style={{marginRight: '5px'}}><FaUpload/></span>
                         Importer Prospects
                     </button>
-                    <button className='btn btn-success' onClick={() => {SendBusinessCardData("Add",null)}}>
+                    <button className='btn btn-success' onClick={() => {SendBusinessCardData("Add",null)}}  style={{marginLeft: "0.5rem",marginRight: "0.5rem"  }}>
                         <span> <i className="fe fe-plus"></i></span>
                         Ajouter une Carte
                     </button>
-                    <button className='btn btn-success' onClick={() => {setShowEditCategoryBusinessCard(true)}} style={{marginLeft: "20px"}}>
+                    <button className='btn btn-success' onClick={() => {setShowEditCategoryBusinessCard(true)}} >
                         <span> <i className="fe fe-plus"></i></span>
                         Gérer les Catégories
                     </button>

@@ -49,15 +49,19 @@ export default function CardBusinessCard(props) {
                     </div>
                 </div>                  
                 <div className='BusinessCardBtns'>
-                    <button className='btn btn-primary' onClick={() => ClasserBusinessCard(props.BusinessCard)}>
+                    <button className='btn btn-success' onClick={() => ClasserBusinessCard(props.BusinessCard)}>
+                        <i className="fe fe-phone"></i>
+                    </button>
+
+                    <button className='m-1 btn btn-primary' onClick={() => ClasserBusinessCard(props.BusinessCard)}>
                         <i className="fe fe-chevrons-right"></i>
                     </button>
 
-                    <button className='m-2 btn btn-primary' onClick={() => EditBusinessCard(props.BusinessCard)}>
+                    <button className='btn btn-primary' onClick={() => EditBusinessCard(props.BusinessCard)}>
                         <i className="fa fa-edit"></i>
                     </button>
 
-                    <button className='m-2 btn btn-danger' onClick={() => DeleteBusinessCard(storedToken, props.BusinessCard.id,props.ForceRenderBusinessCard)}>
+                    <button className='m-1 btn btn-danger' onClick={() => DeleteBusinessCard(storedToken, props.BusinessCard.id,props.ForceRenderBusinessCard)}>
                         <i className="fa fa-trash"></i>
                     </button>   
                 </div>                  

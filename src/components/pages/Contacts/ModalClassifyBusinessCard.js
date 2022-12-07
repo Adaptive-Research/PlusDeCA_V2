@@ -77,10 +77,11 @@ export default function ModalClassifyBusinessCard(props) {
 
     if (reloadInfos === true)
     {
+        ListeCategories.current = ["Cartes de visite"] ;
         let arr = JSON.parse(localStorage.getItem("BusinessCardsCategories")) ;
         if (arr !== null)
         {
-            ListeCategories.current = ["Cartes de visite"] ;
+           
             for (let i = 0 ; i < arr.length ; i++) 
                 ListeCategories.current.push(arr[i].Categorie) ;
         }
@@ -95,8 +96,11 @@ export default function ModalClassifyBusinessCard(props) {
 
         setLastIsModalOpen(props.show) ;
     
-        if (props.show ===true)
+        if (props.show ===true) {
+            let s = document.getElementById('ListeCategories2') ;
+            s.value = "" ;
             modal.style.display = shade.style.display = 'block';
+        }
         else
             modal.style.display = shade.style.display = 'none';
 
