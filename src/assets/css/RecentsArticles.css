@@ -1,45 +1,40 @@
-
-
-.Recents_Articles .Recents_Article_Container .Recent_Article .Recent_Article_Text,
-.Recents_Articles{
+.Charbel-div-center-col{/* Permet de diposer les noeuds enfants (directes de l'élément) verticalement et de les centrer*/
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
-.Recents_Articles .Recents_Article_Container .Recent_Article .Recent_Article_Text,
-.Recents_Articles .Recents_Article_Title{
+.Charbel-div-center-line{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.Start-Text{
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     text-align: start;
+    margin-top: 10px;
+    width: 100%;
+}
+.Fill-Container{
+    width: 100%;
+    height: auto;
 }
 
-.Recents_Articles .Recents_Article_Container{
+
+.Recents_Article_Container{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
-.Recents_Articles .Recents_Article_Container .Recent_Article,
-.Recents_Articles .Recents_Article_Container .Recent_Article .Recent_Article_Img{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
 
-.Recents_Articles .Recents_Article_Container .Recent_Article .Recent_Article_Img img,
-.Recents_Articles .Recents_Article_Container,
-.Recents_Articles .Recents_Article_Title,
-.Recents_Articles{
-    width: 100%;
-    height: auto;
-}
-
-.Recents_Articles .Recents_Article_Title{
+.Recents_Article_Title{
     font-size: 1.2rem;
     color: indigo;
     text-shadow: 1px 1px 1px rgba(0,0,0,.1);
@@ -48,7 +43,7 @@
     margin-left: 75px;
 }
 
-.Recents_Articles .Recents_Article_Container .Recent_Article{
+.Recent_Article{
     width: 300px;
     height: auto;
     padding: 1.2rem 2rem;
@@ -57,15 +52,15 @@
     transition: all 300ms ease-in-out;
     margin: 15px;
 }
-.Recents_Articles .Recents_Article_Container .Recent_Article:hover{
+.Recent_Article:hover{
     box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
     transform: scale(1.1);
 }
-.Recents_Articles .Recents_Article_Container .Recent_Article .Recent_Article_Text{
+.Recent_Article_Text{
     width: 75%;
     height: auto;
 }
-.Recents_Articles .Recents_Article_Container .Recent_Article .Recent_Article_Img{
+.Recent_Article_Img{
     width: 100px;
     height: 100px;
     line-height: 100px;
@@ -73,23 +68,23 @@
     outline: none;
 }
 
-.Recents_Articles .Recents_Article_Container .Recent_Article .Recent_Article_Text .Recent_Article_Title{
+.Recent_Article_Title{
     font-family: 'Poppins', 'serif';
     font-weight: bold;
     text-transform: capitalize;
 }
-.Recents_Articles .Recents_Article_Container .Recent_Article .Recent_Article_Text .Recent_Article_Desc{
+.Recent_Article_Desc{
     font-family: 'Poppins', 'serif';
     font-size: 12px;
     margin-top: 3px;
     margin-bottom: 3px;
 }
-.Recents_Articles .Recents_Article_Container .Recent_Article .Recent_Article_Text a{
+.Recent_Article_Text a{
     text-decoration: none;
     color: indigo;
     font-family: 'Domine', 'serif';
 }
-.Recents_Articles .Recents_Article_Container .Recent_Article .Recent_Article_Text a:hover{
+.Recent_Article_Text a:hover{
     text-decoration: underline;
     color: indigo;
 }

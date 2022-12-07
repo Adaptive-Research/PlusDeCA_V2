@@ -11,7 +11,7 @@
     justify-content: center;
     align-items: center;
 }
-.AddingForm .Dan-input-text{
+.Dan-input-text{
     width: 80%;
     padding: 0.68rem;
     border: none;
@@ -23,7 +23,7 @@
     justify-content: center;
     align-items: center;
 }
-.ListBox .ListBoxContent{
+.ListBoxContent{
     width: 100%;
     padding: 0.68rem;
     border: none;
@@ -33,12 +33,12 @@
     justify-content: center;
     align-items: center;
 }
-.ListBox .ListBoxContent .Dan-select-multiple{
+.ListBoxContent .Dan-select-multiple{
     border: none;
     background: transparent;
     width: 100%;
 }
-.ListBox .ListBoxContent .Dan-select-multiple option{
+.Dan-select-multiple option{
     padding: 0.68rem;
 }
 

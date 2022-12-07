@@ -16,70 +16,70 @@ const Journal = () => {
         
 
 
-        <div className='Journal'>
-            <div className='Journal_Header'>
+        <div className='Journal Charbel-div-center-col Fill-Container'>
+            <div className='Journal_Header Charbel-div-center-line Fill-Container'>
                 <div className='Logo'>
                     <img src={Logo} alt=''/>
                 </div>
-                <div className='Journal_Main_Title'>
+                <div className='Journal_Main_Title Charbel-div-center-line'>
                     Les Actualités de Plus De CA
                 </div>
             </div>
-            <div className='Journal_Articles_Container'>
-                <div className='Journal_Article'>
-                    <div className='Journal_Articles_Text'>
-                        <div className='Journal_Articles_Text_Title'>
+            <div className='Journal_Articles_Container Charbel-div-center-col Fill-Container'>
+                <div className='Journal_Article Charbel-div-center-line Fill-Container'>
+                    <div className='Journal_Articles_Text Charbel-div-center-col'>
+                        <div className='Journal_Articles_Text_Title Journal-Start-Text'>
                                 Le titre de l'article
                         </div>
-                        <div className='Journal_Articles_Text_Paragraph'>
+                        <div className='Journal_Articles_Text_Paragraph Journal-Start-Text'>
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam quo excepturi, fugiat repellendus quis, cupiditate, officiis aliquid numquam ipsa possimus blanditiis repudiandae dicta vitae maiores ab iusto eaque culpa delectus!
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                         </div>
-                        <div className='Journal_Articles_Text_Btn'>
-                            <button>
+                        <div className='Journal_Articles_Text_Btn Journal-Start-Text'>
+                            <button className='Charbel-div-center-line'>
                                 Read More
                             </button>
                         </div>
                     </div>
-                    <div className='Journal_Articles_Img'>
+                    <div className='Journal_Articles_Img Charbel-div-center-line'>
                         <img src={Journal_Img1} alt=''/>
                     </div>
                 </div>
-                <div className='Journal_Article'>
-                    <div className='Journal_Articles_Text'>
-                        <div className='Journal_Articles_Text_Title'>
+                <div className='Journal_Article Charbel-div-center-line Fill-Container'>
+                    <div className='Journal_Articles_Text Charbel-div-center-col'>
+                        <div className='Journal_Articles_Text_Title Journal-Start-Text'>
                                 Le titre de l'article
                         </div>
-                        <div className='Journal_Articles_Text_Paragraph'>
+                        <div className='Journal_Articles_Text_Paragraph Journal-Start-Text'>
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam quo excepturi, fugiat repellendus quis, cupiditate, officiis aliquid numquam ipsa possimus blanditiis repudiandae dicta vitae maiores ab iusto eaque culpa delectus!
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                         </div>
-                        <div className='Journal_Articles_Text_Btn'>
-                            <button>
+                        <div className='Journal_Articles_Text_Btn Journal-Start-Text'>
+                            <button className='Charbel-div-center-line'>
                                 Read More
                             </button>
                         </div>
                     </div>
-                    <div className='Journal_Articles_Img'>
+                    <div className='Journal_Articles_Img Charbel-div-center-line'>
                         <img src={Journal_Img2} alt=''/>
                     </div>
                 </div>
-                <div className='Journal_Article'>
-                    <div className='Journal_Articles_Text'>
-                        <div className='Journal_Articles_Text_Title'>
+                <div className='Journal_Article Charbel-div-center-line Fill-Container'>
+                    <div className='Journal_Articles_Text Charbel-div-center-col'>
+                        <div className='Journal_Articles_Text_Title Journal-Start-Text'>
                                 Le titre de l'article
                         </div>
-                        <div className='Journal_Articles_Text_Paragraph'>
+                        <div className='Journal_Articles_Text_Paragraph Journal-Start-Text'>
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam quo excepturi, fugiat repellendus quis, cupiditate, officiis aliquid numquam ipsa possimus blanditiis repudiandae dicta vitae maiores ab iusto eaque culpa delectus!
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                         </div>
-                        <div className='Journal_Articles_Text_Btn'>
-                            <button>
+                        <div className='Journal_Articles_Text_Btn Journal-Start-Text'>
+                            <button className='Charbel-div-center-line'>
                                 Read More
                             </button>
                         </div>
                     </div>
-                    <div className='Journal_Articles_Img'>
+                    <div className='Journal_Articles_Img Charbel-div-center-line'>
                         <img src={Journal_Img3} alt=''/>
                     </div>
                 </div>

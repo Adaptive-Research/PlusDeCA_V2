@@ -11,13 +11,13 @@ import '../../assets/css/RecentsArticles.css';
 
 const RecentsArticles = () => {
   return (
-    <div className='Recents_Articles'>
-            <div className='Recents_Article_Title'>
+    <div className='Recents_Articles Charbel-div-center-col Fill-Container'>
+            <div className='Recents_Article_Title Start-Text Fill-Container'>
                 Nos Récentes Interviews
             </div>
-            <div className='Recents_Article_Container'>
-                <div className='Recent_Article'>
-                    <div className='Recent_Article_Text'>
+            <div className='Recents_Article_Container Fill-Container'>
+                <div className='Recent_Article Charbel-div-center-line'>
+                    <div className='Recent_Article_Text Charbel-div-center-col Start-Text'>
                         <div className='Recent_Article_Title'>
                             Titre
                         </div>
@@ -28,12 +28,12 @@ const RecentsArticles = () => {
                             Lire
                         </Link>
                     </div>
-                    <div className='Recent_Article_Img'>
-                        <img src={Journal_Img4} alt=''/>
+                    <div className='Recent_Article_Img Charbel-div-center-line'>
+                        <img src={Journal_Img4} alt=''className='Fill-Container'/>
                     </div>
                 </div>
-                <div className='Recent_Article'>
-                    <div className='Recent_Article_Text'>
+                <div className='Recent_Article Charbel-div-center-line'>
+                    <div className='Recent_Article_Text Charbel-div-center-col Start-Text'>
                         <div className='Recent_Article_Title'>
                             Titre
                         </div>
@@ -44,12 +44,12 @@ const RecentsArticles = () => {
                             Lire
                         </Link>
                     </div>
-                    <div className='Recent_Article_Img'>
-                        <img src={Journal_Img5} alt=''/>
+                    <div className='Recent_Article_Img Charbel-div-center-line'>
+                        <img src={Journal_Img5} alt='' className='Fill-Container'/>
                     </div>
                 </div>
-                <div className='Recent_Article'>
-                    <div className='Recent_Article_Text'>
+                <div className='Recent_Article Charbel-div-center-line'>
+                    <div className='Recent_Article_Text Charbel-div-center-col Start-Text'>
                         <div className='Recent_Article_Title'>
                             Titre
                         </div>
@@ -60,12 +60,12 @@ const RecentsArticles = () => {
                             Lire
                         </Link>
                     </div>
-                    <div className='Recent_Article_Img'>
-                        <img src={Journal_Img6} alt=''/>
+                    <div className='Recent_Article_Img Charbel-div-center-line'>
+                        <img src={Journal_Img6} alt='' className='Fill-Container'/>
                     </div>
                 </div>
-                <div className='Recent_Article'>
-                    <div className='Recent_Article_Text'>
+                <div className='Recent_Article Charbel-div-center-line'>
+                    <div className='Recent_Article_Text Charbel-div-center-col Start-Text'>
                         <div className='Recent_Article_Title'>
                             Titre
                         </div>
@@ -76,12 +76,12 @@ const RecentsArticles = () => {
                             Lire
                         </Link>
                     </div>
-                    <div className='Recent_Article_Img'>
-                        <img src={Journal_Img1} alt=''/>
+                    <div className='Recent_Article_Img Charbel-div-center-line'>
+                        <img src={Journal_Img1} alt='' className='Fill-Container'/>
                     </div>
                 </div>
-                <div className='Recent_Article'>
-                    <div className='Recent_Article_Text'>
+                <div className='Recent_Article Charbel-div-center-line'>
+                    <div className='Recent_Article_Text Charbel-div-center-col Start-Text'>
                         <div className='Recent_Article_Title'>
                             Titre
                         </div>
@@ -92,12 +92,12 @@ const RecentsArticles = () => {
                             Lire
                         </Link>
                     </div>
-                    <div className='Recent_Article_Img'>
-                        <img src={Journal_Img2} alt=''/>
+                    <div className='Recent_Article_Img Charbel-div-center-line'>
+                        <img src={Journal_Img2} alt='' className='Fill-Container'/>
                     </div>
                 </div>
-                <div className='Recent_Article'>
-                    <div className='Recent_Article_Text'>
+                <div className='Recent_Article Charbel-div-center-line'>
+                    <div className='Recent_Article_Text Charbel-div-center-col Start-Text'>
                         <div className='Recent_Article_Title'>
                             Titre
                         </div>
@@ -108,8 +108,8 @@ const RecentsArticles = () => {
                             Lire
                         </Link>
                     </div>
-                    <div className='Recent_Article_Img'>
-                        <img src={Journal_Img3} alt=''/>
+                    <div className='Recent_Article_Img Charbel-div-center-line'>
+                        <img src={Journal_Img3} alt='' className='Fill-Container'/>
                     </div>
                 </div>
             </div>

@@ -1,34 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&family=Poppins&display=swap');
 
-
-
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text,
-.Journal .Journal_Articles_Container,
-.Journal{
+.Charbel-div-center-col{/* Permet de diposer les noeuds enfants (directes de l'élément) verticalement et de les centrer*/
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
-
-
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Btn button,
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Img,
-.Journal .Journal_Articles_Container .Journal_Article,
-.Journal .Journal_Header .Journal_Main_Title,
-.Journal .Journal_Header{
+.Charbel-div-center-line{
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
 
-
-
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Btn,
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Paragraph,
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Title{
+.Journal-Start-Text{
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -36,15 +22,7 @@
     margin-top: 10px;
     width: 100%;
 }
-/*
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Btn,
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Title{
-    padding-left: 2rem;
-}*/
-.Journal .Journal_Articles_Container .Journal_Article,
-.Journal .Journal_Articles_Container,
-.Journal .Journal_Header,
-.Journal{
+.Fill-Container{
     width: 100%;
     height: auto;
 }
@@ -57,12 +35,12 @@
     width: 100px;
     height: auto;
 }
-.Journal .Journal_Header .Logo img{
+.Logo img{
     width: 70%;
     height: auto;
 }
 
-.Journal .Journal_Header .Journal_Main_Title {
+.Journal_Main_Title {
     font-size: 1.3rem;
     font-weight: bold;
     text-transform: uppercase;
@@ -71,29 +49,32 @@
     font-family: 'Domine', serif;
 }
 
-.Journal .Journal_Articles_Container .Journal_Article{
+.Journal_Article{
     padding-bottom: 2rem;
     border-bottom: 1px solid indigo;
 }
 
-.Journal .Journal_Articles_Container{
+.Journal_Articles_Container{
     padding: 2rem 0;
 }
 
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Img,
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text{
+.Journal_Articles_Img{
     width: 45%;
     height: auto;
 }
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Img img{
+.Journal_Articles_Text{
+    width: 45%;
+    height: auto;
+}
+.Journal_Articles_Img img{
     width: 80%;
     height: auto;
 }
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text{
+.Journal_Articles_Text{
     padding: 1.5rem;
 }
 
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Title {
+.Journal_Articles_Text_Title {
     font-size: 1.5rem;
     font-weight: bolder;
     color: indigo;
@@ -102,10 +83,10 @@
     text-transform: capitalize;
 }
 
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Paragraph{
+.Journal_Articles_Text_Paragraph{
     font-family: 'Poppins', 'serif';
 }
-.Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Btn button{
+.Journal_Articles_Text_Btn button{
     padding: 0.88rem 1.2rem;
     color: #ffffff;
     background: indigo;
@@ -120,7 +101,7 @@
 
 
 @media screen and (max-width: 968px){
-    .Journal .Journal_Articles_Container .Journal_Article{
+    .Journal_Article{
         display: flex;
         flex-direction: column-reverse;
         justify-content: center;
@@ -128,26 +109,44 @@
         text-align: center;
         margin-top: 2rem;
     }
-    .Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text{
+    .Journal_Articles_Text{
         width: 60%;
     }
 }
 @media screen and (max-width: 968px){
-    .Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Img,
-    .Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text{
+    .Journal_Articles_Img{
+        width: 75%;
+        height: auto;
+    }
+    .Journal_Articles_Text{
         width: 75%;
         height: auto;
     }
 }
 @media screen and (max-width: 650px){
-    .Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Img,
-    .Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text{
+    .Journal_Articles_Img{
+        width: 85%;
+        height: auto; 
+    }
+    .Journal_Articles_Text{
         width: 85%;
         height: auto;
     }
-    .Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Btn,
-    .Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Paragraph,
-    .Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Title{
+    .Journal_Articles_Text_Btn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: justify;
+        margin-top: 10px;
+    }
+    .Journal_Articles_Text_Paragraph{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: justify;
+        margin-top: 10px;
+    }
+    .Journal_Articles_Text_Title{
         display: flex;
         justify-content: center;
         align-items: center;
@@ -156,27 +155,30 @@
     }
 }
 @media screen and (max-width: 400px){
-    .Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Img,
-    .Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text{
+    .Journal_Articles_Img{
         width: 95%;
         height: auto;
     }
-    .Journal .Journal_Articles_Container .Journal_Article .Journal_Articles_Text .Journal_Articles_Text_Title{
+    .Journal_Articles_Text{
+        width: 95%;
+        height: auto;
+    }
+    .Journal_Articles_Text_Title{
         font-size: 1rem;
     }
 }
 @media screen and (max-width:480px){
-    .Journal .Journal_Header{
+    .Journal_Header{
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
     }
-    .Journal .Journal_Header .Logo{
+    .Logo{
         margin-bottom: 1.5rem;
     }
-    .Journal .Journal_Header .Journal_Main_Title {
+    .Journal_Main_Title {
         font-size: 1.1rem;
     }
 }
