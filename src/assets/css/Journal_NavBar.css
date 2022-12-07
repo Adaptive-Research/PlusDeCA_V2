@@ -22,7 +22,7 @@
     width: 100%;
     height: 100%;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container{
+.Onglets_Container{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,17 +32,23 @@
     list-style: none;
 }
 
-
-
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links,
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container{
+.Charbel-div-center-col{/* Permet de diposer les noeuds enfants (directes de l'élément) verticalement et de les centrer*/
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container{
+
+.Supp_Nav_Links,
+.Supp_Nav_Links_Container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.Supp_Nav_Links_Container{
     list-style: none;
     position: absolute;
     top: 5.7rem;
@@ -52,7 +58,7 @@
     width: 200px;
     height: auto;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container .Supp_Nav_Onglet{
+.Supp_Nav_Onglet{
     width: 100%;
     height: 4rem;
     display: flex;
@@ -67,19 +73,19 @@
     background: #ffffff;
     padding: 1rem 1.5rem;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container .Supp_Nav_Onglet:nth-child(2){
+.Supp_Nav_Onglet:nth-child(2){
     animation-delay: 200ms;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container .Supp_Nav_Onglet:nth-child(3){
+.Supp_Nav_Onglet:nth-child(3){
     animation-delay: 400ms;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container .Supp_Nav_Onglet:nth-child(4){
+.Supp_Nav_Onglet:nth-child(4){
     animation-delay: 600ms;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container .Supp_Nav_Onglet:nth-child(5){
+.Supp_Nav_Onglet:nth-child(5){
     animation-delay: 800ms;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container .Supp_Nav_Onglet:nth-child(6){
+.Supp_Nav_Onglet:nth-child(6){
     animation-delay: 1s;
 }
 @keyframes navAnimation {
@@ -88,22 +94,22 @@
         opacity: 1;
     }
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container.show__nav{
+.Supp_Nav_Links_Container.show__nav{
     display: flex;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container.hide__nav{
+.Supp_Nav_Links_Container.hide__nav{
     display: none;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container .Supp_Nav_Onglet.mobile{
+.Supp_Nav_Onglet.mobile{
     display: none;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container .Supp_Nav_Onglet a{
+.Supp_Nav_Onglet a{
     text-decoration: none;
     font-family: 'Poppins', sans-serif;
     color: indigo;
 }
 
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Btn{
+.Supp_Nav_Btn{
     width: 40px;
     height: 40px;
     line-height: 40px;
@@ -117,10 +123,10 @@
     display: none;
 }
 
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Onglet{
+.Onglet{
     margin-right: 0.88rem;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Onglet a{
+.Onglet a{
     text-decoration: none;
     font-family: 'Poppins', sans-serif;
     width: 100%;
@@ -131,30 +137,30 @@
     outline: none;
     border-radius: 0.68rem;
 }
-.Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Onglet a.active{
+.Onglet a.active{
     background: indigo; 
     color: #ffffff;
 }
 @media screen and (max-width: 1225px){
-    .Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Onglet{
+    .Onglet{
         display: none;
     }
-    .Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Btn{
+    .Supp_Nav_Btn{
         display: flex;
         justify-content: center;
         align-items: center;
         text-align: center;
     }
-    .Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Onglet.primary{
-        display: flex;
+    .Onglet.primary{
+        display: flex !important;
     }
-    .Journal_NavBar .Journal_Navbar_Container .Onglets_Container{
+    .Onglets_Container{
         display: flex;
         justify-content: space-between;
         align-items: center;
         text-align: center;
     }
-    .Journal_NavBar .Journal_Navbar_Container .Onglets_Container .Supp_Nav_Links .Supp_Nav_Links_Container .Supp_Nav_Onglet.mobile{
+    .Supp_Nav_Onglet.mobile{
         display: flex;
     }
 }

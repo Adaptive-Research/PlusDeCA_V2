@@ -49,11 +49,11 @@ const Journal_NavBar = () => {
 
 
 
-                <div className='Supp_Nav_Links'>
+                <div className='Supp_Nav_Links Charbel-div-center-col'>
                     <button className='Supp_Nav_Btn' onClick={()=>{setIsNavShowing(prev => !prev)}}>
                         <CgMenuGridO />
                     </button>
-                    <ul className={`Supp_Nav_Links_Container ${isNavShowing ? 'show__nav' : 'hide__nav'}`}>
+                    <ul className={`Supp_Nav_Links_Container Charbel-div-center-col ${isNavShowing ? 'show__nav' : 'hide__nav'}`}>
                         <li className='Supp_Nav_Onglet mobile'>
                             <Link to={`${process.env.PUBLIC_URL}/Journal/Page1`} className='nav__Link active'>
                                 A la Une
