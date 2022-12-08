@@ -94,7 +94,7 @@ export default function InterviewQuestions(props) {
                         return (
                             <>
                                 <h4 className='Question'>{InterviewQuestion.Question}</h4>
-                                <form>
+                                <form classNmae='Charbel-div-center-line-wrap'>
                                     <input type='text' name={InterviewQuestion.idQuestion} value={reponseInput} onChange={(e) =>  setReponseInput(e.target.value)}/>
                                 </form>
                             </>
@@ -370,16 +370,16 @@ export default function InterviewQuestions(props) {
 
 
 
-    return  <div className='InterviewQuestions'>
-                <div className='InterviewQuestionsIMG'>
+    return  <div className='InterviewQuestions Charbel-div-center-line-wrap'>
+                <div className='InterviewQuestionsIMG Charbel-div-center-line-wrap'>
                     <img src={InterviewImg} alt=''/>
                 </div> 
                 <div className='AnswerContainer'>
-                    <div className='MultiStepForm'>
-                        <div className='box'>
-                                <div className='BoxContent'>
-                                    <div className='QuestionContainer'>
-                                        <div className='QuestionContent'>
+                    <div className='MultiStepForm       Charbel-div-center-line-wrap      Fill-Container-Relative'>
+                        <div className='box             Charbel-div-center-line-wrap       Fill-Container-Relative'>
+                                <div className='BoxContent   Charbel-div-center-line-wrap   Fill-Container-Relative'>
+                                    <div className='QuestionContainer   Charbel-div-center-col  Fill-Container-Relative'>
+                                        <div className='QuestionContent   Charbel-div-center-col'>
                                             {RenderQuestionReponse()}
                                         </div>
                                     </div>

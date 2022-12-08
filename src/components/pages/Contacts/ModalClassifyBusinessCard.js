@@ -2,6 +2,7 @@ import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import { FormGroup, Row, Col, Button, Modal, Card} from "react-bootstrap";
 import '../../../assets/css/ModalImportBusinessCard.css';
+import '../../../assets/css/GlobalInputbackground.css';
 import {SaveClassementBusinessCard} from "../../../data/customlibs/api";
 
 

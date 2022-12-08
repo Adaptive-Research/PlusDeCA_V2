@@ -14,8 +14,8 @@
 .Dan-input-text{
     width: 80%;
     padding: 0.68rem;
-    border: none;
-    background: #eee;
+    border: 1px solid #000;
+    background: var(--fieldBackground);
     margin-right: 10px;
 }
 .ListBox{
@@ -27,11 +27,12 @@
     width: 100%;
     padding: 0.68rem;
     border: none;
-    background: #eee;
+    background: var(--fieldBackground);
     margin-right: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid #000;
 }
 .ListBoxContent .Dan-select-multiple{
     border: none;

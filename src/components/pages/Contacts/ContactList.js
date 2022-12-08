@@ -9,6 +9,8 @@ import '../../../assets/css/ModalEditBusinessCard.css';
 import ModalImportBusinessCard from "./ModalImportBusinessCard.js";
 import ModalEditCategoryBusinessCard from "./ModalEditCategoryBusinessCard.js";
 import ModalClassifyBusinessCard from "./ModalClassifyBusinessCard.js";
+import '../../../assets/css/GlobalInputbackground.css';
+
     
   
 

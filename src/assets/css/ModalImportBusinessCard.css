@@ -1,3 +1,17 @@
 .modal-content{
     background: #ffffff !important;
 }
+.Dan-select-multiple{
+    width: 100% !important;
+    padding: 0.68rem;
+    border: 1px solid #000;
+    background: var(--fieldBackground);
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+.dzu-dropzone{
+    border: 1px solid #000 !important;
+}
+.dzu-inputLabel{
+    color: #000;
+}

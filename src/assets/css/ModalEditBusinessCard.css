@@ -11,6 +11,14 @@
 .modal-body{
     width: 80%;
 }
+input.form-control{
+    border: 1px solid #000;
+    background: var(--fieldBackground);
+}
+select.form-control{
+    border: 1px solid #000; 
+    background: var(--fieldBackground);
+}
 @media screen and (max-width: 992px){
     .modal-footer,
     .modal-body{

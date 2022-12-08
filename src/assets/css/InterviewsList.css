@@ -1,53 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&family=Poppins&display=swap');
-.Edit-Interview{
-    background: #088340;
-}
-.Edit-Interview:hover{
-    background: #088340 !important; 
-}
-.Valide-Interview{
-    background: indigo;
-    font-family: 'Poppins', sans-serif;
-}
-.Valide-Interview:hover{
-    background: indigo !important; 
-}
-.Edit-Interview a{
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 1.1rem;
-    font-weight: bold;
-}
-.Valide-Interview a{
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 1.1rem;
-    font-weight: bold;
-}
-h1{
-    font-family: 'Poppins', sans-serif;
-}
-.Interview_Card_Btns_Container{
-    margin-left: 50px;
-}
-.Interview_Card_Btns_Container .Edit-Interview{
-    margin-left: 10px;
-}
-.Edit-Valid-Interview:hover,
-.Edit-Valid-Interview{
-    background: blue;
-    margin-left: 50%;
-}
-.Edit-Valid-Interview svg{
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 1.1rem;
-    font-weight: bolder;
-}
-
-
 /*Public Interview*/
-
 .Public-Interview{
     width: 100%;
     height: auto;
@@ -74,14 +26,14 @@ h1{
     font-size: 13px;
 }
 
-.Public-Interview .Public-Interview-Btns{
+.Public-Interview-Btns{
     width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
     text-align: center;
 }
-.Public-Interview .Public-Interview-Btns button{
+.Public-Interview-Btns button{
     width: 45px;
     height: 45px;
     line-height: 45px;
@@ -95,23 +47,12 @@ h1{
     border-radius: 50%;
     transition: all 300ms ease-in-out;
 }
-.Public-Interview .Public-Interview-Btns button a{
+.Public-Interview-Btns button a{
     text-decoration: none;
     color: indigo;
     font-size: 1.1rem;
 }
-.Public-Interview .Public-Interview-Btns button:hover a{
-    color: #ffffff;
-}
-.Public-Interview .Public-Interview-Btns button:hover{
-    background: indigo;
-}
-.Public-Interview .Public-Interview-Btns button.Like-Public-Interview{
-    background: indigo;
-}
-.Public-Interview .Public-Interview-Btns button.Like-Public-Interview  a{
-    color: #ffffff;
-}
+
 
 @media screen and (max-width:375px){
     .card-header{
@@ -154,33 +95,6 @@ h1{
     }
 }
 @media screen and (max-width:934px) and (min-width:769px){
-    .card-header{
-     padding: 0.5rem;
-    }
-    .Interview_Card_Btns_Container{
-        margin-left: 30px;
-        display: flex;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-    .Interview_Card_Btns_Container a{
-        font-size: 0.9rem;
-        text-shadow: 1px 1px;
-    }
-    .Interview_Card_Btns_Container button{
-        width: 35px;
-        height: 35px;
-        line-height: 35px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-}
-@media screen and (max-width:315px){
     .card-header{
      padding: 0.5rem;
     }

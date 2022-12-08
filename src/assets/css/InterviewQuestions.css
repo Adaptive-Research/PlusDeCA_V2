@@ -3,65 +3,51 @@
     display: none;
 }
 
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent,
-.InterviewQuestions .AnswerContainer .MultiStepForm .box,
-.InterviewQuestions .AnswerContainer .MultiStepForm,
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .QuestionContent form,
-.InterviewQuestions .InterviewQuestionsIMG,
-.InterviewQuestions{
+.Charbel-div-center-col{/* Permet de diposer les noeuds enfants (directes de l'élément) verticalement et de les centrer*/
+    display: flex;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+}
+.Charbel-div-center-line-wrap{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
     text-align: center;
 }
+
 .InterviewQuestions{
     margin-top: 3rem;
     width: 100%;
     height: 100%;
 }
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .QuestionContent,
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer{
-   display: flex;
-   flex-direction: column;
-   /*justify-content: center;*/
-   align-items: center;
-   text-align: center;
+.AnswerContainer{
+    width: 45%;
+    height: auto;   
 }
-.InterviewQuestions .AnswerContainer,
-.InterviewQuestions .InterviewQuestionsIMG{
+.InterviewQuestionsIMG{
     width: 45%;
     height: auto;
 }
-.InterviewQuestions .InterviewQuestionsIMG img{
+.InterviewQuestionsIMG img{
     width: 100%;
     height: auto;
 }
+.Fill-Container-Relative{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
 
-.InterviewQuestions .AnswerContainer .MultiStepForm{
-    width: 100%;
-    height: 100%;
-}
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer,
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent{
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-.InterviewQuestions .AnswerContainer .MultiStepForm .box{
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer {
+.QuestionContainer {
     padding: 1.5rem;
     box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
     border-radius: 
     1.2rem;
 }
 
-
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .title{
+.BoxContent .title{
     text-transform: uppercase;
     font-size: 15px;
     font-family: 'Domine', serif;
@@ -80,7 +66,7 @@
     height: auto;
     overflow-y: scroll;
 }
-.Interview-View-Mode .View-Question-Reponse{
+.View-Question-Reponse{
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
@@ -89,13 +75,13 @@
     text-align: justify;
 }
 
-.Interview-View-Mode .View-Question-Reponse .Question{
+.View-Question-Reponse .Question{
     font-family: 'Domine', serif;
     font-size: 17px;
     font-weight: bold;
 }
 
-.Interview-View-Mode .View-Question-Reponse .Reponse{
+.View-Question-Reponse .Reponse{
     font-family: 'Poppins', sans-serif;
 }
 
@@ -106,7 +92,7 @@
 
 
 
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent  .Question_Btns_Container{
+.Question_Btns_Container{
     position: absolute;
     display: flex;
     justify-content: center;
@@ -118,7 +104,7 @@
 }
 
 
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent  .Question_Btns_Container button{
+.Question_Btns_Container button{
   border: none;
   outline: none;
   padding: 0.88rem 1.5rem;
@@ -127,10 +113,10 @@
   color: #fff;
 }
 
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent  .Question_Btns_Container button.NextBtn{
+.Question_Btns_Container button.NextBtn{
     background: #088340;
 }
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent  .Question_Btns_Container button.BackBtn{
+.Question_Btns_Container button.BackBtn{
     margin-right: 20px;
 }
 
@@ -140,7 +126,7 @@
 
 
 
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .QuestionContent h4{
+.QuestionContent h4{
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -148,17 +134,16 @@
     width: 100%;
     margin-bottom: 15px;
 }
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .QuestionContent form{
+.QuestionContent form{
     width: 100%;
     height: auto;
 }
-.InterviewQuestions .AnswerContainer .MultiStepForm .box .BoxContent .QuestionContainer .QuestionContent form input{
+.QuestionContent form input{
     width: 100%;
     height: 50px;
-    background:  rgba(163, 166, 194, 0.18);
+    background: var(--fieldBackground);
+    border: 1px solid #000;
     border-radius: 0.68rem;
-    border: none;
-    outline: none;
     padding: 1rem;
     padding-left: 3rem;
     justify-content: flex-start;
@@ -174,16 +159,20 @@
         width: 100%;
         height: 100%;
     }
-    .InterviewQuestions .AnswerContainer,
-    .InterviewQuestions .InterviewQuestionsIMG{
+    .AnswerContainer{
         width: 85%;
         height: auto;
         position: relative;
     }
-    .InterviewQuestions .AnswerContainer{
+    .InterviewQuestionsIMG{
+        width: 85%;
+        height: auto;
+        position: relative;
+    }
+    .AnswerContainer{
         height: 300px !important;
     }
-    .InterviewQuestions.View .InterviewQuestionsIMG{
+    .InterviewQuestionsIMG{
         display: none;
     }
 }

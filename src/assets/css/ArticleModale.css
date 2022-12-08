@@ -1,0 +1,17 @@
+.DraftEditor-root{
+    background: var(--fieldBackground);
+    border: 1px solid #000 !important;
+}
+.dzu-dropzone{
+    border: 1px solid #000 !important;
+}
+.dzu-inputLabel{
+    color: #000;
+}
+.rdw-editor-toolbar{
+    border: 1px solid #000 !important;
+}
+.modal-dialog .form-control{
+    background: var(--fieldBackground);
+    border: 1px solid #000 !important;
+}

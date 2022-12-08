@@ -4,6 +4,8 @@ import * as formeditor from "../../../data/Form/formeditor/formeditor";
 import { FormGroup, Row, Button, Modal} from "react-bootstrap";
 import {SaveArticle,UpdateArticle} from "../../../data/customlibs/api";
 import {UploadFile} from "../../../data/customlibs/api2";
+import '../../../assets/css/GlobalInputbackground.css';
+import '../../../assets/css/ArticleModale.css';
 
 
 
@@ -171,7 +173,7 @@ export default function ModalEditArticle(props) {
 
 
     return (
-        <div>
+        <div className="ModalEditArticle">
 
             <Modal size="xl" show={isModalOpen}>
 

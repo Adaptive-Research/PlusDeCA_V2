@@ -3,6 +3,7 @@ import {  Row, Button, Modal} from "react-bootstrap";
 import '../../../assets/css/ModalEditCategoryBusinessCard.css';
 import { DeleteAllBusinessCardCategories, SaveBusinessCardCategory,UpdateClassementBusinessCardsForNonExistingCategory } from "../../../data/customlibs/api";
 import { UpInArray, DownInArray, DeleteFromArray } from "../../../data/customlibs/utils";
+import '../../../assets/css/GlobalInputbackground.css';
 
 
 
