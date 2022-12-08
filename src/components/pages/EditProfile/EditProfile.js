@@ -5,11 +5,8 @@ import {useNavigate} from "react-router";
 import {Col,Row,Card,Form,Button,FormGroup} from "react-bootstrap";
 
 import  { FindTranslation, getIDFromToken } from "../../../functions_Dan.js" ;
-
-
 import {getTranslations,getProfile,SaveProfile} from "../../../data/customlibs/api";
-import { Link } from "react-router-dom";
-
+import ReactFlagsSelect from "react-flags-select";
 
 export default function EditProfile(props) {
 
@@ -19,7 +16,7 @@ export default function EditProfile(props) {
   //console.log(idUser) ;
 
 
-
+  const sLanguage = "Language" ;
   const sProfile = "Profile" ;
   const sEditProfile = "Edit Profile" ;
   const sAboutMe = "About Me" ;
@@ -39,6 +36,7 @@ export default function EditProfile(props) {
   const [firstName, setFirstName] = useState(sFirstName) ;
   const [lastName, setLastName] = useState(sLastName) ;
   const [visibility, setVisibility] = useState(sVisibility) ;
+  const [language, setLanguage] = useState(sLanguage) ;
 
   // pour le contenu des champs
   const [prenom, setPrenom] = useState("") ;
@@ -49,6 +47,7 @@ export default function EditProfile(props) {
   const [telephoneVisible, setTelephoneVisible] = useState(false) ;
   const [bio, setBio] = useState("") ;
   const [bioVisible, setBioVisible] = useState(false) ;
+  const [selectedFlag, setSelectedFlag] = useState("");
 
 
   // pour le reload des infos
@@ -56,46 +55,45 @@ export default function EditProfile(props) {
   const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
 
+  function TranslateAll(data){
+    console.log(data) ;
 
-  function TranslateAll(url, Page,VL) 
-  {
-      let data = getTranslations(url,Page,VL) ;
+    let t = FindTranslation(data,Page,VL, sProfile) ;
+    if (t !== "Not Found")
+      setProfile(t) ;
 
-      let t = FindTranslation(data,Page,VL, sProfile) ;
-      if (t !== "Not Found")
-        setProfile(t) ;
+    t = FindTranslation(data,Page,VL, sEditProfile) ;
+    if (t !== "Not Found")
+      setEditProfile(t) ;
 
-      t = FindTranslation(data,Page,VL, sEditProfile) ;
-      if (t !== "Not Found")
-        setEditProfile(t) ;
+    t = FindTranslation(data,Page,VL, sAboutMe) ;
+    if (t !== "Not Found")
+      setAboutMe(t) ;
 
-      t = FindTranslation(data,Page,VL, sAboutMe) ;
-      if (t !== "Not Found")
-        setAboutMe(t) ;
+    t = FindTranslation(data,Page,VL, sContactNumber) ;
+    if (t !== "Not Found")
+      setContactNumber(t) ;
 
-      t = FindTranslation(data,Page,VL, sContactNumber) ;
-      if (t !== "Not Found")
-        setContactNumber(t) ;
+    t = FindTranslation(data,Page,VL, sEmailAddress) ;
+    if (t !== "Not Found")
+      setEmailAddress(t) ;
 
-      t = FindTranslation(data,Page,VL, sEmailAddress) ;
-      if (t !== "Not Found")
-        setEmailAddress(t) ;
+    t = FindTranslation(data,Page,VL, sFirstName) ;
+    if (t !== "Not Found")
+      setFirstName(t) ;
 
-      t = FindTranslation(data,Page,VL, sFirstName) ;
-      if (t !== "Not Found")
-        setFirstName(t) ;
+    t = FindTranslation(data,Page,VL, sLastName) ;
+    if (t !== "Not Found")
+      setLastName(t) ;
 
-      t = FindTranslation(data,Page,VL, sLastName) ;
-      if (t !== "Not Found")
-        setLastName(t) ;
+    t = FindTranslation(data,Page,VL, sVisibility) ;
+    if (t !== "Not Found")
+      setVisibility(t) ;
 
-      t = FindTranslation(data,Page,VL, sVisibility) ;
-      if (t !== "Not Found")
-        setVisibility(t) ;
-
-      setReloadTraductions(false) ;
-
+    setReloadTraductions(false) ;
   }
+
+
   
 
 
@@ -105,7 +103,7 @@ export default function EditProfile(props) {
   const VL = "FR" ;
 
   if (reloadTraductions === true)
-    TranslateAll(url1,Page,VL) ;
+    getTranslations(url1,Page,VL,TranslateAll) ; 
 
 
 
@@ -145,8 +143,7 @@ export default function EditProfile(props) {
   }
 
 
-
-
+  
 
 
 
@@ -181,6 +178,8 @@ export default function EditProfile(props) {
     setReloadInfos(true) ;
     navigate(-1);
   }
+
+
 
 
 
@@ -250,7 +249,6 @@ export default function EditProfile(props) {
                 <textarea
                   className="form-control"
                   rows="6"
-                  defaultValue="."
                   value={bio}
                   onChange={(e) =>  setBio(e.target.value) }
                 ></textarea>
@@ -329,25 +327,30 @@ export default function EditProfile(props) {
                 </label>
               </div>
 
+             
 
+              
+            </Card.Body>
+
+          </Card>
+
+          <Card className="profile-edit">
+            <Card.Header>
+              <Card.Title>{language}</Card.Title>
+            </Card.Header>
+            <Card.Body>
+              <ReactFlagsSelect
+                countries={["FR", "GB",  "DE", "ES","IT"]}
+                customLabels={{ FR: "FR", GB: "EN",  DE: "DE", ES:"ES", IT: "IT" }}
+                placeholder="Select Language"
+                selected={selectedFlag}
+                onSelect={(code) => setSelectedFlag(code)}
+              />
 
             </Card.Body>
 
-            {/*
-            <Card.Footer className="text-end">
-
-              <button onClick={handleSubmit} className="btn btn-success mt-1 me-2">
-                Save
-              </button>
-
-              <button onClick={handleCancel} className="btn btn-danger">
-                Cancel
-              </button>
-
-            </Card.Footer>
-            */}
-
           </Card>
+
 
         </Col>
 
