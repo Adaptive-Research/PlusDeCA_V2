@@ -328,8 +328,7 @@ export default function EditProfile(props) {
               </div>
 
              
-
-              
+             
             </Card.Body>
 
           </Card>
