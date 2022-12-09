@@ -3,7 +3,7 @@ import React, { useState,useRef} from "react";
 import {Button} from "react-bootstrap";
 
 import {getIDFromToken} from "../../../../functions_Dan.js";
-import {getCompaniesForUser ,getActivitiesForUser,getTranslations} from "../../../../data/customlibs/api";
+import {getCompaniesForUser ,getActivitiesForUser} from "../../../../data/customlibs/api";
 import CardCompany from "./CardCompany" ;
 import ModalEditCompany from "./ModalEditCompany" ;
 import ModalEditActivity from "./ModalEditActivity" ;

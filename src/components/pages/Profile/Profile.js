@@ -10,7 +10,6 @@ import CardPersonalInformation from "./CardPersonalInformation" ;
 import TabFriends from "./TabFriends" ;
 import TabFollowers from "./TabFollowers" ;
 import TabCompany from "./TabCompany/TabCompany" ;
-import {getTranslations} from "../../../data/customlibs/api";
 import {getProfile} from "../../../data/customlibs/api";
 
 

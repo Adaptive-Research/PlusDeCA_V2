@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import  { FindTranslation, getIDFromToken  } from "../../../functions_Dan.js" ;
-import {DeleteEvent,SaveEvent,UpdateEvent,getTranslations} from "../../../data/customlibs/api";
+import {DeleteEvent,SaveEvent,UpdateEvent} from "../../../data/customlibs/api";
 import {FormGroup,Modal, Button} from "react-bootstrap";
 //import { DayTimeColsView } from "@fullcalendar/timegrid";
 
