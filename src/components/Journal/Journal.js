@@ -9,9 +9,36 @@ import RecentsArticles from './RecentsArticles';
 import {getAllTranslations, getAllUsersEmail,getLanguage,requestLogin} from "../../data/customlibs/api";
 
 
+import  { FindTranslation, getIDFromToken } from "../../functions_Dan.js" ;
+import {getTranslations,getProfile,SaveProfile,SaveLanguage} from "../../data/customlibs/api";
+import ReactFlagsSelect from "react-flags-select";
+
 export default function Journal(props) {
     const storedToken = localStorage.getItem('token') ;
     const [reloadTraductions, setReloadTraductions] = useState(true) ;
+
+
+
+    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+    //console.log(AllTranslations);
+
+    const sFeatured = 'Featured';
+    const sNetworkNews = 'Network News';
+    const sUpcomingMeetings = 'Upcoming meetings';
+    const sArticlesEntrepreneurs= 'Articles from Entrepreneurs';
+    const sFoundOnNet = 'Found on the web';
+    const sEntrepreneurInLight = 'Entrepreneur in Light';
+
+    const [featured, setFeatured] = useState(sFeatured);
+    const [networkNews, setNetworkNews] = useState(sNetworkNews);
+    const [upComingMeetings, setUpComingMeetings] = useState(sUpcomingMeetings);
+    const [articlesEntrepreneurs, setArticlesEntrepreneurs] = useState(sArticlesEntrepreneurs);
+    const [foundOnNet, setFoundOnNet] = useState(sFoundOnNet);
+    const [entrepreneursInLight,setEntrepreneursInLight] = useState(sEntrepreneurInLight);
+
+
+
+
 
 
 
@@ -22,20 +49,60 @@ export default function Journal(props) {
         getAllTranslations(process.env.REACT_APP_API_SHOW_TRANSLATION_URL,VL) ;
     } 
 
-    if (reloadTraductions === true) {
-        console.log("After reloadTraductions === true") ;
-        getLanguage(storedToken,LoadTranslations) ;
-        setReloadTraductions(false) ;
+
+    
+    function TranslateAll(data,Page){
+        console.log("Translations Journal");
+        console.log(data) ;
+    
+        let t = FindTranslation(data,Page, sFeatured) ;
+        if (t !== "Not Found")
+          setFeatured(t) ;
+    
+        t = FindTranslation(data,Page, sNetworkNews) ;
+        if (t !== "Not Found")
+          setNetworkNews(t) ;
+
+        t = FindTranslation(data,Page, sUpcomingMeetings) ;
+        if (t !== "Not Found")
+          setUpComingMeetings(t) ;
+
+        t = FindTranslation(data,Page, sArticlesEntrepreneurs) ;
+        if (t !== "Not Found")
+          setArticlesEntrepreneurs(t) ;
+
+        t = FindTranslation(data,Page, sFoundOnNet) ;
+        if (t !== "Not Found")
+          setFoundOnNet(t) ;
+
+        t = FindTranslation(data,Page, sEntrepreneurInLight) ;
+        if (t !== "Not Found")
+          setEntrepreneursInLight(t) ;
     }
 
 
 
+
+
+    if (reloadTraductions === true) {
+        console.log("After reloadTraductions === true") ;
+        getLanguage(storedToken,LoadTranslations) ;
+        TranslateAll(AllTranslations,"Journal") ;
+        setReloadTraductions(false) ;
+    }
+
+
+    
     return (
         <div>
-            <Journal_NavBar/>
-
-            
-
+            <Journal_NavBar
+                Featured={featured}
+                NetworkNews={networkNews}
+                UpComingMeetings={upComingMeetings}
+                ArticlesEntrepreneurs={articlesEntrepreneurs}
+                FoundOnNet={foundOnNet}
+                EntrepreneursInLight={entrepreneursInLight}
+            />
 
             <div className='Journal Charbel-div-center-col Fill-Container'>
                 <div className='Journal_Header Charbel-div-center-line Fill-Container'>

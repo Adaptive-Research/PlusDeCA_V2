@@ -20,7 +20,8 @@ export default function ArticleList() {
     const idUser = getIDFromToken(storedToken) ;
     const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
 
-   
+    console.log('Mes traductions');
+    console.log(AllTranslations);
 
 
     // pour le Rerender
@@ -84,16 +85,24 @@ export default function ArticleList() {
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> bd24b55392161ebfd4429983e093ce3a63e67623
     function TranslateAll(data,Page){
 
         console.log('ArticleList Translations') ;
-        console.log(data) ;
+        console.log(data);
     
         let t = FindTranslation(data,Page, sInWriting) ;
         if (t !== "Not Found")
           setInWriting(t) ;
     
+<<<<<<< HEAD
         t = FindTranslation(data,Page,sValid) ;
+=======
+        t = FindTranslation(data,Page, sValid) ;
+>>>>>>> bd24b55392161ebfd4429983e093ce3a63e67623
         if (t !== "Not Found")
           setValid(t) ;
     
@@ -139,11 +148,10 @@ export default function ArticleList() {
         t = FindTranslation(data,Page, sAddPicture) ;
         if (t !== "Not Found")
           setAddPicture(t) ;
-    
-        setReloadTraductions(false) ;
     }
     
     
+<<<<<<< HEAD
 
     if (reloadTraductions === true) {
         TranslateAll(AllTranslations,"ArticleList") ;
@@ -151,12 +159,17 @@ export default function ArticleList() {
         }
                 
 
+=======
+    if (reloadTraductions === true){
+        TranslateAll(AllTranslations,"ArticleList") ;
+        setReloadTraductions(false) ;
+    }
+>>>>>>> bd24b55392161ebfd4429983e093ce3a63e67623
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
         console.log("reloadInfos") ;
         getUserArticles("userArticles",storedToken,RenderAfterLoad) ;
-            
         reloadInfos.current = false ;
     }
 
