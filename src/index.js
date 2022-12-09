@@ -45,15 +45,13 @@ const ForgotPassword = React.lazy(() => import("./components/CustomPages/ForgotP
 const FullCalendar = React.lazy(() => import("./components/Components/FullCalendar/FullCalendar"));
 
 
+const Custompages = React.lazy(() => import("./components/custompages"));
 
 
 
 
 
 
-<<<<<<< Updated upstream
-
-const FullCalendar = React.lazy(() => import("./components/Components/FullCalendar/FullCalendar"));
 
 //Icons
 const FontAwesome = React.lazy(() => import("./components/Icons/FontAwesomes/FontAwesomes"));
