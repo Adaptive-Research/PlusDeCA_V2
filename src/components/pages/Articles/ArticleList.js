@@ -5,7 +5,8 @@ import {getUserArticles} from "../../../data/customlibs/api";
 import CardArticle from "./CardArticle" ;
 import ModalEditArticle from "./ModalEditArticle" ;
 
-
+import {getTranslations,getProfile,SaveProfile} from "../../../data/customlibs/api";
+import ReactFlagsSelect from "react-flags-select";
     
   
 
@@ -42,10 +43,113 @@ export default function ArticleList() {
 
     // pour le reload des infos
     const reloadInfos = useRef(true) ;
+    const [reloadTraductions, setReloadTraductions] = useState(true) ;
+
 
    
+    //Pour les Tabs
+    const sInWriting = "In Writing";
+    const sValid = "Validated";
+    const sPublished = "Published";
+   // Pour le Titre
+   const sItems = "Items";
+   //Pour les Boutons
+   const sAddItem ='Add Item';
+   const sCancel = 'Cancel';
+   const sSave = 'Save';
+   //Pour les labels et les champs de la modale
 
+    const sTitle = 'Title';
+    const sContent = 'Content';
+    const sCategory = 'Category';
+    const sPictureFile = 'Picture File';
+    const sSendPhoto = 'Send Photo';
+    const sAddPicture  = 'Add a picture';
+
+
+    const [inWriting, setInWriting] = useState(sInWriting);
+    const [valid, setValid] = useState(sValid);
+    const [published, setPublished] = useState(sPublished);
+    const [items, setItems] = useState(sItems);
+    const [addItem, setAddItem] = useState(sAddItem);
+    const [cancel, setCancel] = useState(sCancel);
+    const [save, setSave] = useState(sSave);
+    const [fieldtitle, setFieldTitle] = useState(sTitle);
+    const [fieldcontent, setFieldContent] = useState(sContent);
+    const [fieldcategory, setFieldCategory] = useState(sCategory);
+    const [fieldPicture, setFieldPicture] = useState(sPictureFile);
+    const [fieldSendPhoto, setSendPhoto] = useState(sSendPhoto);
+    const [addPicture, setAddPicture] = useState(sAddPicture);
+
+
+
+    function TranslateAll(data){
+
+        console.log('ArticleList Translations') ;
+        console.log(data) ;
     
+        let t = FindTranslation(data,Page,VL, sInWriting) ;
+        if (t !== "Not Found")
+          setInWriting(t) ;
+    
+        t = FindTranslation(data,Page,VL, sValid) ;
+        if (t !== "Not Found")
+          setValid(t) ;
+    
+        t = FindTranslation(data,Page,VL, sPublished) ;
+        if (t !== "Not Found")
+          setPublished(t) ;
+    
+        t = FindTranslation(data,Page,VL, sItems) ;
+        if (t !== "Not Found")
+          setItems(t) ;
+    
+        t = FindTranslation(data,Page,VL, sAddItem) ;
+        if (t !== "Not Found")
+          setAddItem(t) ;
+    
+        t = FindTranslation(data,Page,VL, sCancel) ;
+        if (t !== "Not Found")
+          setCancel(t) ;
+    
+        t = FindTranslation(data,Page,VL, sSave) ;
+        if (t !== "Not Found")
+          setSave(t) ;
+        t = FindTranslation(data,Page,VL, sTitle) ;
+        if (t !== "Not Found")
+            setFieldTitle(t) ;
+      
+        t = FindTranslation(data,Page,VL, sCategory) ;
+        if (t !== "Not Found")
+            setFieldCategory(t) ;
+      
+        t = FindTranslation(data,Page,VL, sContent) ;
+        if (t !== "Not Found")
+          setFieldContent(t) ;
+    
+        t = FindTranslation(data,Page,VL, sPictureFile) ;
+        if (t !== "Not Found")
+          setFieldPicture(t) ;
+    
+        t = FindTranslation(data,Page,VL, sSendPhoto) ;
+        if (t !== "Not Found")
+          setSendPhoto(t) ;
+    
+        t = FindTranslation(data,Page,VL, sAddPicture) ;
+        if (t !== "Not Found")
+          setAddPicture(t) ;
+    
+        setReloadTraductions(false) ;
+    }
+    
+    
+
+    const url1 = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
+    const Page = "ArticleList" ;
+    const VL = "FR" ;
+
+    if (reloadTraductions === true)
+        getTranslations(url1,Page,VL,TranslateAll) ; 
 
     // recuperation des informations au depart
     if (reloadInfos.current === true)
@@ -218,12 +322,12 @@ export default function ArticleList() {
 
             <div className="page-header" >
                 <div>
-                    <h1 className="page-title">Articles</h1>
+                    <h1 className="page-title">{items}</h1>
                 </div>
                 <div className="ms-auto pageheader-btn">
                     <button className='btn btn-primary' onClick={() => {SendArticleData(true, null) ;}}>
                         <span> <i className="fe fe-plus"></i>&nbsp;</span>
-                        Ajouter un article
+                       {addItem}
                     </button>
 
                 </div>
@@ -250,6 +354,14 @@ export default function ArticleList() {
                                             Html= {html}
                                             Text={text}
                                             Photo = {photo}
+                                            FieldTitle={fieldtitle}
+                                            FieldCategory={fieldcategory}
+                                            FieldContent ={fieldcontent}
+                                            FieldPicture={fieldPicture}
+                                            FieldSendPhoto={fieldSendPhoto}
+                                            AddPicture={addPicture}
+                                            CancelButton={cancel}
+                                            SaveButton={save}
                                         />
 
 
@@ -259,7 +371,7 @@ export default function ArticleList() {
                                             id=" tab-51"
                                             className="tab-content tabesbody "
                                         >
-                                            <Tab eventKey="Brouillon" title="En cours d'écriture">
+                                            <Tab eventKey="Brouillon" title={inWriting}>
                                                 <div className="tab-pane " id="tab-61">
                                                     <Row className="row-cards ">
                                                         {renderArticles("Brouillon")}
@@ -268,14 +380,14 @@ export default function ArticleList() {
                                             </Tab>
 
 
-                                            <Tab eventKey="Valide" title="Valide">
+                                            <Tab eventKey="Valide" title={valid}>
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
                                                         {renderArticles("Valide")}
                                                     </Row>
                                                 </div>
                                             </Tab>
-                                            <Tab eventKey="Publié" title="Publié">
+                                            <Tab eventKey="Publié" title={published}>
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
                                                         {renderArticles()}

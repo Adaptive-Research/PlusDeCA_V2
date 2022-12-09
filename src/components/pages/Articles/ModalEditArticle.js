@@ -179,7 +179,7 @@ export default function ModalEditArticle(props) {
 
                 <Modal.Body>
                     <Row className="mb-4">
-                        <label className="col-md-3 form-label">Titre :</label>
+                        <label className="col-md-3 form-label">{props.FieldTitle} :</label>
                         <div className="">
                             <input
                                 type="text"
@@ -192,7 +192,7 @@ export default function ModalEditArticle(props) {
                     </Row>
 
                     <Row className="mb-4">
-                        <label className="col-md-3 form-label">Categorie :</label>
+                        <label className="col-md-3 form-label">{props.FieldCategory} :</label>
                         <div className="">
                             <select id="Categories"  className="form-control"  onChange={(e) =>  category.current = e.target.value}>
                             <option value="1">Techno</option>
@@ -210,7 +210,7 @@ export default function ModalEditArticle(props) {
 
                     <Row>
                         <label className="col-md-3 form-label mb-4">
-                            Content:
+                        {props.FieldContent}:
                         </label>
                         <div className="mb-4">
 
@@ -238,7 +238,7 @@ export default function ModalEditArticle(props) {
 
                     <Row>
                         <label className="col-md-3 form-label mb-4">
-                            Fichier Photo: 
+                            {props.FieldPicture}:
                         </label>
                         {photo}
                     </Row>
@@ -248,7 +248,7 @@ export default function ModalEditArticle(props) {
                     
                     <FormGroup className="mb-0 file">
                         <label className="col-md-3 form-label mb-4">
-                            Envoyer Photo :
+                            {props.FieldSendPhoto}:
                         </label>
 
                         <formadvanced.OuterDropzone
@@ -258,7 +258,7 @@ export default function ModalEditArticle(props) {
                             accept=".jpg, .png, image/jpeg, image/png"
                             maxFiles={1}
                             multiple={false}
-                            inputContent="Ajouter une image"
+                            inputContent={props.AddPicture}
                             submitButtonContent="Envoyer l'image"
                             onSubmit={submitForm}
                         />
@@ -272,11 +272,11 @@ export default function ModalEditArticle(props) {
                 <Modal.Footer>
 
                     <Button variant="secondary" onClick={handleCancel}>
-                        Cancel
+                        {props.CancelButton}
                     </Button>
 
                     <Button variant="primary" onClick={handleSave}>
-                        Save
+                        {props.SaveButton}
                     </Button>
 
                 </Modal.Footer>
