@@ -1947,22 +1947,6 @@ async function UpdateClassementBusinessCardsForNonExistingCategory (tok,ForceRen
  * 
  * 
  ****************************************************************************************************************************************************/
-
-async function getTranslations(url, Page,VL,Render) 
-  {
-    const response =  await axios.post(url, {
-        Submit: 1,
-        Page: Page,
-        ValueLangue: VL
-    }, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-    })
-    
-    if (Render !== null)
-        Render(response.data) ;
-  }
    
 
   async function getAllTranslations(url, VL,ForceRender) 
@@ -2078,6 +2062,5 @@ export {
     UpdateClassementBusinessCardsForNonExistingCategory, 
     SaveClassementBusinessCard,
 
-    getTranslations,
     getAllTranslations
 };

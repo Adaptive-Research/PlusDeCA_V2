@@ -14,6 +14,7 @@ export function ModalEditEvent(props) {
 
   const storedToken = localStorage.getItem('token') ;
   const idUser = getIDFromToken(storedToken) ;
+  const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
   //console.log(storedToken) ;
   //console.log(idUser) ;
 
@@ -268,37 +269,29 @@ export function ModalEditEvent(props) {
 
 
 
-  function TranslateAll(url, Page,VL) 
+  function TranslateAll(data, Page) 
   {
-    let data = getTranslations(url,Page,VL) ;
-   
-
-    let t = FindTranslation(data,Page,VL, sTitre) ;
+    let t = FindTranslation(data,Page, sTitre) ;
     if (t !== "Not Found")
       stitre.current = t ;
-    t = FindTranslation(data,Page,VL, sData) ;
+    t = FindTranslation(data,Page, sData) ;
     if (t !== "Not Found")
       sdata.current = t ;
-    t = FindTranslation(data,Page,VL, sLocation) ;
+    t = FindTranslation(data,Page, sLocation) ;
     if (t !== "Not Found")
       slocation.current = t ;
 
-    t = FindTranslation(data,Page,VL, sAllDay) ;
+    t = FindTranslation(data,Page, sAllDay) ;
     if (t !== "Not Found")
       sallday.current = t ;
         
-
-    setReloadTraductions(false) ;               
   }
   
 
-  const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
-  const Page = "FullCalendar" ;
-  const VL = "FR" ;
-
-  if (reloadTraductions === true)
-    TranslateAll(url,Page,VL) ;
-
+  if (reloadTraductions === true) {
+    TranslateAll(AllTranslations,"FullCalendar") ;
+    setReloadTraductions(false) ;
+  }
 
 
 
