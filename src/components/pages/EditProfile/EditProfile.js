@@ -180,6 +180,10 @@ export default function EditProfile(props) {
   }
 
 
+  function SelectFlag(code) {
+      setSelectedFlag(code) ;
+
+  }
 
 
 
@@ -343,7 +347,7 @@ export default function EditProfile(props) {
                 customLabels={{ FR: "FR", GB: "EN",  DE: "DE", ES:"ES", IT: "IT" }}
                 placeholder="Select Language"
                 selected={selectedFlag}
-                onSelect={(code) => setSelectedFlag(code)}
+                onSelect={(code) => SelectFlag(code)}
               />
 
             </Card.Body>
