@@ -15,7 +15,6 @@ import face15 from "../../assets/images/faces/15.jpg";
 import {FindTranslation, getIDFromToken} from "../../functions_Dan.js";
 import {useNavigate} from "react-router";
 
-import {getTranslations} from "../../data/customlibs/api";
 
 
 export function RightSidebar() {
@@ -193,7 +192,7 @@ export function RightSidebar() {
                                     onClick={() => {
                                         localStorage.clear();
                                     }}
-                                    to={`${process.env.PUBLIC_URL}/custompages/login`}
+                                    to={`${process.env.PUBLIC_URL}/Login`}
                                 >
                                     <div className="d-flex">
                                         <i className="fe fe-power me-3 tx-20 text-muted"></i>
