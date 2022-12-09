@@ -72,8 +72,4 @@ export default function CardBusinessCard(props) {
     );
 
 
-
-
-
-
 }

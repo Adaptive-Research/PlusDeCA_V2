@@ -5,7 +5,7 @@ import { CgMenuGridO } from 'react-icons/cg';
 
 
 
-const Journal_NavBar = () => {
+const Journal_NavBar = (props) => {
     const [isNavShowing, setIsNavShowing] = useState(false);
 
   return (
@@ -14,36 +14,36 @@ const Journal_NavBar = () => {
             <ul className='Onglets_Container'>
                 <li className='Onglet primary'>
                     <Link  to={`${process.env.PUBLIC_URL}/Journal/Page1`} className='nav__Link'>
-                        A la Une
+                        {props.Featured}
                     </Link>
                 </li>
                 <li className='Onglet'>
                     <Link  to={`${process.env.PUBLIC_URL}/Journal/News`} className='nav__Link'>
-                        Actualités du réseau
+                        {props.NetworkNews}
                     </Link>
                 </li>
                 <li className='Onglet'>
                     <Link  to={`${process.env.PUBLIC_URL}/Journal/NextMeetings`} className='nav__Link'>
-                        Prochaines réunions
+                        {props.UpComingMeetings}
                     </Link>
                 </li>
 
                 <li className='Onglet'>
                     <Link  to={`${process.env.PUBLIC_URL}/Journal/OurArticles`} className='nav__Link'>
-                        Articles des Entrepreneurs
+                        {props.ArticlesEntrepreneurs}
                     </Link>
                 </li>
 
                 <li className='Onglet'>
                     <Link  to={`${process.env.PUBLIC_URL}/Journal/FoundOnInternet`} className='nav__Link'>
-                        Trouvé sur le net
+                        {props.FoundOnNet}
                     </Link>
                 </li>
 
                 
                 <li className='Onglet'>
                     <Link  to={`${process.env.PUBLIC_URL}/Journal/Entrepreneur`} className='nav__Link'>
-                        Un entrepreneur en lumière
+                        {props.EntrepreneursInLight}
                     </Link>
                 </li>
 
@@ -56,32 +56,32 @@ const Journal_NavBar = () => {
                     <ul className={`Supp_Nav_Links_Container Charbel-div-center-col ${isNavShowing ? 'show__nav' : 'hide__nav'}`}>
                         <li className='Supp_Nav_Onglet mobile'>
                             <Link to={`${process.env.PUBLIC_URL}/Journal/Page1`} className='nav__Link active'>
-                                A la Une
+                                {props.Featured}
                             </Link>
                         </li>
                         <li className='Supp_Nav_Onglet mobile'>
                             <Link  to={`${process.env.PUBLIC_URL}/Journal/News`} className='nav__Link'>
-                                Actualités du réseau
+                                {props.NetworkNews}
                             </Link>
                         </li>
                         <li className='Supp_Nav_Onglet mobile'>
                             <Link  to={`${process.env.PUBLIC_URL}/Journal/NextMeetings`} className='nav__Link'>
-                                Prochaines réunions
+                                {props.UpComingMeetings}
                             </Link>
                         </li>
                         <li className='Supp_Nav_Onglet mobile'>
                             <Link   to={`${process.env.PUBLIC_URL}/Journal/OurArticles`} className='nav__Link'>
-                                Articles des Entrepreneurs
+                                {props.ArticlesEntrepreneurs}
                             </Link>
                         </li>
                         <li className='Supp_Nav_Onglet'>
                             <Link  to={`${process.env.PUBLIC_URL}/Journal/FoundOnInternet`} className='nav__Link'>
-                                Trouvé sur le net
+                                {props.FoundOnNet}
                             </Link>
                         </li> 
                         <li className='Supp_Nav_Onglet'>
                             <Link   to={`${process.env.PUBLIC_URL}/Journal/Entrepreneur`} className='nav__Link'>
-                                Entrepreneur à la Lumière
+                                {props.EntrepreneursInLight}
                             </Link>
                         </li> 
                     </ul>

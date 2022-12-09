@@ -18,8 +18,10 @@ export default function ArticleList() {
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
+    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
 
-   
+    console.log('Mes traductions');
+    console.log(AllTranslations);
 
 
     // pour le Rerender
@@ -83,80 +85,74 @@ export default function ArticleList() {
 
 
 
-    function TranslateAll(data){
+
+    function TranslateAll(data,Page){
 
         console.log('ArticleList Translations') ;
-        console.log(data) ;
+        console.log(data);
     
-        let t = FindTranslation(data,Page,VL, sInWriting) ;
+        let t = FindTranslation(data,Page, sInWriting) ;
         if (t !== "Not Found")
           setInWriting(t) ;
     
-        t = FindTranslation(data,Page,VL, sValid) ;
+        t = FindTranslation(data,Page, sValid) ;
         if (t !== "Not Found")
           setValid(t) ;
     
-        t = FindTranslation(data,Page,VL, sPublished) ;
+        t = FindTranslation(data,Page, sPublished) ;
         if (t !== "Not Found")
           setPublished(t) ;
     
-        t = FindTranslation(data,Page,VL, sItems) ;
+        t = FindTranslation(data,Page, sItems) ;
         if (t !== "Not Found")
           setItems(t) ;
     
-        t = FindTranslation(data,Page,VL, sAddItem) ;
+        t = FindTranslation(data,Page, sAddItem) ;
         if (t !== "Not Found")
           setAddItem(t) ;
     
-        t = FindTranslation(data,Page,VL, sCancel) ;
+        t = FindTranslation(data,Page, sCancel) ;
         if (t !== "Not Found")
           setCancel(t) ;
     
-        t = FindTranslation(data,Page,VL, sSave) ;
+        t = FindTranslation(data,Page, sSave) ;
         if (t !== "Not Found")
           setSave(t) ;
-        t = FindTranslation(data,Page,VL, sTitle) ;
+        t = FindTranslation(data,Page, sTitle) ;
         if (t !== "Not Found")
             setFieldTitle(t) ;
       
-        t = FindTranslation(data,Page,VL, sCategory) ;
+        t = FindTranslation(data,Page, sCategory) ;
         if (t !== "Not Found")
             setFieldCategory(t) ;
       
-        t = FindTranslation(data,Page,VL, sContent) ;
+        t = FindTranslation(data,Page, sContent) ;
         if (t !== "Not Found")
           setFieldContent(t) ;
     
-        t = FindTranslation(data,Page,VL, sPictureFile) ;
+        t = FindTranslation(data,Page, sPictureFile) ;
         if (t !== "Not Found")
           setFieldPicture(t) ;
     
-        t = FindTranslation(data,Page,VL, sSendPhoto) ;
+        t = FindTranslation(data,Page, sSendPhoto) ;
         if (t !== "Not Found")
           setSendPhoto(t) ;
     
-        t = FindTranslation(data,Page,VL, sAddPicture) ;
+        t = FindTranslation(data,Page, sAddPicture) ;
         if (t !== "Not Found")
           setAddPicture(t) ;
-    
-        setReloadTraductions(false) ;
     }
     
     
-
-    const url1 = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
-    const Page = "ArticleList" ;
-    const VL = "FR" ;
-
-    if (reloadTraductions === true)
-        getTranslations(url1,Page,VL,TranslateAll) ; 
-
+    if (reloadTraductions === true){
+        TranslateAll(AllTranslations,"ArticleList") ;
+        setReloadTraductions(false) ;
+    }
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
         console.log("reloadInfos") ;
         getUserArticles("userArticles",storedToken,RenderAfterLoad) ;
-            
         reloadInfos.current = false ;
     }
 
