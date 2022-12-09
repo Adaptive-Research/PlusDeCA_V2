@@ -5,13 +5,21 @@ import {useNavigate} from "react-router";
 import {Col,Row,Card,Form,Button,FormGroup} from "react-bootstrap";
 
 import  { FindTranslation, getIDFromToken } from "../../../functions_Dan.js" ;
-import {getTranslations,getProfile,SaveProfile} from "../../../data/customlibs/api";
+import {getTranslations,getProfile,SaveProfile,SaveLanguage} from "../../../data/customlibs/api";
 import ReactFlagsSelect from "react-flags-select";
+
+
+
+
+
+
 
 export default function EditProfile(props) {
 
   const storedToken = localStorage.getItem('token') ;
   const idUser = getIDFromToken(storedToken) ;
+  const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+
   //console.log(storedToken) ;  
   //console.log(idUser) ;
 
@@ -55,55 +63,54 @@ export default function EditProfile(props) {
   const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
 
-  function TranslateAll(data){
+
+ 
+
+
+  function TranslateAll(data,Page){
     console.log(data) ;
 
-    let t = FindTranslation(data,Page,VL, sProfile) ;
+    let t = FindTranslation(data,Page, sProfile) ;
     if (t !== "Not Found")
       setProfile(t) ;
 
-    t = FindTranslation(data,Page,VL, sEditProfile) ;
+    t = FindTranslation(data,Page, sEditProfile) ;
     if (t !== "Not Found")
       setEditProfile(t) ;
 
-    t = FindTranslation(data,Page,VL, sAboutMe) ;
+    t = FindTranslation(data,Page, sAboutMe) ;
     if (t !== "Not Found")
       setAboutMe(t) ;
 
-    t = FindTranslation(data,Page,VL, sContactNumber) ;
+    t = FindTranslation(data,Page, sContactNumber) ;
     if (t !== "Not Found")
       setContactNumber(t) ;
 
-    t = FindTranslation(data,Page,VL, sEmailAddress) ;
+    t = FindTranslation(data,Page, sEmailAddress) ;
     if (t !== "Not Found")
       setEmailAddress(t) ;
 
-    t = FindTranslation(data,Page,VL, sFirstName) ;
+    t = FindTranslation(data,Page, sFirstName) ;
     if (t !== "Not Found")
       setFirstName(t) ;
 
-    t = FindTranslation(data,Page,VL, sLastName) ;
+    t = FindTranslation(data,Page, sLastName) ;
     if (t !== "Not Found")
       setLastName(t) ;
 
-    t = FindTranslation(data,Page,VL, sVisibility) ;
+    t = FindTranslation(data,Page, sVisibility) ;
     if (t !== "Not Found")
       setVisibility(t) ;
-
-    setReloadTraductions(false) ;
   }
 
 
+ 
+
+  if (reloadTraductions === true) {
+    TranslateAll(AllTranslations,"EditProfile") ;
+    setReloadTraductions(false) ;
+  }
   
-
-
-
-  const url1 = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;
-  const Page = "EditProfile" ;
-  const VL = "FR" ;
-
-  if (reloadTraductions === true)
-    getTranslations(url1,Page,VL,TranslateAll) ; 
 
 
 
@@ -181,7 +188,17 @@ export default function EditProfile(props) {
 
 
   function SelectFlag(code) {
+      console.log("SelectFlag") ;
       setSelectedFlag(code) ;
+
+      // le composant transmet un code pays et pas une langue
+      // il faut faire une modification
+      let VL = code ;
+      if (code === 'GB')
+        VL = "EN" ;
+
+      SaveLanguage(storedToken,VL) ;
+      localStorage.setItem('ValueLangue', VL);
 
   }
 

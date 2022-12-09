@@ -20,6 +20,7 @@ export default function TabCompany(props) {
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
+    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
     //console.log(storedToken) ;  
     //console.log(idUser) ;
   
@@ -66,6 +67,7 @@ export default function TabCompany(props) {
 
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
+    const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
 
     // pour le ForceRender
@@ -73,24 +75,34 @@ export default function TabCompany(props) {
     const downloaded_UserEnterprises = useRef(false) ;
 
 
-   
-
-
-
-    async function TranslateAll(url, Page,VL) 
+    function TranslateAll(data,Page) 
     {
-        let data = await getTranslations(url,Page,VL) ;
-
         /*
-        let t = FindTranslation(data, Page, VL, sProfile);
+        let t = FindTranslation(data, Page,  sMyProfile);
         if (t !== "Not Found")
-            setProfile(t);
-        t = FindTranslation(data, Page, VL, sCompany);
+            setMyProfile(t);
+        t = FindTranslation(data, Page,  sSignOut);
         if (t !== "Not Found")
-            setCompany(t);
-        */    
+            setSignOut(t);
+        t = FindTranslation(data, Page,  sAccountSettings);
+        if (t !== "Not Found")
+            setSettings(t);
+        t = FindTranslation(data, Page,  sMyMessages);
+        if (t !== "Not Found")
+            setMyMessages(t);
+        t = FindTranslation(data, Page,  sMyMails);
+        if (t !== "Not Found")
+            setMyMails(t);
+        */
     }
+
+
+
     
+    if (reloadTraductions === true) {
+        TranslateAll(AllTranslations,"TabCompany") ;
+        setReloadTraductions(false) ;
+    }
 
 
     

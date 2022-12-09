@@ -1,12 +1,11 @@
-export function FindTranslation(data,Page, VL, Message ){
+export function FindTranslation(data,Page, Message ){
     for(var x in data)
     {
       if (data[x].Page === Page)
-        if (data[x].ValueLangue === VL)
-          if (data[x].Message === Message)
-            return data[x].Traduction ;
+        if (data[x].Message === Message) {
+          return data[x].Traduction ;
+        }
     }
-    
     return "Not Found";
   }
 

@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {Card} from "react-bootstrap";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
 import {checkDuplicate, checkEmail} from "../../../data/customlibs/utils";
-import {getAllUsersEmail,requestLogin} from "../../../data/customlibs/api";
+import {getAllUsersEmail,getLanguage,requestLogin} from "../../../data/customlibs/api";
 import {encrypt} from "../../../data/customlibs/hasher.js";
 import {remove_linebreaks} from "../../../functions_Dan";
 
@@ -13,7 +13,6 @@ export default function Login() {
     const [emailMsg, setEmailMsg] = useState("");
     const [password, setPassword] = useState("");
     const [passwordMsg, setPasswordMsg] = useState("");
-    const [token, setToken] = useState([]);
 
 
     const [reloadLogin, setReloadLogin] = useState(true);
@@ -24,12 +23,13 @@ export default function Login() {
         localStorage.removeItem("userMail");
         localStorage.removeItem("logged");
         localStorage.removeItem("lastLogin");
+        getAllUsersEmail();
         setReloadLogin(false);
     }
 
 
 
-    getAllUsersEmail();
+
 
 
     const changeInput = (e, type) => {
@@ -40,8 +40,6 @@ export default function Login() {
         }
     }
 
-
-    
 
     
 
@@ -96,17 +94,12 @@ export default function Login() {
     
                     const now = new Date();
     
-                    setToken(elem => [token.push(temp)]);
                     localStorage.setItem('token', temp);
                     localStorage.setItem('userMail', email);
                     localStorage.setItem('logged', JSON.stringify(true));
                     localStorage.setItem('lastLogin', now.toString());
     
-                    const lastLogin = localStorage.getItem('lastLogin');
-                    //console.log("lastLogin");
-                    //console.log(lastLogin);
-    
-                    //console.log("window.location.href") ;
+
                     window.location.href = `${process.env.PUBLIC_URL}/Journal/Page1`;
                 }
             }
