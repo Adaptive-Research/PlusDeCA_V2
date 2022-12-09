@@ -24,8 +24,7 @@ export default function Profile(props) {
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
-    //console.log(storedToken) ;  
-    //console.log(idUser) ;
+    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
   
 
     // pour l'affichage des tabs
@@ -44,6 +43,8 @@ export default function Profile(props) {
 
     const [userProfile,setUserProfile] = useState([]) ;
 
+    const [reloadTraductions, setReloadTraductions] = useState(true) ;
+
 
 
 
@@ -55,20 +56,23 @@ export default function Profile(props) {
 
 
 
-    function TranslateAll(url, Page,VL) 
+    function TranslateAll(data,Page) 
     {
-        let data = getTranslations(url,Page,VL) ;
-
-
-        let t = FindTranslation(data, Page, VL, sProfile);
+        let t = FindTranslation(data, Page, sProfile);
         if (t !== "Not Found")
             setProfile(t);
-        t = FindTranslation(data, Page, VL, sCompany);
+        t = FindTranslation(data, Page, sCompany);
         if (t !== "Not Found")
             setCompany(t);
     
     }
     
+
+
+    if (reloadTraductions === true) {
+        TranslateAll(AllTranslations,"Profile") ;
+        setReloadTraductions(false) ;
+    }
 
 
 

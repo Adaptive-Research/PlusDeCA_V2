@@ -5,6 +5,30 @@ import axios from "axios";
 
 
 
+function getLastLineFromResponse(response) {
+    let data = "" ;
+
+
+    if (typeof(response.data) === "object")
+    {
+        if (response.data.constructor === Array)
+            data = response.data ;
+    }
+    else {
+        let Reponse = String(response.data) ;
+        var lines = Reponse.split('\n');
+        var LastLine = "" ;
+        for (let i = 0 ; i < lines.length ; i++)
+        {
+            if (lines[i].length > 1 )
+            LastLine = lines[i] ;
+        }
+        data = LastLine ;
+    }
+    return data ;
+}
+
+
 
 function getDataFromResponse(response) {
     let data = "" ;
@@ -28,10 +52,6 @@ function getDataFromResponse(response) {
             if (lines[i].length > 1 )
             LastLine = lines[i] ;
         }
-
-        //console.log("\n\n") ;
-        //console.log("LastLine") ;
-        //console.log(LastLine) ;
 
         if (LastLine.indexOf("ERROR") >= 0)
             data = LastLine ;
@@ -1097,6 +1117,68 @@ async function getProfile(tok,id, ForceRender)
 
 
 
+  async function SaveLanguage (tok,vl) {
+    const url = process.env.REACT_APP_API_UPDATE_LANGUAGE_URL ;
+    const response = await axios.post(url, {
+      Submit: 1,
+      token:tok ,
+      debug:1,
+      ValueLangue:vl
+    }, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    })
+
+    console.log(response.data);
+
+    if (response.data.includes("ERROR:")) {
+      console.log(`Error found: ${response.data}`);
+    }
+    else {
+       return response.data ;
+    }
+  }  
+
+
+
+
+
+
+
+
+function getLanguage(tok,ForceRender) {
+    console.log("getLanguage") ;  
+    const url = process.env.REACT_APP_API_SHOW_LANGUAGE_URL ;
+    axios.post(url, {
+      Submit: 1,
+      token:tok,
+      debug:1
+    }, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    }).then((response) => {
+        console.log(response) ;
+        const variable = "ValueLangue" ; 
+        
+        const data =  getLastLineFromResponse(response) ;
+      
+        let pos = data.indexOf("ERROR") ;
+        if (pos < 0) 
+            localStorage.setItem(variable, data);
+        else
+            localStorage.removeItem(variable);
+        if (ForceRender !== null)
+            ForceRender() ;
+      }).catch((err) => console.error(err));
+  
+
+}
+
+
+
+
 
 
 
@@ -1790,7 +1872,6 @@ async function DeleteAllBusinessCardCategories (tok,ForceRenderCategory) {
         Submit: 1,
         debug:1,
         token: tok,
-        debug: 1,
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -1841,7 +1922,6 @@ async function UpdateClassementBusinessCardsForNonExistingCategory (tok,ForceRen
         Submit: 1,
         debug:1,
         token: tok,
-        debug: 1,
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -1884,6 +1964,43 @@ async function getTranslations(url, Page,VL,Render)
         Render(response.data) ;
   }
    
+
+  async function getAllTranslations(url, VL,ForceRender) 
+  {
+    const response =  await axios.post(url, {
+        Submit: 1,
+        ValueLangue: VL
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+
+    const variable = "AllTranslations" ;
+    console.log(response.data) ;
+
+    const data =  getDataFromResponse(response) ;
+
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    else{
+        localStorage.removeItem(variable);
+    }
+        
+
+    if (ForceRender !== undefined)
+        if (ForceRender !== null)
+            ForceRender(variable) ; 
+  }
+
 
 
 
@@ -1932,6 +2049,8 @@ export {
     getProfile,
     SaveProfile,
 
+    SaveLanguage,
+    getLanguage,
 
     getUserContacts,
     SaveContact,
@@ -1959,5 +2078,6 @@ export {
     UpdateClassementBusinessCardsForNonExistingCategory, 
     SaveClassementBusinessCard,
 
-    getTranslations
+    getTranslations,
+    getAllTranslations
 };
