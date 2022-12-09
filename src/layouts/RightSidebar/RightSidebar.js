@@ -21,6 +21,8 @@ import {getTranslations} from "../../data/customlibs/api";
 export function RightSidebar() {
     const storedToken = localStorage.getItem('token');
     const idUser = getIDFromToken(storedToken);
+    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+
     //console.log(storedToken) ;
     //console.log(idUser) ;
 
@@ -41,6 +43,8 @@ export function RightSidebar() {
     const [myMessages, setMyMessages] = useState(sMyMessages);
     const [myMails, setMyMails] = useState(sMyMails);
 
+    const [reloadTraductions, setReloadTraductions] = useState(true) ;
+
 
     function Outhover(toggle) {
         setSidebartoogleright(!toggle);
@@ -52,34 +56,34 @@ export function RightSidebar() {
     
 
 
+   
 
-    function TranslateAll(url, Page,VL) 
+
+    function TranslateAll(data,Page) 
     {
-        let data = getTranslations(url,Page,VL) ;
-
-        let t = FindTranslation(data, Page, VL, sMyProfile);
+        let t = FindTranslation(data, Page,  sMyProfile);
         if (t !== "Not Found")
             setMyProfile(t);
-        t = FindTranslation(data, Page, VL, sSignOut);
+        t = FindTranslation(data, Page,  sSignOut);
         if (t !== "Not Found")
             setSignOut(t);
-        t = FindTranslation(data, Page, VL, sAccountSettings);
+        t = FindTranslation(data, Page,  sAccountSettings);
         if (t !== "Not Found")
             setSettings(t);
-        t = FindTranslation(data, Page, VL, sMyMessages);
+        t = FindTranslation(data, Page,  sMyMessages);
         if (t !== "Not Found")
             setMyMessages(t);
-        t = FindTranslation(data, Page, VL, sMyMails);
+        t = FindTranslation(data, Page,  sMyMails);
         if (t !== "Not Found")
             setMyMails(t);
     }
     
+    if (reloadTraductions === true) {
+        TranslateAll(AllTranslations,"RightSidebar") ;
+        setReloadTraductions(false) ;
+    }
 
 
-    const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL;
-    const Page = "RightSidebar";
-    const VL = "FR";
-    TranslateAll(url, Page, VL);
 
 
 
