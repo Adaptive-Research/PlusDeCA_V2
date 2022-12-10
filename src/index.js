@@ -9,9 +9,9 @@ const App = React.lazy(() => import("./components/app"));
 
 
 //Dashboard
-const Dashboard = React.lazy(() => import("./components/Dashboard/Dashboard"));
+const Dashboard = React.lazy(() => import("./components/pages/Dashboard/Dashboard"));
 //Journal
-const Journal = React.lazy(() => import("./components/Journal/Journal"));
+const Journal = React.lazy(() => import("./components/pages/Journal/Journal"));
 
 
 //Article
@@ -32,7 +32,7 @@ const InterviewQuestions = React.lazy(() => import("./components/pages/Interview
 
 //pages
 const Profile = React.lazy(() => import("./components/pages/Profile/Profile"));
-const EditProfile = React.lazy(() => import("./components/pages/EditProfile/EditProfile"));
+const EditProfile = React.lazy(() => import("./components/pages/Profile/EditProfile"));
 
 //custom Pages
 const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
