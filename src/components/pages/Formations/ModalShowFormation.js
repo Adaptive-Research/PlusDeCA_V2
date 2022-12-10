@@ -12,6 +12,7 @@ import {SaveFormation,UpdateFormation} from "../../../data/customlibs/api";
 export default function ModalShowFormation(props) {
 
     const storedToken = localStorage.getItem('token');
+    const Formations_groupes = JSON.parse(localStorage.getItem('Formations_groupes')); 
 
     console.log("ModalEditFormation") ;
     //console.log("props") ;
@@ -58,7 +59,13 @@ export default function ModalShowFormation(props) {
 
 
 
+    function GetNombrePersonnes(sindex) {
+        console.log("GetNombrePersonnes:" + sindex) ;
+        for (let i = 0 ; i <  Formations_groupes.length ; i++) 
+            if ( sindex === Formations_groupes[i].idGroupe  )
+                return Formations_groupes[i].groupe ;
 
+    }
 
     
 
@@ -91,7 +98,7 @@ export default function ModalShowFormation(props) {
                     </div>
 
                     <div>
-                        <strong>Nombre de personnes maximum: </strong> {props.Groupe}
+                        <strong>Nombre de personnes maximum: </strong> {GetNombrePersonnes(props.Groupe)}
                     </div>
 
                     <div>

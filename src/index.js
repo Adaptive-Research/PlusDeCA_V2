@@ -177,10 +177,61 @@ const Root = () => {
                                 element={<ContactList/>}
                             />
 
-                        </Route>
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/icon/fontAwesome`}
+                                element={<FontAwesome />}
+                            />
 
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/icon/materialDesignIcons`}
+                                element={<MaterialDesignIcons />}
+                            />
 
-                           
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/icon/simpleLineIcons`}
+                                element={<SimpleLineIcons />}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/icon/featherIcons`}
+                                element={<FeatherIcons />}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/icon/ionicIcons`}
+                                element={<IonicIcons />}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/icon/flagIcons`}
+                                element={<FlagIcons />}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/icon/pe7Icons`}
+                                element={<Pe7Icons />}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/icon/themifyIcons`}
+                                element={<ThemifyIcons />}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/icon/typiconsIcons`}
+                                element={<TypiconsIcons />}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/icon/weatherIcons`}
+                                element={<WeatherIcons />}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/icon/typiconsIcons`}
+                                element={<TypiconsIcons />}
+                            />
+                        </Route>           
 
 
 
