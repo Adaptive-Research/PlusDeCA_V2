@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {Card} from "react-bootstrap";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
 import {checkDuplicate, checkEmail} from "../../../data/customlibs/utils";
-import {getAllUsersEmail,getLanguage,requestLogin} from "../../../data/customlibs/api";
+import {getAllUsersEmail,requestLogin} from "../../../data/customlibs/api";
 import {encrypt} from "../../../data/customlibs/hasher.js";
 import {remove_linebreaks} from "../../../functions_Dan";
 
@@ -100,7 +100,8 @@ export default function Login() {
                     localStorage.setItem('lastLogin', now.toString());
     
 
-                    window.location.href = `${process.env.PUBLIC_URL}/Journal/Page1`;
+                    //window.location.href = `${process.env.PUBLIC_URL}/Journal/Page1`;
+                    window.location.href = `${process.env.PUBLIC_URL}/dashboard`;
                 }
             }
         }
@@ -181,7 +182,7 @@ export default function Login() {
                                     <div className="text-end pt-1">
                                         <p className="mb-0">
                                             <Link
-                                                to={`/react/custompages/forgotPassword/`}
+                                                to={`${process.env.PUBLIC_URL}/forgotPassword`}
                                                 className="text-primary ms-1"
                                             >
                                                 Forgot Password?
@@ -200,7 +201,7 @@ export default function Login() {
                                         <p className="text-dark mb-0">
                                             Not a member?
                                             <Link
-                                                to={`${process.env.PUBLIC_URL}/custompages/register/`}
+                                                to={`${process.env.PUBLIC_URL}/register`}
                                                 className="text-primary ms-1"
                                             >
                                                 Create an Account
