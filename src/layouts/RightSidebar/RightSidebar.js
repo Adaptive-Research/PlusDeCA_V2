@@ -12,7 +12,7 @@ import face2 from "../../assets/images/faces/2.jpg";
 import face13 from "../../assets/images/faces/13.jpg";
 import face14 from "../../assets/images/faces/14.jpg";
 import face15 from "../../assets/images/faces/15.jpg";
-import {FindTranslation, getIDFromToken} from "../../functions_Dan.js";
+import {FindTranslation, getIDFromToken} from  "../../data/customlibs/utils" ;
 import {useNavigate} from "react-router";
 
 

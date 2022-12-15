@@ -5,7 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
 import {Card} from "react-bootstrap"
 import {ModalEditEvent} from "./ModalEditEvent"
-import  { getIDFromToken } from "../../../functions_Dan.js" ;
+import  { getIDFromToken } from  "../../../data/customlibs/utils" ;
 import {getEventsForUser} from "../../../data/customlibs/api";
 
 

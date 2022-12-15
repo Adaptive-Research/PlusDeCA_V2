@@ -32,8 +32,8 @@ export default function ModalEditFormation(props) {
     const modeEdit = useRef("") ;
     const [idAncestor,setIdAncestor] = useState("") ;
     const [title, setTitle] = useState("");
-    const categorie = useRef("");
-    const groupe = useRef("") ;
+    const idcategorie = useRef("");
+    const idgroupe = useRef("") ;
     const [duree, setDuree] = useState("");
     const [tarif, setTarif] = useState("");
 
@@ -54,16 +54,24 @@ export default function ModalEditFormation(props) {
 
     if (reloadInfos === true)
     {
-
+        console.log("reloadInfos") ;
         modeEdit.current = props.ModeEdit ;
         setIdAncestor(props.idAncestor) ;
         setTitle(props.Title) ;
-        categorie.current = props.Categorie ;
+
+        idcategorie.current = props.idCategorie ;
+        if (props.idCategorie === "") {
+            if ( Formations_categories.length > 0)
+                idcategorie.current = Formations_categories[0].idCategorie ;
+        }
+        //console.log("categorie.current") ;
+        //console.log(categorie.current) ;
+           
         setContent(props.Html) ;
         setHtml(props.Html) ;
         setDuree(props.Duree) ;
         setTarif(props.Tarif) ;
-        groupe.current = props.Groupe ;
+        idgroupe.current = props.idGroupe ;
 
 
         texte.current = props.Text ;
@@ -83,9 +91,11 @@ export default function ModalEditFormation(props) {
 
 
     function renderSelectOption(tableau, colValue, colTexte) {
-        let so  = tableau.map((Ligne) => {
-            return <option value={Ligne[colValue]}> {Ligne[colTexte]} </option>
-        }) ;
+        let so = "" ;
+        if (tableau !== null)
+            so  = tableau.map((Ligne) => {
+                return <option value={Ligne[colValue]}> {Ligne[colTexte]} </option>
+            }) ;
 
         return so ;
     }
@@ -103,7 +113,7 @@ export default function ModalEditFormation(props) {
 
         
         console.log("title: " + title) ;
-        console.log("categorie: " + categorie.current) ;
+        console.log("categorie: " + idcategorie.current) ;
         console.log("result") ;
         console.log(result) ;
         console.log("html") ;
@@ -131,7 +141,7 @@ export default function ModalEditFormation(props) {
             setTitleMsg("Le titre est obligatoire");
         }
 
-        if (categorie.current.length > 0) {
+        if (idcategorie.current.length > 0) {
             categorieCheck = true;
             setCategoryMsg("");
         } else {
@@ -149,9 +159,9 @@ export default function ModalEditFormation(props) {
 
         if (titleCheck && categorieCheck && descriptionCheck) {
             if (modeEdit.current === "Add")
-                SaveFormation(storedToken,title,duree,groupe.current, tarif,categorie.current,texte.current,html,photo, props.ForceRenderFormation);
+                SaveFormation(storedToken,title,duree,idgroupe.current, tarif,idcategorie.current,texte.current,html,photo, props.ForceRenderFormation);
             else
-                UpdateFormation(storedToken,idAncestor, title,duree,groupe.current, tarif,categorie.current,texte.current,html,photo, props.ForceRenderFormation);
+                UpdateFormation(storedToken,idAncestor, title,duree,idgroupe.current, tarif,idcategorie.current,texte.current,html,photo, props.ForceRenderFormation);
         }
     }
 
@@ -211,8 +221,8 @@ export default function ModalEditFormation(props) {
                         <label className="col-md-3 form-label">Nombre de personnes pour la formation:</label>
                         <div className="">
                             
-                            <select id="Groupes"  className="form-control"  defaultValue={groupe.current} onChange={(e) =>  groupe.current = e.target.value}>
-                            {renderSelectOption(Formations_groupes,"groupe","groupe")}
+                            <select id="Groupes"  className="form-control"  defaultValue={idgroupe.current} onChange={(e) =>  idgroupe.current = e.target.value}>
+                            {renderSelectOption(Formations_groupes,"idGroupe","groupe")}
                             </select>
                         </div>
                     </Row>
@@ -234,8 +244,8 @@ export default function ModalEditFormation(props) {
                         <label className="col-md-3 form-label">Catégorie :</label>
                         <div className="">
                             
-                            <select id="Categories"  className="form-control" defaultValue={categorie.current} onChange={(e) =>  categorie.current = e.target.value}>
-                            {renderSelectOption(Formations_categories,"categorie","categorie")}
+                            <select id="Categories"  className="form-control" defaultValue={idcategorie.current} onChange={(e) =>  idcategorie.current = e.target.value}>
+                            {renderSelectOption(Formations_categories,"idCategorie","categorie")}
                             </select>
                         </div>
                     </Row>

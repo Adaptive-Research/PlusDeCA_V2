@@ -4,7 +4,7 @@ import React , { useState } from "react";
 import {useNavigate} from "react-router";
 import {Col,Row,Card,Form,Button,FormGroup} from "react-bootstrap";
 
-import  { FindTranslation, getIDFromToken } from "../../../functions_Dan.js" ;
+import  { FindTranslation, getIDFromToken } from  "../../../data/customlibs/utils" ;
 import {getProfile,SaveProfile,SaveLanguage} from "../../../data/customlibs/api";
 import ReactFlagsSelect from "react-flags-select";
 

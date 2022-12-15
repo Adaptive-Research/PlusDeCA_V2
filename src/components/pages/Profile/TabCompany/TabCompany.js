@@ -2,7 +2,7 @@ import React, { useState,useRef} from "react";
 
 import {Button} from "react-bootstrap";
 
-import {getIDFromToken} from "../../../../functions_Dan.js";
+import {getIDFromToken} from "../../../../data/customlibs/utils";
 import {getCompaniesForUser ,getActivitiesForUser} from "../../../../data/customlibs/api";
 import CardCompany from "./CardCompany" ;
 import ModalEditCompany from "./ModalEditCompany" ;

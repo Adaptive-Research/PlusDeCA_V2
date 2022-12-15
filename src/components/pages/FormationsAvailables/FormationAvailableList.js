@@ -1,9 +1,9 @@
 import React, { useState,useRef,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
-import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
-import {getUserFormations,getFormationsCategories,getFormationsGroupes} from "../../../data/customlibs/api";
+import {FindTranslation,getIDFromToken} from  "../../../data/customlibs/utils";
+import {getAvailableFormations,getFormationsCategories,getFormationsGroupes} from "../../../data/customlibs/api";
 import CardFormation from "./CardFormation" ;
-import ModalShowFormation from "./ModalShowFormation" ;
+import ModalShowFormation from "../Formations/ModalShowFormation" ;
 
 
     
@@ -17,6 +17,7 @@ export default function FormationAvailableList() {
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
+    const ValueLangue = localStorage.getItem('ValueLangue') ;
 
    
 
@@ -53,7 +54,6 @@ export default function FormationAvailableList() {
     const reloadInfos = useRef(true) ;
 
    
-    let ValueLangue = "FR" ;
     
 
     
@@ -65,7 +65,7 @@ export default function FormationAvailableList() {
         //console.log("downloaded_Formations.current") ;
         //console.log(downloaded_Formations.current) ;
         
-        if (variable === "userFormations")
+        if (variable === "AvailableFormations")
             downloaded_Formations.current = true ;
         
         if (variable === "Formations_categories")
@@ -85,9 +85,9 @@ export default function FormationAvailableList() {
     if (reloadInfos.current === true)
     {
         console.log("reloadInfos") ;
-        getUserFormations("userFormations",storedToken,RenderAfterLoad) ;
-        getFormationsGroupes("Formations_groupes",storedToken,"fr", RenderAfterLoad) ;
-        getFormationsCategories("Formations_categories",storedToken,"fr", RenderAfterLoad) ;
+        getAvailableFormations("AvailableFormations",storedToken,RenderAfterLoad) ;
+        getFormationsGroupes("Formations_groupes",storedToken,ValueLangue, RenderAfterLoad) ;
+        getFormationsCategories("Formations_categories",storedToken,ValueLangue, RenderAfterLoad) ;
 
             
         reloadInfos.current = false ;
@@ -96,60 +96,6 @@ export default function FormationAvailableList() {
 
 
 
-    // Callbacks pour la fenetre ModalEditFormation
-    // il y en a 3
-    // - ModalEditFormationClose
-    // - SendFormationData
-    // - ForceRenderFormation
-
-
-
-    // C'est le callback appele quand on ferme ModalEditFormation
-    function ModalEditFormationClose()
-    {
-        setShowEditFormation(false) ;
-    }
-
-
-
-    // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
-    function SendFormationData(ShowWindow, Formation) {
-        console.log("SendFormationData")
-        if (Formation === null)
-        {
-            setModeEdit("Add") ;
-            setIdAncestor("") ;
-            setTitle("") ;
-            setCategorie("1") ;
-            setText("") ;
-            setHtml("") ;
-            setDuree("") ;
-            setTarif("") ;
-            setGroupe("") ;
-        }
-        else
-        {
-            setModeEdit("Edit") ;
-            console.log("Mode Edit") ;
-
-            setIdAncestor(Formation.idAncestor) ;
-            setTitle(Formation.Formation_Title) ;
-            setCategorie(Formation.Formation_Categorie) ;
-            setText(Formation.Formation_Text) ;
-            setHtml(Formation.Formation_Html) ;
-            setDuree(Formation.Formation_Duree) ;
-            setTarif(Formation.Formation_Tarif) ;
-            setGroupe(Formation.Formation_Groupe) ;
-        }
-        
-
-
-        if (ShowWindow === "false")
-            setShowEditFormation(false) ;
-        else
-            setShowEditFormation(true) ;
-    }    
-
 
     function ForceRenderFormation() {
         
@@ -157,7 +103,7 @@ export default function FormationAvailableList() {
         setShowEditFormation(false) ;
 
         downloaded_Formations.current = false ;   
-        getUserFormations("userFormations",storedToken, RenderAfterLoad) ;
+        getAvailableFormations("AvailableFormations",storedToken, RenderAfterLoad) ;
     }
 
 
@@ -188,12 +134,12 @@ export default function FormationAvailableList() {
 
         setIdAncestor(Formation.idAncestor) ;
         setTitle(Formation.Formation_Title) ;
-        setCategorie(Formation.Formation_Categorie) ;
+        setCategorie(Formation.Formation_idCategorie) ;
         setText(Formation.Formation_Text) ;
         setHtml(Formation.Formation_Html) ;
         setDuree(Formation.Formation_Duree) ;
         setTarif(Formation.Formation_Tarif) ;
-        setGroupe(Formation.Formation_Groupe) ;
+        setGroupe(Formation.Formation_idGroupe) ;
         
         setShowFormation(true) ;
     }    
@@ -217,19 +163,19 @@ export default function FormationAvailableList() {
 
 
     // Separate drafts from published formations
-    const renderFormationsAvaibles = (CategorieFormation) => {
-        const formations = JSON.parse(localStorage.getItem("userFormations"));
+    const renderAvailableFormations = (idCategorie) => {
+        console.log("renderAvailableFormations");
+        const formations = JSON.parse(localStorage.getItem("AvailableFormations"));
        {
         if (formations !== null){
-            console.log("Nos Formations");
             console.log(formations);
             return formations.map((formation) => {
-                if(formation.Formation_Categorie == CategorieFormation){
+                if(formation.Formation_idCategorie == idCategorie){
                     return  <Col md={4}  key={formation.id}> 
                                 <CardFormation 
                                     key={formation.id}
                                     Formation={formation}
-                                    CategorieFormation={CategorieFormation}
+                                    CategorieFormation={idCategorie}
                                     SendShowFormationData={SendShowFormationData}  
                                     ForceRenderFormation = {ForceRenderFormation}
                                 />
@@ -237,49 +183,7 @@ export default function FormationAvailableList() {
                 }
             });
         }
-        /** 
-         *  return  <CardFormation 
-                                key={formation.id}
-                                Formation={formation}
-                                CategorieFormation={CategorieFormation}
-                                SendShowFormationData={SendShowFormationData}  
-                                ForceRenderFormation = {ForceRenderFormation}
-                            />
-         * 
-         * 
-         * if (formations !== null)
-        {
 
-            return formations.map((Ligne) => {
-                //console.log("Ligne.id: "+Ligne.id) ;
-                if  (TypeFormation === "Brouillon") {
-                    if (Ligne.iscurrent === "1" && Ligne.isValidated === "0") 
-                        return <Col md={4}  key={Ligne.id}> 
-                                    <CardFormation 
-                                        Formation={Ligne}
-                                        TypeFormation={TypeFormation}
-                                        SendFormationData={SendFormationData}  
-                                        ForceRenderFormation = {ForceRenderFormation}
-                                    /> 
-                                </Col> ;
-                }
-                else if(TypeFormation === "Valide"){
-                    if(Ligne.iscurrent === "1" && Ligne.isValidated === "1"){
-                        return <Col md={4}  key={Ligne.id}> 
-                                    <CardFormation 
-                                        key={Ligne.id}
-                                        Formation={Ligne}
-                                        TypeFormation={TypeFormation}
-                                        SendShowFormationData={SendShowFormationData}  
-                                        ForceRenderFormation = {ForceRenderFormation}
-                                    /> 
-                                </Col> ;
-                    }
-                }
-            })
-        }
-        else
-            return "" ; */
        }
     }
 
@@ -295,7 +199,7 @@ export default function FormationAvailableList() {
                     return  <Tab eventKey={formationCategorie.categorie} title={formationCategorie.categorie}>
                                 <div className="tab-pane " id="tab-61">
                                     <Row className="row-cards ">
-                                        {renderFormationsAvaibles(formationCategorie.categorie)}
+                                        {renderAvailableFormations(formationCategorie.idCategorie)}
                                     </Row>
                                 </div>
                             </Tab>
@@ -308,17 +212,7 @@ export default function FormationAvailableList() {
     }
 
 
-{
-    /**
-     * <Tab eventKey={formationCategorie.categorie} title={formationCategorie.categorie}>
-                    <div className="tab-pane " id="tab-61">
-                        <Row className="row-cards ">
-                            Bonjour {formationCategorie.categorie}
-                        </Row>
-                    </div>
-                </Tab>
-     */
-}
+
 
 
     return (
@@ -359,26 +253,7 @@ export default function FormationAvailableList() {
                                         >
                                             {RenderFormationAvailableTabs()}
 
-                                            {
-                                                /**
-                                                 * <Tab eventKey="Brouillon" title="En cours de création">
-                                                <div className="tab-pane " id="tab-61">
-                                                    <Row className="row-cards ">
-                                                        {renderFormations("Brouillon")}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
 
-
-                                            <Tab eventKey="Valide" title="Prêtes à être dispensées">
-                                                <div className="tab-pane profiletab show">
-                                                    <Row className="row-cards ">
-                                                        {renderFormations("Valide")}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
-                                                 */
-                                            }
 
                                         </Tabs>
                                     </div>

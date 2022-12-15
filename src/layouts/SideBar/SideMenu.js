@@ -9,7 +9,6 @@ export const MENUITEMS = [
                 active: false,
                 title: "A la une",
             }
-
         ],
     },
 
@@ -54,27 +53,6 @@ export const MENUITEMS = [
 
 
     {
-        menutitle: "MON RESEAU",
-        Items: [
-            {
-                path: `${process.env.PUBLIC_URL}/MyNetwork`,
-                icon: "user-plus",
-                type: "link",
-                active: false,
-                title: "Mon réseau",
-            },
-            {
-                path: `${process.env.PUBLIC_URL}/MesMails`,
-                icon: "mail",
-                type: "link",
-                active: false,
-                title: "Mes mails",
-            },
-
-        ],
-    },
-
-    {
         menutitle: "MES ACTIONS",
         Items: [
             {
@@ -82,14 +60,21 @@ export const MENUITEMS = [
                 icon: "file-text",
                 type: "link",
                 active: false,
-                title: "Mes articles",
+                title: "Ecrire un article",
             },
             {
                 path: `${process.env.PUBLIC_URL}/MesInterviews`,
                 icon: "mic",
                 type: "link",
                 active: false,
-                title: "Mes interviews",
+                title: "Répondre à une interview",
+            },
+            {
+                path: `${process.env.PUBLIC_URL}/Planifier`,
+                icon: "users",
+                type: "link",
+                active: false,
+                title: "Planifier une réunion",
             },
             {
                 path: `${process.env.PUBLIC_URL}/MesFormations`,
@@ -98,6 +83,7 @@ export const MENUITEMS = [
                 active: false,
                 title: "Proposer une formation",
             },
+            
         ],
     },
 

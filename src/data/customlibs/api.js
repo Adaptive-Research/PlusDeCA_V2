@@ -1518,6 +1518,44 @@ async function getUserFormations(variable,tok,ForceRender) {
 }
 
 
+
+//Method to get all formations
+async function getAvailableFormations(variable,tok,ForceRender) {
+    console.log("getAvailableFormations") ;
+    const url =  process.env.REACT_APP_API_SHOW_AVAILABLE_FORMATIONS_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        debug:1
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+    
+    console.log(response.data) ;
+    const data =  getDataFromResponse(response) ;
+
+        
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    else{
+        localStorage.removeItem(variable);
+    }
+
+    if (ForceRender !== null)
+        ForceRender(variable) ;
+}
+
+
 //Method to get all formations created by this user
 async function getFormationsGroupes(variable,tok,vl, ForceRender) {
     console.log("getFormationsGroupes") ;
@@ -1597,7 +1635,7 @@ async function getFormationsCategories(variable,tok,vl, ForceRender) {
 
 
 // Function that sends axios requesst to create a new formation
-async function SaveFormation(tok,title,duree,groupe,tarif, category,texte,html,photo,ForceRenderFormation) {
+async function SaveFormation(tok,title,duree,idgroupe,tarif, idcategorie,texte,html,photo,ForceRenderFormation) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_FORMATION_URL;
     console.log("SaveFormation") ;
 
@@ -1607,10 +1645,10 @@ async function SaveFormation(tok,title,duree,groupe,tarif, category,texte,html,p
         debug:1,
         token: tok,
         Formation_Duree:duree,
-        Formation_Groupe:groupe,
+        Formation_idGroupe:idgroupe,
         Formation_Tarif: tarif,
         Formation_Title: title,
-        Formation_Categorie: category,
+        Formation_idCategorie: idcategorie,
         Formation_Text: texte,
         Formation_Html: html,
         Formation_Image: photo,
@@ -1633,7 +1671,7 @@ async function SaveFormation(tok,title,duree,groupe,tarif, category,texte,html,p
 
 
 // Function that sends axios request to update  formation
-async function UpdateFormation(tok,idAncestor, title,duree,groupe,tarif,category,texte,html,photo,ForceRenderFormation ){
+async function UpdateFormation(tok,idAncestor, title,duree,idgroupe,tarif,idcategorie,texte,html,photo,ForceRenderFormation ){
 
     const url =  process.env.REACT_APP_API_EDIT_FORMATION_URL;
     const response = await axios.post(url, {
@@ -1643,9 +1681,9 @@ async function UpdateFormation(tok,idAncestor, title,duree,groupe,tarif,category
         idAncestor: idAncestor,
         Formation_Title: title,
         Formation_Duree:duree,
-        Formation_Groupe:groupe,
+        Formation_idGroupe:idgroupe,
         Formation_Tarif: tarif,
-        Formation_Categorie: category,
+        Formation_idCategorie: idcategorie,
         Formation_Text: texte,
         Formation_Html: html,
         Formation_Image: photo,
@@ -2047,6 +2085,7 @@ export {
     DeleteBusinessCard,
 
     getUserFormations,
+    getAvailableFormations,
     SaveFormation,
     UpdateFormation,
     DeleteFormation,

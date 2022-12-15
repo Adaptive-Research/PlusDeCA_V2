@@ -1,6 +1,6 @@
 import React, { useState,useRef,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
-import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
+import {FindTranslation,getIDFromToken} from  "../../../data/customlibs/utils";
 import {getUserFormations,getFormationsCategories,getFormationsGroupes} from "../../../data/customlibs/api";
 import CardFormation from "./CardFormation" ;
 import ModalEditFormation from "./ModalEditFormation" ;
@@ -18,6 +18,7 @@ export default function FormationList() {
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
+    const ValueLangue = localStorage.getItem('ValueLangue') ;
 
    
 
@@ -40,12 +41,12 @@ export default function FormationList() {
     const [modeEdit,setModeEdit]= useState("") ;
     const [idAncestor,setIdAncestor] = useState("") ;
     const [title, setTitle] = useState("");
-    const [categorie, setCategorie] = useState("");
+    const [idCategorie, setIdCategorie] = useState("");
     const [text, setText] = useState("");
     const [html, setHtml] = useState("");
     const [duree,setDuree] = useState("") ;
     const [tarif,setTarif] = useState("") ;
-    const [groupe,setGroupe] = useState("") ;
+    const [idGroupe,setIdGroupe] = useState("") ;
 
 
 
@@ -54,7 +55,7 @@ export default function FormationList() {
     const reloadInfos = useRef(true) ;
 
    
-    let ValueLangue = "FR" ;
+
     
 
     
@@ -85,10 +86,10 @@ export default function FormationList() {
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
-        console.log("reloadInfos") ;
+        console.log("reloadInfos: " + ValueLangue) ;
         getUserFormations("userFormations",storedToken,RenderAfterLoad) ;
-        getFormationsGroupes("Formations_groupes",storedToken,"fr", RenderAfterLoad) ;
-        getFormationsCategories("Formations_categories",storedToken,"fr", RenderAfterLoad) ;
+        getFormationsGroupes("Formations_groupes",storedToken,ValueLangue, RenderAfterLoad) ;
+        getFormationsCategories("Formations_categories",storedToken,ValueLangue, RenderAfterLoad) ;
 
             
         reloadInfos.current = false ;
@@ -121,12 +122,12 @@ export default function FormationList() {
             setModeEdit("Add") ;
             setIdAncestor("") ;
             setTitle("") ;
-            setCategorie("1") ;
+            setIdCategorie("") ;
             setText("") ;
             setHtml("") ;
             setDuree("") ;
             setTarif("") ;
-            setGroupe("") ;
+            setIdGroupe("") ;
         }
         else
         {
@@ -135,12 +136,12 @@ export default function FormationList() {
 
             setIdAncestor(Formation.idAncestor) ;
             setTitle(Formation.Formation_Title) ;
-            setCategorie(Formation.Formation_Categorie) ;
+            setIdCategorie(Formation.Formation_idCategorie) ;
             setText(Formation.Formation_Text) ;
             setHtml(Formation.Formation_Html) ;
             setDuree(Formation.Formation_Duree) ;
             setTarif(Formation.Formation_Tarif) ;
-            setGroupe(Formation.Formation_Groupe) ;
+            setIdGroupe(Formation.Formation_idGroupe) ;
         }
         
 
@@ -189,12 +190,12 @@ export default function FormationList() {
 
         setIdAncestor(Formation.idAncestor) ;
         setTitle(Formation.Formation_Title) ;
-        setCategorie(Formation.Formation_Categorie) ;
+        setIdCategorie(Formation.Formation_idCategorie) ;
         setText(Formation.Formation_Text) ;
         setHtml(Formation.Formation_Html) ;
         setDuree(Formation.Formation_Duree) ;
         setTarif(Formation.Formation_Tarif) ;
-        setGroupe(Formation.Formation_Groupe) ;
+        setIdGroupe(Formation.Formation_idGroupe) ;
         
         setShowFormation(true) ;
     }    
@@ -297,12 +298,12 @@ export default function FormationList() {
                                             ModeEdit={modeEdit}
                                             idAncestor={idAncestor}
                                             Title={title} 
-                                            Categorie = {categorie} 
+                                            idCategorie = {idCategorie} 
                                             Html= {html}
                                             Text={text}
                                             Duree={duree}
                                             Tarif={tarif}
-                                            Groupe={groupe}
+                                            idGroupe={idGroupe}
                                         />
 
                                         <ModalShowFormation 
@@ -313,7 +314,7 @@ export default function FormationList() {
                                             Html= {html}
                                             Duree={duree}
                                             Tarif={tarif}
-                                            Groupe={groupe}
+                                            Groupe={idGroupe}
                                         />
 
 
