@@ -1,4 +1,4 @@
-import React, {useRef, useState,useEffect} from "react";
+import React, { useState} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {getUserInterviews} from "../../../data/customlibs/api";
 import '../../../assets/css/InterviewsList.css';
@@ -6,8 +6,6 @@ import CardInterview from "./CardInterview.js";
 import ModalEditInterview from "./ModalEditInterview.js";
 
 
-import {getTranslations,getProfile,SaveProfile,SaveLanguage,FindTranslation, getIDFromToken } from "../../../data/customlibs/api";
-import ReactFlagsSelect from "react-flags-select";
 
 
 export default function InterviewList() {
