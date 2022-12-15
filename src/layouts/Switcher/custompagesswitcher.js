@@ -204,28 +204,6 @@ export function Custompagesswitcher() {
           <Scrollbars>
             <Row className="row">
               <div className="predefined_styles">
-                <div className="swichermainleft text-center">
-                  <div className="p-3 d-grid gap-2">
-                    <a
-                      href="../../index.html"
-                      className="btn ripple btn-primary mt-0"
-                    >
-                      View Demo
-                    </a>
-                    <a
-                      href="https://themeforest.net/item/zanex-bootstrap-5-admin-dashboard-template/32984858"
-                      className="btn ripple btn-secondary"
-                    >
-                      Buy Now
-                    </a>
-                    <a
-                      href="https://themeforest.net/user/spruko/portfolio"
-                      className="btn ripple btn-red"
-                    >
-                      Our Portfolio
-                    </a>
-                  </div>
-                </div>
                 <div className="swichermainleft">
                   <h4>Light Theme Style</h4>
                   <div className="skin-body">

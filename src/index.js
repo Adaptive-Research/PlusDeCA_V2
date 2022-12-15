@@ -99,16 +99,19 @@ const Root = () => {
                             path={`${process.env.PUBLIC_URL}/`}
                             element={<App />}
                         >
+                     
                             <Route index element={<Login/>}/>
 
                             <Route
                                 path={`${process.env.PUBLIC_URL}/dashboard`}
                                 element={<Dashboard/>}
                             />
+
                             <Route
                                 path={`${process.env.PUBLIC_URL}/Journal/Page1`}
                                 element={<Journal/>}
                             />
+
 
                             <Route
                                 path={`${process.env.PUBLIC_URL}/pages/profile`}
@@ -160,6 +163,12 @@ const Root = () => {
                                 element={<ContactList/>}
                             />
 
+
+
+                           
+
+
+                           
                             <Route>
                                 <Route
                                     path={`${process.env.PUBLIC_URL}/icon/fontAwesome`}
@@ -231,8 +240,8 @@ const Root = () => {
                             path={`${process.env.PUBLIC_URL}/`}
                             element={<Custompages />}
                         >
+                        
                             
-
                             <Route
                                 path={`${process.env.PUBLIC_URL}/Login`}
                                 element={<Login/>}
@@ -244,9 +253,11 @@ const Root = () => {
                             <Route
                                 path={`${process.env.PUBLIC_URL}/forgotPassword`}
                                 element={<ForgotPassword/>}
-                            />
+                            />          
+                        
 
                             <Route path="*" element={<Errorpage400/>}/>
+                            
                         </Route>    
 
 

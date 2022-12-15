@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {Card} from "react-bootstrap";
-import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
-import {checkDuplicate, checkEmail} from "../../../data/customlibs/utils";
+import {checkDuplicate, checkEmail,remove_linebreaks} from "../../../data/customlibs/utils";
 import {getAllUsersEmail,requestLogin} from "../../../data/customlibs/api";
 import {encrypt} from "../../../data/customlibs/hasher.js";
-import {remove_linebreaks} from "../../../functions_Dan";
+
+
+
 
 
 export default function Login() {
@@ -17,6 +18,7 @@ export default function Login() {
 
     const [reloadLogin, setReloadLogin] = useState(true);
 
+    
 
     if (reloadLogin === true) {
         localStorage.removeItem("token");
@@ -98,10 +100,14 @@ export default function Login() {
                     localStorage.setItem('userMail', email);
                     localStorage.setItem('logged', JSON.stringify(true));
                     localStorage.setItem('lastLogin', now.toString());
-    
+                    
 
-                    //window.location.href = `${process.env.PUBLIC_URL}/Journal/Page1`;
-                    window.location.href = `${process.env.PUBLIC_URL}/dashboard`;
+
+
+                  
+                   // window.location.href comme la fonction navigate utilisent le server side routing 
+                   let url = `${process.env.PUBLIC_URL}/Journal/Page1` ;
+                   window.location.href = url ;
                 }
             }
         }
@@ -130,12 +136,7 @@ export default function Login() {
     return (
         <div className="login-img">
             <div className="page">
-                <div className="dropdown float-end custom-layout">
-                    <div className="demo-icon nav-link icon mt-4 bg-primary"
-                         onClick={() => custompagesswitcherdata.Swichermainright()}>
-                        <i className="fe fe-settings fa-spin text_primary"></i>
-                    </div>
-                </div>
+                
                 <div className="">
                     <div className="col col-login mx-auto">
                         <div className="text-center">
@@ -187,6 +188,7 @@ export default function Login() {
                                             >
                                                 Forgot Password?
                                             </Link>
+
                                         </p>
                                     </div>
                                     <div className="container-login100-form-btn">
@@ -206,6 +208,8 @@ export default function Login() {
                                             >
                                                 Create an Account
                                             </Link>
+                                            
+                                            
                                         </p>
                                     </div>
                                 </form>

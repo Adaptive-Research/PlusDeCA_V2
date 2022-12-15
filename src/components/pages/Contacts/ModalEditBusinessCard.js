@@ -81,7 +81,9 @@ export default function ModalEditBusinessCard(props) {
 
 
 
-
+        function renderActivite() {
+            return "" ;
+        }
         
 
 
@@ -215,6 +217,18 @@ export default function ModalEditBusinessCard(props) {
                             </Row>
                             </Card.Body>
                             </Card>
+
+                            <Row className="mb-4">
+                                    <label className="form-label">Activité:</label>
+                                    <div className="">
+                                        <select id="Activite"  className="form-control" onChange={(e) =>  sexe.current = e.target.value}>
+                                            {renderActivite}
+                                        </select>
+                                    </div>   
+                            </Row>  
+                               
+
+
                         </Col>
 
                         <Col md={6}>

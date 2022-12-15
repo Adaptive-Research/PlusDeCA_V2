@@ -1,6 +1,6 @@
 import React, { useState,useRef,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
-import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
+import {FindTranslation,getIDFromToken} from  "../../../data/customlibs/utils";
 import {getUserFormations,getFormationsCategories,getFormationsGroupes} from "../../../data/customlibs/api";
 import CardFormation from "./CardFormation" ;
 import ModalEditFormation from "./ModalEditFormation" ;

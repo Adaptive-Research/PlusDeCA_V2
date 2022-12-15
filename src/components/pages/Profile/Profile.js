@@ -1,9 +1,8 @@
 import React, { useState} from "react";
 
 import {Breadcrumb, Card, Col, Row, Tab, Tabs} from "react-bootstrap";
-import {Link} from "react-router-dom";
 
-import {FindTranslation,getIDFromToken} from "../../../functions_Dan.js";
+import {FindTranslation,getIDFromToken} from  "../../../data/customlibs/utils";
 import * as profiledata from "../../../data/Pages/profiledata/profiledata";
 import CardBodyProfile from "./CardBodyProfile" ;
 import CardPersonalInformation from "./CardPersonalInformation" ;

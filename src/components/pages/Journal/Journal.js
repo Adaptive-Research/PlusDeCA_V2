@@ -6,11 +6,13 @@ import Journal_Img2 from '../../../assets/images/journal/Journal_Img2.jpg';
 import Journal_Img3 from '../../../assets/images/journal/Journal_Img3.jpg';
 import '../../../assets/css/Journal.css';
 import RecentsArticles from './RecentsArticles';
-import {getAllTranslations, getAllUsersEmail,getLanguage,requestLogin} from "../../../data/customlibs/api";
+import {getAllTranslations, getLanguage,getActivitiesForUser} from "../../../data/customlibs/api";
+import  { getIDFromToken } from  "../../../data/customlibs/utils" ;
 
 
 export default function Journal(props) {
     const storedToken = localStorage.getItem('token') ;
+    const idUser = getIDFromToken(storedToken) ;
     const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
 
@@ -23,8 +25,9 @@ export default function Journal(props) {
     } 
 
     if (reloadTraductions === true) {
-        console.log("After reloadTraductions === true") ;
         getLanguage(storedToken,LoadTranslations) ;
+        getActivitiesForUser("userActivities", storedToken,idUser) ;
+
         setReloadTraductions(false) ;
     }
 
