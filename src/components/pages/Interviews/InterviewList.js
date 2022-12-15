@@ -6,8 +6,7 @@ import CardInterview from "./CardInterview.js";
 import ModalEditInterview from "./ModalEditInterview.js";
 
 
-import  { FindTranslation, getIDFromToken } from "../../../functions_Dan.js" ;
-import {getTranslations,getProfile,SaveProfile,SaveLanguage} from "../../../data/customlibs/api";
+import {getTranslations,getProfile,SaveProfile,SaveLanguage,FindTranslation, getIDFromToken } from "../../../data/customlibs/api";
 import ReactFlagsSelect from "react-flags-select";
 
 
