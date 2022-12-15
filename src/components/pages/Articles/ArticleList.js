@@ -82,10 +82,6 @@ export default function ArticleList() {
 
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> bd24b55392161ebfd4429983e093ce3a63e67623
     function TranslateAll(data,Page){
 
         console.log('ArticleList Translations') ;
@@ -95,11 +91,7 @@ export default function ArticleList() {
         if (t !== "Not Found")
           setInWriting(t) ;
     
-<<<<<<< HEAD
-        t = FindTranslation(data,Page,sValid) ;
-=======
         t = FindTranslation(data,Page, sValid) ;
->>>>>>> bd24b55392161ebfd4429983e093ce3a63e67623
         if (t !== "Not Found")
           setValid(t) ;
     
@@ -148,7 +140,6 @@ export default function ArticleList() {
     }
     
     
-<<<<<<< HEAD
 
     if (reloadTraductions === true) {
         TranslateAll(AllTranslations,"ArticleList") ;
@@ -156,12 +147,6 @@ export default function ArticleList() {
         }
                 
 
-=======
-    if (reloadTraductions === true){
-        TranslateAll(AllTranslations,"ArticleList") ;
-        setReloadTraductions(false) ;
-    }
->>>>>>> bd24b55392161ebfd4429983e093ce3a63e67623
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
