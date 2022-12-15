@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link,useNavigate} from "react-router-dom";
 import {Card} from "react-bootstrap";
 import {checkDuplicate, checkEmail,remove_linebreaks} from "../../../data/customlibs/utils";
 import {getAllUsersEmail,requestLogin} from "../../../data/customlibs/api";
@@ -17,6 +17,8 @@ export default function Login() {
 
 
     const [reloadLogin, setReloadLogin] = useState(true);
+
+    const navigate = useNavigate() ;
 
     
 
@@ -107,7 +109,8 @@ export default function Login() {
                   
                    // window.location.href comme la fonction navigate utilisent le server side routing 
                    let url = `${process.env.PUBLIC_URL}/Journal/Page1` ;
-                   window.location.href = url ;
+                   //navigate(url) ;
+                   window.location.href= url ;
                 }
             }
         }

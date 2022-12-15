@@ -9,7 +9,6 @@ export const MENUITEMS = [
                 active: false,
                 title: "A la une",
             }
-
         ],
     },
 

@@ -98,10 +98,11 @@ export default function ModalEditActivity(props) {
 
         
         if (nameCheck) {
-            if (props.Mode === "Add")
-                SaveActivity(storedToken,idEntreprise, name,webSite,email,phone,description,props.SendCloseMessage,props.ForceRenderActivity) ;
+            let des = description.replace("'","''") ;
+            if (props.Mode === "Add") 
+                SaveActivity(storedToken,idEntreprise, name,webSite,email,phone,des,props.SendCloseMessage,props.ForceRenderActivity) ;
             else 
-                UpdateActivity(storedToken,idEntreprise,idActivite, name,webSite,email,phone,description,props.SendCloseMessage,props.ForceRenderActivity) ;
+                UpdateActivity(storedToken,idEntreprise,idActivite, name,webSite,email,phone,des,props.SendCloseMessage,props.ForceRenderActivity) ;
         }
         
     

@@ -10,6 +10,9 @@ import '../../../assets/css/GlobalInputbackground.css';
 
 
 export default function ModalEditBusinessCard(props) {
+    const storedToken = localStorage.getItem('token');
+
+
 
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
@@ -44,8 +47,7 @@ export default function ModalEditBusinessCard(props) {
 
 
 
-    const storedToken = localStorage.getItem('token');
-
+   
 
     if (props.show !== true)
         return "" ;
@@ -79,11 +81,28 @@ export default function ModalEditBusinessCard(props) {
 
 
 
-
-
-        function renderActivite() {
+        function renderActivities() {
+            console.log("renderActivities") ;   
+            
+            const myActivities = JSON.parse(localStorage.getItem("userActivities"));
+    
+            if (myActivities !== null ) {
+                if (myActivities.length > 0) {
+                    let options =  myActivities.map( (Ligne) => 
+                    {
+                        if (Ligne.idActivite !== null)
+                            return <option value={Ligne.idActivite}> {Ligne.Activite_Nom}</option> ;
+                    })
+    
+                    return options ;
+                }
+    
+            }
+            
             return "" ;
         }
+    
+
         
 
 
@@ -218,14 +237,14 @@ export default function ModalEditBusinessCard(props) {
                             </Card.Body>
                             </Card>
 
-                            <Row className="mb-4">
-                                    <label className="form-label">Activité:</label>
-                                    <div className="">
-                                        <select id="Activite"  className="form-control" onChange={(e) =>  sexe.current = e.target.value}>
-                                            {renderActivite}
-                                        </select>
-                                    </div>   
-                            </Row>  
+                            
+                            <label className="form-label">Activité:</label>
+                            <div className="">
+                                <select id="Activite"  className="form-control" onChange={(e) =>  sexe.current = e.target.value}>
+                                    {renderActivities()} 
+                                </select>
+                            </div>   
+                            
                                
 
 
