@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../../assets/css/Journal_NavBar.css';
+import '../../../assets/css/Journal_NavBar.css';
 import { CgMenuGridO } from 'react-icons/cg';
 
 

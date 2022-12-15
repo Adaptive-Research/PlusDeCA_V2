@@ -1,6 +1,6 @@
 import React , { useState } from "react";
 import  Journal_NavBar  from './Journal_NavBar';
-import Logo from '../../assets/images/brand/logo-2.png';
+import Logo from '../../../assets/images/brand/logo-2.png';
 import Journal_Img1 from '../../../assets/images/journal/Journal_Img1.jpg';
 import Journal_Img2 from '../../../assets/images/journal/Journal_Img2.jpg';
 import Journal_Img3 from '../../../assets/images/journal/Journal_Img3.jpg';
@@ -8,11 +8,9 @@ import '../../../assets/css/Journal.css';
 import RecentsArticles from './RecentsArticles';
 
 import {getAllTranslations, getLanguage,getActivitiesForUser} from "../../../data/customlibs/api";
-import  { getIDFromToken } from  "../../../data/customlibs/utils" ;
+import  { getIDFromToken, FindTranslation } from  "../../../data/customlibs/utils" ;
 
 
-
-import  { FindTranslation } from "../../functions_Dan.js" ;
 
 
 export default function Journal(props) {
