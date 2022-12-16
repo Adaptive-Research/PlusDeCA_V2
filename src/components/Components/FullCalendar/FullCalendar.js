@@ -7,7 +7,7 @@ import {Card} from "react-bootstrap"
 import {ModalEditEvent} from "./ModalEditEvent"
 import  { getIDFromToken } from  "../../../data/customlibs/utils" ;
 import {getEventsForUser} from "../../../data/customlibs/api";
-
+import '../../../assets/css/FullCalendar.css';
 
 
 

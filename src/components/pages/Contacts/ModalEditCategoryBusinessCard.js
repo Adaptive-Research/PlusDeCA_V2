@@ -210,7 +210,7 @@ export default function ModalEditCategoryBusinessCard(props) {
                     
                     <Row className="ListBoxContainer">
                         <label className="col-md-3 form-label mb-4">
-                            Catégories:
+                            {props.CategoriesTitle} :
                         </label>
     
                         <div className="mb-4 AddingForm" >
@@ -220,7 +220,7 @@ export default function ModalEditCategoryBusinessCard(props) {
                             }} />
     
                             <Button variant="primary" onClick={handleAdd}>
-                                Ajouter
+                                {props.AddButton}
                             </Button>
                         </div>
     
@@ -255,11 +255,11 @@ export default function ModalEditCategoryBusinessCard(props) {
                     <Modal.Footer>
     
                         <Button variant="secondary" onClick={handleCancel}>
-                            Cancel
+                            {props.CancelButton}
                         </Button>
     
                         <Button variant="primary" onClick={handleSave}>
-                            Save
+                           {props.SaveButton}
                         </Button>
     
                     </Modal.Footer>

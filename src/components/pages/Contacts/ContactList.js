@@ -1,6 +1,6 @@
 import React, { useState,useRef,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
-import {FindTranslation,getIDFromToken} from "../../../data/customlibs/utils" ;
+import {FindTranslation} from "../../../data/customlibs/utils" ;
 import {getBusinessCardCategories, getUserBusinessCards} from "../../../data/customlibs/api";
 import CardBusinessCard from "./CardBusinessCard" ;
 import ModalEditBusinessCard from "./ModalEditBusinessCard" ;
@@ -27,6 +27,11 @@ export default function ContactList() {
     const [showEditCategoryBusinessCard, setShowEditCategoryBusinessCard] = useState(false);
 
 
+    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+
+    console.log('Mes traductions');
+    console.log(AllTranslations);
+
     // pour le ForceRender
     const downloaded_BusinessCards = useRef(false) ;
     const downloaded_BusinessCardsCategories = useRef(false) ;
@@ -52,8 +57,187 @@ export default function ContactList() {
 
     // pour le reload des infos
     const reloadInfos = useRef(true) ;
+    const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
-   
+     //Pour les Tabs
+     const sBusinessCards = 'Business Cards';
+    //Pour les Boutons
+    const sImportLeads ='Import Leads';
+    const sAddCard = 'Add Card';
+    const sManageCategories ='Manage Categories';
+    const sCancel = 'Cancel';
+    const sSave = 'Save';
+    const sClose = 'Close';
+
+    //Pour les Modales 
+    const sImportBusinessCard = 'Import Business Card';
+    const sBusinessCard = 'Business Card';
+    const sAddFile = 'Add a File';
+    const sCategories = 'Categories'
+    const sAdd = 'Add';
+    // Pour les Champs de Modales 
+    const sCompanyInfo = 'Company Info';
+    const sContactInfo = 'Contact Info';
+    const sMeetingPlace = 'Meeting Place';
+    const sCompany = 'Company';
+    const sBusinessPhone = 'Business Phone';
+    const sTelephoneContact = 'Telephone Contact';
+    const sWebsite = 'Website';
+    const sActivity='Activity';
+    const sName= 'Name';
+    const sFirstName = 'First Name';
+    const sGender = 'Gender';
+    const sFunction = 'Function';
+    const sEmail = 'E-mail'; 
+    const sMan ='Man';
+
+
+    const [cancel, setCancel] = useState(sCancel);
+    const [save, setSave] = useState(sSave);
+    const [titleBusinessCards, setTitleBusinessCards] = useState(sBusinessCards);
+    const [importLeads, setImportLeads] = useState(sImportLeads);
+    const [addCard, setAddCard] = useState(sAddCard);
+    const [manageCategories, setManageCategories] = useState(sManageCategories);
+    const [close, setClose] = useState(sClose);
+    const [importBusinessCard, setImportBusinessCard]=useState(sImportBusinessCard);
+    const [businessCard, setBusinessCard]=useState(sBusinessCard);
+    const [addFile, setAddFile]=useState(sAddFile);
+    const [categories, setCategories]=useState(sCategories);
+    const [add, setAdd]=useState(sAdd);
+    const [companyInfo, setCompanyInfo]=useState(sCompanyInfo);
+    const [contactInfo, setContactInfo]=useState(sContactInfo);
+    const [meetingPlace, setMeetingPlace]=useState(sMeetingPlace);
+    const [company, setCompany]=useState(sCompany);
+    const [businessPhone, setBusinessPhone]=useState(sBusinessPhone);
+    const [website, setWebsite]=useState(sWebsite);
+    const [telephoneContact, setTelephoneContact]=useState(sTelephoneContact);
+    const [activity, setActivity]=useState(sActivity);
+    const [name, setName]=useState(sName);
+    const [firstName, setFirstName]=useState(sFirstName);
+    const [gender, setGender]=useState(sGender);
+    const [cFunction, setCFunction]=useState(sFunction);
+    const [cEmail, setCEmail]=useState(sEmail);
+    const [man, setMan]=useState(sMan);
+
+
+
+
+
+    function TranslateAll(data,Page){
+
+        console.log('ContactList Translations') ;
+        console.log(data);
+    
+        let t = FindTranslation(data,Page, sBusinessCards) ;
+        if (t !== "Not Found")
+        setTitleBusinessCards(t) ;
+
+        t = FindTranslation(data,Page, sCancel) ;
+        if (t !== "Not Found")
+          setCancel(t) ;
+    
+        t = FindTranslation(data,Page, sSave) ;
+        if (t !== "Not Found")
+          setSave(t) ;
+
+        t = FindTranslation(data,Page, sImportLeads) ;
+        if (t !== "Not Found")
+          setImportLeads(t) ;
+          
+        t = FindTranslation(data,Page, sAddCard) ;
+        if (t !== "Not Found")
+          setAddCard(t) ;
+
+        t = FindTranslation(data,Page, sManageCategories) ;
+        if (t !== "Not Found")
+          setManageCategories(t) ;
+
+        t = FindTranslation(data,Page, sClose) ;
+        if (t !== "Not Found")
+          setClose(t) ;
+
+        t = FindTranslation(data,Page, sBusinessCard) ;
+        if (t !== "Not Found")
+          setBusinessCard(t) ;
+
+        t = FindTranslation(data,Page, sAddFile) ;
+        if (t !== "Not Found")
+          setAddFile(t) ;
+
+        t = FindTranslation(data,Page, sAdd) ;
+        if (t !== "Not Found")
+          setAdd(t) ;
+
+        t = FindTranslation(data,Page, sCategories) ;
+        if (t !== "Not Found")
+          setCategories(t) ;
+
+        t = FindTranslation(data,Page, sCompanyInfo) ;
+        if (t !== "Not Found")
+          setCompanyInfo(t) ;
+
+        t = FindTranslation(data,Page, sContactInfo) ;
+        if (t !== "Not Found")
+          setContactInfo(t) ;
+
+        t = FindTranslation(data,Page, sMeetingPlace) ;
+        if (t !== "Not Found")
+          setMeetingPlace(t) ;
+
+        t = FindTranslation(data,Page, sCompany) ;
+        if (t !== "Not Found")
+          setCompany(t) ;
+
+        t = FindTranslation(data,Page, sBusinessPhone) ;
+        if (t !== "Not Found")
+          setBusinessPhone(t) ;
+
+        t = FindTranslation(data,Page, sWebsite) ;
+        if (t !== "Not Found")
+          setWebsite(t) ;
+
+        t = FindTranslation(data,Page, sTelephoneContact) ;
+        if (t !== "Not Found")
+          setTelephoneContact(t) ;
+
+        t = FindTranslation(data,Page, sActivity) ;
+        if (t !== "Not Found")
+          setActivity(t) ;
+
+        t = FindTranslation(data,Page, sName) ;
+        if (t !== "Not Found")
+          setName(t) ;
+
+        t = FindTranslation(data,Page, sFirstName) ;
+        if (t !== "Not Found")
+          setFirstName(t) ;
+
+        t = FindTranslation(data,Page, sGender) ;
+        if (t !== "Not Found")
+          setGender(t) ;
+
+        t = FindTranslation(data,Page, sFunction) ;
+        if (t !== "Not Found")
+          setCFunction(t) ;
+
+        t = FindTranslation(data,Page, sMan) ;
+        if (t !== "Not Found")
+          setMan(t) ;
+
+        t = FindTranslation(data,Page, sEmail) ;
+        if (t !== "Not Found")
+          setCEmail(t) ;
+
+        t = FindTranslation(data,Page, sImportBusinessCard) ;
+        if (t !== "Not Found")
+          setImportBusinessCard(t) ;
+    }
+    
+
+
+
+
+
 
 
     console.log("ContactList") ;
@@ -61,7 +245,12 @@ export default function ContactList() {
 
 
     
-
+ 
+    if (reloadTraductions === true) {
+        TranslateAll(AllTranslations,"ContactList") ;
+        setReloadTraductions(false) ;
+    }
+      
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
@@ -72,6 +261,7 @@ export default function ContactList() {
         reloadInfos.current = false ;
     }
 
+    
 
     function RenderAfterLoad(variable) {
         reloadInfos.current = false ;
@@ -288,15 +478,15 @@ export default function ContactList() {
                 <div className="ms-auto pageheader-btn">
                     <button className='btn btn-primary' onClick={() => {setShowImportContact(true)  ;}}>
                         <span style={{marginRight: '5px'}}><FaUpload/></span>
-                        Importer Prospects
+                        {importLeads}
                     </button>
                     <button className='btn btn-success' onClick={() => {SendBusinessCardData("Add",null)}}  style={{marginLeft: "0.5rem",marginRight: "0.5rem"  }}>
                         <span> <i className="fe fe-plus"></i></span>
-                        Ajouter une Carte
+                        {addCard}
                     </button>
                     <button className='btn btn-success' onClick={() => {setShowEditCategoryBusinessCard(true)}} >
                         <span> <i className="fe fe-plus"></i></span>
-                        Gérer les Catégories
+                        {manageCategories}
                     </button>
                 </div>
             </div>
@@ -334,6 +524,10 @@ export default function ContactList() {
                                             show={showImportContact} 
                                             SendCloseMessage={ModalImportBusinessCardClose}  
                                             ForceRenderBusinessCard={ForceRenderBusinessCard}
+                                            TitleBusinessCards={titleBusinessCards}
+                                            AddFileLabel={addFile}
+                                            ImportBusinessCard={importBusinessCard}
+                                            CloseButton={close}
                                         />
                                         
 
@@ -351,6 +545,10 @@ export default function ContactList() {
                                             show={showEditCategoryBusinessCard} 
                                             SendCloseMessage={ModalEditCategoryBusinessCardClose}  
                                             ForceRenderCategoriesBusinessCards={ForceRenderCategoriesBusinessCards}
+                                            CategoriesTitle={categories}
+                                            AddButton={add}
+                                            SaveButton={save}
+                                            CancelButton={cancel}
                                         />
 
 
@@ -364,7 +562,7 @@ export default function ContactList() {
                                             className="tab-content tabesbody "
                                         >
 
-                                            <Tab eventKey="BusinessCard" title="Cartes de visite">
+                                            <Tab eventKey="BusinessCard" title={titleBusinessCards}>
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
                                                         {renderBusinessCards()}

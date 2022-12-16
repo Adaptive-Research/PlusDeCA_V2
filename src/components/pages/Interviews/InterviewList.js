@@ -1,6 +1,7 @@
 import React, { useState} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {getUserInterviews} from "../../../data/customlibs/api";
+import {FindTranslation} from  "../../../data/customlibs/utils" ;
 import '../../../assets/css/InterviewsList.css';
 import CardInterview from "./CardInterview.js";
 import ModalEditInterview from "./ModalEditInterview.js";
@@ -13,6 +14,31 @@ export default function InterviewList() {
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
+    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+    
+    //Pour les Tabs
+    const sToAnswer = "To Answer";
+    const sValid = "Validated";
+    const sPublished = "Published";
+    // Pour le Titre
+    const sMyInterviews = "My Interviews";
+    //Pour les boutons de la Modal
+    const sBack ='Back';
+    const sNext ='Next';
+    const sCancel = 'Cancel';
+    const sSave = 'Save';
+    const sClose = 'Close';
+
+    const [toAnswer,setToAnswer] = useState(sToAnswer);
+    const [valid, setValid] = useState(sValid);
+    const [published, setPublished] = useState(sPublished);
+    const [cancel, setCancel] = useState(sCancel);
+    const [save, setSave] = useState(sSave);
+    const [back, setBack] = useState(sBack);
+    const [next, setNext] = useState(sNext);
+    const [close, setClose] = useState(sClose);
+    const [myInterviews, setMyInterviews] = useState(sMyInterviews);
+
 
 
     // pour le Rerender
@@ -33,9 +59,58 @@ export default function InterviewList() {
 
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
+    const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
 
 
+ function TranslateAll(data,Page){
+
+        console.log('InterviewList Translations') ;
+        console.log(data);
+    
+        let t = FindTranslation(data,Page, sMyInterviews) ;
+        if (t !== "Not Found")
+          setMyInterviews(t) ;
+    
+        t = FindTranslation(data,Page, sValid) ;
+        if (t !== "Not Found")
+          setValid(t) ;
+    
+        t = FindTranslation(data,Page, sPublished) ;
+        if (t !== "Not Found")
+          setPublished(t) ;
+    
+        t = FindTranslation(data,Page, sToAnswer) ;
+        if (t !== "Not Found")
+          setToAnswer(t) ;
+    
+        t = FindTranslation(data,Page, sBack) ;
+        if (t !== "Not Found")
+          setBack(t) ;
+    
+        t = FindTranslation(data,Page, sNext) ;
+        if (t !== "Not Found")
+          setNext(t) ;
+    
+        t = FindTranslation(data,Page, sCancel) ;
+        if (t !== "Not Found")
+          setCancel(t) ;
+    
+        t = FindTranslation(data,Page, sSave) ;
+        if (t !== "Not Found")
+          setSave(t) ;
+        t = FindTranslation(data,Page, sClose) ;
+        if (t !== "Not Found")
+          setClose(t) ;
+    }
+    
+    
+
+    if (reloadTraductions === true) {
+        TranslateAll(AllTranslations,"InterviewList") ;
+        setReloadTraductions(false) ;
+    }
+                
 
     // recuperation des informations au depart
     if (reloadInfos === true)
@@ -151,12 +226,16 @@ export default function InterviewList() {
 
 
 
+
+
+
+
     return (
         <div>
 
             <div className="page-header">
                 <div>
-                    <h1 className="page-title">Mes Interviews</h1>
+                    <h1 className="page-title">{myInterviews}</h1>
                 </div>
             </div>
 
@@ -176,6 +255,11 @@ export default function InterviewList() {
                                             EditMode={EditMode}
                                             Mode={modeEdit}
                                             idInterview={id}
+                                            BackButton={back}
+                                            NextButton={next}
+                                            CancelButton={cancel}
+                                            SaveButton={save}
+                                            CloseButton={close}
                                     />
 
 
@@ -185,7 +269,7 @@ export default function InterviewList() {
                                             id=" tab-51"
                                             className="tab-content tabesbody "
                                         >
-                                            <Tab eventKey="A Répondre" title="A Répondre">
+                                            <Tab eventKey="A Répondre" title={toAnswer}>
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
                                                         {renderInterviews('A_Repondre')}
@@ -193,7 +277,7 @@ export default function InterviewList() {
                                                 </div>
                                             </Tab>
 
-                                            <Tab eventKey="Validé" title="Validé">
+                                            <Tab eventKey="Validé" title={valid}>
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
                                                          {renderInterviews('Valide')}
@@ -201,7 +285,7 @@ export default function InterviewList() {
                                                 </div>
                                             </Tab>
 
-                                            <Tab eventKey="Publié" title="Publié">
+                                            <Tab eventKey="Publié" title={published}>
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
                                                         {renderInterviews('Public')}

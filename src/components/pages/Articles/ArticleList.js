@@ -144,7 +144,7 @@ export default function ArticleList() {
     if (reloadTraductions === true) {
         TranslateAll(AllTranslations,"ArticleList") ;
         setReloadTraductions(false) ;
-        }
+    }
                 
 
     // recuperation des informations au depart
