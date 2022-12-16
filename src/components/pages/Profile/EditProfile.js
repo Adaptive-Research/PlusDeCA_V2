@@ -5,7 +5,7 @@ import {useNavigate} from "react-router";
 import {Col,Row,Card,Form,Button,FormGroup} from "react-bootstrap";
 
 import  { FindTranslation, getIDFromToken } from  "../../../data/customlibs/utils" ;
-import {getProfile,SaveProfile,SaveLanguage} from "../../../data/customlibs/api";
+import {getProfile,SaveProfile,SaveLanguage,getAllTranslations} from "../../../data/customlibs/api";
 import ReactFlagsSelect from "react-flags-select";
 
 
@@ -19,6 +19,7 @@ export default function EditProfile(props) {
   const storedToken = localStorage.getItem('token') ;
   const idUser = getIDFromToken(storedToken) ;
   const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+  const ValueLangue = localStorage.getItem('ValueLangue') ;
 
   //console.log(storedToken) ;  
   //console.log(idUser) ;
@@ -33,6 +34,10 @@ export default function EditProfile(props) {
   const sFirstName = "First Name" ;
   const sLastName = "Last Name" ;
   const sVisibility = "Visible by everyone" ;
+
+
+
+
   const navigate = useNavigate() ;
 
   // pour les titres
@@ -105,6 +110,17 @@ export default function EditProfile(props) {
 
 
  
+  function InitEnglishTraductions() {
+    setProfile(sProfile) ;
+    setEditProfile(sEditProfile) ;
+    setAboutMe(sAboutMe) ;
+    setContactNumber(sContactNumber) ;
+    setEmailAddress(sEmailAddress) ;
+    setFirstName(sFirstName) ;
+    setLastName(sLastName) ;
+    setVisibility(sVisibility) ;
+  }
+
 
   if (reloadTraductions === true) {
     TranslateAll(AllTranslations,"EditProfile") ;
@@ -139,13 +155,22 @@ export default function EditProfile(props) {
       if (response.data[0].EmailVisible === "1")
         setEmailVisible(true) ;
     }
-
   }
 
   
  
   if (reloadInfos === true) {
     getProfile(storedToken,idUser,RenderAfterLoad) ;
+
+    
+    if (ValueLangue === 'EN') 
+      setSelectedFlag('GB') ;
+    else
+      setSelectedFlag(ValueLangue) ;
+
+    
+    
+
     setReloadInfos(false) ;
   }
 
@@ -199,6 +224,15 @@ export default function EditProfile(props) {
 
       SaveLanguage(storedToken,VL) ;
       localStorage.setItem('ValueLangue', VL);
+
+      if (VL !== 'EN')
+      {
+        getAllTranslations(process.env.REACT_APP_API_SHOW_TRANSLATION_URL,VL) ;
+        setReloadTraductions(true) ;
+      }
+      else {        
+        InitEnglishTraductions() ;
+      }
 
   }
 
