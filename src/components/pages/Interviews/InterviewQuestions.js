@@ -94,7 +94,7 @@ export default function InterviewQuestions(props) {
                         return (
                             <>
                                 <h4 className='Question'>{InterviewQuestion.Question}</h4>
-                                <form classNmae='Charbel-div-center-line-wrap'>
+                                <form className='Charbel-div-center-line-wrap'>
                                     <input type='text' name={InterviewQuestion.idQuestion} value={reponseInput} onChange={(e) =>  setReponseInput(e.target.value)}/>
                                 </form>
                             </>
@@ -387,9 +387,9 @@ export default function InterviewQuestions(props) {
                                     {
                                         Questions.current.map((question)=>{
                                             if (step < Questions.current.length) {
-                                                return <Buttons onNext={onNext} onBack={onBack}/>;
+                                                return <Buttons onNext={onNext} onBack={onBack} BackButton={props.BackButton} NextButton={props.NextButton}/>;
                                             }
-                                            else  return <Buttons onBack={onBack}/>;
+                                            else  return <Buttons onBack={onBack} BackButton={props.BackButton}/>;
                                         })
                                     }
                                 </div>

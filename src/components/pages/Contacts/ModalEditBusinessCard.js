@@ -183,54 +183,54 @@ export default function ModalEditBusinessCard(props) {
                     <Row >
                         <Col md={6}>
                             <Card>
-                            <Card.Header><strong>Infos Entreprise</strong></Card.Header>
+                            <Card.Header><strong>{props.CompanyInfo}</strong></Card.Header>
                             <Card.Body>    
                             <Row className="mb-4">
-                                    <label className="form-label">Lieu Rencontre:</label>
+                                    <label className="form-label">{props.MeetingPlace} :</label>
                                     <div className="">
                                         <input
                                             type="text"
                                             className="form-control"
                                             onChange={(e) => setLieuRencontre(e.target.value)}
                                             value={lieuRencontre}
-                                            placeholder={lieuRencontreMsg === "" ? "Lieu de Rencontre ..." : lieuRencontreMsg}
+                                            placeholder={lieuRencontreMsg === "" ?  props.MeetingPlace + '...': lieuRencontreMsg}
                                         />
                                     </div>
                             </Row>
                         
                             <Row>
-                                    <label className="form-label">Entreprise :</label>
+                                    <label className="form-label">{props.CompanyField} :</label>
                                     <div className="">
                                         <input
                                             type="text"
                                             className="form-control"
                                             onChange={(e) => setEntreprise(e.target.value)}
                                             value={entreprise}
-                                            placeholder={entrepriseMsg === "" ? "Entreprise ..." : entrepriseMsg}
+                                            placeholder={entrepriseMsg === "" ? props.CompanyField +"..." : entrepriseMsg}
                                         />
                                     </div>
                             </Row>
                             <Row>
-                                    <label className="form-label">Téléphone Entreprise :</label>
+                                    <label className="form-label">{props.BusinessPhone} :</label>
                                     <div className="">
                                         <input
                                             type="text"
                                             className="form-control"
                                             onChange={(e) => setTelephoneEntreprise(e.target.value)}
                                             value={telephoneEntreprise}
-                                            placeholder={telephoneMsg === "" ? "Téléphone ..." : telephoneMsg}
+                                            placeholder={telephoneMsg === "" ? props.BusinessPhone + "..." : telephoneMsg}
                                         />
                                     </div>
                             </Row>
                             <Row>
-                                    <label className=" form-label">Site Web :</label>
+                                    <label className=" form-label">{props.WebsiteField}</label>
                                     <div className="">
                                         <input
                                             type="text"
                                             className="form-control"
                                             onChange={(e) => setSiteWeb(e.target.value)}
                                             value={siteWeb}
-                                            placeholder={siteWebMsg === "" ? "Site Web ..." : siteWebMsg}
+                                            placeholder={siteWebMsg === "" ? props.WebsiteField + "..." : siteWebMsg}
                                         />
                                     </div>
                             </Row>
@@ -238,7 +238,7 @@ export default function ModalEditBusinessCard(props) {
                             </Card>
 
                             
-                            <label className="form-label">Activité:</label>
+                            <label className="form-label">{props.ActivityField}:</label>
                             <div className="">
                                 <select id="Activite"  className="form-control" onChange={(e) =>  sexe.current = e.target.value}>
                                     {renderActivities()} 
@@ -252,10 +252,10 @@ export default function ModalEditBusinessCard(props) {
 
                         <Col md={6}>
                         <Card>
-                            <Card.Header><strong>Infos Contact</strong></Card.Header>
+                            <Card.Header><strong>{props.contactInfo}</strong></Card.Header>
                             <Card.Body>    
                             <Row>
-                                    <label className="form-label">Genre :</label>
+                                    <label className="form-label">{props.GenderField} :</label>
                                     <div className="">
                                         <select id="Sexes"  className="form-control" onChange={(e) =>  sexe.current = e.target.value}>
                                             <option value="homme">Homme</option>
@@ -268,63 +268,63 @@ export default function ModalEditBusinessCard(props) {
                             </Row>
 
                             <Row>
-                                    <label className="form-label"> Prénom:</label>
+                                    <label className="form-label"> {props.FirstnameField} :</label>
                                     <div className="">
                                         <input
                                             type="text"
                                             className="form-control"
                                             onChange={(e) => setPrenom(e.target.value)}
                                             value={prenom}
-                                            placeholder={prenomMsg === "" ? "Prenom ..." : prenomMsg}
+                                            placeholder={prenomMsg === "" ? props.FirstnameField+"..." : prenomMsg}
 
                                         />
                                     </div>
                             </Row>
                             <Row>
-                                    <label className="form-label"> Nom:</label>
+                                    <label className="form-label"> {props.NameField}:</label>
                                     <div className="">
                                         <input
                                             type="text"
                                             className="form-control"
                                             onChange={(e) => setNom(e.target.value)}
                                             value={nom}
-                                            placeholder={nomMsg === "" ? "Nom ..." : nomMsg}
+                                            placeholder={nomMsg === "" ? props.NameField+"..." : nomMsg}
                                         />
                                     </div>
                             </Row>
                             <Row>
-                                    <label className="form-label"> Fonction:</label>
+                                    <label className="form-label"> {props.FunctionField} :</label>
                                     <div className="">
                                         <input
                                             type="text"
                                             className="form-control"
                                             onChange={(e) => setFonction(e.target.value)}
                                             value={fonction}
-                                            placeholder={fonctionMsg === "" ? "Fonction ..." : fonctionMsg}
+                                            placeholder={fonctionMsg === "" ? props.FunctionField+"..." : fonctionMsg}
                                         />
                                     </div>
                             </Row>
                             <Row>
-                                    <label className="form-label">Téléphone Contact :</label>
+                                    <label className="form-label">{props.TelephoneContactField} :</label>
                                     <div className="">
                                         <input
                                             type="text"
                                             className="form-control"
                                             onChange={(e) => setTelephone(e.target.value)}
                                             value={telephone}
-                                            placeholder={telephoneMsg === "" ? "Téléphone ..." : telephoneMsg}
+                                            placeholder={telephoneMsg === "" ? props.TelephoneContactField + "..." : telephoneMsg}
                                         />
                                     </div>
                             </Row>
                             <Row className="mb-4">
-                                    <label className="form-label"> Email:</label>
+                                    <label className="form-label">{props.EmailField} :</label>
                                     <div className="">
                                         <input
                                             type="email"
                                             className="form-control"
                                             onChange={(e) => setEmail(e.target.value)}
                                             value={email}
-                                            placeholder={emailMsg === "" ? "Email ..." : emailMsg}
+                                            placeholder={emailMsg === "" ? props.EmailField+"..." : emailMsg}
                                         />
                                     </div>
                             </Row>
@@ -339,11 +339,11 @@ export default function ModalEditBusinessCard(props) {
                     <Modal.Footer>
 
                         <Button variant="secondary" onClick={handleCancel}>
-                            Cancel
+                            {props.CancelButton}
                         </Button>
 
                         <Button variant="primary" onClick={handleSave}>
-                            Save
+                            {props.SaveButton}
                         </Button>
 
                     </Modal.Footer>

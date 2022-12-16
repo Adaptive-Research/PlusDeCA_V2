@@ -83,7 +83,7 @@ export default function ModalImportBusinessCard(props) {
 
                         <FormGroup className="mb-0 file">
                             <label className="col-md-3 form-label mb-4">
-                                Importer Cartes de Visite
+                                {props.ImportBusinessCard}
                             </label>
 
                             <select className="Dan-select-multiple"  id="ListeCategories3">
@@ -97,7 +97,7 @@ export default function ModalImportBusinessCard(props) {
                                 accept=".csv"
                                 maxFiles={1}
                                 multiple={false}
-                                inputContent="Ajouter un Fichier"
+                                inputContent={props.AddFileLabel}
                                 submitButtonContent="Envoyer le Fichier"
                                 onSubmit={submitForm}
                             />
@@ -107,7 +107,7 @@ export default function ModalImportBusinessCard(props) {
                     <Modal.Footer>
 
                         <Button variant="secondary" onClick={handleClose}>
-                            Close
+                           {props.CloseButton}
                         </Button>
                     </Modal.Footer>
 

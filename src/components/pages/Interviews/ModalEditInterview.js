@@ -150,18 +150,18 @@ export default function ModalEditInterview(props) {
 
                     <Modal.Body>
                     <Row className="mb-4">
-                        <InterviewQuestions SendAnswers={SendAnswers} />
+                        <InterviewQuestions SendAnswers={SendAnswers} BackButton={props.BackButton} NextButton={props.NextButton}/>
                     </Row>
                     </Modal.Body>
 
                     <Modal.Footer>
 
                         <Button variant="secondary" onClick={handleCancel}>
-                            Cancel
+                            {props.CancelButton}
                         </Button>
 
                         <Button variant="primary" onClick={handleSave}>
-                            Save
+                            {props.SaveButton}
                         </Button>
 
                     </Modal.Footer>
@@ -181,7 +181,7 @@ export default function ModalEditInterview(props) {
 
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCancel}>
-                            Close
+                            {props.CloseButton}
                         </Button>
                     </Modal.Footer>
 
