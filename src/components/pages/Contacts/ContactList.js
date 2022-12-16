@@ -85,7 +85,7 @@ export default function ContactList() {
     const sWebsite = 'Website';
     const sActivity='Activity';
     const sName= 'Name';
-    const sFirstName = 'First Name';
+    const sFirstName = 'Firstname';
     const sGender = 'Gender';
     const sFunction = 'Function';
     const sEmail = 'E-mail'; 
@@ -516,6 +516,22 @@ export default function ContactList() {
                                             Telephone={telephone}
                                             Email={email}
                                             IdBusinessCard={idBusinessCard}
+                                            CompanyInfo={companyInfo}
+                                            ContactInfo={contactInfo}
+                                            Man={man}
+                                            EmailField={cEmail}
+                                            FunctionField={cFunction}
+                                            NameField={name}
+                                            FirstnameField={firstName}
+                                            GenderField={gender}
+                                            MeetingPlace={meetingPlace}
+                                            CompanyField={company}
+                                            BusinessPhone={businessPhone}
+                                            WebsiteField={website}
+                                            TelephoneContactField={telephoneContact}
+                                            ActivityField={activity}
+                                            SaveButton={save}
+                                            CancelButton={cancel}
                                         />
 
 
