@@ -7,7 +7,7 @@ import Journal_Img3 from '../../../assets/images/journal/Journal_Img3.jpg';
 import '../../../assets/css/Journal.css';
 import RecentsArticles from './RecentsArticles';
 
-import {getAllTranslations, getLanguage,getActivitiesForUser} from "../../../data/customlibs/api";
+import {getAllTranslations, getTranslations_SelectBox, getLanguage,getActivitiesForUser,getCompaniesForUser} from "../../../data/customlibs/api";
 import  { getIDFromToken, FindTranslation } from  "../../../data/customlibs/utils" ;
 
 
@@ -48,7 +48,8 @@ export default function Journal(props) {
         console.log("LoadTranslations")
         const VL = localStorage.getItem('ValueLangue') ;
         console.log("ValueLangue: " +VL) ;
-        getAllTranslations(process.env.REACT_APP_API_SHOW_TRANSLATION_URL,VL) ;
+        getAllTranslations(VL) ;
+        getTranslations_SelectBox(VL) ;
     } 
 
 
@@ -89,6 +90,7 @@ export default function Journal(props) {
         console.log("After reloadTraductions === true") ;
         getLanguage(storedToken,LoadTranslations) ;
         TranslateAll(AllTranslations,"Journal") ;
+        getCompaniesForUser("userEnterprises",storedToken, idUser) ;
         getActivitiesForUser("userActivities", storedToken,idUser) ;
         setReloadTraductions(false) ;
     }

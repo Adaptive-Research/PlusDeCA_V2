@@ -80,14 +80,14 @@ export default function ContactList() {
     const sContactInfo = 'Contact Info';
     const sMeetingPlace = 'Meeting Place';
     const sCompany = 'Company';
-    const sBusinessPhone = 'Business Phone';
-    const sTelephoneContact = 'Telephone Contact';
+    const sBusinessPhone = 'Company Phone';
+    const sTelephoneContact = 'Phone';
     const sWebsite = 'Website';
     const sActivity='Interested by Activity';
     const sName= 'Name';
     const sFirstName = 'Firstname';
     const sGender = 'Gender';
-    const sFunction = 'Function';
+    const sFunction = 'Job';
     const sEmail = 'E-mail'; 
     const sMan ='Man';
 

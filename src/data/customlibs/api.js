@@ -356,8 +356,10 @@ async function UpdateFonctionUser(tok, mail, idEntreprise,f) {
             }
             else 
                 localStorage.removeItem(variable);
-           
-            ForceRender(variable) ;
+
+            if (ForceRender !== undefined)    
+                if (ForceRender !== null)
+                    ForceRender(variable) ;
         })
 }
 
@@ -392,7 +394,9 @@ function getCompaniesForUser(variable,tok, UserId,ForceRender) {
             else 
                 localStorage.removeItem(variable);
             
-            ForceRender(variable) ;
+            if (ForceRender !== undefined)    
+                if (ForceRender !== null)
+                    ForceRender(variable) ;
         })
 }
 
@@ -2161,8 +2165,9 @@ async function UpdateClassementBusinessCardsForNonExistingCategory (tok,ForceRen
  ****************************************************************************************************************************************************/
    
 
-  async function getAllTranslations(url, VL,ForceRender) 
+  async function getAllTranslations(VL,ForceRender) 
   {
+    const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;  
     const response =  await axios.post(url, {
         Submit: 1,
         ValueLangue: VL
@@ -2196,6 +2201,45 @@ async function UpdateClassementBusinessCardsForNonExistingCategory (tok,ForceRen
             ForceRender(variable) ; 
   }
 
+
+
+
+  async function getTranslations_SelectBox(VL,ForceRender) 
+  {
+    console.log("getTranslations_SelectBox") ;  
+    const url = process.env.REACT_APP_API_SHOW_SELECTBOX_TRANSLATION_URL ;  
+    const response =  await axios.post(url, {
+        Submit: 1,
+        ValueLangue: VL
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+
+    const variable = "Translations_SelectBox" ;
+    console.log(response.data) ;
+
+    const data =  getDataFromResponse(response) ;
+
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    else{
+        localStorage.removeItem(variable);
+    }
+        
+    if (ForceRender !== undefined)
+        if (ForceRender !== null)
+            ForceRender(variable) ; 
+  }
 
 
 
@@ -2281,5 +2325,6 @@ export {
     UpdateClassementBusinessCardsForNonExistingCategory, 
     SaveClassementBusinessCard,
 
-    getAllTranslations
+    getAllTranslations,
+    getTranslations_SelectBox
 };

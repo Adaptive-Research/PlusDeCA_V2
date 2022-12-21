@@ -18,6 +18,8 @@ export default function ModalLinkCompany(props) {
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
     const [isModalOpen,setIsModalOpen] = useState(false) ;
 
+    const [name,setName] = useState("") ;
+    
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
 
@@ -32,7 +34,6 @@ export default function ModalLinkCompany(props) {
 
 
     
-
 
 
     const handleSave = (e) => {
