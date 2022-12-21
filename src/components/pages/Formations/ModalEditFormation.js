@@ -192,12 +192,12 @@ export default function ModalEditFormation(props) {
 
                 <Modal.Body>
                     <Row className="mb-4">
-                        <label className="col-md-3 form-label">Titre :</label>
+                        <label className="col-md-3 form-label">{props.TitleField} :</label>
                         <div className="">
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder={titleMsg === "" ? "Titre ..." : titleMsg}
+                                placeholder={titleMsg === "" ? props.TitleField+"..." : titleMsg}
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                             />
@@ -205,12 +205,12 @@ export default function ModalEditFormation(props) {
                     </Row>
 
                     <Row className="mb-4">
-                        <label className="col-md-3 form-label">Durée :</label>
+                        <label className="col-md-3 form-label">{props.DurationField} :</label>
                         <div className="">
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Duree ..." 
+                                placeholder={props.DurationField+"..."}
                                 value={duree}
                                 onChange={(e) => setDuree(e.target.value)}
                             />
@@ -218,9 +218,8 @@ export default function ModalEditFormation(props) {
                     </Row>
 
                     <Row className="mb-4">
-                        <label className="col-md-3 form-label">Nombre de personnes pour la formation:</label>
-                        <div className="">
-                            
+                        <label className="col-md-3 form-label">{props.NumberOfPeople} :</label>
+                        <div className="">                            
                             <select id="Groupes"  className="form-control"  defaultValue={idgroupe.current} onChange={(e) =>  idgroupe.current = e.target.value}>
                             {renderSelectOption(Formations_groupes,"idGroupe","groupe")}
                             </select>
@@ -228,12 +227,12 @@ export default function ModalEditFormation(props) {
                     </Row>
 
                     <Row className="mb-4">
-                        <label className="col-md-3 form-label">Tarif HT par personne:</label>
+                        <label className="col-md-3 form-label">{props.PricePerson} :</label>
                         <div className="">
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Tarif ..." 
+                                placeholder={props.Rate+'...'}
                                 value={tarif}
                                 onChange={(e) => setTarif(e.target.value)}
                             />
@@ -241,7 +240,7 @@ export default function ModalEditFormation(props) {
                     </Row>
 
                     <Row className="mb-4">
-                        <label className="col-md-3 form-label">Catégorie :</label>
+                        <label className="col-md-3 form-label"> {props.CategoryField} :</label>
                         <div className="">
                             
                             <select id="Categories"  className="form-control" defaultValue={idcategorie.current} onChange={(e) =>  idcategorie.current = e.target.value}>
@@ -254,7 +253,7 @@ export default function ModalEditFormation(props) {
 
                     <Row>
                         <label className="col-md-3 form-label mb-4">
-                            Contenu:
+                            {props.ContentsField}:
                         </label>
                         <div className="mb-4">
 
@@ -281,7 +280,7 @@ export default function ModalEditFormation(props) {
 
                     <FormGroup className="mb-0 file">
                         <label className="col-md-3 form-label mb-4">
-                            Photo :
+                            {props.PhotoField} :
                         </label>
                         <formadvanced.OuterDropzone
                             id="demo"
@@ -301,11 +300,11 @@ export default function ModalEditFormation(props) {
                 <Modal.Footer>
 
                     <Button variant="secondary" onClick={handleCancel}>
-                        Cancel
+                        {props.CancelButton}
                     </Button>
 
                     <Button variant="primary" onClick={handleSave}>
-                        Save
+                        {props.SaveButton}
                     </Button>
 
                 </Modal.Footer>

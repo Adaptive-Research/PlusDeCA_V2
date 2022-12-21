@@ -20,6 +20,11 @@ export default function FormationList() {
     const idUser = getIDFromToken(storedToken) ;
     const ValueLangue = localStorage.getItem('ValueLangue') ;
 
+    
+    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+
+    console.log('Mes traductions');
+    console.log(AllTranslations);
    
 
 
@@ -53,14 +58,138 @@ export default function FormationList() {
 
     // pour le reload des infos
     const reloadInfos = useRef(true) ;
+    const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
    
 
+    //Pour la traduction du titre 
+    const sTrainings = 'Trainings';
+    //Pour la traduction des tabs 
+    const sBeingCreated = 'Being created';
+    const sReadyToBeDispensed = 'Ready to be dispensed';
+    //Pour les Boutons
+    const sAddTraining = 'Add training';
+    const sCancel = 'Cancel';
+    const sSave = 'Save';
+    const sClose = 'Close';
+    //Pour les champs du formulaire
+    const sTitle = 'Title';
+    const sDuration = 'Duration';
+    const sIndividual = 'Individual';
+    const sNumberOfPeople='Number of people for the training';
+    const sPricePerson = 'Price excl. tax per person';
+    const sRate = 'Rate';
+    const sCategory = 'Category';
+    const sCommercialEfficiency ='Commercial Efficiency';
+    const sContents = 'Contents';
+    const sPhoto = 'Photo';
+    const sDragFiles = 'Drag Files Or Click to Browse';
+
+
+
+    const [trainings, setTrainings] = useState(sTrainings);
+    const [beingCreated, setBeingCreated] = useState(sBeingCreated);
+    const [readyToBeDispensed, setReadyToBeDispensed] = useState(sReadyToBeDispensed);
+    const [addTraining, setAddTraining] = useState(sAddTraining);
+    const [saveBtn, setSaveBtn] = useState(sSave);
+    const [cancelBtn, setCancelBtn] = useState(sCancel);
+    const [closeBtn, setCloseBtn] = useState(sClose);
+    const [dragFiles, setDragFiles] = useState(sDragFiles);
+    const [photoField, setPhotoField] = useState(sPhoto);
+    const [contentsField, setContentsField] = useState(sContents);
+    const [commercialEfficiency, setCommercialEfficiency]=useState(sCommercialEfficiency);
+    const [categorieField, setCategorieField] = useState(sCategory);
+    const [rate, setRate] = useState(sRate);
+    const [duration, setDuration] = useState(sDuration);
+    const [individual, setIndividual] = useState(sIndividual);
+    const [numberOfPeople, setNumberOfPeople] = useState(sNumberOfPeople);
+    const [pricePerson, setPricePerson] = useState(sPricePerson);
+    const [titleField, setTitleField] = useState(sTitle);
+
+    function TranslateAll(data,Page){
+        console.log('TranslateAll') ;
+        console.log(data);
     
+        let t = FindTranslation(data,Page, sTrainings) ;
+        if (t !== "Not Found")
+        setTrainings(t) ;
 
+        t = FindTranslation(data,Page, sBeingCreated) ;
+        if (t !== "Not Found")
+          setBeingCreated(t) ;
     
+        t = FindTranslation(data,Page, sReadyToBeDispensed) ;
+        if (t !== "Not Found")
+          setReadyToBeDispensed(t) ;
+    
+        t = FindTranslation(data,Page, sAddTraining) ;
+        if (t !== "Not Found")
+          setAddTraining(t) ;
+    
+        t = FindTranslation(data,Page, sSave) ;
+        if (t !== "Not Found")
+          setSaveBtn(t) ;
+    
+        t = FindTranslation(data,Page, sCancel) ;
+        if (t !== "Not Found")
+          setCancelBtn(t) ;
+    
+        t = FindTranslation(data,Page, sClose) ;
+        if (t !== "Not Found")
+          setCloseBtn(t) ;
+    
+        t = FindTranslation(data,Page, sDragFiles) ;
+        if (t !== "Not Found")
+          setDragFiles(t) ;
+    
+        t = FindTranslation(data,Page, sPhoto) ;
+        if (t !== "Not Found")
+          setPhotoField(t) ;
+    
+        t = FindTranslation(data,Page, sContents) ;
+        if (t !== "Not Found")
+          setContentsField(t) ;
+    
+        t = FindTranslation(data,Page, sPricePerson) ;
+        if (t !== "Not Found")
+          setPricePerson(t) ;
 
+        t = FindTranslation(data,Page, sTitle) ;
+        if (t !== "Not Found")
+          setTitleField(t) ;
+    
+        t = FindTranslation(data,Page, sDuration) ;
+        if (t !== "Not Found")
+          setDuration(t) ;
+    
+        t = FindTranslation(data,Page, sIndividual) ;
+        if (t !== "Not Found")
+          setIndividual(t) ;
 
+        t = FindTranslation(data,Page, sRate) ;
+        if (t !== "Not Found")
+          setRate(t) ;
+
+        t = FindTranslation(data,Page, sNumberOfPeople) ;
+        if (t !== "Not Found")
+          setNumberOfPeople(t) ;
+
+        t = FindTranslation(data,Page, sCategory) ;
+        if (t !== "Not Found")
+          setCategorieField(t) ;
+
+        t = FindTranslation(data,Page, sCommercialEfficiency) ;
+        if (t !== "Not Found")
+          setCommercialEfficiency(t) ;
+    
+    }
+
+ 
+    if (reloadTraductions === true) {
+        TranslateAll(AllTranslations,"FormationList") ;
+        setReloadTraductions(false) ;
+    }
+      
 
     function RenderAfterLoad(variable) {
         console.log("RenderAfterLoad") ;
@@ -270,12 +399,12 @@ export default function FormationList() {
 
             <div className="page-header" >
                 <div>
-                    <h1 className="page-title">Formations</h1>
+                    <h1 className="page-title">{trainings}</h1>
                 </div>
                 <div className="ms-auto pageheader-btn">
                     <button className='btn btn-primary' onClick={() => {SendFormationData(true, null) ;}}>
                         <span> <i className="fe fe-plus"></i>&nbsp;</span>
-                        Ajouter une formation
+                       {addTraining}
                     </button>
 
                 </div>
@@ -304,6 +433,20 @@ export default function FormationList() {
                                             Duree={duree}
                                             Tarif={tarif}
                                             idGroupe={idGroupe}
+                                            SaveButton = {saveBtn}
+                                            CancelButton = {cancelBtn}
+                                            AddTrainingButton= {addTraining}
+                                            TitleField = {titleField}
+                                            DurationField = {duration}
+                                            Individual = {individual}
+                                            CategoryField = {categorieField}
+                                            ContentsField = {contentsField}
+                                            PhotoField = {photoField}
+                                            DragFiles = {dragFiles}
+                                            Rate = {rate}
+                                            PricePerson = {pricePerson}
+                                            NumberOfPeople={numberOfPeople}
+                                            CommercialEfficiency={commercialEfficiency}
                                         />
 
                                         <ModalShowFormation 
@@ -315,6 +458,7 @@ export default function FormationList() {
                                             Duree={duree}
                                             Tarif={tarif}
                                             Groupe={idGroupe}
+                                            CloseButton = {closeBtn}
                                         />
 
 
@@ -325,7 +469,7 @@ export default function FormationList() {
                                             id=" tab-51"
                                             className="tab-content tabesbody "
                                         >
-                                            <Tab eventKey="Brouillon" title="En cours de création">
+                                            <Tab eventKey="Brouillon" title={beingCreated}>
                                                 <div className="tab-pane " id="tab-61">
                                                     <Row className="row-cards ">
                                                         {renderFormations("Brouillon")}
@@ -334,7 +478,7 @@ export default function FormationList() {
                                             </Tab>
 
 
-                                            <Tab eventKey="Valide" title="Prêtes à être dispensées">
+                                            <Tab eventKey="Valide" title={readyToBeDispensed}>
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
                                                         {renderFormations("Valide")}

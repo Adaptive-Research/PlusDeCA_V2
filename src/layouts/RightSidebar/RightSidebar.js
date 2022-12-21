@@ -34,6 +34,15 @@ export function RightSidebar() {
     const sSignOut = "Sign out";
     const sManageUsers = "Manage Users";
     const sMyMails = "My Mails";
+    const sPremiumMember = 'Premium Member';
+    const sPersonalInfo = 'Personal information';
+    const sCompanyInfo = 'Company information';
+    const sBusinessRole = 'Business Role';
+    const sAddUser = 'Add a user';
+    const sDefineRoles = 'define roles';
+    const sAccountSignOut = 'Account Signout';
+    const sProfile = 'Profile';
+    const sSetting = 'Setting';
     //const navigate = useNavigate();
 
 
@@ -44,7 +53,15 @@ export function RightSidebar() {
     const [personalData, setPersonalData] = useState(sPersonalData);
     const [manageUsers, setManageUsers] = useState(sManageUsers);
     const [myMails, setMyMails] = useState(sMyMails);
-
+    const [premiumMember, setPremiumMember] = useState(sPremiumMember);
+    const [personalInfo, setPersonalInfo] = useState(sPersonalInfo);
+    const [companyInfo, setCompanyInfo] = useState(sCompanyInfo);
+    const [businessRole,setBusinessRole] = useState(sBusinessRole);
+    const [addUser,setAddUser] = useState(sAddUser);
+    const [defineRoles, setDefineRoles] = useState(sDefineRoles);
+    const [accountSignout, setAccountSignout] = useState(sAccountSignOut);
+    const [profilTab, setProfilTab] = useState(sProfile);
+    const [settingTab, setSettingTab] = useState(sSetting);
     const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
 
@@ -78,6 +95,36 @@ export function RightSidebar() {
         t = FindTranslation(data, Page,  sMyMails);
         if (t !== "Not Found")
             setMyMails(t);
+        t = FindTranslation(data, Page,  sMyJob);
+        if (t !== "Not Found")
+            setMyJob(t);
+        t = FindTranslation(data, Page,  sPremiumMember);
+        if (t !== "Not Found")
+            setPremiumMember(t);
+        t = FindTranslation(data, Page,  sPersonalInfo);
+        if (t !== "Not Found")
+            setPersonalInfo(t);
+        t = FindTranslation(data, Page,  sCompanyInfo);
+        if (t !== "Not Found")
+            setCompanyInfo(t);
+        t = FindTranslation(data, Page,  sBusinessRole);
+        if (t !== "Not Found")
+            setBusinessRole(t);
+        t = FindTranslation(data, Page,  sAddUser);
+        if (t !== "Not Found")
+            setAddUser(t);
+        t = FindTranslation(data, Page,  sDefineRoles);
+        if (t !== "Not Found")
+            setDefineRoles(t);
+        t = FindTranslation(data, Page,  sAccountSignOut);
+        if (t !== "Not Found")
+            setAccountSignout(t);
+        t = FindTranslation(data, Page,  sProfile);
+        if (t !== "Not Found")
+            setProfilTab(t);
+        t = FindTranslation(data, Page,  sSetting);
+        if (t !== "Not Found")
+            setSettingTab(t);
     }
     
     if (reloadTraductions === true) {
@@ -112,7 +159,7 @@ export function RightSidebar() {
                         className="nav panel-tabs tab-content rightside flex-nowrap"
                         variant=""
                     >
-                        <Tab eventKey="side1" title="Profile">
+                        <Tab eventKey="side1" title={profilTab}>
                             <div className="tab-pane active" id="side1">
                                 <div className="card-body text-center">
                                     <div className="dropdown user-pro-body">
@@ -129,7 +176,7 @@ export function RightSidebar() {
                                                 {userMail}
                                             </h6>
                                             <span className="mb-0 text-muted fs-12">
-                                                Premium Member
+                                                {premiumMember}
                                             </span>
                                         </div>
                                     </div>
@@ -143,7 +190,7 @@ export function RightSidebar() {
                                         <div className="pt-1">
                                             <h6 className="mb-0">{personalData}</h6>
                                             <p className="tx-12 mb-0 text-muted">
-                                                Personal information
+                                                {personalInfo}
                                             </p>
                                         </div>
                                     </div>
@@ -158,7 +205,7 @@ export function RightSidebar() {
                                         <div className="pt-1">
                                             <h6 className="mb-0">{myCompany}</h6>
                                             <p className="tx-12 mb-0 text-muted">
-                                                Company information
+                                               {companyInfo}
                                             </p>
                                         </div>
                                     </div>
@@ -174,7 +221,7 @@ export function RightSidebar() {
                                         <div className="pt-1">
                                             <h6 className="mb-0">{myJob}</h6>
                                             <p className="tx-12 mb-0 text-muted">
-                                                Business Role
+                                                {businessRole}
                                             </p>
                                         </div>
                                     </div>
@@ -189,7 +236,7 @@ export function RightSidebar() {
                                         <div className="pt-1">
                                             <h6 className="mb-0">{manageUsers}</h6>
                                             <p className="tx-12 mb-0 text-muted">
-                                                Add a user, define roles
+                                                {addUser}, {defineRoles}
                                             </p>
                                         </div>
                                     </div>
@@ -205,7 +252,7 @@ export function RightSidebar() {
                                         <i className="fe fe-power me-3 tx-20 text-muted"></i>
                                         <div className="pt-1">
                                             <h6 className="mb-0">{signout}</h6>
-                                            <p className="tx-12 mb-0 text-muted">Account Signout</p>
+                                            <p className="tx-12 mb-0 text-muted">{accountSignout}</p>
                                         </div>
                                     </div>
                                 </Link>
@@ -437,7 +484,7 @@ export function RightSidebar() {
                         </Tab>
 
 
-                        <Tab eventKey="side3" title="Settings">
+                        <Tab eventKey="side3" title={settingTab}>
                             <div className="tab-pane" id="side3">
                                 <Link className="dropdown-item bg-gray-100 pd-y-10" to="#">
                                     Account Settings

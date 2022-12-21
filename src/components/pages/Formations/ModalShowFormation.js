@@ -118,7 +118,7 @@ export default function ModalShowFormation(props) {
                 <Modal.Footer>
 
                     <Button variant="secondary" onClick={handleCancel}>
-                        Close
+                        {props.CloseButton}
                     </Button>
 
 

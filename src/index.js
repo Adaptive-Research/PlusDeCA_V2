@@ -33,7 +33,7 @@ const InterviewQuestions = React.lazy(() => import("./components/pages/Interview
 
 
 //pages
-const Profile = React.lazy(() => import("./components/pages/Profile/Profile"));
+//const Profile = React.lazy(() => import("./components/pages/Profile/Profile"));
 const EditProfile = React.lazy(() => import("./components/pages/Profile/EditProfile"));
 
 //custom Pages
@@ -113,10 +113,11 @@ const Root = () => {
                             />
 
 
-                            <Route
+                        {/**   <Route
                                 path={`${process.env.PUBLIC_URL}/pages/profile`}
                                 element={<Profile/>}
-                            />
+                            /> */}
+
 
                             <Route
                                 path={`${process.env.PUBLIC_URL}/pages/editProfile`}

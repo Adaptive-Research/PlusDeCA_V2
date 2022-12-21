@@ -19,6 +19,10 @@ export default function FormationAvailableList() {
     const idUser = getIDFromToken(storedToken) ;
     const ValueLangue = localStorage.getItem('ValueLangue') ;
 
+    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+
+    console.log('Mes traductions');
+    console.log(AllTranslations);
    
 
 
@@ -48,13 +52,41 @@ export default function FormationAvailableList() {
     const [groupe,setGroupe] = useState("") ;
 
 
+        //Pour la traduction du titre 
+        const sTrainings = 'Trainings';
+        //Pour les Boutons
+        const sClose = 'Close';
+
+
+        const [trainings, setTrainings] = useState(sTrainings);
+        const [closeBtn, setCloseBtn] = useState(sClose);
 
 
     // pour le reload des infos
     const reloadInfos = useRef(true) ;
+    const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
    
+
+    function TranslateAll(data,Page){
+        console.log('TranslateAll') ;
+        console.log(data);
     
+        let t = FindTranslation(data,Page, sTrainings) ;
+        if (t !== "Not Found")
+        setTrainings(t) ;
+
+        t = FindTranslation(data,Page, sClose) ;
+        if (t !== "Not Found")
+          setCloseBtn(t) ;
+    
+    }
+
+ 
+    if (reloadTraductions === true) {
+        TranslateAll(AllTranslations,"FormationAvailableList") ;
+        setReloadTraductions(false) ;
+    }    
 
     
 
@@ -220,7 +252,7 @@ export default function FormationAvailableList() {
 
             <div className="page-header" >
                 <div>
-                    <h1 className="page-title">Formations</h1>
+                    <h1 className="page-title">{trainings}</h1>
                 </div>
             </div>
 
@@ -241,6 +273,7 @@ export default function FormationAvailableList() {
                                             Duree={duree}
                                             Tarif={tarif}
                                             Groupe={groupe}
+                                            CloseButton={closeBtn}
                                         />
 
 
