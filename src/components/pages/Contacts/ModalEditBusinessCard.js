@@ -57,31 +57,34 @@ export default function ModalEditBusinessCard(props) {
     else {
     
 
-
-
-
         console.log("ModalEditBusinessCard") ;
-        //console.log("props") ;
-        //console.log(props) ;
+        console.log("props") ;
+        console.log(props) ;
 
 
         if (reloadInfos === true)
         {
+            console.log("reloadinfos === true") ;
             modeEdit.current = props.ModeEdit ;
             sexe.current = props.Sexe ;
 
           
             if (props.idEntreprise === "0"){
                 const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
-                idEntreprise.current = myCompanies[0].idEntreprise ;
+                if (myCompanies !== null)
+                    idEntreprise.current = myCompanies[0].idEntreprise ;
             }
             else
                 idEntreprise.current = props.idEntreprise ;
 
             if (props.idActivite === "0"){                
                 const myActivities = JSON.parse(localStorage.getItem("userActivities"));
-                idActivite.current = props.idActivite ;
+                if (myActivities !== null)
+                    idActivite.current = props.idActivite ;
             }
+
+            console.log("idEntreprise:" + idEntreprise.current) ;
+            console.log("idActivite:" + idActivite.current) ;
 
 
             setLieuRencontre(props.LieuRencontre);
@@ -114,8 +117,12 @@ export default function ModalEditBusinessCard(props) {
 
                     let options =  myCompanies.map( (Ligne) => 
                     {
-                        if (Ligne.idEntreprise !== null)
-                            return <option value={Ligne.idEntreprise}> {Ligne.NomEntreprise}</option> ;
+                        if (Ligne.idEntreprise !== null) {
+                            if (Ligne.idEntreprise !== idEntreprise.current)
+                                return <option value={Ligne.idEntreprise}> {Ligne.NomEntreprise}</option> ;
+                            else 
+                                return <option value={Ligne.idEntreprise} selected> {Ligne.NomEntreprise}</option> ;
+                        }
                     })
 
                     console.log("options") ;
@@ -161,6 +168,28 @@ export default function ModalEditBusinessCard(props) {
         }
     
 
+        function renderSexe() {
+            console.log("renderSexe") ;   
+            const ListeSexes = [{"id":"1","sexe":"Homme"},{"id":"2","sexe":"Femme"}] ;
+            //console.log(ListeSexes) ;
+            //console.log(sexe.current) ;
+            let options =  ListeSexes.map( (Ligne) => 
+                    {
+                        if (Ligne.sexe !== null) {
+                            if (Ligne.id !== sexe.current)
+                                return <option value={Ligne.id}> {Ligne.sexe}</option> ;
+                            else 
+                                return <option value={Ligne.id} selected> {Ligne.sexe}</option> ;
+                        }
+                    })
+
+                    console.log("options") ;
+                    console.log(options) ;
+                    return options ;
+
+
+        }
+
         
 
 
@@ -202,7 +231,7 @@ export default function ModalEditBusinessCard(props) {
                 setNomMsg("Le Nom est obligatoire");
             }
 
-            /*
+            
             if(entrepriseCheck && prenomCheck &&  nomCheck ){
                 if (modeEdit.current === "Add")
                     //alert("Vous souhaitez ajouter une Carte");
@@ -211,14 +240,18 @@ export default function ModalEditBusinessCard(props) {
                     UpdateBusinessCard(storedToken,idBusinessCard, idEntreprise.current, lieuRencontre, entreprise, telephoneEntreprise, siteWeb,sexe.current,prenom,nom,fonction,telephone,email, props.ForceRenderBusinessCard);
                     //alert("Vous souhaitez modifier une Carte");
                 //alert("Tout est ok");
+                if (props.SendCloseMessage !== null)
+                    props.SendCloseMessage() ;
+                setReloadInfos(true) ;
             }
-            */
+            
         }
 
 
         const handleCancel = () => {
             if (props.SendCloseMessage !== null)
                 props.SendCloseMessage() ;
+            setReloadInfos(true) ;
         }
 
 
@@ -324,10 +357,8 @@ export default function ModalEditBusinessCard(props) {
                             <Row>
                                     <label className="form-label">{props.GenderField} :</label>
                                     <div className="">
-                                        <select id="Sexes"  className="form-control" onChange={(e) =>  sexe.current = e.target.value}>
-                                            <option value="homme">Homme</option>
-                                            <option value="femme">Femme</option>
-                                        
+                                        <select id="Sexe"  className="form-control" onChange={(e) =>  sexe.current = e.target.value}>
+                                            {renderSexe()} 
                                         </select>
                                     </div>
 
