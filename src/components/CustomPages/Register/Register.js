@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Card} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
-import {SaveNewUtilisateur} from "../../../data/customlibs/api";
+import {SaveNewUser} from "../../../data/customlibs/api";
 
 import {checkEmail} from "../../../data/customlibs/utils";
 import {encrypt} from "../../../data/customlibs/hasher";
@@ -54,7 +54,7 @@ export default function Register() {
 
         if (emailCheck && passwordCheck) {
             if (checkEmail(email)) {
-                let values = SaveNewUtilisateur(email, encrypt(password));
+                let values = SaveNewUser(email, encrypt(password));
                 let res = values[0] ;
                 let data = values[1] ;
                 if (res === false)

@@ -1,12 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars";
 import { Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as Switcherdata from "../../data/Switcher/Switcherdata";
+
+
+
 export function Switcher() {
+
   useEffect(() => {
     Switcherdata.localStorageBackUp();
   });
+
+
+
   function changePrimaryColor() {
     var userColor = document.getElementById("colorID").value;
     localStorage.setItem("primaryColor", userColor);
@@ -42,6 +49,9 @@ export function Switcher() {
 
     Switcherdata.name();
   }
+
+
+
   function darkPrimaryColor() {
     var userColor = document.getElementById("darkPrimaryColorID").value;
 
@@ -78,6 +88,8 @@ export function Switcher() {
 
     Switcherdata.name();
   }
+
+
   function transparentPrimaryColor() {
     var userColor = document.getElementById("transparentPrimaryColorID").value;
 
@@ -112,6 +124,8 @@ export function Switcher() {
 
     Switcherdata.name();
   }
+
+
   function BgTransparentBackground() {
     var userColor = document.getElementById("transparentBgColorID").value;
 
@@ -157,6 +171,8 @@ export function Switcher() {
 
     Switcherdata.name();
   }
+
+
   function BgImgTransparentPrimaryColor() {
     var userColor = document.getElementById(
       "transparentBgImgPrimaryColorID"
@@ -203,9 +219,29 @@ export function Switcher() {
     }
     Switcherdata.name();
   }
+
+  
+
+
   return (
+
     <div className="switcher-wrapper">
       <div className="demo_changer">
+          <div className="panel panel-primary card mb-0 shadow-none border-0">
+                <div className="tab-menu-heading border-0 d-flex p-3">
+                    <div className="card-title mb-0">Options</div>
+                    <div className="card-options ms-auto">
+                        <Link
+                            to="#"
+                            className="sidebar-icon text-end float-end me-1"
+                            onClick={() => Switcherdata.responsiveSidebarclose()}
+                        >
+                            <i className="fe fe-x text-black"></i>
+                        </Link>
+                    </div>
+                </div>
+          </div>
+
         <div className="form_holder sidebar-right1">
           <Scrollbars>
             <Row className="row">

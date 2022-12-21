@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link,useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {Card} from "react-bootstrap";
 import {checkDuplicate, checkEmail,remove_linebreaks} from "../../../data/customlibs/utils";
 import {getAllUsersEmail,requestLogin} from "../../../data/customlibs/api";
@@ -18,7 +18,6 @@ export default function Login() {
 
     const [reloadLogin, setReloadLogin] = useState(true);
 
-    const navigate = useNavigate() ;
 
     
 

@@ -83,7 +83,7 @@ export default function ContactList() {
     const sBusinessPhone = 'Business Phone';
     const sTelephoneContact = 'Telephone Contact';
     const sWebsite = 'Website';
-    const sActivity='Activity';
+    const sActivity='Interested by Activity';
     const sName= 'Name';
     const sFirstName = 'Firstname';
     const sGender = 'Gender';
@@ -118,6 +118,8 @@ export default function ContactList() {
     const [cFunction, setCFunction]=useState(sFunction);
     const [cEmail, setCEmail]=useState(sEmail);
     const [man, setMan]=useState(sMan);
+    const [idEntreprise,setIdEntreprise]=useState("0") ;
+    const [idActivite,setIdActivite]=useState("0") ;
 
 
 
@@ -125,7 +127,7 @@ export default function ContactList() {
 
     function TranslateAll(data,Page){
 
-        console.log('ContactList Translations') ;
+        console.log('TranslateAll') ;
         console.log(data);
     
         let t = FindTranslation(data,Page, sBusinessCards) ;
@@ -287,6 +289,8 @@ export default function ContactList() {
     // C'est le callback appele quand on ferme ModalEditBusinessCard
     function ModalEditBusinessCardClose(){
         setShowEditBusinessCard(false) ;
+        ClearBusinessCard() ;
+
     }
 
     // C'est le callback appele quand on ferme ModalImportBusinessCard
@@ -304,7 +308,22 @@ export default function ContactList() {
     }
 
 
-
+    function ClearBusinessCard() {
+        console.log("ClearBusinessCard") ;
+        
+        setLieuRencontre("");
+        setEntreprise("");
+        setTelephoneEntreprise("");
+        setSiteWeb("");
+        setSexe(1);
+        setPrenom("");
+        setNom("");
+        setFonction("");
+        setTelephone("");
+        setEmail("");
+        setIdEntreprise("0") ;
+        setIdActivite("0") ;
+    }
 
 
 
@@ -316,16 +335,7 @@ export default function ContactList() {
         if (Mode === "Add")
         {
             setModeEdit("Add") ;
-            setLieuRencontre("");
-            setEntreprise("");
-            setTelephoneEntreprise("");
-            setSiteWeb("");
-            setSexe(1);
-            setPrenom("");
-            setNom("");
-            setFonction("");
-            setTelephone("");
-            setEmail("");
+            ClearBusinessCard() ;
             setShowEditBusinessCard(true) ;
         }
         
@@ -344,7 +354,9 @@ export default function ContactList() {
             setTelephone(BusinessCard.TelephoneContact);
             setEmail(BusinessCard.Email);
             setShowEditBusinessCard(true) ;
+            setIdEntreprise(BusinessCard.idEntreprise) ;
         }
+        setCompteur(compteur+1) ;
 
         if (Mode === "Classify")
         {
@@ -505,6 +517,8 @@ export default function ContactList() {
                                             SendCloseMessage={ModalEditBusinessCardClose}  
                                             ForceRenderBusinessCard={ForceRenderBusinessCard}
                                             ModeEdit={modeEdit}
+                                            idEntreprise={idEntreprise}
+                                            idActivite={idActivite}
                                             LieuRencontre={lieuRencontre}
                                             Entreprise={entreprise}
                                             TelephoneEntreprise={telephoneEntreprise}

@@ -102,31 +102,9 @@ async function getAllUsersEmail() {
 };
 
 
-async function requestLogin(mail, pass)  {
-    const url = process.env.REACT_APP_API_LOGIN_URL;
-  
-    const response = await axios.post(url, {
-        Submit: 1,
-        Email: mail,
-        Password: pass
-    }, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-    })
-
-    console.log("response.data");
-    console.log(response.data);
-
-    if (response.data.includes("ERROR:")) 
-        return [false,response.data] ;
-    else 
-        return [true,response.data] ;
-
-}
 
 
-async function SaveNewUtilisateur(mail, pass) {
+async function SaveNewUser(mail, pass) {
     const url = process.env.REACT_APP_API_SIGNUP_URL;
 
     console.log("password: " + pass) ;
@@ -151,6 +129,200 @@ async function SaveNewUtilisateur(mail, pass) {
         return [true,response.data] ;
     }
 }
+
+
+async function requestLogin(mail, pass)  {
+    const url = process.env.REACT_APP_API_LOGIN_URL;
+  
+    const response = await axios.post(url, {
+        Submit: 1,
+        debug:1,
+        Email: mail,
+        Password: pass
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+
+    console.log("response.data");
+    console.log(response.data);
+
+    const data =  getLastLineFromResponse(response) ;
+
+    if (data.includes("ERROR:")) 
+        return [false,data] ;
+    else 
+        return [true,data] ;
+
+}
+
+
+async function UpdatePasswordUser(tok, mail, pass) {
+    console.log("ChangePasswordForUser") ;
+
+
+    const url = process.env.REACT_APP_API_UPDATE_PASSWORD_USER_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        debug:1,
+        token: tok,
+        Email: mail,
+        Password: pass,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    console.log(response.data) ;
+
+    if (response.data.includes("ERROR:")) 
+        return [false,response.data] ;
+    else {
+        console.log("User created");
+        return [true,response.data] ;
+    }
+}
+
+
+
+
+
+/*****************************************************************************************************************************************************
+ * 
+ * 
+ *  Managed Users
+ * 
+ * 
+ ****************************************************************************************************************************************************/
+
+
+ async function getManagedUsers(variable, tok, ForceRender) {
+    console.log("getManagedUsers") ;
+
+    const url = process.env.REACT_APP_API_GET_MANAGED_USERS_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        //debug:1,
+        token: tok
+        }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+
+    console.log("response.data") ;
+    console.log(response.data) ;
+
+    const data =  getDataFromResponse(response) ;
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    if (ForceRender !== undefined)
+        ForceRender(variable) ;
+}
+
+
+async function AddManagedUser(tok, mail, pass,idEntreprise,idR) {
+    console.log("AddManagedUtilisateur") ;
+    console.log("idEntreprise: " + idEntreprise) ;
+    console.log("idRole: " + idR) ;
+
+
+    const url = process.env.REACT_APP_API_ADD_MANAGED_USER_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        debug:1,
+        token: tok,
+        Email: mail,
+        Password: pass,
+        idEntreprise: idEntreprise, 
+        idRole: idR
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    console.log(response.data) ;
+
+    if (response.data.includes("ERROR:")) 
+        return [false,response.data] ;
+    else {
+        console.log("User created");
+        return [true,response.data] ;
+    }
+}
+
+
+
+
+
+async function UpdateRoleUser(tok, mail, idEntreprise,idR) {
+    console.log("UpdateRoleUser") ;
+
+    const url = process.env.REACT_APP_API_UPDATE_ROLE_USER_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        debug:1,
+        token: tok,
+        Email: mail,
+        idEntreprise: idEntreprise, 
+        idRole: idR
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    console.log(response.data) ;
+
+    if (response.data.includes("ERROR:")) 
+        return [false,response.data] ;
+    else {
+        console.log("User created");
+        return [true,response.data] ;
+    }
+}
+
+
+
+async function UpdateFonctionUser(tok, mail, idEntreprise,f) {
+    console.log("UpdateFonctionUser") ;
+
+    const url = process.env.REACT_APP_API_UPDATE_FONCTION_USER_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        debug:1,
+        token: tok,
+        Email: mail,
+        idEntreprise: idEntreprise, 
+        Fonction: f
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    console.log(response.data) ;
+
+    if (response.data.includes("ERROR:")) 
+        return [false,response.data] ;
+    else {
+        console.log("User created");
+        return [true,response.data] ;
+    }
+}
+
+
+
 
 
 
@@ -257,7 +429,7 @@ async function SaveCompany (tok,name,webSite,siret,email,phone,SendCloseMessage,
 
 async function UpdateCompany (tok,idEntreprise, name,webSite,siret,email,phone,SendCloseMessage,ForceRenderCompany) {
     console.log("UpdateCompany") ;
-    const url = process.env.REACT_APP_API_EDIT_ENTERPRISE_URL;
+    const url = process.env.REACT_APP_API_UPDATE_ENTERPRISE_URL;
     const response = await axios.post(url, {
         token: tok,
         Submit: 1,
@@ -350,7 +522,9 @@ function getActivitiesForUser(variable, Token,UserId, ForceRender) {
                 localStorage.removeItem(variable);
             }
             
-            ForceRender(variable) ;
+            if (ForceRender !== undefined)
+                if (ForceRender !== null)
+                    ForceRender(variable) ;
 
         })
 }
@@ -414,7 +588,7 @@ async function SaveActivity(tok,idEntreprise,name,webSite,email,phone,descriptio
 
 
 async function UpdateActivity(tok,idEntreprise,idActivite, name,webSite,email,phone,description,SendCloseMessage,ForceRenderActivity) {
-    const url = process.env.REACT_APP_API_EDIT_ACTIVITY_URL ;
+    const url = process.env.REACT_APP_API_UPDATE_ACTIVITY_URL ;
     const response = await axios.post(url, {
         token: tok,
         Submit: 1,
@@ -556,7 +730,7 @@ async function SaveArticle(tok,title,category,texte,html,photo,ForceRenderArticl
 // Function that sends axios request to update an formation
 async function UpdateArticle(tok,idAncestor, title,category,texte,html,photo,ForceRenderArticle ){
 
-    const url =  process.env.REACT_APP_API_EDIT_ARTICLE_URL;
+    const url =  process.env.REACT_APP_API_UPDATE_ARTICLE_URL;
     const response = await axios.post(url, {
         Submit: 1,
         token: tok,
@@ -698,7 +872,6 @@ async function getUserInterviews(variable,tok,ForceRender) {
     console.log("getUserInterviews") ;
 
     localStorage.removeItem(variable);
-    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_INTERVIEWS_FOR_USER_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -758,7 +931,8 @@ async function getInterviewQuestions(variable,tok,idInter, ForceRender) {
         });
         localStorage.setItem(variable, JSON.stringify(res));
     }
-    ForceRender(variable) ;
+    if (ForceRender !== undefined)
+        ForceRender(variable) ;
 }   
 
 
@@ -807,7 +981,6 @@ async function getInterviewAnswers(variable,tok,idInter, ForceRender) {
 
  // Function that sends axios requesst to save an answer for am Interview
 async function SaveAnswer (tok, idInter, idQ, rep ) {
-    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_INTERVIEW_URL;
     console.log("SaveInterview") ;
     
     const url =  process.env.REACT_APP_API_SAVE_ANSWER_URL;
@@ -837,7 +1010,6 @@ async function SaveAnswer (tok, idInter, idQ, rep ) {
 
 // Function that sends axios requesst to save an answer for am Interview
 async function ValidateInterview (tok, idInter,ForceRenderInterview ) {
-    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_INTERVIEW_URL;
     console.log("ValidateInterview: " + idInter) ;
 
   
@@ -868,7 +1040,6 @@ async function ValidateInterview (tok, idInter,ForceRenderInterview ) {
 
 // Function that sends axios requesst to save an answer for am Interview
 async function InvalidateInterview (tok, idInter,ForceRenderInterview ) {
-    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_INTERVIEW_URL;
     console.log("InvalidateInterview: " + idInter) ;
 
   
@@ -970,7 +1141,7 @@ async function SaveEvent(tok,eventType,eventTitle,sAllDay, sStartDate,sEndDate,e
 
   async function UpdateEvent(tok,idEvent, eventType,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,SendCloseMessage,ForceRender)  {
       console.log("UpdateEvent") ;
-      const url = process.env.REACT_APP_API_EDIT_EVENT_URL;
+      const url = process.env.REACT_APP_API_UPDATE_EVENT_URL;
       const response = await axios.post(url, {
           token: tok,
           Submit: 1,
@@ -1267,7 +1438,7 @@ async function SaveContact(tok,title,category,texte,html,photo,ForceRenderContac
 // Function that sends axios request to update an Contact
 async function UpdateContact(tok,idAncestor, title,category,texte,html,photo,ForceRenderContact ){
 
-    const url =  process.env.REACT_APP_API_EDIT_CONTACT_URL;
+    const url =  process.env.REACT_APP_API_UPDATE_CONTACT_URL;
     const response = await axios.post(url, {
         Submit: 1,
         token: tok,
@@ -1344,6 +1515,7 @@ async function getUserBusinessCards(variable,tok,ForceRender) {
     });
     
     //let variable = "userBusinessCards" ;
+    //console.log(response.data) ;
 
     const data =  getDataFromResponse(response) ;
 
@@ -1370,7 +1542,7 @@ async function getUserBusinessCards(variable,tok,ForceRender) {
 
 
 // Function that sends axios requesst to create a new BusinessCard
-async function SaveBusinessCard(tok,lr,ent, tele,sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard) {
+async function SaveBusinessCard(tok,ide, lr,ent, tele,sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_BusinessCard_URL;
     console.log("SaveBusinessCard") ;
 
@@ -1379,6 +1551,7 @@ async function SaveBusinessCard(tok,lr,ent, tele,sw,sexe,pre,nom,fo,tel,em,Force
         Submit: 1,
         debug:1,
         token: tok,
+        idEntreprise: ide,
         LieuRencontre: lr,
         Entreprise: ent,
         TelephoneEntreprise: tele,
@@ -1408,14 +1581,15 @@ async function SaveBusinessCard(tok,lr,ent, tele,sw,sexe,pre,nom,fo,tel,em,Force
 
 
 // Function that sends axios request to update an BusinessCard
-async function UpdateBusinessCard(tok,id,lr,ent, tele, sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard ){
+async function UpdateBusinessCard(tok,id,ide, lr,ent, tele, sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard ){
 
-    const url =  process.env.REACT_APP_API_EDIT_BUSINESSCARD_URL;
+    const url =  process.env.REACT_APP_API_UPDATE_BUSINESSCARD_URL;
     const response = await axios.post(url, {
         Submit: 1,
         debug:1,
         token: tok,
         id: id,
+        idEntreprise: ide,
         LieuRencontre: lr,
         Entreprise: ent,
         TelephoneEntreprise: tele,
@@ -1673,7 +1847,7 @@ async function SaveFormation(tok,title,duree,idgroupe,tarif, idcategorie,texte,h
 // Function that sends axios request to update  formation
 async function UpdateFormation(tok,idAncestor, title,duree,idgroupe,tarif,idcategorie,texte,html,photo,ForceRenderFormation ){
 
-    const url =  process.env.REACT_APP_API_EDIT_FORMATION_URL;
+    const url =  process.env.REACT_APP_API_UPDATE_FORMATION_URL;
     const response = await axios.post(url, {
         Submit: 1,
         debug:1,
@@ -2017,7 +2191,6 @@ async function UpdateClassementBusinessCardsForNonExistingCategory (tok,ForceRen
         localStorage.removeItem(variable);
     }
         
-
     if (ForceRender !== undefined)
         if (ForceRender !== null)
             ForceRender(variable) ; 
@@ -2031,8 +2204,15 @@ export {
     
 
     getAllUsersEmail,
+    SaveNewUser,
     requestLogin,
-    SaveNewUtilisateur,
+
+    getManagedUsers,
+    AddManagedUser,
+
+    UpdatePasswordUser,
+    UpdateFonctionUser,
+    UpdateRoleUser,
     
     
     getAllCompanies,

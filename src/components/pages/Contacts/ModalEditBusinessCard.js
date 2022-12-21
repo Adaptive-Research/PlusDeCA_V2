@@ -32,6 +32,9 @@ export default function ModalEditBusinessCard(props) {
     const [telephone,setTelephone] = useState("");
     const [email,setEmail] = useState("");
     const [idBusinessCard,setIdBusinessCard] = useState("");
+    const idEntreprise = useRef("");
+    const idActivite = useRef("");
+
 
     //Pour les messages d'erreurs 
     const [lieuRencontreMsg,setLieuRencontreMsg] = useState("");
@@ -66,8 +69,24 @@ export default function ModalEditBusinessCard(props) {
         {
             modeEdit.current = props.ModeEdit ;
             sexe.current = props.Sexe ;
+
+          
+            if (props.idEntreprise === "0"){
+                const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
+                idEntreprise.current = myCompanies[0].idEntreprise ;
+            }
+            else
+                idEntreprise.current = props.idEntreprise ;
+
+            if (props.idActivite === "0"){                
+                const myActivities = JSON.parse(localStorage.getItem("userActivities"));
+                idActivite.current = props.idActivite ;
+            }
+
+
             setLieuRencontre(props.LieuRencontre);
             setEntreprise(props.Entreprise);
+
             setTelephoneEntreprise(props.TelephoneEntreprise);
             setSiteWeb(props.SiteWeb);
             setPrenom(props.Prenom);
@@ -81,19 +100,58 @@ export default function ModalEditBusinessCard(props) {
 
 
 
+        function renderCompanies() {
+            console.log("renderCompanies") ;   
+            
+            const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
+            console.log("myCompanies") ;
+            console.log(myCompanies) ;
+    
+            if (myCompanies !== null ) {
+                if (myCompanies.length > 0) {
+                    
+
+
+                    let options =  myCompanies.map( (Ligne) => 
+                    {
+                        if (Ligne.idEntreprise !== null)
+                            return <option value={Ligne.idEntreprise}> {Ligne.NomEntreprise}</option> ;
+                    })
+
+                    console.log("options") ;
+                    console.log(options) ;
+                    return options ;
+                }
+    
+            }
+            
+            return "" ;
+        }
+
+
         function renderActivities() {
             console.log("renderActivities") ;   
             
             const myActivities = JSON.parse(localStorage.getItem("userActivities"));
+
+            
     
             if (myActivities !== null ) {
                 if (myActivities.length > 0) {
+                    
+
+
                     let options =  myActivities.map( (Ligne) => 
                     {
                         if (Ligne.idActivite !== null)
                             return <option value={Ligne.idActivite}> {Ligne.Activite_Nom}</option> ;
                     })
-    
+
+                    const reactElement = React.createElement('option', {value:"0"}, '') ;
+                    options.unshift(reactElement) ;
+
+                    console.log("options") ;
+                    console.log(options) ;
                     return options ;
                 }
     
@@ -112,6 +170,7 @@ export default function ModalEditBusinessCard(props) {
 
             console.log("LieuRencontre: " + lieuRencontre) ;
             console.log("SiteWeb: " + siteWeb) ;
+            console.log("idEntreprise: " + idEntreprise.current) ;
             console.log("Entreprise: " + entreprise) ;
             console.log("Sexe: " + sexe.current) ;
             console.log("Prenom: " + prenom) ;
@@ -143,15 +202,17 @@ export default function ModalEditBusinessCard(props) {
                 setNomMsg("Le Nom est obligatoire");
             }
 
+            /*
             if(entrepriseCheck && prenomCheck &&  nomCheck ){
                 if (modeEdit.current === "Add")
                     //alert("Vous souhaitez ajouter une Carte");
-                    SaveBusinessCard(storedToken, lieuRencontre, entreprise, telephoneEntreprise, siteWeb,sexe.current,prenom,nom,fonction,telephone,email, props.ForceRenderBusinessCard);
+                    SaveBusinessCard(storedToken, idEntreprise.current, lieuRencontre, entreprise, telephoneEntreprise, siteWeb,sexe.current,prenom,nom,fonction,telephone,email, props.ForceRenderBusinessCard);
                 else
-                    UpdateBusinessCard(storedToken,idBusinessCard, lieuRencontre, entreprise, telephoneEntreprise, siteWeb,sexe.current,prenom,nom,fonction,telephone,email, props.ForceRenderBusinessCard);
+                    UpdateBusinessCard(storedToken,idBusinessCard, idEntreprise.current, lieuRencontre, entreprise, telephoneEntreprise, siteWeb,sexe.current,prenom,nom,fonction,telephone,email, props.ForceRenderBusinessCard);
                     //alert("Vous souhaitez modifier une Carte");
                 //alert("Tout est ok");
             }
+            */
         }
 
 
@@ -237,10 +298,16 @@ export default function ModalEditBusinessCard(props) {
                             </Card.Body>
                             </Card>
 
+                            <label className="form-label">{props.CompanyField}:</label>
+                            <div className="">
+                                <select id="idEntreprise"  className="form-control" onChange={(e) =>  idEntreprise.current = e.target.value}>
+                                    {renderCompanies()} 
+                                </select>
+                            </div>   
                             
                             <label className="form-label">{props.ActivityField}:</label>
                             <div className="">
-                                <select id="Activite"  className="form-control" onChange={(e) =>  sexe.current = e.target.value}>
+                                <select id="idActivite"  className="form-control" onChange={(e) =>  idActivite.current = e.target.value}>
                                     {renderActivities()} 
                                 </select>
                             </div>   
@@ -252,7 +319,7 @@ export default function ModalEditBusinessCard(props) {
 
                         <Col md={6}>
                         <Card>
-                            <Card.Header><strong>{props.contactInfo}</strong></Card.Header>
+                            <Card.Header><strong>{props.ContactInfo}</strong></Card.Header>
                             <Card.Body>    
                             <Row>
                                     <label className="form-label">{props.GenderField} :</label>

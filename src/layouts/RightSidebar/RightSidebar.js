@@ -14,6 +14,7 @@ import face14 from "../../assets/images/faces/14.jpg";
 import face15 from "../../assets/images/faces/15.jpg";
 import {FindTranslation, getIDFromToken} from  "../../data/customlibs/utils" ;
 import {useNavigate} from "react-router";
+import { useIsRTL } from "react-bootstrap/esm/ThemeProvider";
 
 
 
@@ -27,19 +28,21 @@ export function RightSidebar() {
 
 
     // les titres des champs
-    const sMyProfile = "My Profile";
+    const sPersonalData = "Who am I";
+    const sMyCompany = "My Company";
+    const sMyJob = "My Job";
     const sSignOut = "Sign out";
-    const sAccountSettings = "Account Settings";
-    const sMyMessages = "My Messages";
+    const sManageUsers = "Manage Users";
     const sMyMails = "My Mails";
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
 
     const [rightsidebartoogle, setSidebartoogleright] = useState(true);
-    const [myProfile, setMyProfile] = useState(sMyProfile);
+    const [myCompany, setMyCompany] = useState(sMyCompany);
+    const [myJob, setMyJob] = useState(sMyJob);
     const [signout, setSignOut] = useState(sSignOut);
-    const [settings, setSettings] = useState(sAccountSettings);
-    const [myMessages, setMyMessages] = useState(sMyMessages);
+    const [personalData, setPersonalData] = useState(sPersonalData);
+    const [manageUsers, setManageUsers] = useState(sManageUsers);
     const [myMails, setMyMails] = useState(sMyMails);
 
     const [reloadTraductions, setReloadTraductions] = useState(true) ;
@@ -60,18 +63,18 @@ export function RightSidebar() {
 
     function TranslateAll(data,Page) 
     {
-        let t = FindTranslation(data, Page,  sMyProfile);
+        let t = FindTranslation(data, Page,  sMyCompany);
         if (t !== "Not Found")
-            setMyProfile(t);
+            setMyCompany(t);
         t = FindTranslation(data, Page,  sSignOut);
         if (t !== "Not Found")
             setSignOut(t);
-        t = FindTranslation(data, Page,  sAccountSettings);
+        t = FindTranslation(data, Page,  sPersonalData);
         if (t !== "Not Found")
-            setSettings(t);
-        t = FindTranslation(data, Page,  sMyMessages);
+            setPersonalData(t);
+        t = FindTranslation(data, Page,  sManageUsers);
         if (t !== "Not Found")
-            setMyMessages(t);
+            setManageUsers(t);
         t = FindTranslation(data, Page,  sMyMails);
         if (t !== "Not Found")
             setMyMails(t);
@@ -132,57 +135,61 @@ export function RightSidebar() {
                                     </div>
                                 </div>
                                 <Link
-                                    className="dropdown-item d-flex border-bottom border-top"
-                                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
-                                >
-                                    <div className="d-flex">
-                                        <i className="fe fe-user me-3 tx-20 text-muted"></i>
-                                        <div className="pt-1">
-                                            <h6 className="mb-0">{myProfile}</h6>
-                                            <p className="tx-12 mb-0 text-muted">
-                                                Profile Personal information
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Link>
-                                <Link
-                                    className="dropdown-item d-flex border-bottom"
-                                    to={`${process.env.PUBLIC_URL}/components/defaultChat/`}
-                                >
-                                    <div className="d-flex">
-                                        <i className="fe fe-message-square me-3 tx-20 text-muted"></i>
-                                        <div className="pt-1">
-                                            <h6 className="mb-0">{myMessages}</h6>
-                                            <p className="tx-12 mb-0 text-muted">
-                                                Person message information
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Link>
-                                <Link
-                                    className="dropdown-item d-flex border-bottom"
-                                    to={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
-                                >
-                                    <div className="d-flex">
-                                        <i className="fe fe-mail me-3 tx-20 text-muted"></i>
-                                        <div className="pt-1">
-                                            <h6 className="mb-0">{myMails}</h6>
-                                            <p className="tx-12 mb-0 text-muted">
-                                                Persons mail information
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Link>
-                                <Link
                                     className="dropdown-item d-flex border-bottom"
                                     to={`${process.env.PUBLIC_URL}/pages/editProfile/`}
                                 >
                                     <div className="d-flex">
+                                        <i className="fe fe-user me-3 tx-20 text-muted"></i>
+                                        <div className="pt-1">
+                                            <h6 className="mb-0">{personalData}</h6>
+                                            <p className="tx-12 mb-0 text-muted">
+                                                Personal information
+                                            </p>
+                                        </div>
+                                    </div>
+                                </Link>
+
+                                <Link
+                                    className="dropdown-item d-flex border-bottom border-top"
+                                    to={`${process.env.PUBLIC_URL}/pages/company/`}
+                                >
+                                    <div className="d-flex">
                                         <i className="fe fe-settings me-3 tx-20 text-muted"></i>
                                         <div className="pt-1">
-                                            <h6 className="mb-0">{settings}</h6>
+                                            <h6 className="mb-0">{myCompany}</h6>
                                             <p className="tx-12 mb-0 text-muted">
-                                                Settings Information
+                                                Company information
+                                            </p>
+                                        </div>
+                                    </div>
+                                </Link>
+
+
+                                <Link
+                                    className="dropdown-item d-flex border-bottom border-top"
+                                    to={`${process.env.PUBLIC_URL}/pages/Job/`}
+                                >
+                                    <div className="d-flex">
+                                        <i className="fe fe-settings me-3 tx-20 text-muted"></i>
+                                        <div className="pt-1">
+                                            <h6 className="mb-0">{myJob}</h6>
+                                            <p className="tx-12 mb-0 text-muted">
+                                                Business Role
+                                            </p>
+                                        </div>
+                                    </div>
+                                </Link>
+
+                                <Link
+                                    className="dropdown-item d-flex border-bottom"
+                                    to={`${process.env.PUBLIC_URL}/pages/ManagedUsers/`}
+                                >
+                                    <div className="d-flex">
+                                        <i className="fe fe-user-plus me-3 tx-20 text-muted"></i>
+                                        <div className="pt-1">
+                                            <h6 className="mb-0">{manageUsers}</h6>
+                                            <p className="tx-12 mb-0 text-muted">
+                                                Add a user, define roles
                                             </p>
                                         </div>
                                     </div>

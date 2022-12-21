@@ -38,6 +38,15 @@ function toLog() {
 
 
 
+function getRole(idR) {
+    const Role = ["Standard","Admin","FullAdmin"]
+
+    let idRole = parseInt(idR) ;
+    if (idRole >= 1 && idRole <= 3) 
+        return Role[idRole-1] ;
+    else 
+        return "" ;
+}
 
 
 
@@ -276,7 +285,9 @@ export {
 
     remove_NLastChars,remove_linebreaks,
 
-    getIDFromToken
+    getIDFromToken,
+    getRole
+
 
 
 

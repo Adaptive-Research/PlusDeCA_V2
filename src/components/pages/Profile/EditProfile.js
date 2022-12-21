@@ -7,6 +7,7 @@ import {Col,Row,Card,Form,Button,FormGroup} from "react-bootstrap";
 import  { FindTranslation, getIDFromToken } from  "../../../data/customlibs/utils" ;
 import {getProfile,SaveProfile,SaveLanguage,getAllTranslations} from "../../../data/customlibs/api";
 import ReactFlagsSelect from "react-flags-select";
+import { getSelectUtilityClasses } from "@mui/material";
 
 
 
@@ -26,6 +27,7 @@ export default function EditProfile(props) {
 
 
   const sLanguage = "Language" ;
+  const sTitle = "Who am I" ;
   const sProfile = "Profile" ;
   const sEditProfile = "Edit Profile" ;
   const sAboutMe = "About Me" ;
@@ -41,6 +43,7 @@ export default function EditProfile(props) {
   const navigate = useNavigate() ;
 
   // pour les titres
+  const [title, setTitle] = useState(sTitle) ;
   const [profile, setProfile] = useState(sProfile) ;
   const [editProfile, setEditProfile] = useState(sEditProfile) ;
   const [aboutMe, setAboutMe] = useState(sAboutMe) ;
@@ -79,9 +82,17 @@ export default function EditProfile(props) {
     if (t !== "Not Found")
       setProfile(t) ;
 
+    t = FindTranslation(data,Page, sTitle) ;
+    if (t !== "Not Found")
+      setTitle(t) ;
+
     t = FindTranslation(data,Page, sEditProfile) ;
     if (t !== "Not Found")
       setEditProfile(t) ;
+
+    t = FindTranslation(data,Page, sLanguage) ;
+    if (t !== "Not Found")
+      setLanguage(t) ;      
 
     t = FindTranslation(data,Page, sAboutMe) ;
     if (t !== "Not Found")
@@ -111,7 +122,9 @@ export default function EditProfile(props) {
 
  
   function InitEnglishTraductions() {
+    setTitle(sTitle) ;
     setProfile(sProfile) ;
+    setLanguage(sLanguage) ;
     setEditProfile(sEditProfile) ;
     setAboutMe(sAboutMe) ;
     setContactNumber(sContactNumber) ;
@@ -195,7 +208,7 @@ export default function EditProfile(props) {
       if (emailVisible === true)
         ev = 1 ;
       SaveProfile(storedToken,prenom,nom,email,ev,telephone,tv,bio,bv) ;
-      navigate(`${process.env.PUBLIC_URL}/pages/profile`)
+      navigate(`${process.env.PUBLIC_URL}/pages/editProfile`)
     } catch (e) {
       console.log(e);
     } finally {
@@ -210,6 +223,17 @@ export default function EditProfile(props) {
     setReloadInfos(true) ;
     navigate(-1);
   }
+
+  const handleChangePassword = (event) => {
+    event.preventDefault();
+    console.log("handleChangePassword") ;
+  }
+
+  const handleAddPhoto = (event) => {
+    event.preventDefault();
+    console.log("handleAddPhoto") ;
+  }
+
 
 
   function SelectFlag(code) {
@@ -242,7 +266,15 @@ export default function EditProfile(props) {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">{editProfile}</h1>
+          <h1 className="page-title"> {title} </h1>
+        </div>
+        <div>
+          <Button onClick={handleAddPhoto} variant="primary" style={{marginRight: "15px"}}>
+                Add a photo
+          </Button>
+          <Button onClick={handleChangePassword} variant="primary">
+                  Change Password
+          </Button>
         </div>
       </div>
 

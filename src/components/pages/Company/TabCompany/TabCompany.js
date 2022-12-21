@@ -7,6 +7,7 @@ import {getCompaniesForUser ,getActivitiesForUser} from "../../../../data/custom
 import CardCompany from "./CardCompany" ;
 import ModalEditCompany from "./ModalEditCompany" ;
 import ModalEditActivity from "./ModalEditActivity" ;
+import ModalLinkCompany from "./ModalLinkCompany" ;
 
 
 
@@ -36,6 +37,7 @@ export default function TabCompany(props) {
     // pour l'affichage des fenetres modales
     const [showEditCompany, SetShowEditCompany] = useState(false) ;
     const [showEditActivity, SetShowEditActivity] = useState(false) ;
+    const [showLinkCompany, SetShowLinkCompany] = useState(false) ;
 
 
     // les informations pour le fenetre modale ModalEditEntreprise 
@@ -302,8 +304,19 @@ export default function TabCompany(props) {
 
 
 
+    function ModalLinkCompanyClose()
+    {
+        //console.log("ModalEditActivityClose") ;
+        SetShowLinkCompany(false) ;
+    }
 
 
+    // C'est le handle du bouton Link a company 
+    const LinkCompany = (e) => {
+        e.preventDefault();
+
+        SetShowLinkCompany(true) ;
+    }
 
 
     
@@ -342,7 +355,8 @@ export default function TabCompany(props) {
     function RenderAll() {
         return ( 
             <>
-                <Button variant="primary" onClick={AddCompany} > Add a company</Button>
+                <Button variant="primary" onClick={AddCompany} > Add a company</Button>&nbsp;&nbsp;&nbsp;
+                <Button variant="primary" onClick={LinkCompany} > Link with a company</Button>
                 { RenderCompanies() } 
             </>
             ) ;
@@ -383,6 +397,13 @@ export default function TabCompany(props) {
                 Email = {email}
                 Telephone = {phone}
                 Description = {description}
+                />
+
+                <ModalLinkCompany 
+                Render={compteur}
+                show={showLinkCompany} 
+                SendCloseMessage={ModalLinkCompanyClose}  
+                ForceRender={ForceRenderCompany}
                 />
 
                 {RenderAll()}

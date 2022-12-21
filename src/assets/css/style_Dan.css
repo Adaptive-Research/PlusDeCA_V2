@@ -123,8 +123,15 @@
 }
 
 
+
+
+
 .min-height {
     height:45px ;
+}
+
+.padding-10 {
+    padding: 10px ;
 }
 
 .no-border { border: none !important; }
