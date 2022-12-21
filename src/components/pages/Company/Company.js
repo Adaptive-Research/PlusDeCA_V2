@@ -17,7 +17,7 @@ export default function Company(props) {
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
-    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+    const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
   
 
     
@@ -56,7 +56,7 @@ export default function Company(props) {
 
 
     if (reloadTraductions === true) {
-        TranslateAll(AllTranslations,"Profile") ;
+        TranslateAll(Translations_Text,"Profile") ;
         setReloadTraductions(false) ;
     }
 

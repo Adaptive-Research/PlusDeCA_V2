@@ -14,7 +14,7 @@ export default function InterviewList() {
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
-    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+    const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
     
     //Pour les Tabs
     const sToAnswer = "To Answer";
@@ -107,7 +107,7 @@ export default function InterviewList() {
     
 
     if (reloadTraductions === true) {
-        TranslateAll(AllTranslations,"InterviewList") ;
+        TranslateAll(Translations_Text,"InterviewList") ;
         setReloadTraductions(false) ;
     }
                 

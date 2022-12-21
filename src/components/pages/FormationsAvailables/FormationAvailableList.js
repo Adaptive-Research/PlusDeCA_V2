@@ -19,10 +19,10 @@ export default function FormationAvailableList() {
     const idUser = getIDFromToken(storedToken) ;
     const ValueLangue = localStorage.getItem('ValueLangue') ;
 
-    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+    const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
     console.log('Mes traductions');
-    console.log(AllTranslations);
+    console.log(Translations_Text);
    
 
 
@@ -84,7 +84,7 @@ export default function FormationAvailableList() {
 
  
     if (reloadTraductions === true) {
-        TranslateAll(AllTranslations,"FormationAvailableList") ;
+        TranslateAll(Translations_Text,"FormationAvailableList") ;
         setReloadTraductions(false) ;
     }    
 

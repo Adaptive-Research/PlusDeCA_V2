@@ -27,10 +27,10 @@ export default function ContactList() {
     const [showEditCategoryBusinessCard, setShowEditCategoryBusinessCard] = useState(false);
 
 
-    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+    const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
     console.log('Mes traductions');
-    console.log(AllTranslations);
+    console.log(Translations_Text);
 
     // pour le ForceRender
     const downloaded_BusinessCards = useRef(false) ;
@@ -249,7 +249,7 @@ export default function ContactList() {
     
  
     if (reloadTraductions === true) {
-        TranslateAll(AllTranslations,"ContactList") ;
+        TranslateAll(Translations_Text,"ContactList") ;
         setReloadTraductions(false) ;
     }
       

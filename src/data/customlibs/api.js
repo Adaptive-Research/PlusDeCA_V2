@@ -2165,7 +2165,7 @@ async function UpdateClassementBusinessCardsForNonExistingCategory (tok,ForceRen
  ****************************************************************************************************************************************************/
    
 
-  async function getAllTranslations(VL,ForceRender) 
+  async function getTranslations_Text(VL,ForceRender) 
   {
     const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;  
     const response =  await axios.post(url, {
@@ -2177,7 +2177,7 @@ async function UpdateClassementBusinessCardsForNonExistingCategory (tok,ForceRen
         }
     })
 
-    const variable = "AllTranslations" ;
+    const variable = "Translations_Text" ;
     console.log(response.data) ;
 
     const data =  getDataFromResponse(response) ;
@@ -2325,6 +2325,6 @@ export {
     UpdateClassementBusinessCardsForNonExistingCategory, 
     SaveClassementBusinessCard,
 
-    getAllTranslations,
+    getTranslations_Text,
     getTranslations_SelectBox
 };

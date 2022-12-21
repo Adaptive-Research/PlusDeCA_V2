@@ -15,10 +15,10 @@ export default function ArticleList() {
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
-    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+    const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
     console.log('Mes traductions');
-    console.log(AllTranslations);
+    console.log(Translations_Text);
 
 
     // pour le Rerender
@@ -142,7 +142,7 @@ export default function ArticleList() {
     
 
     if (reloadTraductions === true) {
-        TranslateAll(AllTranslations,"ArticleList") ;
+        TranslateAll(Translations_Text,"ArticleList") ;
         setReloadTraductions(false) ;
     }
                 

@@ -21,10 +21,10 @@ export default function FormationList() {
     const ValueLangue = localStorage.getItem('ValueLangue') ;
 
     
-    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+    const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
     console.log('Mes traductions');
-    console.log(AllTranslations);
+    console.log(Translations_Text);
    
 
 
@@ -186,7 +186,7 @@ export default function FormationList() {
 
  
     if (reloadTraductions === true) {
-        TranslateAll(AllTranslations,"FormationList") ;
+        TranslateAll(Translations_Text,"FormationList") ;
         setReloadTraductions(false) ;
     }
       

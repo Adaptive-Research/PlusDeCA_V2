@@ -7,7 +7,7 @@ import Journal_Img3 from '../../../assets/images/journal/Journal_Img3.jpg';
 import '../../../assets/css/Journal.css';
 import RecentsArticles from './RecentsArticles';
 
-import {getAllTranslations, getTranslations_SelectBox, getLanguage,getActivitiesForUser,getCompaniesForUser} from "../../../data/customlibs/api";
+import {getTranslations_Text, getTranslations_SelectBox, getLanguage,getActivitiesForUser,getCompaniesForUser} from "../../../data/customlibs/api";
 import  { getIDFromToken, FindTranslation } from  "../../../data/customlibs/utils" ;
 
 
@@ -21,8 +21,8 @@ export default function Journal(props) {
 
 
 
-    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
-    //console.log(AllTranslations);
+    const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
+    //console.log(Translations_Text);
 
     const sFeatured = 'Featured';
     const sNetworkNews = 'Network News';
@@ -48,7 +48,7 @@ export default function Journal(props) {
         console.log("LoadTranslations")
         const VL = localStorage.getItem('ValueLangue') ;
         console.log("ValueLangue: " +VL) ;
-        getAllTranslations(VL) ;
+        getTranslations_Text(VL) ;
         getTranslations_SelectBox(VL) ;
     } 
 
@@ -89,7 +89,7 @@ export default function Journal(props) {
     if (reloadTraductions === true) {
         console.log("After reloadTraductions === true") ;
         getLanguage(storedToken,LoadTranslations) ;
-        TranslateAll(AllTranslations,"Journal") ;
+        TranslateAll(Translations_Text,"Journal") ;
         getCompaniesForUser("userEnterprises",storedToken, idUser) ;
         getActivitiesForUser("userActivities", storedToken,idUser) ;
         setReloadTraductions(false) ;

@@ -14,7 +14,7 @@ export function ModalEditEvent(props) {
 
   const storedToken = localStorage.getItem('token') ;
   const idUser = getIDFromToken(storedToken) ;
-  const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+  const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
   //console.log(storedToken) ;
   //console.log(idUser) ;
 
@@ -289,7 +289,7 @@ export function ModalEditEvent(props) {
   
 
   if (reloadTraductions === true) {
-    TranslateAll(AllTranslations,"FullCalendar") ;
+    TranslateAll(Translations_Text,"FullCalendar") ;
     setReloadTraductions(false) ;
   }
 

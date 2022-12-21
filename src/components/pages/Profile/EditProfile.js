@@ -5,7 +5,7 @@ import {useNavigate} from "react-router";
 import {Col,Row,Card,Form,Button,FormGroup} from "react-bootstrap";
 
 import  { FindTranslation, getIDFromToken } from  "../../../data/customlibs/utils" ;
-import {getProfile,SaveProfile,SaveLanguage,getAllTranslations} from "../../../data/customlibs/api";
+import {getProfile,SaveProfile,SaveLanguage,getTranslations_Text} from "../../../data/customlibs/api";
 import ReactFlagsSelect from "react-flags-select";
 import { getSelectUtilityClasses } from "@mui/material";
 
@@ -19,7 +19,7 @@ export default function EditProfile(props) {
 
   const storedToken = localStorage.getItem('token') ;
   const idUser = getIDFromToken(storedToken) ;
-  const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+  const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
   const ValueLangue = localStorage.getItem('ValueLangue') ;
 
   //console.log(storedToken) ;  
@@ -136,7 +136,7 @@ export default function EditProfile(props) {
 
 
   if (reloadTraductions === true) {
-    TranslateAll(AllTranslations,"EditProfile") ;
+    TranslateAll(Translations_Text,"EditProfile") ;
     setReloadTraductions(false) ;
   }
   
@@ -251,7 +251,7 @@ export default function EditProfile(props) {
 
       if (VL !== 'EN')
       {
-        getAllTranslations(process.env.REACT_APP_API_SHOW_TRANSLATION_URL,VL) ;
+        getTranslations_Text(VL) ;
         setReloadTraductions(true) ;
       }
       else {        
