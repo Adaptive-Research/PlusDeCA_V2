@@ -1,8 +1,101 @@
 
 import axios from "axios";
+import  "../../GlobalVariables" ;
+
+
+var CryptoJS = require("crypto-js");
 
 
 
+
+
+
+// Cette fonction sert a psser les parametres quand on utilise fetch plutot que axios
+
+function getParameters(parameters) {
+    var formBody = [];
+    for (var property in parameters) {
+    var encodedKey = encodeURIComponent(property);
+    var encodedValue = encodeURIComponent(parameters[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+    return formBody ;
+}
+
+
+
+
+
+
+
+
+
+
+// Tout le bloc ci-dessous dans le cas ou on utilise  fetch plutot qu'axios
+// Cela sert a extraire les donnees de la reponse
+
+function getDataFromBody(body) {
+    let data = "" ;
+
+    if (typeof(body) === "object")
+    {
+        if (body.constructor === Array)
+            data = body ;
+    }
+    else {
+        let Reponse = String(body) ;
+        var lines = Reponse.split('\n');
+        var LastLine = "" ;
+        for (let i = 0 ; i < lines.length ; i++)
+        {
+            if (lines[i].length > 1 )
+            LastLine = lines[i] ;
+        }
+
+        if (LastLine.indexOf("ERROR") >= 0)
+            data = LastLine ;
+        else
+            data  = JSON.parse(LastLine);
+    }
+    return data ;
+}
+
+
+
+
+function ManageResponse_fetch( variable,  body, ForceRender ) {
+    const data =  getDataFromBody(body) ;
+
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    else
+        localStorage.removeItem(variable);
+    
+   
+    if (ForceRender !== undefined)
+        if (ForceRender !== null)
+            ForceRender(variable) ; 
+
+}
+
+
+
+
+
+
+
+
+// Tout ce bloc sert quand on utilise axios plutot que fetch 
+// Cela sert a extraire les donnees de la reponse
 
 
 function getLastLineFromResponse(response) {
@@ -33,11 +126,6 @@ function getLastLineFromResponse(response) {
 function getDataFromResponse(response) {
     let data = "" ;
 
-    //console.log("response.data") ;
-    //console.log(response.data) ;
-    //console.log(typeof(response.data)) ;
-
-
     if (typeof(response.data) === "object")
     {
         if (response.data.constructor === Array)
@@ -65,6 +153,42 @@ function getDataFromResponse(response) {
 
 
 
+function ManageResponse_select_axios(variable, response , ForceRender) {
+    const data =  getDataFromResponse(response) ;
+        
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) { 
+
+        let res = [];
+
+        data.forEach((element) => {
+            res.push(element);
+        });
+        localStorage.setItem(variable, JSON.stringify(res));
+    }
+    else{
+        localStorage.removeItem(variable);
+    }
+
+    if (ForceRender !== undefined)
+        if (ForceRender !== null)
+            ForceRender(variable) ; 
+}
+
+
+
+function ManageResponse_save_axios(response,ForceRender) {
+    if (window.DEBUG_API)
+        console.log(response.data) ;
+
+    if (response.data.includes("ERROR:")) {
+        console.log(`Error: ${response.data}`);
+    } else {
+        if (ForceRender !== undefined)            
+            if (ForceRender!== null)
+                ForceRender() ;
+    }
+}
 
 
 
@@ -145,8 +269,8 @@ async function requestLogin(mail, pass)  {
         }
     })
 
-    console.log("response.data");
-    console.log(response.data);
+    //console.log("requestLogin: response");
+    //console.log(response.data);
 
     const data =  getLastLineFromResponse(response) ;
 
@@ -175,7 +299,9 @@ async function UpdatePasswordUser(tok, mail, pass) {
         }
     });
 
-    console.log(response.data) ;
+    
+
+    //console.log(response.data) ;
 
     if (response.data.includes("ERROR:")) 
         return [false,response.data] ;
@@ -183,6 +309,29 @@ async function UpdatePasswordUser(tok, mail, pass) {
         console.log("User created");
         return [true,response.data] ;
     }
+}
+
+
+
+function DeleteUser(tok,idUser,ForceRender) {
+    console.log("DeleteUser") ;
+
+    const url = process.env.REACT_APP_API_DELETE_USER_URL;
+    axios.post(
+        url, {
+            token: tok,
+            Submit: 1,
+            debug:1 ,
+            id: idUser
+        }, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        }
+    ).then(
+        (response) => ManageResponse_save_axios(response,ForceRender) 
+    
+    )
 }
 
 
@@ -199,7 +348,9 @@ async function UpdatePasswordUser(tok, mail, pass) {
 
 
  async function getManagedUsers(variable, tok, ForceRender) {
-    console.log("getManagedUsers") ;
+    if (window.DEBUG_getManagedUser) {
+        console.log("getManagedUsers") ;
+    }
 
     const url = process.env.REACT_APP_API_GET_MANAGED_USERS_URL;
     const response = await axios.post(url, {
@@ -212,8 +363,10 @@ async function UpdatePasswordUser(tok, mail, pass) {
         }
     })
 
-    console.log("response.data") ;
-    console.log(response.data) ;
+    if (window.DEBUG_getManagedUser) {
+        console.log("getManagedUsers: reponse") ;
+        console.log(response.data) ;
+    }
 
     const data =  getDataFromResponse(response) ;
     let pos = data.indexOf("ERROR") ;
@@ -231,10 +384,12 @@ async function UpdatePasswordUser(tok, mail, pass) {
 
 
 async function AddManagedUser(tok, mail, pass,idEntreprise,idR) {
-    console.log("AddManagedUtilisateur") ;
-    console.log("idEntreprise: " + idEntreprise) ;
-    console.log("idRole: " + idR) ;
 
+    if (window.DEBUG_AddManagedUser) {
+        console.log("AddManagedUtilisateur") ;
+        console.log("idEntreprise: " + idEntreprise) ;
+        console.log("idRole: " + idR) ;
+    }
 
     const url = process.env.REACT_APP_API_ADD_MANAGED_USER_URL;
     const response = await axios.post(url, {
@@ -251,7 +406,11 @@ async function AddManagedUser(tok, mail, pass,idEntreprise,idR) {
         }
     });
 
-    console.log(response.data) ;
+    if (window.DEBUG_AddManagedUser) {
+        console.log("AddManagedUtilisateur; reponse") 
+        console.log(response.data) ;
+    }
+
 
     if (response.data.includes("ERROR:")) 
         return [false,response.data] ;
@@ -266,28 +425,37 @@ async function AddManagedUser(tok, mail, pass,idEntreprise,idR) {
 
 
 async function UpdateRoleUser(tok, mail, idEntreprise,idR) {
-    console.log("UpdateRoleUser") ;
+    if (window.DEBUG_UpdateRoleUser) {
+        console.log("UpdateRoleUser: (" + mail + "," + idEntreprise + "," + idR + " ) ") ;
+    }
 
-    const url = process.env.REACT_APP_API_UPDATE_ROLE_USER_URL;
-    const response = await axios.post(url, {
+    var rqt =  {
         Submit: 1,
         debug:1,
         token: tok,
-        Email: mail,
         idEntreprise: idEntreprise, 
         idRole: idR
-    }, {
+    } ;
+
+    if (mail !== null)
+        rqt.Email = mail ; 
+
+    const url = process.env.REACT_APP_API_UPDATE_ROLE_USER_URL;
+    const response = await axios.post(url, rqt, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     });
 
-    console.log(response.data) ;
+    if (window.DEBUG_UpdateRoleUser) {
+        console.log("UpdateRoleUser: reponse") ;
+        console.log(response.data) ;
+    }
 
     if (response.data.includes("ERROR:")) 
         return [false,response.data] ;
     else {
-        console.log("User created");
+        console.log("User access rights modified");
         return [true,response.data] ;
     }
 }
@@ -297,28 +465,108 @@ async function UpdateRoleUser(tok, mail, idEntreprise,idR) {
 async function UpdateFonctionUser(tok, mail, idEntreprise,f) {
     console.log("UpdateFonctionUser") ;
 
-    const url = process.env.REACT_APP_API_UPDATE_FONCTION_USER_URL;
-    const response = await axios.post(url, {
+    var rqt =  {
         Submit: 1,
         debug:1,
         token: tok,
-        Email: mail,
         idEntreprise: idEntreprise, 
         Fonction: f
-    }, {
+    } ;
+
+    if (mail !== null)
+        rqt.Email = mail ; 
+
+    const url = process.env.REACT_APP_API_UPDATE_FONCTION_USER_URL;
+    const response = await axios.post(url, rqt , {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     });
 
-    console.log(response.data) ;
+    console.log("UpdateFonctionUser: reponse") ;
+    //console.log(response.data) ;
 
     if (response.data.includes("ERROR:")) 
         return [false,response.data] ;
     else {
-        console.log("User created");
+        console.log("User Job modified");
         return [true,response.data] ;
     }
+}
+
+
+async function UpdateFondateurUser(tok, mail, idEntreprise,f) {
+    console.log("UpdateFonctionUser") ;
+
+    var rqt =  {
+        Submit: 1,
+        debug:1,
+        token: tok,
+        idEntreprise: idEntreprise, 
+        Fondateur: f
+    } ;
+
+    if (mail !== null)
+        rqt.Email = mail ; 
+
+    const url = process.env.REACT_APP_API_UPDATE_FONDATEUR_USER_URL;
+    const response = await axios.post(url,rqt, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    //console.log(response.data) ;
+
+    if (response.data.includes("ERROR:")) 
+        return [false,response.data] ;
+    else {
+        console.log("User Founder modified");
+        return [true,response.data] ;
+    }
+}
+
+
+
+
+
+
+async function getEntrepriseUtilisateur(variable,tok,ForceRender) {
+    console.log("getEntrepriseUtilisateur") ;
+    let chaine = "" ;
+    const url = process.env.REACT_APP_API_UPDATE_GET_COMPANY_ROLE_FOR_USER_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug:1,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }) ;
+
+    const data =  getDataFromResponse(response) ;
+
+    console.log("getEntrepriseUtilisateur: reponse") ;
+    //console.log(response.data) ;
+    let pos = data.indexOf("ERROR") ;
+    if (pos < 0) {
+        const res = [];
+        data.forEach((element) => {
+            res.push(element);
+        });
+        chaine = JSON.stringify(res);
+    }
+       
+    //console.log("chaine:" + chaine) ;
+    var encrypted = CryptoJS.AES.encrypt(chaine, "rtyGH;6435@fzw");
+    localStorage.setItem(variable, encrypted);
+
+    if (ForceRender !== undefined)    
+    if (ForceRender !== null)
+        ForceRender(variable) ;
+
+
 }
 
 
@@ -337,38 +585,34 @@ async function UpdateFonctionUser(tok, mail, idEntreprise,f) {
 
 
 
- function getAllCompanies(variable,ForceRender) {
-    // retrieve all enterprises in server
-    // search and store enterprises created by active user
-    // return them in array
-    const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_URL;
-    axios.get(url).then(
-        (response) => {
-            const data =  getDataFromResponse(response) ;
+ async function searchCompanies(variable,tok, s, ForceRender) {
+    const url = process.env.REACT_APP_API_SEARCH_COMPANIES_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug:1,
+        Searching: s
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }) ;
 
-            let pos = data.indexOf("ERROR") ;
-            if (pos < 0) { 
-                const res = [];
-                data.forEach((element) => {
-                        res.push(element);
-                });
-                localStorage.setItem(variable, JSON.stringify(res));
-            }
-            else 
-                localStorage.removeItem(variable);
-
-            if (ForceRender !== undefined)    
-                if (ForceRender !== null)
-                    ForceRender(variable) ;
-        })
+    ManageResponse_select_axios(variable, response,ForceRender) ;
 }
+
+
+
+
+
+
 
 
 function getCompaniesForUser(variable,tok, UserId,ForceRender) {
     // retrieve all enterprises in server
     // search and store enterprises created by active user
     // return them in array
-    const url = process.env.REACT_APP_API_SHOW_ENTERPRISES_FOR_USER_URL;
+    const url = process.env.REACT_APP_API_SHOW_COMPANIES_FOR_USER_URL;
     axios.post(url, {
         token: tok,
         Submit: 1,
@@ -380,31 +624,16 @@ function getCompaniesForUser(variable,tok, UserId,ForceRender) {
     }).then(
         (response) => {
 
-            const data =  getDataFromResponse(response) ;
+            ManageResponse_select_axios(variable, response,ForceRender) ;
 
-            //console.log(data) ;
-            let pos = data.indexOf("ERROR") ;
-            if (pos < 0) { 
-                let res = [];
-                data.forEach((element) => {
-                    res.push(element);
-                });
-                localStorage.setItem(variable, JSON.stringify(res));
-            }
-            else 
-                localStorage.removeItem(variable);
-            
-            if (ForceRender !== undefined)    
-                if (ForceRender !== null)
-                    ForceRender(variable) ;
         })
 }
 
 
 
-async function SaveCompany (tok,name,webSite,siret,email,phone,SendCloseMessage,ForceRenderCompany) {
+async function SaveCompany (tok,name,webSite,siret,email,phone,ForceRender) {
     console.log("SaveCompany") ;
-    const url = process.env.REACT_APP_API_CREATE_ENTERPRISE_URL;
+    const url = process.env.REACT_APP_API_CREATE_COMPANY_URL;
     const response = await axios.post(url, {
         token: tok,
         Submit: 1,
@@ -419,21 +648,14 @@ async function SaveCompany (tok,name,webSite,siret,email,phone,SendCloseMessage,
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     })
-    console.log(response.data) ;
-    
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error: ${response.data}`);
-    } else {
-        console.log("company added");
-        SendCloseMessage() ;
-        ForceRenderCompany() ;
-    }
-    
+
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
-async function UpdateCompany (tok,idEntreprise, name,webSite,siret,email,phone,SendCloseMessage,ForceRenderCompany) {
+
+async function UpdateCompany (tok,idEntreprise, name,webSite,siret,email,phone,ForceRender) {
     console.log("UpdateCompany") ;
-    const url = process.env.REACT_APP_API_UPDATE_ENTERPRISE_URL;
+    const url = process.env.REACT_APP_API_UPDATE_COMPANY_URL;
     const response = await axios.post(url, {
         token: tok,
         Submit: 1,
@@ -450,20 +672,14 @@ async function UpdateCompany (tok,idEntreprise, name,webSite,siret,email,phone,S
         }
     })
 
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error: ${response.data}`);
-    } else {
-        console.log("company modified");
-        SendCloseMessage() ;
-        ForceRenderCompany() ;
-    }
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
-function DeleteCompany(tok,idEntreprise,ForceRenderCompany) {
+function DeleteCompany(tok,idEntreprise,ForceRender) {
     //console.log("DeleteCompany") ;
 
-    const url = process.env.REACT_APP_API_DELETE_ENTERPRISE_URL;
+    const url = process.env.REACT_APP_API_DELETE_COMPANY_URL;
     axios.post(
         url, {
             token: tok,
@@ -475,12 +691,49 @@ function DeleteCompany(tok,idEntreprise,ForceRenderCompany) {
                 'Content-Type': 'application/x-www-form-urlencoded',
             }
         }
-    ).then(
-        (response) => {
-            ForceRenderCompany() ;
-        }
-    )
+    ).then( (response) => ManageResponse_save_axios(response,ForceRender) )
 }
+
+
+async function LinkCompany (tok,idEntreprise, founder, job,ForceRender) {
+    console.log("LinkCompany") ;
+    const url = process.env.REACT_APP_API_LINK_COMPANY_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug: 1,
+        idEntreprise: idEntreprise ,
+        Fondateur: founder,
+        Fonction: job,
+        idRole: 1,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+
+    ManageResponse_save_axios(response,ForceRender) ;
+}
+
+async function DeleteLinkCompany (tok,idEntreprise,ForceRender) {
+    console.log("DeleteLinkCompany") ;
+    const url = process.env.REACT_APP_API_DELETE_LINK_COMPANY_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        Submit: 1,
+        debug: 1,
+        idEntreprise: idEntreprise 
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+
+    ManageResponse_save_axios(response,ForceRender) ;
+}
+
+
+
 
 
 
@@ -511,25 +764,7 @@ function getActivitiesForUser(variable, Token,UserId, ForceRender) {
         }
     }).then(
         (response) => {
-            const data =  getDataFromResponse(response) ;
-            
-            let pos = data.indexOf("ERROR") ;
-            if (pos < 0) { 
-                let res = [];
-
-                data.forEach((element) => {
-                    res.push(element);
-                });
-                localStorage.setItem(variable, JSON.stringify(res));
-            }
-            else{
-                localStorage.removeItem(variable);
-            }
-            
-            if (ForceRender !== undefined)
-                if (ForceRender !== null)
-                    ForceRender(variable) ;
-
+            ManageResponse_select_axios(variable, response,ForceRender) ;
         })
 }
 
@@ -542,24 +777,11 @@ function getAllActivities(variable,ForceRender) {
     const url = process.env.REACT_APP_API_SHOW_ACTIVITY_URL;
     axios.get(url).then(
         (response) => {
-            const data = response.data;
-          
-            let pos = data.indexOf("ERROR") ;
-            if (pos < 0) { 
-                const res = [];
-                data.forEach((element) => {
-                    res.push(element);
-                });
-                localStorage.setItem(variable, JSON.stringify(res));
-            }
-            else 
-                localStorage.removeItem(variable);
-           
-            ForceRender(variable) ;
+            ManageResponse_select_axios(variable, response,ForceRender) ;
         })
 }
 
-async function SaveActivity(tok,idEntreprise,name,webSite,email,phone,description,SendCloseMessage,ForceRenderActivity) {
+async function SaveActivity(tok,idEntreprise,name,webSite,email,phone,description,ForceRender) {
     console.log("SaveActivity") ;
     const url = process.env.REACT_APP_API_CREATE_ACTIVITY_URL;
 
@@ -579,19 +801,11 @@ async function SaveActivity(tok,idEntreprise,name,webSite,email,phone,descriptio
         }
     })
 
-
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error: ${response.data}`);
-    } else {
-        console.log("Activity added");
-        SendCloseMessage() ;
-        ForceRenderActivity() ;
-    }
-    
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
-async function UpdateActivity(tok,idEntreprise,idActivite, name,webSite,email,phone,description,SendCloseMessage,ForceRenderActivity) {
+async function UpdateActivity(tok,idEntreprise,idActivite, name,webSite,email,phone,description,ForceRender) {
     const url = process.env.REACT_APP_API_UPDATE_ACTIVITY_URL ;
     const response = await axios.post(url, {
         token: tok,
@@ -610,19 +824,12 @@ async function UpdateActivity(tok,idEntreprise,idActivite, name,webSite,email,ph
         }
     })
 
+    ManageResponse_save_axios(response,ForceRender) ;
 
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error: ${response.data}`);
-    } else {
-        console.log("Activity modified");
-        SendCloseMessage() ;
-        ForceRenderActivity() ;
-    }
-    
     
 }
 
-function DeleteActivity(tok,idActivite,ForceRenderActivity) {
+function DeleteActivity(tok,idActivite,ForceRender) {
 
     const url = process.env.REACT_APP_API_DELETE_ACTIVITY_URL;
     axios.post(url, {
@@ -634,8 +841,7 @@ function DeleteActivity(tok,idActivite,ForceRenderActivity) {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     }).then((response) => {
-        console.log(response.data);
-        ForceRenderActivity() ;
+        ManageResponse_save_axios(response,ForceRender) ;
     })
   
 }
@@ -672,35 +878,14 @@ async function getUserArticles(variable,tok,ForceRender) {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     });
-    
-    //let variable = "userArticles" ;
 
-    const data =  getDataFromResponse(response) ;
-        
-    //console.log("test") ;
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-        //console.log("test1") ;
-
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    else{
-        localStorage.removeItem(variable);
-    }
-    //console.log("test2") ;
-
-    ForceRender(variable) ;
+    ManageResponse_select_axios(variable, response,ForceRender) ;
 }
 
 
 
 // Function that sends axios requesst to create a new formation
-async function SaveArticle(tok,title,category,texte,html,photo,ForceRenderArticle) {
+async function SaveArticle(tok,title,category,texte,html,photo,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_ARTICLE_URL;
     console.log("SaveArticle") ;
 
@@ -719,20 +904,13 @@ async function SaveArticle(tok,title,category,texte,html,photo,ForceRenderArticl
         }
     });
 
-    //console.log(response.data)
-
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error found: ${response.data}`);
-    } else {
-        console.log("Article created");
-        ForceRenderArticle() ;
-    }
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 
 // Function that sends axios request to update an formation
-async function UpdateArticle(tok,idAncestor, title,category,texte,html,photo,ForceRenderArticle ){
+async function UpdateArticle(tok,idAncestor, title,category,texte,html,photo,ForceRender ){
 
     const url =  process.env.REACT_APP_API_UPDATE_ARTICLE_URL;
     const response = await axios.post(url, {
@@ -750,21 +928,13 @@ async function UpdateArticle(tok,idAncestor, title,category,texte,html,photo,For
         }
     });
 
-    //console.log(response.data)
-
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error found: ${response.data}`);
-    } else {
-        console.log("Article updated");
-        ForceRenderArticle() ;
-    }
-
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 
 
-function DeleteArticle(tok, id, ForceRenderArticle) {
+function DeleteArticle(tok, id, ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_ARTICLE_URL;
     const url = process.env.REACT_APP_API_DELETE_ARTICLE_URL;
     axios.post(url, {
@@ -778,8 +948,7 @@ function DeleteArticle(tok, id, ForceRenderArticle) {
         }
     }).then(
         (response) => {
-            console.log(response.data);
-            ForceRenderArticle() ;
+            ManageResponse_save_axios(response,ForceRender) ;
         }
     )
 
@@ -790,7 +959,7 @@ function DeleteArticle(tok, id, ForceRenderArticle) {
 
 
 // La fonction qui permet de Valider un Article
-async function ValidateArticle (tok, idArticle, ForceRenderArticle) {
+async function ValidateArticle (tok, idArticle, ForceRender) {
     console.log("ValidateArticle: " + idArticle) ;
   
     const url=process.env.REACT_APP_API_VALIDATE_ARTICLE_URL;
@@ -807,19 +976,12 @@ async function ValidateArticle (tok, idArticle, ForceRenderArticle) {
         }
     });
 
-
-    if (response.data.includes("ERROR:")) 
-        console.log(response.data);
-    else {
-        console.log("Article validated");
-        ForceRenderArticle() ;
-     }
-       
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 // La fonction permettant d'invalider un formation
-async function InvalidateArticle (tok, idArticle, ForceRenderArticle) {
+async function InvalidateArticle (tok, idArticle, ForceRender) {
     console.log("InvalidateArticle: " + idArticle) ;
 
   
@@ -835,18 +997,12 @@ async function InvalidateArticle (tok, idArticle, ForceRenderArticle) {
         }
     });
 
-
-    if (response.data.includes("ERROR:")) 
-        console.log(response.data);
-     else {
-        console.log("Article invalidated");
-        ForceRenderArticle() ;
-     }
+    ManageResponse_save_axios(response,ForceRender) ;
        
 }
 
 
-///Mamao
+
 
 
 
@@ -887,19 +1043,7 @@ async function getUserInterviews(variable,tok,ForceRender) {
         }
     });
 
-
-    const data =  getDataFromResponse(response) ;
-
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    ForceRender(variable) ;
+    ManageResponse_select_axios(variable, response,ForceRender) ;
 }
 
 
@@ -923,20 +1067,8 @@ async function getInterviewQuestions(variable,tok,idInter, ForceRender) {
         }
     });
 
-    //console.log(response.data) ;
+    ManageResponse_select_axios(variable, response,ForceRender) ;
 
-    const data =  getDataFromResponse(response) ;
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    if (ForceRender !== undefined)
-        ForceRender(variable) ;
 }   
 
 
@@ -960,23 +1092,7 @@ async function getInterviewAnswers(variable,tok,idInter, ForceRender) {
         }
     });
 
-    console.log("response.data") ;
-    console.log(response.data) ;
-
-    const data =  getDataFromResponse(response) ;
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        let s = JSON.stringify(res) ;
-        //console.log("s") ;
-        //console.log(s) ;
-        localStorage.setItem(variable,s );
-    }
-    ForceRender(variable) ;
+    ManageResponse_select_axios(variable, response,ForceRender) ;
 }   
 
 
@@ -984,7 +1100,7 @@ async function getInterviewAnswers(variable,tok,idInter, ForceRender) {
 
 
  // Function that sends axios requesst to save an answer for am Interview
-async function SaveAnswer (tok, idInter, idQ, rep ) {
+async function SaveAnswer (tok, idInter, idQ, rep,ForceRender ) {
     console.log("SaveInterview") ;
     
     const url =  process.env.REACT_APP_API_SAVE_ANSWER_URL;
@@ -1001,19 +1117,14 @@ async function SaveAnswer (tok, idInter, idQ, rep ) {
         }
     });
 
-    //console.log(response.data)
-
-    if (response.data.includes("ERROR:")) 
-        console.log(`Error found: ${response.data}`);
-    else 
-        console.log("Answer saved");
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 
 
 // Function that sends axios requesst to save an answer for am Interview
-async function ValidateInterview (tok, idInter,ForceRenderInterview ) {
+async function ValidateInterview (tok, idInter,ForceRender) {
     console.log("ValidateInterview: " + idInter) ;
 
   
@@ -1030,20 +1141,13 @@ async function ValidateInterview (tok, idInter,ForceRenderInterview ) {
         }
     });
 
-
-    if (response.data.includes("ERROR:")) 
-        console.log(response.data);
-     else {
-        console.log("Interview validated");
-        ForceRenderInterview() ;
-
-     }
+    ManageResponse_save_axios(response,ForceRender) ;
        
 }
 
 
 // Function that sends axios requesst to save an answer for am Interview
-async function InvalidateInterview (tok, idInter,ForceRenderInterview ) {
+async function InvalidateInterview (tok, idInter,ForceRender ) {
     console.log("InvalidateInterview: " + idInter) ;
 
   
@@ -1059,13 +1163,7 @@ async function InvalidateInterview (tok, idInter,ForceRenderInterview ) {
         }
     });
 
-
-    if (response.data.includes("ERROR:")) 
-        console.log(response.data);
-     else {
-        console.log("Interview validated");
-        ForceRenderInterview() ;
-     }
+    ManageResponse_save_axios(response,ForceRender) ;
        
 }
 
@@ -1110,7 +1208,7 @@ function getEventsForUser(tok,UseAnswerFromDatabase)
 
 
 
-async function SaveEvent(tok,eventType,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,SendCloseMessage,ForceRender)  {
+async function SaveEvent(tok,eventType,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,ForceRender)  {
     console.log("SaveEvent") ;
     
     const url = process.env.REACT_APP_API_CREATE_EVENT_URL ;
@@ -1131,19 +1229,12 @@ async function SaveEvent(tok,eventType,eventTitle,sAllDay, sStartDate,sEndDate,e
         }
     })
     
+    ManageResponse_save_axios(response,ForceRender) ;
 
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error: ${response.data}`);
-    } else {
-        console.log(response.data) ;
-        console.log("Event added");
-        SendCloseMessage() ;
-        ForceRender() ;
-    }
 }
   
 
-  async function UpdateEvent(tok,idEvent, eventType,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,SendCloseMessage,ForceRender)  {
+  async function UpdateEvent(tok,idEvent, eventType,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,ForceRender)  {
       console.log("UpdateEvent") ;
       const url = process.env.REACT_APP_API_UPDATE_EVENT_URL;
       const response = await axios.post(url, {
@@ -1165,22 +1256,12 @@ async function SaveEvent(tok,eventType,eventTitle,sAllDay, sStartDate,sEndDate,e
           
       })
 
-      if (response.data.includes("ERROR:")) {
-          console.log(`Error: ${response.data}`);
-      } else {
-          console.log(response.data) ;
-          console.log("Event modified");
-          SendCloseMessage() ;
-          ForceRender() ;
-        
-      }
-
-
+      ManageResponse_save_axios(response,ForceRender) ;
 }
     
 
 
-async function DeleteEvent(tok,idEvent,SendCloseMessage,ForceRender ) {
+async function DeleteEvent(tok,idEvent,ForceRender ) {
     console.log("DeleteEvent()") ;
 
     const url = process.env.REACT_APP_API_DELETE_EVENT_URL;
@@ -1195,15 +1276,8 @@ async function DeleteEvent(tok,idEvent,SendCloseMessage,ForceRender ) {
         }
         
     })
+    ManageResponse_save_axios(response,ForceRender) ;
 
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error: ${response.data}`);
-    } else {
-        console.log(response.data) ;
-        console.log("Event deleted");
-        SendCloseMessage() ;
-        ForceRender() ;
-    }
 
 }
 
@@ -1220,7 +1294,7 @@ async function DeleteEvent(tok,idEvent,SendCloseMessage,ForceRender ) {
  ****************************************************************************************************************************************************/
 
 
-async function getProfile(tok,id, ForceRender)
+async function getProfile(variable,tok,id, ForceRender)
   {
     console.log("getProfile: ", id) ;
 
@@ -1234,17 +1308,8 @@ async function getProfile(tok,id, ForceRender)
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     }).then ( response => {
-        console.log("response.data") ;
-        console.log(response.data) ;
-        let pos = response.data.indexOf("ERROR") ;
-        if (pos !== 0)
-        {
-          const profileDetails = response.data[0];
-          localStorage.setItem('profileDetails', JSON.stringify(profileDetails));
-    
-          if (ForceRender !== null)
-            ForceRender(response)  ;
-        }
+        ManageResponse_select_axios(variable,response,ForceRender) ;
+        
     }) ;
   }
 
@@ -1269,7 +1334,7 @@ async function getProfile(tok,id, ForceRender)
       }
     })
 
-    console.log(response.data);
+    //console.log(response.data);
 
     if (response.data.includes("ERROR:")) {
       console.log(`Error found: ${response.data}`);
@@ -1292,7 +1357,7 @@ async function getProfile(tok,id, ForceRender)
 
 
 
-  async function SaveLanguage (tok,vl) {
+  async function SaveLanguage (tok,vl,ForceRender) {
     const url = process.env.REACT_APP_API_UPDATE_LANGUAGE_URL ;
     const response = await axios.post(url, {
       Submit: 1,
@@ -1304,15 +1369,7 @@ async function getProfile(tok,id, ForceRender)
         'Content-Type': 'application/x-www-form-urlencoded',
       }
     })
-
-    console.log(response.data);
-
-    if (response.data.includes("ERROR:")) {
-      console.log(`Error found: ${response.data}`);
-    }
-    else {
-       return response.data ;
-    }
+    ManageResponse_save_axios(response,ForceRender) ;
   }  
 
 
@@ -1322,7 +1379,7 @@ async function getProfile(tok,id, ForceRender)
 
 
 
-function getLanguage(tok,ForceRender) {
+function getLanguage(variable, tok,ForceRender) {
     console.log("getLanguage") ;  
     const url = process.env.REACT_APP_API_SHOW_LANGUAGE_URL ;
     axios.post(url, {
@@ -1346,6 +1403,8 @@ function getLanguage(tok,ForceRender) {
             localStorage.removeItem(variable);
         if (ForceRender !== null)
             ForceRender() ;
+        
+    
       }).catch((err) => console.error(err));
   
 
@@ -1379,36 +1438,15 @@ async function getUserContacts(variable,tok,ForceRender) {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     });
-    
-    //let variable = "userContacts" ;
 
-    const data =  getDataFromResponse(response) ;
+    ManageResponse_select_axios(variable,response,ForceRender) ;
 
-        
-    //console.log("test") ;
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-        //console.log("test1") ;
-
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    else{
-        localStorage.removeItem(variable);
-    }
-    //console.log("test2") ;
-
-    ForceRender(variable) ;
 }
 
 
 
 // Function that sends axios requesst to create a new Contact
-async function SaveContact(tok,title,category,texte,html,photo,ForceRenderContact) {
+async function SaveContact(tok,title,category,texte,html,photo,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_Contact_URL;
     console.log("SaveContact") ;
 
@@ -1427,20 +1465,13 @@ async function SaveContact(tok,title,category,texte,html,photo,ForceRenderContac
         }
     });
 
-    //console.log(response.data)
-
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error found: ${response.data}`);
-    } else {
-        console.log("Contact created");
-        ForceRenderContact() ;
-    }
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 
 // Function that sends axios request to update an Contact
-async function UpdateContact(tok,idAncestor, title,category,texte,html,photo,ForceRenderContact ){
+async function UpdateContact(tok,idAncestor, title,category,texte,html,photo,ForceRender ){
 
     const url =  process.env.REACT_APP_API_UPDATE_CONTACT_URL;
     const response = await axios.post(url, {
@@ -1458,21 +1489,13 @@ async function UpdateContact(tok,idAncestor, title,category,texte,html,photo,For
         }
     });
 
-    //console.log(response.data)
-
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error found: ${response.data}`);
-    } else {
-        console.log("Contact updated");
-        ForceRenderContact() ;
-    }
-
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 
 
-function DeleteContact(tok, id, ForceRenderContact) {
+function DeleteContact(tok, id, ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_Contact_URL;
     const url = process.env.REACT_APP_API_DELETE_CONTACT_URL;
     axios.post(url, {
@@ -1486,8 +1509,7 @@ function DeleteContact(tok, id, ForceRenderContact) {
         }
     }).then(
         (response) => {
-            console.log(response.data);
-            ForceRenderContact() ;
+            ManageResponse_save_axios(response,ForceRender) ;
         }
     )
 
@@ -1517,36 +1539,14 @@ async function getUserBusinessCards(variable,tok,ForceRender) {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     });
-    
-    //let variable = "userBusinessCards" ;
-    //console.log(response.data) ;
 
-    const data =  getDataFromResponse(response) ;
-
-    //console.log("test") ;
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-        //console.log("test1") ;
-
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    else{
-        localStorage.removeItem(variable);
-    }
-    //console.log("test2") ;
-
-    ForceRender(variable) ;
+    ManageResponse_select_axios(variable,response,ForceRender) ;
 }
 
 
 
 // Function that sends axios requesst to create a new BusinessCard
-async function SaveBusinessCard(tok,ide, lr,ent, tele,sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard) {
+async function SaveBusinessCard(tok,ide, lr,ent, tele,sw,sexe,pre,nom,fo,tel,em,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_BusinessCard_URL;
     console.log("SaveBusinessCard") ;
 
@@ -1572,20 +1572,13 @@ async function SaveBusinessCard(tok,ide, lr,ent, tele,sw,sexe,pre,nom,fo,tel,em,
         }
     });
 
-    //console.log(response.data)
-
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error found: ${response.data}`);
-    } else {
-        console.log("BusinessCard created");
-        ForceRenderBusinessCard() ;
-    }
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 
 // Function that sends axios request to update an BusinessCard
-async function UpdateBusinessCard(tok,id,ide, lr,ent, tele, sw,sexe,pre,nom,fo,tel,em,ForceRenderBusinessCard ){
+async function UpdateBusinessCard(tok,id,ide, lr,ent, tele, sw,sexe,pre,nom,fo,tel,em,ForceRender){
 
     const url =  process.env.REACT_APP_API_UPDATE_BUSINESSCARD_URL;
     const response = await axios.post(url, {
@@ -1610,21 +1603,13 @@ async function UpdateBusinessCard(tok,id,ide, lr,ent, tele, sw,sexe,pre,nom,fo,t
         }
     });
 
-    //console.log(response.data)
-
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error found: ${response.data}`);
-    } else {
-        console.log("BusinessCard updated");
-        ForceRenderBusinessCard() ;
-    }
-
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 
 
-function DeleteBusinessCard(tok, id, ForceRenderBusinessCard) {
+function DeleteBusinessCard(tok, id, ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_BusinessCard_URL;
     const url = process.env.REACT_APP_API_DELETE_BUSINESSCARD_URL;
     axios.post(url, {
@@ -1638,8 +1623,7 @@ function DeleteBusinessCard(tok, id, ForceRenderBusinessCard) {
         }
     }).then(
         (response) => {
-            console.log(response.data);
-            ForceRenderBusinessCard() ;
+            ManageResponse_save_axios(response,ForceRender) ;
         }
     )
 
@@ -1670,29 +1654,8 @@ async function getUserFormations(variable,tok,ForceRender) {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     });
-    
-    //let variable = "userFormations" ;
 
-    const data =  getDataFromResponse(response) ;
-        
-    //console.log("test") ;
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-        //console.log("test1") ;
-
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    else{
-        localStorage.removeItem(variable);
-    }
-    //console.log("test2") ;
-
-    ForceRender(variable) ;
+    ManageResponse_select_axios(variable,response,ForceRender) ;
 }
 
 
@@ -1711,26 +1674,7 @@ async function getAvailableFormations(variable,tok,ForceRender) {
         }
     });
     
-    console.log(response.data) ;
-    const data =  getDataFromResponse(response) ;
-
-        
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    else{
-        localStorage.removeItem(variable);
-    }
-
-    if (ForceRender !== null)
-        ForceRender(variable) ;
+    ManageResponse_select_axios(variable,response,ForceRender) ;
 }
 
 
@@ -1748,28 +1692,7 @@ async function getFormationsGroupes(variable,tok,vl, ForceRender) {
         }
     });
     
-    console.log(response.data) ;
-
-
-    const data =  getDataFromResponse(response) ;
-        
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-        //console.log("test1") ;
-
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    else{
-        localStorage.removeItem(variable);
-    }
-    //console.log("test2") ;
-
-    ForceRender(variable) ;
+    ManageResponse_select_axios(variable,response,ForceRender) ;
 }
 
 
@@ -1786,34 +1709,12 @@ async function getFormationsCategories(variable,tok,vl, ForceRender) {
         }
     });
 
-    console.log(response.data) ;
-
-
-    const data =  getDataFromResponse(response) ;
-        
-    //console.log("test") ;
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-        //console.log("test1") ;
-
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    else{
-        localStorage.removeItem(variable);
-    }
-    //console.log("test2") ;
-
-    ForceRender(variable) ;
+    ManageResponse_select_axios(variable,response,ForceRender) ;
 }
 
 
 // Function that sends axios requesst to create a new formation
-async function SaveFormation(tok,title,duree,idgroupe,tarif, idcategorie,texte,html,photo,ForceRenderFormation) {
+async function SaveFormation(tok,title,duree,idgroupe,tarif, idcategorie,texte,html,photo,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_FORMATION_URL;
     console.log("SaveFormation") ;
 
@@ -1836,20 +1737,13 @@ async function SaveFormation(tok,title,duree,idgroupe,tarif, idcategorie,texte,h
         }
     });
 
-    //console.log(response.data)
-
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error found: ${response.data}`);
-    } else {
-        console.log("Formation created");
-        ForceRenderFormation() ;
-    }
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 
 // Function that sends axios request to update  formation
-async function UpdateFormation(tok,idAncestor, title,duree,idgroupe,tarif,idcategorie,texte,html,photo,ForceRenderFormation ){
+async function UpdateFormation(tok,idAncestor, title,duree,idgroupe,tarif,idcategorie,texte,html,photo,ForceRender ){
 
     const url =  process.env.REACT_APP_API_UPDATE_FORMATION_URL;
     const response = await axios.post(url, {
@@ -1871,21 +1765,13 @@ async function UpdateFormation(tok,idAncestor, title,duree,idgroupe,tarif,idcate
         }
     });
 
-    //console.log(response.data)
-
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error found: ${response.data}`);
-    } else {
-        console.log("Formation updated");
-        ForceRenderFormation() ;
-    }
-
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 
 
-function DeleteFormation(tok, id, ForceRenderFormation) {
+function DeleteFormation(tok, id, ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_FORMATION_URL;
     const url = process.env.REACT_APP_API_DELETE_FORMATION_URL;
     axios.post(url, {
@@ -1899,8 +1785,7 @@ function DeleteFormation(tok, id, ForceRenderFormation) {
         }
     }).then(
         (response) => {
-            console.log(response.data);
-            ForceRenderFormation() ;
+            ManageResponse_save_axios(response,ForceRender) ;
         }
     )
 
@@ -1911,7 +1796,7 @@ function DeleteFormation(tok, id, ForceRenderFormation) {
 
 
 // La fonction qui permet de Valider une Formation
-async function ValidateFormation (tok, idFormation, ForceRenderFormation) {
+async function ValidateFormation (tok, idFormation, ForceRender) {
     console.log("ValidateFormation: " + idFormation) ;
   
     const url=process.env.REACT_APP_API_VALIDATE_FORMATION_URL;
@@ -1928,19 +1813,12 @@ async function ValidateFormation (tok, idFormation, ForceRenderFormation) {
         }
     });
 
-
-    if (response.data.includes("ERROR:")) 
-        console.log(response.data);
-    else {
-        console.log("Formation validated");
-        ForceRenderFormation() ;
-     }
-       
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 // La fonction permettant d'invalider une formation
-async function InvalidateFormation (tok, idFormation, ForceRenderFormation) {
+async function InvalidateFormation (tok, idFormation, ForceRender) {
     console.log("InvalidateFormation: " + idFormation) ;
 
   
@@ -1955,15 +1833,7 @@ async function InvalidateFormation (tok, idFormation, ForceRenderFormation) {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     });
-
-
-    if (response.data.includes("ERROR:")) 
-        console.log(response.data);
-     else {
-        console.log("Formation invalidated");
-        ForceRenderFormation() ;
-     }
-       
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
@@ -1990,32 +1860,11 @@ async function getBusinessCardCategories (variable,tok,ForceRender) {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     });
-
-    console.log(response.data) ;
-
-    const data =  getDataFromResponse(response) ;
-        
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    else{
-        localStorage.removeItem(variable);
-    }
-
-    if (ForceRender !== undefined)
-        if (ForceRender !== null)
-            ForceRender(variable) ; 
+    ManageResponse_select_axios(variable,response,ForceRender) ;
 }
 
 //La fonction permettant de Créer les Categories de BusinessCards
-async function SaveBusinessCardCategory (tok,idancestor, categorie,ordre,SendCloseMessage,ForceRenderCategory) {
+async function SaveBusinessCardCategory (tok,idancestor, categorie,ordre,ForceRender) {
     console.log("SaveBusinessCardCategory") ;
     const url = process.env.REACT_APP_API_CREATE_CATEGORIE_BUSINESSCARD_URL;
     const response = await axios.post(url, {
@@ -2030,29 +1879,16 @@ async function SaveBusinessCardCategory (tok,idancestor, categorie,ordre,SendClo
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     })
-    console.log(response.data) ;
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error: ${response.data}`);
-    } else {
-        console.log("Category added");
-        if (SendCloseMessage !== undefined)
-            if (SendCloseMessage !== null)
-                SendCloseMessage();
-        if (ForceRenderCategory !== undefined)            
-            if (ForceRenderCategory !== null)
-                ForceRenderCategory() ;
-    }
-    
+
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
 
 
 
-//La fonction permettant de Modifier les Categories de BusinessCards
-
-
-async function UpdateBusinessCardCategory (tok,idCategorie,categorie,ordre,SendCloseMessage,ForceRenderCategory) {
+// La fonction permettant de Modifier les Categories de BusinessCards
+async function UpdateBusinessCardCategory (tok,idCategorie,categorie,ordre,ForceRender) {
     console.log("UpdateBusinessCardCategory") ;
     const url = process.env.REACT_APP_API_UPDATE_CATEGORIE_BUSINESSCARD_URL;
     const response = await axios.post(url, {
@@ -2067,22 +1903,12 @@ async function UpdateBusinessCardCategory (tok,idCategorie,categorie,ordre,SendC
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     })
-    console.log(response.data) ;
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error: ${response.data}`);
-    } else {
-        console.log("Category Updated");
-        if (SendCloseMessage != null)
-            SendCloseMessage();
-        if (ForceRenderCategory !== null)
-            ForceRenderCategory() ;
-    }
-    
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 //La fonction permettant de Supprimer les Categories de BusinessCards
 
-async function DeleteAllBusinessCardCategories (tok,ForceRenderCategory) {
+async function DeleteAllBusinessCardCategories (tok,ForceRender) {
     const url = process.env.REACT_APP_API_DELETE_CATEGORIE_BUSINESSCARD_URL;
     axios.post(url, {
         Submit: 1,
@@ -2094,14 +1920,10 @@ async function DeleteAllBusinessCardCategories (tok,ForceRenderCategory) {
         }
     }).then(
         (response) => {
-            console.log(response.data);
-            if (ForceRenderCategory !== null)
-                ForceRenderCategory() ;
+            ManageResponse_save_axios(response,ForceRender) ;
         }
     )
 }
-
-
 
 
 
@@ -2120,15 +1942,8 @@ async function SaveClassementBusinessCard (tok,idBusinessCard, idCategorie,Force
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     })
-    console.log(response.data) ;
-    if (response.data.includes("ERROR:")) {
-        console.log(`Error: ${response.data}`);
-    } else {
-        if (ForceRender !== undefined)            
-            if (ForceRender!== null)
-                ForceRender() ;
-    }
-    
+
+    ManageResponse_save_axios(response,ForceRender) ;
 }
 
 
@@ -2144,9 +1959,7 @@ async function UpdateClassementBusinessCardsForNonExistingCategory (tok,ForceRen
         }
     }).then(
         (response) => {
-            console.log(response.data);
-            if (ForceRender !== null)
-                ForceRender() ;
+            ManageResponse_save_axios(response,ForceRender) ;
         }
     )
 }
@@ -2165,81 +1978,82 @@ async function UpdateClassementBusinessCardsForNonExistingCategory (tok,ForceRen
  ****************************************************************************************************************************************************/
    
 
-  async function getTranslations_Text(VL,ForceRender) 
-  {
+
+
+
+
+
+// version fetch
+async function getTranslations_Text(variable,VL,ForceRender) {
+
     const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;  
-    const response =  await axios.post(url, {
+
+    let b = getParameters({
         Submit: 1,
+        //debug:1,
+        ValueLangue: VL
+    }) ;
+
+    //console.log("getTranslations_Text Body") ;
+    //console.log(b) ;
+
+    fetch(url, {
+        method: "post",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded' ,
+        },
+            body: b
+        }).then(response => response.text()) 
+        .then(body => {
+            //console.log(" getTranslations_Text reponse") ;
+            //console.log(body) ;
+            ManageResponse_fetch(variable, body , ForceRender) ;
+        }) ;
+}
+
+
+
+
+/* version axios
+async function  getTranslations_Text (variable,VL,ForceRender) {
+    const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL ;  
+    const response = await axios.post(url, {
+        Submit: 1,
+        debug: 1,
         ValueLangue: VL
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
-    })
+    });
 
-    const variable = "Translations_Text" ;
-    console.log(response.data) ;
-
-    const data =  getDataFromResponse(response) ;
-
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    else{
-        localStorage.removeItem(variable);
-    }
-        
-    if (ForceRender !== undefined)
-        if (ForceRender !== null)
-            ForceRender(variable) ; 
-  }
+    ManageResponse_select_axios(variable, response , ForceRender) ;
+}
+*/
 
 
 
 
-  async function getTranslations_SelectBox(VL,ForceRender) 
-  {
-    console.log("getTranslations_SelectBox") ;  
+
+
+
+async function  getTranslations_SelectBox(variable,VL,ForceRender) {
     const url = process.env.REACT_APP_API_SHOW_SELECTBOX_TRANSLATION_URL ;  
-    const response =  await axios.post(url, {
+    const response = await axios.post(url, {
         Submit: 1,
+        debug: 1,
         ValueLangue: VL
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
-    })
+    });
 
-    const variable = "Translations_SelectBox" ;
-    console.log(response.data) ;
+    ManageResponse_select_axios(variable, response , ForceRender) ;
+}
 
-    const data =  getDataFromResponse(response) ;
 
-    let pos = data.indexOf("ERROR") ;
-    if (pos < 0) { 
-
-        let res = [];
-
-        data.forEach((element) => {
-            res.push(element);
-        });
-        localStorage.setItem(variable, JSON.stringify(res));
-    }
-    else{
-        localStorage.removeItem(variable);
-    }
-        
-    if (ForceRender !== undefined)
-        if (ForceRender !== null)
-            ForceRender(variable) ; 
-  }
 
 
 
@@ -2250,20 +2064,25 @@ export {
     getAllUsersEmail,
     SaveNewUser,
     requestLogin,
+    DeleteUser,
 
     getManagedUsers,
     AddManagedUser,
+    getEntrepriseUtilisateur,
 
     UpdatePasswordUser,
     UpdateFonctionUser,
+    UpdateFondateurUser,
     UpdateRoleUser,
     
     
-    getAllCompanies,
+    searchCompanies,
     getCompaniesForUser,
     SaveCompany,
     UpdateCompany,
     DeleteCompany,
+    LinkCompany,
+    DeleteLinkCompany,
 
     getActivitiesForUser,
     getAllActivities,

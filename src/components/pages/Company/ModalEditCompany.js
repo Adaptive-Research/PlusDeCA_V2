@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import {Button, Col, FormGroup, Row, Modal } from "react-bootstrap";
-import {SaveCompany, UpdateCompany} from "../../../../data/customlibs/api";
+import {SaveCompany, UpdateCompany,UpdateFondateurUser, UpdateFonctionUser} from "../../../data/customlibs/api";
 
 
 
@@ -26,7 +26,7 @@ export default function ModalEditCompany(props) {
 
 
 
-
+    
     const [idEntreprise, SetIdEntreprise] = useState("") ;
     const [siret, setSiret] = useState("");
     const [siretMsg, setSiretMsg] = useState("");
@@ -39,6 +39,10 @@ export default function ModalEditCompany(props) {
     const [phone, setPhone] = useState("");
     const [phoneMsg, setPhoneMsg] = useState("");
     const [responseMsg, setResponseMsg] = useState("Ajouter entreprise");
+
+
+    const Founder = useRef("1") ;
+    const [job, setJob] = useState("") ;
 
 
 
@@ -75,11 +79,38 @@ export default function ModalEditCompany(props) {
 
 
     
-   
+    function renderFounder() {
+        console.log("renderFounder") ;   
+        const ListeReponses = [{"id":"1","reponse":""} , {"id":"2","reponse":"Fondateur"},{"id":"3","reponse":"Co Fondateur"}  ] ;
+        let options =  ListeReponses.map( (Ligne) => 
+                {
+                    if (Ligne.sexe !== null) {
+                        if (Ligne.id !== Founder.current)
+                            return <option value={Ligne.id}> {Ligne.reponse}</option> ;
+                        else 
+                            return <option value={Ligne.id} selected> {Ligne.reponse}</option> ;
+                    }
+                })
+
+                console.log("options") ;
+                console.log(options) ;
+                return options ;
+    }
 
 
 
-    
+    function ForceRender(idEntreprise) {
+        console.log("Founder: " + Founder.current) ;
+        UpdateFondateurUser(storedToken,null,idEntreprise,Founder.current) ;
+        UpdateFonctionUser(storedToken,null,idEntreprise,job) ;
+        if (props.SendCloseMessage !== undefined)
+            if (props.SendCloseMessage !== null)
+                props.SendCloseMessage() ;
+
+        if (props.ForceRender !== undefined)
+            props.ForceRender() ;
+
+    }
 
 
 
@@ -107,9 +138,9 @@ export default function ModalEditCompany(props) {
         if (nameCheck && siretCheck) 
         {
             if (props.Mode === "Add")
-                SaveCompany(storedToken,name,webSite,siret,email,phone,props.SendCloseMessage, props.ForceRender) ;
+                SaveCompany(storedToken,name,webSite,siret,email,phone,ForceRender) ;
             else
-                UpdateCompany(storedToken,idEntreprise, name,webSite,siret,email,phone, props.SendCloseMessage, props.ForceRender) ;
+                UpdateCompany(storedToken,idEntreprise, name,webSite,siret,email,phone, ForceRender) ;
         }
     }
 
@@ -221,6 +252,34 @@ export default function ModalEditCompany(props) {
                         </Col>
 
 
+                    </Row>
+
+                    <Row className="add-space">
+                        <Col lg={12} md={12}>
+                            <FormGroup>
+                                <label htmlFor="email">Fondateur ?</label>
+                                <div className="">
+                                        <select id="Fondateur"  className="form-control" onChange={(e) =>  Founder.current = e.target.value}>
+                                            {renderFounder()} 
+                                        </select>
+                                    </div>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+
+                    <Row className="add-space">
+                        <Col lg={12} md={12}>
+                            <FormGroup>
+                                <label htmlFor="email">Fonction</label>
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    value={job}
+                                    placeholder="Fonction"
+                                    onChange={(e) => setJob(e.target.value)}
+                                />
+                            </FormGroup>
+                        </Col>
                     </Row>
 
 

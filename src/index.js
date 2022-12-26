@@ -33,7 +33,7 @@ const InterviewQuestions = React.lazy(() => import("./components/pages/Interview
 
 
 //pages
-const Company = React.lazy(() => import("./components/pages/Company/Company"));
+const CompanyList = React.lazy(() => import("./components/pages/Company/CompanyList"));
 
 const EditProfile = React.lazy(() => import("./components/pages/Profile/EditProfile"));
 const ManagedUsersList = React.lazy(() => import("./components/pages/ManagedUsers/ManagedUsersList"));
@@ -118,7 +118,7 @@ const Root = () => {
 
                             <Route
                                 path={`${process.env.PUBLIC_URL}/pages/company`}
-                                element={<Company/>}
+                                element={<CompanyList/>}
                             />
 
                             <Route

@@ -1,4 +1,4 @@
-import React , { useState } from "react";
+import React , { useState, useRef,useCallback } from "react";
 //import * as formelement from "../../../data/Form/formelement/formelement";
 //import * as editprofile from "../../../data/Pages/editprofile/editprofile";
 import {useNavigate} from "react-router";
@@ -7,21 +7,21 @@ import {Col,Row,Card,Form,Button,FormGroup} from "react-bootstrap";
 import  { FindTranslation, getIDFromToken } from  "../../../data/customlibs/utils" ;
 import {getProfile,SaveProfile,SaveLanguage,getTranslations_Text} from "../../../data/customlibs/api";
 import ReactFlagsSelect from "react-flags-select";
-import { getSelectUtilityClasses } from "@mui/material";
-
-
-
 
 
 
 
 export default function EditProfile(props) {
 
+  
+  const compteur  = useRef(0) ;
+  compteur.current = compteur.current+1 ;
+  console.log("\n\nEditProfile:" + compteur.current) ;
+
   const storedToken = localStorage.getItem('token') ;
   const idUser = getIDFromToken(storedToken) ;
-  const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
-  const ValueLangue = localStorage.getItem('ValueLangue') ;
-
+  const Profile =  localStorage.getItem('Profile') ;
+  
   //console.log(storedToken) ;  
   //console.log(idUser) ;
 
@@ -43,16 +43,21 @@ export default function EditProfile(props) {
   const navigate = useNavigate() ;
 
   // pour les titres
-  const [title, setTitle] = useState(sTitle) ;
-  const [profile, setProfile] = useState(sProfile) ;
-  const [editProfile, setEditProfile] = useState(sEditProfile) ;
-  const [aboutMe, setAboutMe] = useState(sAboutMe) ;
-  const [contactNumber, setContactNumber] = useState(sContactNumber) ;
-  const [emailAddress, setEmailAddress] = useState(sEmailAddress) ;
-  const [firstName, setFirstName] = useState(sFirstName) ;
-  const [lastName, setLastName] = useState(sLastName) ;
-  const [visibility, setVisibility] = useState(sVisibility) ;
-  const [language, setLanguage] = useState(sLanguage) ;
+  const title = useRef(sTitle) ;
+  const profile = useRef(sProfile) ;
+  const editProfile = useRef(sEditProfile) ;
+  const aboutMe = useRef(sAboutMe) ;
+  const contactNumber = useRef(sContactNumber) ;
+  const emailAddress = useRef(sEmailAddress) ;
+  const firstName = useRef(sFirstName) ;
+  const lastName = useRef(sLastName) ;
+  const visibility = useRef(sVisibility) ;
+  const language = useRef(sLanguage) ;
+
+  const Translations_Text = useRef(null) ;
+  const ValueLangue = useRef("") ;
+
+  
 
   // pour le contenu des champs
   const [prenom, setPrenom] = useState("") ;
@@ -67,8 +72,9 @@ export default function EditProfile(props) {
 
 
   // pour le reload des infos
-  const [reloadInfos, setReloadInfos] = useState(true) ;
-  const [reloadTraductions, setReloadTraductions] = useState(true) ;
+  const reloadInfos = useRef(true) ;
+
+
 
 
 
@@ -76,115 +82,121 @@ export default function EditProfile(props) {
 
 
   function TranslateAll(data,Page){
-    console.log(data) ;
-
-    let t = FindTranslation(data,Page, sProfile) ;
-    if (t !== "Not Found")
-      setProfile(t) ;
+    console.log("EditProfile TranslateAll") ;
+    let t ;
+    //console.log(data) ;
 
     t = FindTranslation(data,Page, sTitle) ;
     if (t !== "Not Found")
-      setTitle(t) ;
+      title.current = t ;
+
+    t = FindTranslation(data,Page, sProfile) ;
+    if (t !== "Not Found")
+      profile.current = t ;
+  
 
     t = FindTranslation(data,Page, sEditProfile) ;
     if (t !== "Not Found")
-      setEditProfile(t) ;
+      editProfile.current = t ;
 
     t = FindTranslation(data,Page, sLanguage) ;
     if (t !== "Not Found")
-      setLanguage(t) ;      
+      language.current = t ;      
 
     t = FindTranslation(data,Page, sAboutMe) ;
     if (t !== "Not Found")
-      setAboutMe(t) ;
+      aboutMe.current = t ;
 
     t = FindTranslation(data,Page, sContactNumber) ;
     if (t !== "Not Found")
-      setContactNumber(t) ;
+      contactNumber.current = t ;
 
     t = FindTranslation(data,Page, sEmailAddress) ;
     if (t !== "Not Found")
-      setEmailAddress(t) ;
+      emailAddress.current = t ;
 
     t = FindTranslation(data,Page, sFirstName) ;
     if (t !== "Not Found")
-      setFirstName(t) ;
+      firstName.current = t ;
 
     t = FindTranslation(data,Page, sLastName) ;
     if (t !== "Not Found")
-      setLastName(t) ;
+      lastName.current = t ;
 
     t = FindTranslation(data,Page, sVisibility) ;
     if (t !== "Not Found")
-      setVisibility(t) ;
+      visibility.current = t ;
   }
 
 
  
   function InitEnglishTraductions() {
-    setTitle(sTitle) ;
-    setProfile(sProfile) ;
-    setLanguage(sLanguage) ;
-    setEditProfile(sEditProfile) ;
-    setAboutMe(sAboutMe) ;
-    setContactNumber(sContactNumber) ;
-    setEmailAddress(sEmailAddress) ;
-    setFirstName(sFirstName) ;
-    setLastName(sLastName) ;
-    setVisibility(sVisibility) ;
+    console.log("InitEnglishTraductions: " + compteur.current) ;
+   
+    title.current = sTitle ;
+    profile.current = sProfile ;
+    language.current =sLanguage ;
+    editProfile.current = sEditProfile ;
+    aboutMe.current = sAboutMe ;
+    contactNumber.current = sContactNumber ;
+    emailAddress.current = sEmailAddress ;
+    firstName.current = sFirstName ;
+    lastName.current = sLastName ;
+    visibility.current = sVisibility ;
   }
 
 
-  if (reloadTraductions === true) {
-    TranslateAll(Translations_Text,"EditProfile") ;
-    setReloadTraductions(false) ;
-  }
-  
-
-
-
-
-  function RenderAfterLoad(response){
-    console.log("response.data") ;
-    console.log(response.data) ;
-    let pos = response.data.indexOf("ERROR") ;
-    if (pos !== 0)
-    {
-      setPrenom(response.data[0].Prenom) ;
-      setNom(response.data[0].Nom) ;
-      setEmail(response.data[0].Email) ;
-      setTelephone(response.data[0].Telephone) ;
-      setBio(response.data[0].Bio) ;
-
-      setBioVisible(false) ;
-      if (response.data[0].BioVisible === "1")
-        setBioVisible(true) ;
-
-      setTelephoneVisible(false) ;
-      if (response.data[0].TelephoneVisible === "1")
-        setTelephoneVisible(true) ;
-
-      setEmailVisible(false) ;
-      if (response.data[0].EmailVisible === "1")
-        setEmailVisible(true) ;
-    }
+  function LoadTranslations() {
+    InitEnglishTraductions() ;
+    Translations_Text.current = JSON.parse(localStorage.getItem('Translations_Text')) ;
+    TranslateAll(Translations_Text.current,"EditProfile") ;
   }
 
   
+
+
+
+
+  function InitInfosFromProfile(){
+    setPrenom(Profile.Prenom) ;
+    setNom(Profile.Nom) ;
+    setEmail(Profile.Email) ;
+    setTelephone(Profile.Telephone) ;
+    setBio(Profile.Bio) ;
+
+    setBioVisible(false) ;
+    if (Profile.BioVisible === "1")
+      setBioVisible(true) ;
+
+    setTelephoneVisible(false) ;
+    if (Profile.TelephoneVisible === "1")
+      setTelephoneVisible(true) ;
+
+    setEmailVisible(false) ;
+    if (Profile.EmailVisible === "1")
+      setEmailVisible(true) ;
+  }
+
+  
+
  
-  if (reloadInfos === true) {
-    getProfile(storedToken,idUser,RenderAfterLoad) ;
+  if (reloadInfos.current === true) {
+    console.log("reloadInfos.current === true") ;
+    reloadInfos.current = false ;
 
-    
-    if (ValueLangue === 'EN') 
+
+
+    ValueLangue.current = localStorage.getItem('ValueLangue') ;
+  
+    if (ValueLangue.current === 'EN') 
       setSelectedFlag('GB') ;
     else
-      setSelectedFlag(ValueLangue) ;
-
+      setSelectedFlag(ValueLangue.current) ;
     
-    
+    InitInfosFromProfile()
 
-    setReloadInfos(false) ;
+
+    LoadTranslations() ;  
   }
 
 
@@ -220,7 +232,7 @@ export default function EditProfile(props) {
   const handleCancel = (event) => {
     event.preventDefault();
     console.log("Cancel") ;
-    setReloadInfos(true) ;
+    reloadInfos.current= true ;
     navigate(-1);
   }
 
@@ -248,200 +260,210 @@ export default function EditProfile(props) {
 
       SaveLanguage(storedToken,VL) ;
       localStorage.setItem('ValueLangue', VL);
+      ValueLangue.current = VL ;
 
-      if (VL !== 'EN')
-      {
-        getTranslations_Text(VL) ;
-        setReloadTraductions(true) ;
-      }
-      else {        
-        InitEnglishTraductions() ;
-      }
+      console.log("SelectFlag: ValueLangue " + ValueLangue.current) ;
 
   }
 
 
-
-  return (
-    <div>
-      <div className="page-header">
-        <div>
-          <h1 className="page-title"> {title} </h1>
-        </div>
-        <div>
-          <Button onClick={handleAddPhoto} variant="primary" style={{marginRight: "15px"}}>
-                Add a photo
-          </Button>
-          <Button onClick={handleChangePassword} variant="primary">
-                  Change Password
-          </Button>
-        </div>
-      </div>
-
-      <Row>
-
-        <Col lg={12} xl={8} md={12} sm={12}>
-          <Card>
-            <Card.Header>
-              <Card.Title as="h3">{profile}</Card.Title>
-            </Card.Header>
-            <Card.Body>
-              <Row>
-                <Col lg={6} md={12}>
-                  <FormGroup>
-                    <label htmlFor="exampleInputname">{firstName}</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      value={prenom}
-                      onChange={(e) =>  setPrenom(e.target.value) }
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg={6} md={12}>
-                  <FormGroup>
-                    <label htmlFor="exampleInputname1">{lastName}</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      value={nom}
-                      onChange={(e) =>  setNom(e.target.value) }
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <FormGroup className="mt-2">
-                <label htmlFor="exampleInputEmail1">{emailAddress}</label>
-                <input
-                  className="form-control"
-                  type="email"
-                  value={email}
-                  onChange={(e) =>  setEmail(e.target.value) }
-                />
-              </FormGroup>
-
-              <FormGroup className="mt-2">
-                <label htmlFor="exampleInputnumber">{contactNumber}</label>
-                 <input
-                  className="form-control"
-                  type="text"
-                  value={telephone}
-                  onChange={(e) =>  setTelephone(e.target.value)  }
-                />
-              </FormGroup>
+  
 
 
-              <FormGroup>
-                <Form.Label className="form-label">{aboutMe}</Form.Label>
-                <textarea
-                  className="form-control"
-                  rows="6"
-                  value={bio}
-                  onChange={(e) =>  setBio(e.target.value) }
-                ></textarea>
-              </FormGroup>
-
-
-            </Card.Body>
-
-            <Card.Footer className="text-end">
-            <Button onClick={handleCancel} variant="secondary" style={{marginRight: "15px"}}>
-                Cancel
+  function Render() {
+    console.log("Render: " + compteur.current) ;
+    console.log("\n\n") ;
+    return (
+      <>
+        <div className="page-header">
+          <div>
+            <h1 className="page-title"> {title.current} </h1>
+          </div>
+          <div>
+            <Button onClick={handleAddPhoto} variant="primary" style={{marginRight: "15px"}}>
+                  Add a photo
             </Button>
-            <Button onClick={handleSubmit} variant="primary">
-                    Save
+            <Button onClick={handleChangePassword} variant="primary">
+                    Change Password
             </Button>
-            </Card.Footer>
-          </Card>
-        </Col>
+          </div>
+        </div>
 
+        
+        <Row>
+          <Col lg={12} xl={8} md={12} sm={12}>
 
-
-        <Col lg={12} xl={4} md={12} sm={12}>
-
-
-          <Card className="profile-edit">
-            <Card.Header>
-              <Card.Title>{visibility}</Card.Title>
-            </Card.Header>
-            <Card.Body>
-
-              <div className="form-group mg-b-10">
-                <label className="custom-switch ps-0">
+        
+            <Card>
+              <Card.Header>
+                <Card.Title as="h3">{profile.current}</Card.Title>
+              </Card.Header>
+              <Card.Body>
+                <Row>
+                  <Col lg={6} md={12}>
+                    <FormGroup>
+                      <label htmlFor="exampleInputname">{firstName.current}</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        value={prenom}
+                        onChange={(e) =>  setPrenom(e.target.value) }
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col lg={6} md={12}>
+                    <FormGroup>
+                      <label htmlFor="exampleInputname1">{lastName.current}</label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        value={nom}
+                        onChange={(e) =>  setNom(e.target.value) }
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <FormGroup className="mt-2">
+                  <label htmlFor="exampleInputEmail1">{emailAddress.current}</label>
                   <input
-                    type="checkbox"
-                    name="EmailVisible"
-                    className="custom-switch-input"
-                    checked={emailVisible}
-                    onChange={(e) => setEmailVisible(!emailVisible)}
+                    className="form-control"
+                    type="email"
+                    value={email}
+                    onChange={(e) =>  setEmail(e.target.value) }
                   />
-                  <span className="custom-switch-indicator"></span>
-                  <span className="custom-switch-description mg-l-10">
-                  {emailAddress}
-                  </span>
-                </label>
-              </div>
+                </FormGroup>
 
-              <div className="form-group mg-b-10">
-                <label className="custom-switch ps-0">
+                <FormGroup className="mt-2">
+                  <label htmlFor="exampleInputnumber">{contactNumber.current}</label>
                   <input
-                    type="checkbox"
-                    name="TelephoneVisible"
-                    className="custom-switch-input"
-                    checked={telephoneVisible}
-                    onChange={(e) => setTelephoneVisible(!telephoneVisible)}
+                    className="form-control"
+                    type="text"
+                    value={telephone}
+                    onChange={(e) =>  setTelephone(e.target.value)  }
                   />
-                  <span className="custom-switch-indicator"></span>
-                  <span className="custom-switch-description mg-l-10">
-                  {contactNumber}
-                  </span>
-                </label>
-              </div>
-
-              <div className="form-group mg-b-10">
-                <label className="custom-switch ps-0">
-                  <input
-                    type="checkbox"
-                    name="BioVisible"
-                    className="custom-switch-input"
-                    checked={bioVisible}
-                    onChange={(e) => setBioVisible(!bioVisible)}
-                  />
-                  <span className="custom-switch-indicator"></span>
-                  <span className="custom-switch-description mg-l-10">
-                  {aboutMe}
-                  </span>
-                </label>
-              </div>
-
-             
-             
-            </Card.Body>
-
-          </Card>
-
-          <Card className="profile-edit">
-            <Card.Header>
-              <Card.Title>{language}</Card.Title>
-            </Card.Header>
-            <Card.Body>
-              <ReactFlagsSelect
-                countries={["FR", "GB",  "DE", "ES","IT"]}
-                customLabels={{ FR: "FR", GB: "EN",  DE: "DE", ES:"ES", IT: "IT" }}
-                placeholder="Select Language"
-                selected={selectedFlag}
-                onSelect={(code) => SelectFlag(code)}
-              />
-
-            </Card.Body>
-
-          </Card>
+                </FormGroup>
 
 
-        </Col>
+                <FormGroup>
+                  <Form.Label className="form-label">{aboutMe.current}</Form.Label>
+                  <textarea
+                    className="form-control"
+                    rows="6"
+                    value={bio}
+                    onChange={(e) =>  setBio(e.target.value) }
+                  ></textarea>
+                </FormGroup>
 
-      </Row>
 
-    </div>
-  );
+              </Card.Body>
+
+              <Card.Footer className="text-end">
+              <Button onClick={handleCancel} variant="secondary" style={{marginRight: "15px"}}>
+                  Cancel
+              </Button>
+              <Button onClick={handleSubmit} variant="primary">
+                      Save
+              </Button>
+              </Card.Footer>
+            </Card>
+          </Col>
+    
+
+
+          <Col lg={12} xl={4} md={12} sm={12}>
+
+
+            <Card className="profile-edit">
+              <Card.Header>
+                <Card.Title>{visibility.current}</Card.Title>
+              </Card.Header>
+              <Card.Body>
+
+                
+
+                <div className="form-group mg-b-10">
+                  <label className="custom-switch ps-0">
+                    <input
+                      type="checkbox"
+                      name="EmailVisible"
+                      className="custom-switch-input"
+                      checked={emailVisible}
+                      onChange={(e) => setEmailVisible(!emailVisible)}
+                    />
+                    <span className="custom-switch-indicator"></span>
+                    <span className="custom-switch-description mg-l-10">
+                    {emailAddress.current}
+                    </span>
+                  </label>
+                </div>
+
+                <div className="form-group mg-b-10">
+                  <label className="custom-switch ps-0">
+                    <input
+                      type="checkbox"
+                      name="TelephoneVisible"
+                      className="custom-switch-input"
+                      checked={telephoneVisible}
+                      onChange={(e) => setTelephoneVisible(!telephoneVisible)}
+                    />
+                    <span className="custom-switch-indicator"></span>
+                    <span className="custom-switch-description mg-l-10">
+                    {contactNumber.current}
+                    </span>
+                  </label>
+                </div>
+
+                <div className="form-group mg-b-10">
+                  <label className="custom-switch ps-0">
+                    <input
+                      type="checkbox"
+                      name="BioVisible"
+                      className="custom-switch-input"
+                      checked={bioVisible}
+                      onChange={(e) => setBioVisible(!bioVisible)}
+                    />
+                    <span className="custom-switch-indicator"></span>
+                    <span className="custom-switch-description mg-l-10">
+                    {aboutMe.current}
+                    </span>
+                  </label>
+                </div>
+                
+              
+              
+              </Card.Body>
+
+            </Card>
+            
+
+            <Card className="profile-edit">
+              <Card.Header>
+                <Card.Title>{language.current}</Card.Title>
+              </Card.Header>
+              <Card.Body>
+                <ReactFlagsSelect
+                  countries={["FR", "GB",  "DE", "ES","IT"]}
+                  customLabels={{ FR: "FR", GB: "EN",  DE: "DE", ES:"ES", IT: "IT" }}
+                  placeholder="Select Language"
+                  selected={selectedFlag}
+                  onSelect={(code) => SelectFlag(code)}
+                />
+
+              </Card.Body>
+
+            </Card>
+
+
+          </Col>
+
+        </Row>
+    
+
+      </>
+    );
+  }
+
+
+
+  return Render() ;
 }

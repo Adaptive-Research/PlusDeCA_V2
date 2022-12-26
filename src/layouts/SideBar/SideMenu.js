@@ -1,4 +1,9 @@
-export const MENUITEMS = [
+
+
+import  { FindTranslation } from  "../../data/customlibs/utils" ;
+
+
+const menus = [
     {
         menutitle: "JOURNAL",
         Items: [
@@ -7,34 +12,34 @@ export const MENUITEMS = [
                 icon: "list",
                 type: "link",
                 active: false,
-                title: "A la une",
+                title: "Front page",
             }
         ],
     },
 
     {
-        menutitle: "TROUVER DES CLIENTS",
+        menutitle: "FIND CUSTOMERS",
         Items: [
             {
                 path: `${process.env.PUBLIC_URL}/components/FullCalendar`,
                 icon: "calendar",
                 type: "link",
                 active: false,
-                title: "Mon planning",
+                title: "Calendar",
             },
             {
                 path: `${process.env.PUBLIC_URL}/Contacts`,
                 icon: "user-plus",
                 type: "link",
                 active: false,
-                title: "Mes contacts",
+                title: "Business Cards",
             },
             {
                 path: `${process.env.PUBLIC_URL}/Prospection`,
                 icon: "phone",
                 type: "link",
                 active: false,
-                title: "La prospection",
+                title: "Business development",
             },
 
            
@@ -43,7 +48,7 @@ export const MENUITEMS = [
                 icon: "star",
                 type: "link",
                 active: false,
-                title: "Bilan",
+                title: "Results analysis",
             },
 
 
@@ -53,63 +58,63 @@ export const MENUITEMS = [
 
 
     {
-        menutitle: "MES ACTIONS",
+        menutitle: "TASKS",
         Items: [
             {
                 path: `${process.env.PUBLIC_URL}/MesArticles`,
                 icon: "file-text",
                 type: "link",
                 active: false,
-                title: "Ecrire un article",
+                title: "Write an article",
             },
             {
                 path: `${process.env.PUBLIC_URL}/MesInterviews`,
                 icon: "mic",
                 type: "link",
                 active: false,
-                title: "Répondre à une interview",
+                title: "Respond to an interview",
             },
             {
                 path: `${process.env.PUBLIC_URL}/Planifier`,
                 icon: "users",
                 type: "link",
                 active: false,
-                title: "Planifier une réunion",
+                title: "Book a meeting",
             },
             {
                 path: `${process.env.PUBLIC_URL}/MesFormations`,
                 icon: "share-2",
                 type: "link",
                 active: false,
-                title: "Proposer une formation",
+                title: "Offer training",
             },
             
         ],
     },
 
     {
-        menutitle: "MES SERVICES",
+        menutitle: "SERVICES",
         Items: [
             {
                 path: `${process.env.PUBLIC_URL}/Achats`,
                 icon: "command",
                 type: "link",
                 active: false,
-                title: "Les achats groupés",
+                title: "Group Purchasing",
             },
             {
                 path: `${process.env.PUBLIC_URL}/Formations`,
                 icon: "help-circle",
                 type: "link",
                 active: false,
-                title: "Les formations disponibles",
+                title: "List of available trainings",
             },
             {
                 path: `${process.env.PUBLIC_URL}/Services`,
                 icon: "layers",
                 type: "link",
                 active: false,
-                title: "Les services disponibles",
+                title: "List of available services",
             },
         ],
     },
@@ -182,3 +187,43 @@ export const MENUITEMS = [
 
 
 ];
+
+
+
+
+
+function TranslateMenus(data,m,VL) {
+    const arr = JSON.parse(JSON.stringify(m));
+    let i, j, obj, obj2, t ;
+    const Page = 'SideMenus' ;
+
+    for (i = 0 ; i < arr.length ; i++) {
+
+        obj = arr[i] ;
+
+       t = FindTranslation(data,Page, obj.menutitle) ;
+        if (t !== "Not Found")
+          obj.menutitle = t ;
+        
+        for (j = 0 ; j < obj.Items.length ; j++) {
+
+            obj2 = obj.Items[j] ;
+            t = FindTranslation(data,Page, obj2.title) ;
+            if (t !== "Not Found")
+              obj2.title = t ;
+        }
+    } 
+
+    return arr ;
+}
+
+
+console.log("SideMenu") ;
+const VL = localStorage.getItem('ValueLangue') ;
+console.log("SideMenu ValueLangue: " + VL) ;
+const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
+
+console.log("SideMenu Translations_Text") ;
+console.log(Translations_Text) ;
+
+export const MENUITEMS = TranslateMenus(Translations_Text,menus,VL) ;

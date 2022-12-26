@@ -1,9 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState,useRef} from "react";
 import {Link} from "react-router-dom";
 import {Card} from "react-bootstrap";
 import {checkDuplicate, checkEmail,remove_linebreaks} from "../../../data/customlibs/utils";
 import {getAllUsersEmail,requestLogin} from "../../../data/customlibs/api";
 import {encrypt} from "../../../data/customlibs/hasher.js";
+
+
+
+import {getTranslations_Text, getTranslations_SelectBox,getLanguage,getActivitiesForUser,getCompaniesForUser,getEntrepriseUtilisateur,getProfile} from "../../../data/customlibs/api";
+import  {getIDFromToken} from  "../../../data/customlibs/utils" ;
+import {searchCompanies} from "../../../data/customlibs/api";
+
 
 
 
@@ -16,6 +23,16 @@ export default function Login() {
     const [passwordMsg, setPasswordMsg] = useState("");
 
 
+
+    const downloaded_Translations_Text = useRef(false) ;
+    const downloaded_Translations_SelectBox = useRef(false) ;
+    const downloaded_EntrepriseUtilisateur = useRef(false) ;
+    const downloaded_userCompanies = useRef(false) ;
+    const downloaded_userActivities = useRef(false) ;
+    const downloaded_CompanyList = useRef(false) ;
+    const downloaded_Profile = useRef(false) ;
+
+
     const [reloadLogin, setReloadLogin] = useState(true);
 
 
@@ -26,6 +43,17 @@ export default function Login() {
         localStorage.removeItem("userMail");
         localStorage.removeItem("logged");
         localStorage.removeItem("lastLogin");
+        localStorage.removeItem("ValueLangue") ;
+        localStorage.removeItem("Translations_Text") ;
+        localStorage.removeItem("Translations_SelectBox") ;
+        localStorage.removeItem("EntrepriseUtilisateur");
+        localStorage.removeItem("userCompanies");
+        localStorage.removeItem("userActivities");
+        localStorage.removeItem("CompanyList");
+        localStorage.removeItem("Profile");
+
+
+
         getAllUsersEmail();
         setReloadLogin(false);
     }
@@ -75,6 +103,51 @@ export default function Login() {
         }
 
 
+        function RenderAfterLoad(variable) {
+            if (variable === "Translations_Text")
+                downloaded_Translations_Text.current = true ;
+
+            if (variable === "Translations_SelectBox")
+                downloaded_Translations_SelectBox.current = true ;    
+            
+            if (variable === 'EntrepriseUtilisateur')
+                downloaded_EntrepriseUtilisateur.current = true ;    
+
+            if (variable === 'userCompanies')
+                downloaded_userCompanies.current = true ;                    
+
+            if (variable === 'userActivities')
+                downloaded_userActivities.current = true ;    
+
+            if (variable === 'CompanyList')
+                downloaded_CompanyList.current = true ;    
+
+            if (variable === 'Profile')
+                downloaded_Profile.current = true ;                    
+
+
+            if (downloaded_Translations_Text.current && downloaded_Translations_SelectBox.current && downloaded_EntrepriseUtilisateur.current &&
+                downloaded_userCompanies.current && downloaded_userActivities.current && downloaded_CompanyList.current && downloaded_Profile.current)
+            {
+                // window.location.href comme la fonction navigate utilisent le server side routing 
+                let url = `${process.env.PUBLIC_URL}/Journal/Page1` ;
+                window.location.href= url ;
+            }
+        }
+
+
+        function LoadTranslations(variable) {
+            console.log("Login LoadTranslations")
+            
+            const VL = localStorage.getItem('ValueLangue') ;
+            console.log("ValueLangue: " +VL) ;
+
+            getTranslations_Text("Translations_Text",VL,RenderAfterLoad) ;
+            getTranslations_SelectBox("Translations_SelectBox",VL,RenderAfterLoad) ;
+
+          
+        } 
+
 
         if (emailCheck && passwordCheck) {
             if (checkEmail(email) )
@@ -83,33 +156,31 @@ export default function Login() {
                 res = values[0];
                 temp = values[1];
 
-                //console.log("res") ;
-                //console.log(res) ;
-               
                 if (res === false) {
                     console.log("res===false") ;
-                    localStorage.setItem('logged', JSON.stringify(false));
                 }
                 else {
                     console.log("User logged");
         
-                    temp = remove_linebreaks(temp); // le token contient des retours chariots, on doit les eliminer
+                    storedToken  = remove_linebreaks(temp); // le token contient des retours chariots, on doit les eliminer
     
                     const now = new Date();
     
-                    localStorage.setItem('token', temp);
+                    localStorage.setItem('token', storedToken);
                     localStorage.setItem('userMail', email);
-                    localStorage.setItem('logged', JSON.stringify(true));
                     localStorage.setItem('lastLogin', now.toString());
                     
+                    let storedToken = temp ;
+                    const idUser = getIDFromToken(storedToken) ;
 
+                    getLanguage( "ValueLangue",storedToken,LoadTranslations) ;  // C'est pour charger la langue et les traductions
 
-
+                    getProfile("Profile",storedToken,idUser,RenderAfterLoad) ;                      // Ce sont les infos personnelles
+                    getEntrepriseUtilisateur('EntrepriseUtilisateur',storedToken,RenderAfterLoad) ; // Ce sont les droits d'acces et les infos de l'utilisateur pour les enteprises avec lesquelles il a un lien 
+                    getCompaniesForUser("userCompanies",storedToken, idUser,RenderAfterLoad) ;      // Ce sont toutes les boites auxquelles est associe l'utilisateur
+                    getActivitiesForUser("userActivities", storedToken,idUser,RenderAfterLoad) ;    // Ce sont toutes les activites des boites de l'utilisateur
+                    searchCompanies("CompanyList",storedToken,"",RenderAfterLoad) ;                 // C'est pour la selectbox de la fenetre linking avec une boite 
                   
-                   // window.location.href comme la fonction navigate utilisent le server side routing 
-                   let url = `${process.env.PUBLIC_URL}/Journal/Page1` ;
-                   //navigate(url) ;
-                   window.location.href= url ;
                 }
             }
         }

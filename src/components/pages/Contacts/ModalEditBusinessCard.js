@@ -70,7 +70,7 @@ export default function ModalEditBusinessCard(props) {
 
           
             if (props.idEntreprise === "0"){
-                const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
+                const myCompanies = JSON.parse(localStorage.getItem("userCompanies"));
                 if (myCompanies !== null)
                     idEntreprise.current = myCompanies[0].idEntreprise ;
             }
@@ -106,7 +106,7 @@ export default function ModalEditBusinessCard(props) {
         function renderCompanies() {
             console.log("renderCompanies") ;   
             
-            const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
+            const myCompanies = JSON.parse(localStorage.getItem("userCompanies"));
             console.log("myCompanies") ;
             console.log(myCompanies) ;
     

@@ -1,7 +1,7 @@
 import React, {useState,useRef} from "react";
 import {  Row, Button, Modal} from "react-bootstrap";
 import '../../../assets/css/ModalEditCategoryBusinessCard.css';
-import { DeleteAllBusinessCardCategories, SaveBusinessCardCategory,UpdateClassementBusinessCardsForNonExistingCategory } from "../../../data/customlibs/api";
+import { DeleteAllBusinessCardCategories, SaveBusinessCardCategory } from "../../../data/customlibs/api";
 import { UpInArray, DownInArray, DeleteFromArray } from "../../../data/customlibs/utils";
 import '../../../assets/css/GlobalInputbackground.css';
 
@@ -46,7 +46,7 @@ export default function ModalEditCategoryBusinessCard(props) {
                     if(Ligne.Categorie !== '') {
                         console.log("Ligne") ;
                         console.log(Ligne) ;
-                        SaveBusinessCardCategory(storedToken, Ligne.idAncestor, Ligne.Categorie, CompteurSave.current,null,RenderAfterSave);
+                        SaveBusinessCardCategory(storedToken, Ligne.idAncestor, Ligne.Categorie, CompteurSave.current,RenderAfterSave);
                     }
                     CompteurSave.current = CompteurSave.current+1 ;
                 })

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import  { FindTranslation, getIDFromToken  } from "../../../data/customlibs/utils" ;
+import  { FindTranslation, getIDFromToken, FindTranslation_SelectBox, FindValueForSelectBox } from "../../../data/customlibs/utils" ;
 import {DeleteEvent,SaveEvent,UpdateEvent} from "../../../data/customlibs/api";
 import {FormGroup,Modal, Button} from "react-bootstrap";
 //import { DayTimeColsView } from "@fullcalendar/timegrid";
@@ -15,6 +15,7 @@ export function ModalEditEvent(props) {
   const storedToken = localStorage.getItem('token') ;
   const idUser = getIDFromToken(storedToken) ;
   const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
+  const Translations_SelectBox = JSON.parse(localStorage.getItem('Translations_SelectBox')) ;
   //console.log(storedToken) ;
   //console.log(idUser) ;
 
@@ -337,6 +338,14 @@ export function ModalEditEvent(props) {
 
     
     
+  function ForceRender() {
+    if (props.SendCloseMessage !== undefined)
+      props.SendCloseMessage() ;
+    if (props.ForceRender !== undefined)
+      props.ForceRender() ;
+  }
+
+  
 
 
 
@@ -367,9 +376,9 @@ export function ModalEditEvent(props) {
         sAllDay = "1"
 
       if (props.Mode === "Add")
-        SaveEvent(storedToken,eventType.current,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,props.SendCloseMessage,props.ForceRender) ;
+        SaveEvent(storedToken,eventType.current,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,ForceRender) ;
       else
-        UpdateEvent(storedToken,props.ID,eventType.current,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,props.SendCloseMessage,props.ForceRender) ;
+        UpdateEvent(storedToken,props.ID,eventType.current,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,ForceRender) ;
     }
 
   }
@@ -388,23 +397,24 @@ export function ModalEditEvent(props) {
 
 
   function handleCancel() {
-      if (props.SendCloseMessage !== null)
+      if (props.SendCloseMessage !== undefined)
           props.SendCloseMessage() ;
   }
 
-
-
-  
-  
-
   
   function RemoveEvent(){
-    DeleteEvent(storedToken,props.ID,props.SendCloseMessage,props.ForceRender) ;
+    DeleteEvent(storedToken,props.ID,ForceRender) ;
   }
 
 
 
+  function renderOptions() {
+    var arr = FindTranslation_SelectBox(Translations_SelectBox,"TypeReunion") ;
 
+    return arr.map((Ligne) => {
+      return <option value={Ligne.OptionValue}> {Ligne.OptionText}</option> ;
+  })
+  }
 
 
 
@@ -427,12 +437,7 @@ export function ModalEditEvent(props) {
               <FormGroup>
                 <label>Type</label>
                 <select id="TypeReunion"  className="form-control"  onChange={(e) =>  eventType.current = e.target.value}>
-                  <option value="1">Réunion d'entrepreneurs</option>
-                  <option value="2">Salon</option>
-                  <option value="3">Rendez-vous client</option>
-                  <option value="4">Webinaire</option>
-                  <option value="5">Séance de Téléprospection</option>
-                  <option value="6">Autre</option>
+                  {renderOptions()}
                 </select>
 
 

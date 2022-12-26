@@ -2,13 +2,13 @@ import React, { useState, useRef } from "react";
 
 import {Card, Col, Row} from "react-bootstrap";
 
-import {FindTranslation,getIDFromToken} from  "../../../data/customlibs/utils";
+import {FindTranslation,getIDFromToken,IsAdmin} from  "../../../data/customlibs/utils";
 import {getManagedUsers, getCompaniesForUser} from "../../../data/customlibs/api";
 import CardCompany from "./CardCompany" ;
 import ModalEditUser from "./ModalEditUser" ;
 
 
-
+var CryptoJS = require("crypto-js");
 
 
 export default function ManagedUsersList(props) {
@@ -20,7 +20,7 @@ export default function ManagedUsersList(props) {
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
-
+   
    
     
 
@@ -43,6 +43,8 @@ export default function ManagedUsersList(props) {
     const downloaded_ManagedUsers = useRef(false) ;
     const downloaded_Companies = useRef(false) ;
 
+    const EntrepriseUtilisateur = useRef([]) ;
+
 
 
 
@@ -54,7 +56,7 @@ export default function ManagedUsersList(props) {
                 downloaded_ManagedUsers.current = true ;
 
 
-        if (variable === "userEnterprises")
+        if (variable === "userCompanies")
             downloaded_Companies.current = true ;    
         
         if (downloaded_ManagedUsers.current === true)
@@ -66,11 +68,10 @@ export default function ManagedUsersList(props) {
     }
 
 
- 
     // on charge les entreprises pour l'utilisateur si elles n'ont pas ete chargees dans une autre page
-    const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
+    const myCompanies = JSON.parse(localStorage.getItem("userCompanies"));
     if (myCompanies === null)
-        getCompaniesForUser("userEnterprises",storedToken, idUser,RenderAfterLoad) ;
+        getCompaniesForUser("userCompanies",storedToken, idUser,RenderAfterLoad) ;
     else 
         downloaded_Companies.current = true ;    
 
@@ -82,9 +83,12 @@ export default function ManagedUsersList(props) {
         getManagedUsers("ManagedUsers",storedToken, RenderAfterLoad) ;
     else 
         downloaded_ManagedUsers.current = true ;    
- 
+    
+    
+    
 
 
+   
 
 
 
@@ -109,6 +113,21 @@ export default function ManagedUsersList(props) {
         const VL = "FR";
 
         TranslateAll(url, Page, VL);
+
+
+
+        // pour charger les droits utilisateurs sur les entreprises     
+        let chaine = localStorage.getItem('EntrepriseUtilisateur') ;
+        console.log("chaine: "+chaine) ;
+        if ( chaine !== null) {
+            var bytes = CryptoJS.AES.decrypt( chaine, "rtyGH;6435@fzw");
+            EntrepriseUtilisateur.current = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+            console.log("EntrepriseUtilisateur") ;
+            console.log(EntrepriseUtilisateur.current) ;
+        }
+
+
+
         setReloadInfos(false) ;
     }
 
@@ -145,7 +164,8 @@ export default function ManagedUsersList(props) {
 
 
     function ForceRender() {
-        setCompteur(compteur+1) ; 
+        downloaded_ManagedUsers.current = false ;
+        getManagedUsers("ManagedUsers",storedToken, RenderAfterLoad) ;
     }
 
 
@@ -153,12 +173,16 @@ export default function ManagedUsersList(props) {
     function RenderCompanies() {
         if (myCompanies !== null ) 
         {
-            return myCompanies.map( (Ligne) => <CardCompany 
-                                                        key={Ligne.idEntreprise} 
-                                                        Ligne={Ligne} 
-                                                        SendData = {SendData}
-                                                        ForceRender = {ForceRender}
-                                                        />  );
+            return myCompanies.map( (Ligne) => {
+                
+                if (IsAdmin(EntrepriseUtilisateur.current,Ligne.idEntreprise))
+                    return  (   <CardCompany 
+                                    key={Ligne.idEntreprise} 
+                                    Ligne={Ligne} 
+                                    SendData = {SendData}
+                                    ForceRender = {ForceRender}
+                                /> ) ;
+            } );
         }
 
     }
@@ -207,4 +231,5 @@ export default function ManagedUsersList(props) {
 
     return Render() ;
 }
+
 

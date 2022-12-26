@@ -1,4 +1,4 @@
-import React , { useState } from "react";
+import React , { useState, useRef } from "react";
 import  Journal_NavBar  from './Journal_NavBar';
 import Logo from '../../../assets/images/brand/logo-2.png';
 import Journal_Img1 from '../../../assets/images/journal/Journal_Img1.jpg';
@@ -7,9 +7,9 @@ import Journal_Img3 from '../../../assets/images/journal/Journal_Img3.jpg';
 import '../../../assets/css/Journal.css';
 import RecentsArticles from './RecentsArticles';
 
-import {getTranslations_Text, getTranslations_SelectBox, getLanguage,getActivitiesForUser,getCompaniesForUser} from "../../../data/customlibs/api";
+import {getTranslations_Text, getTranslations_SelectBox, getLanguage,getActivitiesForUser,getCompaniesForUser,getEntrepriseUtilisateur} from "../../../data/customlibs/api";
 import  { getIDFromToken, FindTranslation } from  "../../../data/customlibs/utils" ;
-
+import {searchCompanies, getDataFromResponse} from "../../../data/customlibs/api";
 
 
 
@@ -17,11 +17,11 @@ export default function Journal(props) {
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
 
-    const [reloadTraductions, setReloadTraductions] = useState(true) ;
-
-
+    const reloadTraductions = useRef(true) ;
 
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
+   
+
     //console.log(Translations_Text);
 
     const sFeatured = 'Featured';
@@ -39,23 +39,9 @@ export default function Journal(props) {
     const [entrepreneursInLight,setEntrepreneursInLight] = useState(sEntrepreneurInLight);
 
 
-
-
-
-
-
-    function LoadTranslations() {
-        console.log("LoadTranslations")
-        const VL = localStorage.getItem('ValueLangue') ;
-        console.log("ValueLangue: " +VL) ;
-        getTranslations_Text(VL) ;
-        getTranslations_SelectBox(VL) ;
-    } 
-
-
     
     function TranslateAll(data,Page){
-        console.log("Translations Journal");
+        console.log("Journal TranslateAll");
         console.log(data) ;
     
         let t = FindTranslation(data,Page, sFeatured) ;
@@ -83,20 +69,12 @@ export default function Journal(props) {
           setEntrepreneursInLight(t) ;
     }
 
-
-
-
-    if (reloadTraductions === true) {
-        console.log("After reloadTraductions === true") ;
-        getLanguage(storedToken,LoadTranslations) ;
+    if (reloadTraductions.current === true) {
+        reloadTraductions.current = false ;
         TranslateAll(Translations_Text,"Journal") ;
-        getCompaniesForUser("userEnterprises",storedToken, idUser) ;
-        getActivitiesForUser("userActivities", storedToken,idUser) ;
-        setReloadTraductions(false) ;
     }
 
 
-    
     return (
         <div>
             <Journal_NavBar
@@ -181,4 +159,14 @@ export default function Journal(props) {
     
         </div>
     )
+    
+
+
+
+    
+
+
+    
+   
+
 }

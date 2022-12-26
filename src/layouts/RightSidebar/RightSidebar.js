@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState,useRef} from "react";
 import {Link} from "react-router-dom";
 import {Tab, Tabs} from "react-bootstrap";
 import face6 from "../../assets/images/faces/6.jpg";
@@ -12,16 +12,20 @@ import face2 from "../../assets/images/faces/2.jpg";
 import face13 from "../../assets/images/faces/13.jpg";
 import face14 from "../../assets/images/faces/14.jpg";
 import face15 from "../../assets/images/faces/15.jpg";
-import {FindTranslation, getIDFromToken} from  "../../data/customlibs/utils" ;
-import {useNavigate} from "react-router";
-import { useIsRTL } from "react-bootstrap/esm/ThemeProvider";
+
+
+import {FindTranslation, getIDFromToken, IsAdminOnce} from  "../../data/customlibs/utils" ;
+
+
+var CryptoJS = require("crypto-js");
 
 
 
 export function RightSidebar() {
+    console.log("RightSidebar") ;
     const storedToken = localStorage.getItem('token');
     const idUser = getIDFromToken(storedToken);
-    const AllTranslations = JSON.parse(localStorage.getItem('AllTranslations')) ;
+    const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
     //console.log(storedToken) ;
     //console.log(idUser) ;
@@ -64,6 +68,9 @@ export function RightSidebar() {
     const [settingTab, setSettingTab] = useState(sSetting);
     const [reloadTraductions, setReloadTraductions] = useState(true) ;
 
+    // pour les droits utilisateurs 
+    const EntrepriseUtilisateur = useRef([]) ;
+
 
     function Outhover(toggle) {
         setSidebartoogleright(!toggle);
@@ -72,10 +79,23 @@ export function RightSidebar() {
 
     let userMail = localStorage.getItem("userMail") ;
 
+
+  
+
+    // pour charger les droits utilisateurs sur les entreprises quand la fenetre est visible   
+    
+    let chaine = localStorage.getItem('EntrepriseUtilisateur') ;
+    if ( chaine !== null) {
+        var bytes = CryptoJS.AES.decrypt( chaine, "rtyGH;6435@fzw");
+        var sVal = bytes.toString(CryptoJS.enc.Utf8) ;
+        if (sVal != "") 
+            EntrepriseUtilisateur.current = JSON.parse(sVal);
+        console.log("EntrepriseUtilisateur") ;
+        console.log(EntrepriseUtilisateur) ;
+    }
     
 
 
-   
 
 
     function TranslateAll(data,Page) 
@@ -127,12 +147,38 @@ export function RightSidebar() {
             setSettingTab(t);
     }
     
+
+
+
     if (reloadTraductions === true) {
-        TranslateAll(AllTranslations,"RightSidebar") ;
+        TranslateAll(Translations_Text,"RightSidebar") ;
+
         setReloadTraductions(false) ;
     }
 
 
+
+
+    function renderManagedUsers() {
+        console.log("RightSideBar: renderManagedUsers") ;
+        console.log(EntrepriseUtilisateur) ;
+
+        if ( IsAdminOnce(EntrepriseUtilisateur.current) )
+            return  <Link
+                        className="dropdown-item d-flex border-bottom"
+                        to={`${process.env.PUBLIC_URL}/pages/ManagedUsers/`}
+                    >
+                        <div className="d-flex">
+                            <i className="fe fe-user-plus me-3 tx-20 text-muted"></i>
+                            <div className="pt-1">
+                                <h6 className="mb-0">{manageUsers}</h6>
+                                <p className="tx-12 mb-0 text-muted">
+                                    {addUser}, {defineRoles}
+                                </p>
+                            </div>
+                        </div>
+                    </Link>
+    }
 
 
 
@@ -212,35 +258,9 @@ export function RightSidebar() {
                                 </Link>
 
 
-                                <Link
-                                    className="dropdown-item d-flex border-bottom border-top"
-                                    to={`${process.env.PUBLIC_URL}/pages/Job/`}
-                                >
-                                    <div className="d-flex">
-                                        <i className="fe fe-settings me-3 tx-20 text-muted"></i>
-                                        <div className="pt-1">
-                                            <h6 className="mb-0">{myJob}</h6>
-                                            <p className="tx-12 mb-0 text-muted">
-                                                {businessRole}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Link>
+                                { renderManagedUsers() }
+                                
 
-                                <Link
-                                    className="dropdown-item d-flex border-bottom"
-                                    to={`${process.env.PUBLIC_URL}/pages/ManagedUsers/`}
-                                >
-                                    <div className="d-flex">
-                                        <i className="fe fe-user-plus me-3 tx-20 text-muted"></i>
-                                        <div className="pt-1">
-                                            <h6 className="mb-0">{manageUsers}</h6>
-                                            <p className="tx-12 mb-0 text-muted">
-                                                {addUser}, {defineRoles}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Link>
                                 <Link
                                     className="dropdown-item d-flex border-bottom"
                                     onClick={() => {

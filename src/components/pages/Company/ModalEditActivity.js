@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button, Col, FormGroup, Row, Modal } from "react-bootstrap";
-import {SaveActivity,UpdateActivity} from "../../../../data/customlibs/api";
+import {SaveActivity,UpdateActivity} from "../../../data/customlibs/api";
 
 
 
@@ -74,13 +74,14 @@ export default function ModalEditActivity(props) {
 
     
 
-
-
-
-
-
     
-
+    function ForceRender() {
+        if (props.SendCloseMessage !== undefined)
+          props.SendCloseMessage() ;
+        if (props.ForceRenderActivity !== undefined)
+          props.ForceRenderActivity() ;
+      }
+    
 
 
 
@@ -100,9 +101,9 @@ export default function ModalEditActivity(props) {
         if (nameCheck) {
             let des = description.replace("'","''") ;
             if (props.Mode === "Add") 
-                SaveActivity(storedToken,idEntreprise, name,webSite,email,phone,des,props.SendCloseMessage,props.ForceRenderActivity) ;
+                SaveActivity(storedToken,idEntreprise, name,webSite,email,phone,des,ForceRender) ;
             else 
-                UpdateActivity(storedToken,idEntreprise,idActivite, name,webSite,email,phone,des,props.SendCloseMessage,props.ForceRenderActivity) ;
+                UpdateActivity(storedToken,idEntreprise,idActivite, name,webSite,email,phone,des,ForceRender) ;
         }
         
     

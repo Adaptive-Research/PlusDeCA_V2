@@ -1,8 +1,9 @@
-
+import React, { useState,useRef} from "react";
 import {Table} from "react-bootstrap";
-import {DeleteActivity} from "../../../../data/customlibs/api";
+import {DeleteActivity} from "../../../data/customlibs/api";
+import {IsFullAdmin} from "../../../data/customlibs/utils";
 
-
+var CryptoJS = require("crypto-js");
 
 
 
@@ -15,9 +16,36 @@ export default function CardActivity(props) {
     const storedToken = localStorage.getItem('token') ;
     //console.log(storedToken) ;  
 
+    // pour le reload des infos
+    const [reloadInfos, setReloadInfos] = useState(true) ;
+
+    // pour les droits utilisateurs 
+    const EntrepriseUtilisateur = useRef([]) ;
+ 
+
+     
+
+
     let SendActivityData = props.SendActivityData ;
 
     
+    if (reloadInfos === true)
+    {
+
+        // pour charger les droits utilisateurs sur les entreprises     
+        let chaine = localStorage.getItem('EntrepriseUtilisateur') ;
+        console.log("chaine: "+chaine) ;
+        if ( chaine !== null) {
+            var bytes = CryptoJS.AES.decrypt( chaine, "rtyGH;6435@fzw");
+            EntrepriseUtilisateur.current = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+            console.log("EntrepriseUtilisateur") ;
+            console.log(EntrepriseUtilisateur.current) ;
+        }
+
+        setReloadInfos(false) ;
+    }
+
+
 
 
     function EditActivite(token) {
@@ -27,7 +55,25 @@ export default function CardActivity(props) {
     }
 
 
+    function renderButtons() {
+        if (IsFullAdmin(EntrepriseUtilisateur.current,Ligne.idEntreprise))
+            return ( 
+                <>
+                    <button type="btn" className="btn btn-danger mt-1 float-end"
+                            onClick={() => DeleteActivity(storedToken,Ligne.idActivite,props.ForceRenderActivity)}>
+                            <i className="fe fe-trash"></i> 
+                    </button>
 
+                    <button type="btn" className="btn btn-success  mt-1 float-end"
+                            onClick={() => { EditActivite(storedToken) }} >
+                            
+                        <i className="fe fe-edit"></i> 
+                    </button>
+                </> ) ;
+        else 
+            return <></> ;
+
+    }
 
     
 
@@ -41,17 +87,8 @@ export default function CardActivity(props) {
                     <h5>  <strong>{Ligne.Activite_Nom} </strong> </h5>
                 </button>
 
-
-                <button type="btn" className="btn btn-danger mt-1 float-end"
-                        onClick={() => DeleteActivity(storedToken,Ligne.idActivite,props.ForceRenderActivity)}>
-                        <i className="fe fe-trash"></i> 
-                </button>
-
-                <button type="btn" className="btn btn-success  mt-1 float-end"
-                        onClick={() => { EditActivite(storedToken) }} >
-                        
-                    <i className="fe fe-edit"></i> 
-                </button>
+                {renderButtons()}
+                
 
             </div>
 

@@ -38,15 +38,6 @@ function toLog() {
 
 
 
-function getRole(idR) {
-    const Role = ["Standard","Admin","FullAdmin"]
-
-    let idRole = parseInt(idR) ;
-    if (idRole >= 1 && idRole <= 3) 
-        return Role[idRole-1] ;
-    else 
-        return "" ;
-}
 
 
 
@@ -236,7 +227,25 @@ function DeleteFromArray(Liste,get,value) {
 }
 
 
+function FindTranslation_SelectBox(data,idSelect) {
+    var arr = []
+    for(var x in data)
+    {
+      if (data[x].SelectId === idSelect)
+        arr.push(data[x])
+    }
+    return arr ;
+}
 
+
+function FindValueForSelectBox(data,OptionValue) {
+    for(var x in data)
+    {
+      if (data[x].OptionValue === OptionValue)
+        return data[x].OptionText
+    }
+    return "" ;
+}
 
 
 
@@ -265,10 +274,115 @@ function remove_linebreaks( str ) {
 }
 
 function getIDFromToken(t){
-  let pos = t.indexOf(';') ;
-  if (pos === -1)
+    if (t !== null) {
+        let pos = t.indexOf(';') ;
+        if (pos === -1)
+            return null ;
+        return t.substring(0,pos) ;
+
+    } 
     return null ;
-  return t.substring(0,pos) ;
+}
+
+
+function printRole(idR) {
+    const Role = ["Standard","Admin","FullAdmin"]
+
+    let idRole = parseInt(idR) ;
+    if (idRole >= 1 && idRole <= 3) 
+        return Role[idRole-1] ;
+    else 
+        return "" ;
+}
+
+function printFondateur(idR) {
+    const Role = ["","Fondateur","Co fondateur"]
+
+    let idRole = parseInt(idR) ;
+    if (idRole >= 1 && idRole <= 3) 
+        return Role[idRole-1] ;
+    else 
+        return "" ;
+}
+
+
+
+function IsAdmin(data, idEntreprise) {
+//    console.log("IsAdmin: " + idEntreprise) ;
+//    console.log(data) ;
+    for(var x in data) {
+      if (data[x].idEntreprise === idEntreprise) {
+        var v = parseInt(data[x].idRole) ;  
+//        console.log(data[x].idEntreprise, " --> " , v) ;
+        if (v >= 2 ){
+//            console.log("true") ;
+            return true ;
+        }
+      }
+    }
+    return false
+}
+
+
+function IsFullAdmin(data, idEntreprise) {
+//    console.log("IsAdmin: " + idEntreprise) ;
+//    console.log(data) ;
+    for(var x in data) {
+      if (data[x].idEntreprise === idEntreprise) {
+        var v = parseInt(data[x].idRole) ;  
+//        console.log(data[x].idEntreprise, " --> " , v) ;
+        if (v >= 3 ){
+//            console.log("true") ;
+            return true ;
+        }
+      }
+    }
+    return false
+}
+
+
+function IsAdminOnce(data) {
+    //console.log("IsAdminOnce") ;
+    //console.log(data) ;
+    for(var x in data) {
+      var v = parseInt(data[x].idRole) ;  
+      if (v >= 2)
+        return true ;
+    }
+    return false
+}
+
+
+
+function IsFullAdminOnce(data) {
+    //console.log("IsAdminOnce") ;
+    //console.log(data) ;
+    for(var x in data) {
+      var v = parseInt(data[x].idRole) ;  
+      if (v >= 3)
+        return true ;
+    }
+    return false
+}
+
+
+function FindEntrepriseUtilisateur(data,idEntreprise,Field) {
+    console.log("FindEntrepriseUtilisateur") ;
+    console.log(data) ;
+    console.log(idEntreprise) ;
+    console.log(Field) ;
+    for (let i = 0 ; i < data.length ; i++) {
+        let d = data[i] ;
+        console.log(d) ;
+        if (d.idEntreprise === idEntreprise) {
+            if (Field === "idRole")
+                return printRole(d.idRole) ;
+            if (Field === "Fonction")
+                return d.Fonction ;
+            if (Field === "Fondateur")
+                return printFondateur(d.Fondateur) ;
+        }
+    }
 }
 
 
@@ -281,12 +395,22 @@ export {
     createArticle,
     UpInArray, DownInArray, DeleteFromArray,
 
-    FindTranslation,
+    FindTranslation,FindTranslation_SelectBox,FindValueForSelectBox,
 
     remove_NLastChars,remove_linebreaks,
 
     getIDFromToken,
-    getRole
+    
+    printRole,
+    printFondateur,
+
+
+    IsAdmin,
+    IsFullAdmin,
+    IsAdminOnce,
+    IsFullAdminOnce,
+
+    FindEntrepriseUtilisateur
 
 
 

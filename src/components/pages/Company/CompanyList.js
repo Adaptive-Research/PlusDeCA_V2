@@ -1,9 +1,9 @@
 import React, { useState,useRef} from "react";
 
-import {Button} from "react-bootstrap";
+import {Button,Row,Col,Card} from "react-bootstrap";
 
-import {getIDFromToken} from "../../../../data/customlibs/utils";
-import {getCompaniesForUser ,getActivitiesForUser} from "../../../../data/customlibs/api";
+import {getIDFromToken} from "../../../data/customlibs/utils";
+import {getCompaniesForUser ,getActivitiesForUser, getEntrepriseUtilisateur} from "../../../data/customlibs/api";
 import CardCompany from "./CardCompany" ;
 import ModalEditCompany from "./ModalEditCompany" ;
 import ModalEditActivity from "./ModalEditActivity" ;
@@ -14,9 +14,9 @@ import ModalLinkCompany from "./ModalLinkCompany" ;
 
 
 
-export default function TabCompany(props) {
+export default function CompanyList(props) {
 
-    console.log("Profile") ;
+    console.log("CompanyList") ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
@@ -29,7 +29,8 @@ export default function TabCompany(props) {
 
     
 
-
+    const sCompany = "Company" ;
+    const [company, SetCompany] = useState(sCompany) ;
 
 
 
@@ -74,7 +75,8 @@ export default function TabCompany(props) {
 
     // pour le ForceRender
     const downloaded_UserActivities = useRef(false) ;
-    const downloaded_UserEnterprises = useRef(false) ;
+    const downloaded_UserCompanies = useRef(false) ;
+    const downloaded_EntrepriseUtilisateur = useRef(true) ;
 
 
     function TranslateAll(data,Page) 
@@ -102,7 +104,7 @@ export default function TabCompany(props) {
 
     
     if (reloadTraductions === true) {
-        TranslateAll(Translations_Text,"TabCompany") ;
+        TranslateAll(Translations_Text,"CompanyList") ;
         setReloadTraductions(false) ;
     }
 
@@ -116,12 +118,12 @@ export default function TabCompany(props) {
     {
         //console.log("reloadInfos") ;
         getActivitiesForUser("userActivities",storedToken,idUser,RenderAfterLoad) ;
-        getCompaniesForUser("userEnterprises",storedToken,idUser,RenderAfterLoad) ;
+        getCompaniesForUser("userCompanies",storedToken,idUser,RenderAfterLoad) ;
 
 
         // Pour la traduction
         const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL;
-        const Page = "TabCompany";
+        const Page = "CompanyList";
         const VL = "FR";
 
         TranslateAll(url, Page, VL);
@@ -143,13 +145,15 @@ export default function TabCompany(props) {
         if (variable === "userActivities")
             downloaded_UserActivities.current = true ;
 
-        if (variable === "userEnterprises")
-            downloaded_UserEnterprises.current = true ;
+        if (variable === "userCompanies")
+            downloaded_UserCompanies.current = true ;
+
+        if (variable === 'EntrepriseUtilisateur')
+            downloaded_EntrepriseUtilisateur.current = true ;                
             
         
-        if ((downloaded_UserActivities.current === true) && (downloaded_UserEnterprises.current === true))
+        if (downloaded_UserActivities.current && downloaded_UserCompanies.current && downloaded_EntrepriseUtilisateur.current)
         {
-            //console.log("compteur+1") ;
             setCompteur(compteur+1) ; 
         }
         
@@ -218,8 +222,13 @@ export default function TabCompany(props) {
     function ForceRenderCompany() {
         //console.log("ForceRenderCompany") ;
 
-        downloaded_UserEnterprises.current = false ;
-        getCompaniesForUser("userEnterprises",storedToken,idUser,RenderAfterLoad) ;
+        downloaded_UserCompanies.current = false ;
+        getCompaniesForUser("userCompanies",storedToken,idUser,RenderAfterLoad) ;
+
+        // On doit recharger les droits d'access
+        downloaded_EntrepriseUtilisateur.current = false ;
+        getEntrepriseUtilisateur('EntrepriseUtilisateur',storedToken,RenderAfterLoad) ; 
+
     }
 
 
@@ -314,7 +323,6 @@ export default function TabCompany(props) {
     // C'est le handle du bouton Link a company 
     const LinkCompany = (e) => {
         e.preventDefault();
-
         SetShowLinkCompany(true) ;
     }
 
@@ -335,7 +343,7 @@ export default function TabCompany(props) {
     // le render du composant
     function RenderCompanies() {
         //console.log("renderCompanies") ;
-        const myCompanies = JSON.parse(localStorage.getItem("userEnterprises"));
+        const myCompanies = JSON.parse(localStorage.getItem("userCompanies"));
    
         if (myCompanies !== null ) 
         {
@@ -355,8 +363,8 @@ export default function TabCompany(props) {
     function RenderAll() {
         return ( 
             <>
-                <Button variant="primary" onClick={AddCompany} > Add a company</Button>&nbsp;&nbsp;&nbsp;
-                <Button variant="primary" onClick={LinkCompany} > Link with a company</Button>
+                <Button variant="primary" onClick={AddCompany} > Create a new company</Button>&nbsp;&nbsp;&nbsp;
+                <Button variant="primary" onClick={LinkCompany} > Link with an existing company</Button>
                 { RenderCompanies() } 
             </>
             ) ;
@@ -364,53 +372,74 @@ export default function TabCompany(props) {
 
 
     return (
-
-        <div className="tab-pane profiletab show">
-            <div id="profile-log-switch">
-
-                <ModalEditCompany 
-                Render={compteur}
-                show={showEditCompany} 
-                SendCloseMessage={ModalEditCompanyClose}  
-                ForceRender={ForceRenderCompany}
-                Mode={modeEdit}
-                idEntreprise={idEntreprise}
-                Titre={titleModalEditCompany} 
-                Siret = {siret} 
-                Nom= {name}
-                SiteWeb = {website}
-                Email = {email}
-                Telephone = {phone}
-                />
-
-                <ModalEditActivity
-                Render={compteur}
-                show={showEditActivity} 
-                SendCloseMessage={ModalEditActivityClose}  
-                ForceRenderActivity={ForceRenderActivity}
-                Mode={modeEdit}
-                idEntreprise={idEntreprise}
-                idActivite={idActivite}
-                Titre={titleModalEditActivity} 
-                Nom= {name}
-                SiteWeb = {website}
-                Email = {email}
-                Telephone = {phone}
-                Description = {description}
-                />
-
-                <ModalLinkCompany 
-                Render={compteur}
-                show={showLinkCompany} 
-                SendCloseMessage={ModalLinkCompanyClose}  
-                ForceRender={ForceRenderCompany}
-                />
-
-                {RenderAll()}
-
-
+        <>
+            <div className="page-header">
+                <h1 className="page-title">{company}</h1>
             </div>
-        </div>
+
+            <Row id="user-profile">
+                <Col lg={12}>
+                    <Card className=" bg-transparent shadow-none border-0">
+                        <div className="border-top ">
+                            <div className="wideget-user-tab">
+                                <div className="tab-menu-heading">
+                                    <div className="tabs-menu1 profiletabs">
+
+                                        <div className="tab-pane profiletab show">
+                                            <div id="profile-log-switch">
+
+                                                <ModalEditCompany 
+                                                Render={compteur}
+                                                show={showEditCompany} 
+                                                SendCloseMessage={ModalEditCompanyClose}  
+                                                ForceRender={ForceRenderCompany}
+                                                Mode={modeEdit}
+                                                idEntreprise={idEntreprise}
+                                                Titre={titleModalEditCompany} 
+                                                Siret = {siret} 
+                                                Nom= {name}
+                                                SiteWeb = {website}
+                                                Email = {email}
+                                                Telephone = {phone}
+                                                />
+
+                                                <ModalEditActivity
+                                                Render={compteur}
+                                                show={showEditActivity} 
+                                                SendCloseMessage={ModalEditActivityClose}  
+                                                ForceRenderActivity={ForceRenderActivity}
+                                                Mode={modeEdit}
+                                                idEntreprise={idEntreprise}
+                                                idActivite={idActivite}
+                                                Titre={titleModalEditActivity} 
+                                                Nom= {name}
+                                                SiteWeb = {website}
+                                                Email = {email}
+                                                Telephone = {phone}
+                                                Description = {description}
+                                                />
+
+                                                <ModalLinkCompany 
+                                                Render={compteur}
+                                                show={showLinkCompany} 
+                                                SendCloseMessage={ModalLinkCompanyClose}  
+                                                ForceRender={ForceRenderCompany}
+                                                />
+
+                                                {RenderAll()}
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+                        </Card>
+                    </Col>
+                </Row>
+        </>
     );
 
 }

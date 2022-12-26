@@ -2,7 +2,8 @@
 import React, {useEffect, useState} from "react";
 import {Button,Card, Table} from "react-bootstrap";
 import {DeleteCompany} from "../../../data/customlibs/api";
-import {getRole} from  "../../../data/customlibs/utils";
+import {printRole} from  "../../../data/customlibs/utils";
+import {DeleteUser} from "../../../data/customlibs/api";
 
 
 
@@ -10,8 +11,8 @@ import {getRole} from  "../../../data/customlibs/utils";
 
 
 export default function CardUser(props) {
-    //console.log("CardCompany: ") ;
-    //console.log(props) ;
+    console.log("CardUser: ") ;
+    console.log(props) ;
 
 
 
@@ -43,15 +44,6 @@ export default function CardUser(props) {
 
 
 
-     // quand on n'a pas cree d'activite pour l'entreprise
-     function DeleteUser(e) {
-        e.preventDefault();
-        //props.SendData(true,Ligne.idEntreprise,null) ;
-    }
-
-
-
-
 
 
 
@@ -66,7 +58,7 @@ export default function CardUser(props) {
 
                      
                     <button type="btn" className="btn btn-danger mt-1 float-end" 
-                            onClick={ () => DeleteUser(storedToken, Ligne.idUser, props.ForceRender) }>
+                            onClick={ () => DeleteUser(storedToken, Ligne.idUtilisateur, props.ForceRender) }>
                             <i className="fe fe-trash"></i> 
                     </button>
 
@@ -87,7 +79,7 @@ export default function CardUser(props) {
                                     <strong>Email :</strong> {Ligne.Email}
                                 </td>
                                 <td className="col-6">
-                                    <strong>Droits d'accès :</strong> {getRole(Ligne.idRole)}
+                                    <strong>Droits d'accès :</strong> {printRole(Ligne.idRole)}
                                 </td>
                             </tr>
                         </tbody>
