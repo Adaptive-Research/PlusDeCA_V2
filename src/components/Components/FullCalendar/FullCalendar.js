@@ -1,11 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect} from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
 import {Card} from "react-bootstrap"
 import {ModalEditEvent} from "./ModalEditEvent"
-import  { getIDFromToken } from  "../../../data/customlibs/utils" ;
 import {getEventsForUser} from "../../../data/customlibs/api";
 import '../../../assets/css/FullCalendar.css';
 
@@ -13,13 +12,11 @@ import '../../../assets/css/FullCalendar.css';
 
 export default function FullCalendars() {
 
-  const [reloadInfos, setReloadInfos] = useState(true) ;
+  const reloadInfos = useRef(true) ;
   const [dataEvents, setDataEvents] = useState() ;
 
   // pour l'affichage des fenetres modales
   const [showEditEvent, SetShowEditEvent] = useState(false) ;
-
-
   const fullCalendarRef = useRef() ;
   
 
@@ -33,43 +30,48 @@ export default function FullCalendars() {
 
 
   const storedToken = localStorage.getItem('token') ;
-  const idUser = getIDFromToken(storedToken) ;
-  //console.log(storedToken) ;  
-  //console.log(idUser) ;
 
 
+  
 
 
-
- function UseInfo(obj)
+ function AddEventsToFullCalendar(ShouldRender)
  {
-    let pos = obj.indexOf("ERROR") ;
+    let userEvents =  [] ;
+    let suserEvents = localStorage.getItem('userEvents') ;
+    if (suserEvents !== undefined)
+      userEvents = JSON.parse(suserEvents) ;
+    
+
+
+    let pos = userEvents.indexOf("ERROR") ;
     if (pos !== 0)
     { 
       let ed = [] ;
       
-      for (let i = 0 ; i < obj.length; i++)
+      for (let i = 0 ; i < userEvents.length; i++)
       {
-        let Event_Start = obj[i].Event_Start ;
-        let Event_End = obj[i].Event_End ;
+        let obj = userEvents[i] ;
+        let Event_Start = obj.Event_Start ;
+        let Event_End = obj.Event_End ;
       
       
         let vAllDay = false ;  
-        if ( obj[i].Event_AllDay === "1")
+        if ( obj.Event_AllDay === "1")
           vAllDay = true ;
       
       
       
         let bgColor= "#CCCCCC" ;
-        if  (obj[i].Event_Type === "1")
+        if  (obj.Event_Type === "1")
           bgColor = "#06377e" ;
-        if  (obj[i].Event_Type === "2")
+        if  (obj.Event_Type === "2")
           bgColor= "#006600" ;
-        if  (obj[i].Event_Type === "3")
+        if  (obj.Event_Type === "3")
           bgColor = "#0d6efd" ;
-        if  (obj[i].Event_Type === "4")
+        if  (obj.Event_Type === "4")
           bgColor= "#168c7f" ;
-        if  (obj[i].Event_Type === "5")
+        if  (obj.Event_Type === "5")
           bgColor= "#b05002" ;
         
       
@@ -80,52 +82,49 @@ export default function FullCalendars() {
       
         let s = {
           
-          "id" : String(obj[i].id) ,
-          "title" : String(obj[i].Event_Title), 
+          "id" : String(obj.id) ,
+          "title" : String(obj.Event_Title), 
           "allDay" : vAllDay, 
           "start" : String(Event_Start),
           "end" : String(Event_End), 
           "backgroundColor": String(bgColor),
           "extendedProps":
           {
-            "type" : String(obj[i].Event_Type), 
-            "location" : String(obj[i].Event_Location), 
-            "data" : String(obj[i].Event_Data)  
+            "type" : String(obj.Event_Type), 
+            "location" : String(obj.Event_Location), 
+            "data" : String(obj.Event_Data)  
           } 
         
                   
         } ;
         ed.push(s) ;
       }
-      console.log("ed") ; 
-      console.log(ed) ;
 
       setDataEvents(ed) ;
-      setReloadInfos(false) ;
 
-      fullCalendarRef.current.render();
+      if (ShouldRender)
+        fullCalendarRef.current.render();
     }
  }
 
 
 
+
   
 
-
+ 
 
   // on charge les data
-  if (reloadInfos === true)
-    getEventsForUser(storedToken,UseInfo) ;
+  if (reloadInfos.current === true) {
+    reloadInfos.current = false ;
+    AddEventsToFullCalendar(false) ;
+  }
   
-  console.log("dataEvents") ; 
-  console.log(dataEvents) ;
-
 
 
   // C'est le callback appele quand on ferme ModalEditCompany 
   function ModalEditEventClose()
   {
-      //console.log("ModalEditCompanyClose") ;
       SetShowEditEvent(false) ;
   }
 
@@ -137,9 +136,7 @@ export default function FullCalendars() {
 
   function ForceRender(variable) {
         console.log("ForceRender") ;
-        delay(500).then(() => getEventsForUser(storedToken,UseInfo) );
-       
-        
+        delay(500).then(() => AddEventsToFullCalendar(true) );
   }
 
 

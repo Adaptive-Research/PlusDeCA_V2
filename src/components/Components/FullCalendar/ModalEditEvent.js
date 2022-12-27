@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import  { FindTranslation, getIDFromToken, FindTranslation_SelectBox, FindValueForSelectBox } from "../../../data/customlibs/utils" ;
-import {DeleteEvent,SaveEvent,UpdateEvent} from "../../../data/customlibs/api";
+import {DeleteEvent,SaveEvent,UpdateEvent,getEventsForUser} from "../../../data/customlibs/api";
 import {FormGroup,Modal, Button} from "react-bootstrap";
 //import { DayTimeColsView } from "@fullcalendar/timegrid";
 
@@ -24,7 +24,7 @@ export function ModalEditEvent(props) {
 
 
   // pour le reload des infos
-  const [reloadInfos, setReloadInfos] = useState(true) ;
+  const reloadInfos = useRef(true) ;
   const [compteur, setCompteur] = useState(0) ;
 
 
@@ -207,11 +207,8 @@ export function ModalEditEvent(props) {
 
 
 
-  if (reloadInfos === true) {
-
-    console.log("reloadInfos") ;
-    console.log(props) ;
-
+  if (reloadInfos.current === true) {
+    reloadInfos.current = false ;
 
     eventDay.current = printDate(dateStart) ;
     eventType.current = props.TypeReunion ;
@@ -221,7 +218,6 @@ export function ModalEditEvent(props) {
 
 
     setCompteur(0) ;
-    setReloadInfos(false) ;
   }
 
 
@@ -301,7 +297,7 @@ export function ModalEditEvent(props) {
         setIsModalOpen(props.show) ;
         setLastIsModalOpen(props.show) ;
         if (props.show === true)
-            setReloadInfos(true) ;
+            reloadInfos.current = true ;
     }
 
 
@@ -336,13 +332,16 @@ export function ModalEditEvent(props) {
     }
     
 
-    
-    
-  function ForceRender() {
+  function RenderAfterLoad() {
     if (props.SendCloseMessage !== undefined)
       props.SendCloseMessage() ;
     if (props.ForceRender !== undefined)
       props.ForceRender() ;
+  }  
+
+    
+  function ForceRender() {
+    getEventsForUser("userEvents",storedToken,RenderAfterLoad) ;
   }
 
   
@@ -379,6 +378,7 @@ export function ModalEditEvent(props) {
         SaveEvent(storedToken,eventType.current,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,ForceRender) ;
       else
         UpdateEvent(storedToken,props.ID,eventType.current,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,ForceRender) ;
+      
     }
 
   }

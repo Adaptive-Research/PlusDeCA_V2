@@ -1186,7 +1186,7 @@ async function InvalidateInterview (tok, idInter,ForceRender ) {
 
 
 
-function getEventsForUser(tok,UseAnswerFromDatabase) 
+function getEventsForUser(variable,tok,ForceRender) 
 {
   console.log("GetEventsForUser") ;
 
@@ -1200,9 +1200,8 @@ function getEventsForUser(tok,UseAnswerFromDatabase)
           'Content-Type': 'application/x-www-form-urlencoded',
       }
   }).then( function(response) {
- 
-    const obj =  getDataFromResponse(response) ;
-    UseAnswerFromDatabase(obj) ;
+
+    ManageResponse_select_axios(variable, response,ForceRender) ;
   })
 }
 

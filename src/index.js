@@ -24,7 +24,7 @@ const FormationList = React.lazy(() => import("./components/pages/Formations/For
 const FormationAvailableList =  React.lazy(() => import("./components/pages/FormationsAvailables/FormationAvailableList"));
 
 //Contact
-const ContactList = React.lazy(() => import("./components/pages/Contacts/ContactList"));
+const ContactList = React.lazy(() => import("./components/pages/BusinessCard/ContactList"));
 
 
 //Interview

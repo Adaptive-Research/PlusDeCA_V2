@@ -7,7 +7,9 @@ import {encrypt} from "../../../data/customlibs/hasher.js";
 
 
 
-import {getTranslations_Text, getTranslations_SelectBox,getLanguage,getActivitiesForUser,getCompaniesForUser,getEntrepriseUtilisateur,getProfile} from "../../../data/customlibs/api";
+import {getTranslations_Text, getTranslations_SelectBox,getLanguage,getProfile,getActivitiesForUser,getCompaniesForUser} from "../../../data/customlibs/api";
+import {getEntrepriseUtilisateur,getEventsForUser} from "../../../data/customlibs/api";
+
 import  {getIDFromToken} from  "../../../data/customlibs/utils" ;
 import {searchCompanies} from "../../../data/customlibs/api";
 
@@ -30,6 +32,7 @@ export default function Login() {
     const downloaded_userCompanies = useRef(false) ;
     const downloaded_userActivities = useRef(false) ;
     const downloaded_CompanyList = useRef(false) ;
+    const downloaded_userEvents = useRef(false) ;
     const downloaded_Profile = useRef(false) ;
 
 
@@ -49,6 +52,7 @@ export default function Login() {
         localStorage.removeItem("EntrepriseUtilisateur");
         localStorage.removeItem("userCompanies");
         localStorage.removeItem("userActivities");
+        localStorage.removeItem("userEvents");
         localStorage.removeItem("CompanyList");
         localStorage.removeItem("Profile");
 
@@ -123,11 +127,15 @@ export default function Login() {
                 downloaded_CompanyList.current = true ;    
 
             if (variable === 'Profile')
-                downloaded_Profile.current = true ;                    
+                downloaded_Profile.current = true ;             
+
+            if (variable === 'userEvents')
+                downloaded_userEvents.current = true ;                         
 
 
             if (downloaded_Translations_Text.current && downloaded_Translations_SelectBox.current && downloaded_EntrepriseUtilisateur.current &&
-                downloaded_userCompanies.current && downloaded_userActivities.current && downloaded_CompanyList.current && downloaded_Profile.current)
+                downloaded_userCompanies.current && downloaded_userActivities.current && downloaded_CompanyList.current && downloaded_Profile.current
+                && downloaded_userEvents.current )
             {
                 // window.location.href comme la fonction navigate utilisent le server side routing 
                 let url = `${process.env.PUBLIC_URL}/Journal/Page1` ;
@@ -157,7 +165,7 @@ export default function Login() {
                 temp = values[1];
 
                 if (res === false) {
-                    console.log("res===false") ;
+                    console.log("Password or User unknown") ;
                 }
                 else {
                     console.log("User logged");
@@ -176,6 +184,7 @@ export default function Login() {
                     getLanguage( "ValueLangue",storedToken,LoadTranslations) ;  // C'est pour charger la langue et les traductions
 
                     getProfile("Profile",storedToken,idUser,RenderAfterLoad) ;                      // Ce sont les infos personnelles
+                    getEventsForUser("userEvents",storedToken,RenderAfterLoad) ;
                     getEntrepriseUtilisateur('EntrepriseUtilisateur',storedToken,RenderAfterLoad) ; // Ce sont les droits d'acces et les infos de l'utilisateur pour les enteprises avec lesquelles il a un lien 
                     getCompaniesForUser("userCompanies",storedToken, idUser,RenderAfterLoad) ;      // Ce sont toutes les boites auxquelles est associe l'utilisateur
                     getActivitiesForUser("userActivities", storedToken,idUser,RenderAfterLoad) ;    // Ce sont toutes les activites des boites de l'utilisateur
