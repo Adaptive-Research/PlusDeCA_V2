@@ -32,7 +32,8 @@ export default function ManagedUsersList(props) {
     const sEmailField = 'E-mail';
     const sPasswordField = 'Password';
     const sAccessRightsField = 'Access Rights';
-    
+    const sWebsite = 'Website';
+    const sPhone = 'Phone';
 
 
 
@@ -44,6 +45,8 @@ export default function ManagedUsersList(props) {
     const [emailField, setEmailField] = useState(sEmailField);
     const [passwordField, setPasswordField] = useState(sPasswordField);
     const [accessRightsField, setAccessRightsField] = useState(sAccessRightsField);
+    const [websiteField, setWebSiteField] = useState(sWebsite);
+    const [phoneField, setPhoneField] = useState(sPhone);
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
     const [showEditUser, SetShowEditUser] = useState(false) ;
@@ -137,6 +140,14 @@ export default function ManagedUsersList(props) {
         if (t !== "Not Found")
             setAccessRightsField(t);
     
+        t = FindTranslation(data, Page, sWebsite);
+        if (t !== "Not Found")
+        setWebSiteField(t);
+    
+        t = FindTranslation(data, Page, sPhone);
+        if (t !== "Not Found")
+            setPhoneField(t);
+    
     }
     
 
@@ -222,6 +233,10 @@ export default function ManagedUsersList(props) {
                                     SendData = {SendData}
                                     ForceRender = {ForceRender}
                                     addUserBtn={addUserBtn}
+                                    accessRightsField={accessRightsField}
+                                    emailField={emailField}
+                                    websiteField = {websiteField}
+                                    phoneField = {phoneField}
                                 /> ) ;
             } );
         }

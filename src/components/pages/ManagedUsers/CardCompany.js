@@ -53,6 +53,8 @@ export default function CardCompany(props) {
                                             Ligne={Ligne} 
                                             SendData={props.SendData}
                                             ForceRender = {props.ForceRender}
+                                            accessRightsField={props.accessRightsField}
+                                            emailField={props.emailField}
                                         /> ) ;
                             }    
                         }
@@ -101,16 +103,16 @@ export default function CardCompany(props) {
                                     <strong>Siret :</strong> {Ligne.Siret}
                                 </td>
                                 <td className="col-6">
-                                    <strong>Website:</strong> {Ligne.SiteWeb}
+                                    <strong>{props.phoneField}:</strong> {Ligne.SiteWeb}
                                 </td>
                             </tr>
 
                             <tr className="d-flex">
                                 <td className="col-6">
-                                    <strong>Email :</strong> {Ligne.Email}
+                                    <strong>{props.emailField} :</strong> {Ligne.Email}
                                 </td>
                                 <td className="col-6">
-                                    <strong>Phone :</strong> {Ligne.Telephone}
+                                    <strong>{props.phoneField}  :</strong> {Ligne.Telephone}
                                 </td>
                             </tr>
                         </tbody>

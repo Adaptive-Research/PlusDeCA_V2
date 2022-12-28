@@ -76,10 +76,10 @@ export default function CardUser(props) {
                         <tbody className="col-lg-12 col-xl-12 p-0">
                             <tr className="d-flex">
                                 <td className="col-6">
-                                    <strong>Email :</strong> {Ligne.Email}
+                                    <strong>{props.emailField} :</strong> {Ligne.Email}
                                 </td>
                                 <td className="col-6">
-                                    <strong>Droits d'accès :</strong> {printRole(Ligne.idRole)}
+                                    <strong>{props.accessRightsField} :</strong> {printRole(Ligne.idRole)}
                                 </td>
                             </tr>
                         </tbody>
