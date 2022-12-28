@@ -125,7 +125,7 @@ export default function ModalLinkCompany(props) {
                         <Col lg={12} md={12}>
                             <Form.Group className="form-group row">
                                 <Form.Label className="col-md-12 form-label">
-                                    Société
+                                    {props.companyLabel}
                                 </Form.Label>
                                 <Col md={12}>
                                     <AsyncSelect
@@ -145,7 +145,7 @@ export default function ModalLinkCompany(props) {
                     <Row className="add-space">
                         <Col lg={12} md={12}>
                             <FormGroup>
-                                <label>Fondateur ?</label>
+                                <label>{props.founderLabel} ?</label>
                                 <div className="">
                                         <select id="Fondateur"  className="form-control" onChange={(e) =>  Founder.current = e.target.value}>
                                             {renderFounder()} 
@@ -158,12 +158,12 @@ export default function ModalLinkCompany(props) {
                     <Row className="add-space">
                         <Col lg={12} md={12}>
                             <FormGroup>
-                                <label>Fonction</label>
+                                <label>{props.jobLabel}</label>
                                 <input
                                     className="form-control"
                                     type="text"
                                     value={job}
-                                    placeholder="Fonction"
+                                    placeholder={props.jobLabel}
                                     onChange={(e) => setJob(e.target.value)}
                                 />
                             </FormGroup>
@@ -176,11 +176,11 @@ export default function ModalLinkCompany(props) {
                 <Modal.Footer>
 
                     <Button variant="secondary" onClick={handleCancel}>
-                        Cancel
+                        {props.cancelBtn}
                     </Button>
 
                     <Button variant="primary" onClick={handleSave}>
-                        Save
+                        {props.saveBtn}
                     </Button>
 
                 </Modal.Footer>

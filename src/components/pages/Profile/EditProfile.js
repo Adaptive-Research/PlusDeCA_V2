@@ -46,9 +46,10 @@ export default function EditProfile(props) {
   const sFirstName = "First Name" ;
   const sLastName = "Last Name" ;
   const sVisibility = "Visible by everyone" ;
-
-
-
+  const sAddPhotoBtn = "Add a photo";
+  const sChangePasswordBtn = "Change Password";
+  const sSaveBtn = "Save";
+  const sCancelBtn = "Cancel";
 
   const navigate = useNavigate() ;
 
@@ -63,7 +64,10 @@ export default function EditProfile(props) {
   const lastName = useRef(sLastName) ;
   const visibility = useRef(sVisibility) ;
   const language = useRef(sLanguage) ;
-
+  const addPhotoBtn = useRef(sAddPhotoBtn);
+  const changePassWordBtn = useRef(sChangePasswordBtn);
+  const saveBtn = useRef(sSaveBtn);
+  const cancelBtn = useRef(sCancelBtn);
   const Translations_Text = useRef(null) ;
   const ValueLangue = useRef("") ;
 
@@ -104,6 +108,13 @@ export default function EditProfile(props) {
     if (t !== "Not Found")
       profile.current = t ;
   
+    t = FindTranslation(data,Page, sAddPhotoBtn) ;
+    if (t !== "Not Found")
+      addPhotoBtn.current = t ;
+  
+    t = FindTranslation(data,Page, sChangePasswordBtn) ;
+    if (t !== "Not Found")
+      changePassWordBtn.current = t ;
 
     t = FindTranslation(data,Page, sEditProfile) ;
     if (t !== "Not Found")
@@ -136,6 +147,14 @@ export default function EditProfile(props) {
     t = FindTranslation(data,Page, sVisibility) ;
     if (t !== "Not Found")
       visibility.current = t ;
+
+    t = FindTranslation(data,Page, sSaveBtn) ;
+    if (t !== "Not Found")
+      saveBtn.current = t ;
+
+    t = FindTranslation(data,Page, sCancelBtn) ;
+    if (t !== "Not Found")
+      cancelBtn.current = t ;
   }
 
 
@@ -153,6 +172,8 @@ export default function EditProfile(props) {
     firstName.current = sFirstName ;
     lastName.current = sLastName ;
     visibility.current = sVisibility ;
+    changePassWordBtn.current = sChangePasswordBtn;
+    addPhotoBtn.current = sAddPhotoBtn;
   }
 
 
@@ -294,10 +315,10 @@ export default function EditProfile(props) {
           </div>
           <div>
             <Button onClick={handleAddPhoto} variant="primary" style={{marginRight: "15px"}}>
-                  Add a photo
+                  {addPhotoBtn.current}
             </Button>
             <Button onClick={handleChangePassword} variant="primary">
-                    Change Password
+                  {changePassWordBtn.current}
             </Button>
           </div>
         </div>
@@ -372,10 +393,10 @@ export default function EditProfile(props) {
 
               <Card.Footer className="text-end">
               <Button onClick={handleCancel} variant="secondary" style={{marginRight: "15px"}}>
-                  Cancel
+                  {cancelBtn.current}
               </Button>
               <Button onClick={handleSubmit} variant="primary">
-                      Save
+                  {saveBtn.current}
               </Button>
               </Card.Footer>
             </Card>

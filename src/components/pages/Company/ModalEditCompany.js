@@ -195,12 +195,12 @@ export default function ModalEditCompany(props) {
 
                         <Col lg={8} md={12}>
                             <FormGroup>
-                                <label htmlFor="name">Nom</label>
+                                <label htmlFor="name">{props.nameLabel}</label>
                                 <input
                                     className="form-control"
                                     type="text"
                                     value={name}
-                                    placeholder={nameMsg === "" ? "Nom" : nameMsg}
+                                    placeholder={nameMsg === "" ? props.nameLabel : nameMsg}
                                     onChange={(e) => setName(e.target.value)}
                                 />
                             </FormGroup>
@@ -211,12 +211,12 @@ export default function ModalEditCompany(props) {
                     <Row className="add-space">
                         <Col lg={7} md={12}>
                             <FormGroup>
-                                <label htmlFor="website">Site Web</label>
+                                <label htmlFor="website">{props.websiteLabel}</label>
                                 <input
                                     className="form-control"
                                     type="text"
                                     value={webSite}
-                                    placeholder={webSiteMsg === "" ? "Site Web" : webSiteMsg}
+                                    placeholder={webSiteMsg === "" ? props.websiteLabel : webSiteMsg}
                                     onChange={(e) => setWebSite(e.target.value)}
                                 />
                             </FormGroup>
@@ -224,12 +224,12 @@ export default function ModalEditCompany(props) {
 
                         <Col lg={5} md={12}>
                             <FormGroup>
-                                <label htmlFor="contact">Téléphone</label>
+                                <label htmlFor="contact">{props.phoneLabel}</label>
                                 <input
                                     className="form-control"
                                     type="text"
                                     value={phone}
-                                    placeholder={phoneMsg === "" ? "Téléphone" : phoneMsg}
+                                    placeholder={phoneMsg === "" ? props.phoneLabel : phoneMsg}
                                     onChange={(e) => setPhone(e.target.value)}
                                 />
                             </FormGroup>
@@ -240,12 +240,12 @@ export default function ModalEditCompany(props) {
 
                         <Col lg={12} md={12}>
                             <FormGroup>
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="email">{props.emailLabel}</label>
                                 <input
                                     className="form-control"
                                     type="email"
                                     value={email}
-                                    placeholder={emailMsg === "" ? "Email" : emailMsg}
+                                    placeholder={emailMsg === "" ? props.emailLabel : emailMsg}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                             </FormGroup>
@@ -257,7 +257,7 @@ export default function ModalEditCompany(props) {
                     <Row className="add-space">
                         <Col lg={12} md={12}>
                             <FormGroup>
-                                <label htmlFor="email">Fondateur ?</label>
+                                <label htmlFor="email">{props.founderLabel}</label>
                                 <div className="">
                                         <select id="Fondateur"  className="form-control" onChange={(e) =>  Founder.current = e.target.value}>
                                             {renderFounder()} 
@@ -270,12 +270,12 @@ export default function ModalEditCompany(props) {
                     <Row className="add-space">
                         <Col lg={12} md={12}>
                             <FormGroup>
-                                <label htmlFor="email">Fonction</label>
+                                <label htmlFor="email">{props.jobLabel}</label>
                                 <input
                                     className="form-control"
                                     type="text"
                                     value={job}
-                                    placeholder="Fonction"
+                                    placeholder={props.jobLabel}
                                     onChange={(e) => setJob(e.target.value)}
                                 />
                             </FormGroup>
@@ -289,11 +289,11 @@ export default function ModalEditCompany(props) {
                 <Modal.Footer>
 
                     <Button variant="secondary" onClick={handleCancel}>
-                        Cancel
+                        {props.cancelBtn}
                     </Button>
 
                     <Button variant="primary" onClick={handleSave}>
-                        Save
+                        {props.saveBtn}
                     </Button>
 
                 </Modal.Footer>

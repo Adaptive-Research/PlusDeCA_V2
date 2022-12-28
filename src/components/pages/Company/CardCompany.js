@@ -135,7 +135,7 @@ export default function CardCompany(props) {
         if (IsFullAdmin(EntrepriseUtilisateur.current,Ligne.idEntreprise))
             return ( 
                 <>
-                <Button variant="primary" onClick={AddActivity} > Add an activity</Button> 
+                <Button variant="primary" onClick={AddActivity} >{props.addActivityBtn}</Button> 
                 {renderActivities(Ligne.idEntreprise)}
                 </>
             ) ;
@@ -175,16 +175,16 @@ export default function CardCompany(props) {
                                     <strong>Siret :</strong> {Ligne.Siret}
                                 </td>
                                 <td className="col-6">
-                                    <strong>Website:</strong> {Ligne.SiteWeb}
+                                    <strong>{props.websiteLabel}:</strong> {Ligne.SiteWeb}
                                 </td>
                             </tr>
 
                             <tr className="d-flex">
                                 <td className="col-6">
-                                    <strong>Email :</strong> {Ligne.Email}
+                                    <strong>{props.emailLabel} :</strong> {Ligne.Email}
                                 </td>
                                 <td className="col-6">
-                                    <strong>Phone :</strong> {Ligne.Telephone}
+                                    <strong> {props.phoneLabel}:</strong> {Ligne.Telephone}
                                 </td>
                             </tr>
                         </tbody>
@@ -196,13 +196,13 @@ export default function CardCompany(props) {
                         <tbody className="col-lg-12 col-xl-12 p-0">
                             <tr className="d-flex">
                                 <td className="col-4">
-                                    <strong>Fondateur :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "Fondateur")}
+                                    <strong>{props.founderLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "Fondateur")}
                                 </td>
                                 <td className="col-4">
-                                    <strong>Fonction :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "Fonction")}
+                                    <strong>{props.jobLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "Fonction")}
                                 </td>
                                 <td className="col-4">
-                                    <strong>Droits d'accès :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "idRole")}
+                                    <strong>{props.accessRightsLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "idRole")}
                                 </td>
                             </tr>
                         </tbody>

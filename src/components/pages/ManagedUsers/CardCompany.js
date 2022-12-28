@@ -70,7 +70,7 @@ export default function CardCompany(props) {
     function renderAll(idEntreprise){
         return ( 
             <>
-            <Button variant="primary" onClick={AddUser} > Add a user</Button> 
+            <Button variant="primary" onClick={AddUser} >{props.addUserBtn}</Button> 
             {renderUsers(Ligne.idEntreprise)}
             </>
         ) ;

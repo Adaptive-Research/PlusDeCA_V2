@@ -2,7 +2,7 @@ import React, { useState,useRef} from "react";
 
 import {Button,Row,Col,Card} from "react-bootstrap";
 
-import {getIDFromToken} from "../../../data/customlibs/utils";
+import {getIDFromToken,FindTranslation} from "../../../data/customlibs/utils";
 import {getCompaniesForUser ,getActivitiesForUser, getEntrepriseUtilisateur} from "../../../data/customlibs/api";
 import CardCompany from "./CardCompany" ;
 import ModalEditCompany from "./ModalEditCompany" ;
@@ -30,8 +30,27 @@ export default function CompanyList(props) {
     
 
     const sCompany = "Company" ;
-    const [company, SetCompany] = useState(sCompany) ;
-
+    const sCreateNewCompany = "Create a new company";
+    const sLinkExistingCompany = "Link with an existing company";
+    const sAccessRights = "Access rights";
+    const sFounder = "Founder";
+    const sAddActivity = "Add an activity";
+    const sJobLabel = "Job";
+    const sCancel = 'Cancel';
+    const sSave = 'Save';
+    const sClose = 'Close';
+    const sEmailLabel = "E-mail";
+    const [company, setCompany] = useState(sCompany) ;
+    const [createNewCompany,setCreateNewCompany] = useState(sCreateNewCompany);
+    const [linkExistingCompany, setLinkExistingCompany] = useState(sLinkExistingCompany);
+    const [addActivityBtn, setAddActivityBtn] = useState(sAddActivity);
+    const [founderLabel,setFounderLabel] = useState(sFounder)
+    const [accessRightsLabel, setAcessRightsLabel] = useState(sAccessRights);
+    const [emailLabel, setEmailLabel]=useState(sEmailLabel);
+    const [jobLabel,setJobLabel]= useState(sJobLabel);
+    const [saveBtn, setSaveBtn] = useState(sSave);
+    const [cancelBtn, setCancelBtn] = useState(sCancel);
+    const [closeBtn, setCloseBtn] = useState(sClose); 
 
 
 
@@ -41,15 +60,25 @@ export default function CompanyList(props) {
     const [showLinkCompany, SetShowLinkCompany] = useState(false) ;
 
 
-    // les informations pour le fenetre modale ModalEditEntreprise 
-    const sAjouterEntreprise = "Ajouter une entreprise" ;
-    const sEditEntreprise = "Modifier les informations d'une entreprise" ;
+    // les informations pour la fenetre modale ModalEditEntreprise 
+    const sAjouterEntreprise = "Add a company" ;
+    const sEditEntreprise = "Edit company information" ;
+    const sName = "Name";
+    const sWebsite = "Website";
+    const sPhone = "Phone";
     const [titleModalEditCompany, SetTitleModalEditCompany] = useState( sAjouterEntreprise ) ;
-
-    // les informations pour le fenetre modale ModalEditActivity 
-    const sAjouterActivite = "Ajouter une activité" ;
-    const sEditActivite = "Modifier les informations d'une activité" ;
+    const [companyModalTitle, setCompanyModalTitle] = useState(titleModalEditCompany);
+    const [nameLabel, setNameLabel] = useState(sName);
+    const [websiteLabel,setWebsiteLabel] = useState(sWebsite);
+    const [phoneLabel,setPhoneLabel] = useState(sPhone);
+    // les informations pour la fenetre modale ModalEditActivity 
+    const sAjouterActivite = "Add an activity" ;
+    const sEditActivite = "Edit activity information" ;
     const [titleModalEditActivity, SetTitleModalEditActivity] = useState( sAjouterActivite ) ;
+    const [activityModalTitle, setActivityModalTitle] = useState(titleModalEditActivity);
+    const sDescription = "Description";
+    const [descriptionLabel, setDescriptionLabel] = useState(sDescription);
+
 
 
     const [modeEdit,SetModeEdit]= useState("") ;
@@ -81,6 +110,73 @@ export default function CompanyList(props) {
 
     function TranslateAll(data,Page) 
     {
+        let t = FindTranslation(data, Page,  sCompany);
+        if (t !== "Not Found")
+            setCompany(t);
+
+        t = FindTranslation(data, Page,  sCreateNewCompany);
+        if (t !== "Not Found")
+            setCreateNewCompany(t);
+
+        t = FindTranslation(data, Page,  sAddActivity);
+        if (t !== "Not Found")
+            setAddActivityBtn(t);
+
+        t = FindTranslation(data, Page,  sLinkExistingCompany);
+        if (t !== "Not Found")
+            setLinkExistingCompany(t);
+
+        t = FindTranslation(data, Page,  sFounder);
+        if (t !== "Not Found")
+            setFounderLabel(t);
+
+        t = FindTranslation(data, Page,  sEmailLabel);
+        if (t !== "Not Found")
+            setEmailLabel(t);
+
+        t = FindTranslation(data, Page,  sAccessRights);
+        if (t !== "Not Found")
+            setAcessRightsLabel(t);
+
+        t = FindTranslation(data, Page,  sJobLabel);
+        if (t !== "Not Found")
+            setJobLabel(t);
+
+        t = FindTranslation(data, Page,  sCancel);
+        if (t !== "Not Found")
+            setCancelBtn(t);
+
+        t = FindTranslation(data, Page,  sClose);
+        if (t !== "Not Found")
+            setCloseBtn(t);
+
+        t = FindTranslation(data, Page,  sSave);
+        if (t !== "Not Found")
+            setSaveBtn(t);
+
+        t = FindTranslation(data, Page,  titleModalEditCompany);
+        if (t !== "Not Found")
+            setCompanyModalTitle(t);
+
+        t = FindTranslation(data, Page,  titleModalEditActivity);
+        if (t !== "Not Found")
+            setActivityModalTitle(t);
+
+        t = FindTranslation(data, Page,  sName);
+        if (t !== "Not Found")
+            setNameLabel(t);
+
+        t = FindTranslation(data, Page,  sWebsite);
+        if (t !== "Not Found")
+            setWebsiteLabel(t);
+
+        t = FindTranslation(data, Page,  sPhone);
+        if (t !== "Not Found")
+            setPhoneLabel(t);
+
+        t = FindTranslation(data, Page,  sDescription);
+        if (t !== "Not Found")
+            setDescriptionLabel(t);
         /*
         let t = FindTranslation(data, Page,  sMyProfile);
         if (t !== "Not Found")
@@ -120,13 +216,13 @@ export default function CompanyList(props) {
         getActivitiesForUser("userActivities",storedToken,idUser,RenderAfterLoad) ;
         getCompaniesForUser("userCompanies",storedToken,idUser,RenderAfterLoad) ;
 
-
+        /**
         // Pour la traduction
         const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL;
         const Page = "CompanyList";
         const VL = "FR";
 
-        TranslateAll(url, Page, VL);
+        TranslateAll(url, Page, VL); */
             
         setReloadInfos(false) ;
     }
@@ -191,6 +287,7 @@ export default function CompanyList(props) {
         {
             SetModeEdit("Add") ;
             SetTitleModalEditCompany(sAjouterEntreprise) ;
+            setReloadTraductions(true);
             SetIdEntreprise("") ;
             SetSiret("") ;
             SetName("") ;
@@ -201,7 +298,9 @@ export default function CompanyList(props) {
         else
         {
             SetModeEdit("Edit") ;
+            setReloadTraductions(true);
             SetTitleModalEditCompany(sEditEntreprise) ;
+            setCompanyModalTitle(sEditEntreprise);
             SetIdEntreprise(Ligne.idEntreprise) ;
             SetSiret(Ligne.Siret) ;
             SetName(Ligne.NomEntreprise) ;
@@ -354,6 +453,15 @@ export default function CompanyList(props) {
                                                         SendActivityData={SendActivityData} 
                                                         ForceRenderCompany = {ForceRenderCompany}
                                                         ForceRenderActivity = {ForceRenderActivity}
+                                                        addActivityBtn={addActivityBtn}
+                                                        founderLabel={founderLabel}
+                                                        accessRightsLabel={accessRightsLabel}
+                                                        jobLabel={jobLabel}
+                                                        emailLabel={emailLabel}
+                                                        nameLabel={nameLabel}
+                                                        websiteLabel={websiteLabel}
+                                                        phoneLabel={phoneLabel}
+                                                        
                                                         />  );
         }
 
@@ -363,8 +471,8 @@ export default function CompanyList(props) {
     function RenderAll() {
         return ( 
             <>
-                <Button variant="primary" onClick={AddCompany} > Create a new company</Button>&nbsp;&nbsp;&nbsp;
-                <Button variant="primary" onClick={LinkCompany} > Link with an existing company</Button>
+                <Button variant="primary" onClick={AddCompany} >{createNewCompany}</Button>&nbsp;&nbsp;&nbsp;
+                <Button variant="primary" onClick={LinkCompany} >{linkExistingCompany}</Button>
                 { RenderCompanies() } 
             </>
             ) ;
@@ -395,12 +503,22 @@ export default function CompanyList(props) {
                                                 ForceRender={ForceRenderCompany}
                                                 Mode={modeEdit}
                                                 idEntreprise={idEntreprise}
-                                                Titre={titleModalEditCompany} 
+                                                Titre={companyModalTitle} 
                                                 Siret = {siret} 
                                                 Nom= {name}
                                                 SiteWeb = {website}
                                                 Email = {email}
                                                 Telephone = {phone}
+                                                founderLabel={founderLabel}
+                                                accessRightsLabel={accessRightsLabel}
+                                                jobLabel={jobLabel}
+                                                emailLabel={emailLabel}
+                                                nameLabel={nameLabel}
+                                                websiteLabel={websiteLabel}
+                                                phoneLabel={phoneLabel}
+                                                cancelBtn={cancelBtn}
+                                                saveBtn={saveBtn}
+                                                closeBtn={closeBtn}
                                                 />
 
                                                 <ModalEditActivity
@@ -411,12 +529,23 @@ export default function CompanyList(props) {
                                                 Mode={modeEdit}
                                                 idEntreprise={idEntreprise}
                                                 idActivite={idActivite}
-                                                Titre={titleModalEditActivity} 
+                                                Titre={activityModalTitle} 
                                                 Nom= {name}
                                                 SiteWeb = {website}
                                                 Email = {email}
                                                 Telephone = {phone}
                                                 Description = {description}
+                                                descriptionLabel={descriptionLabel}
+                                                founderLabel={founderLabel}
+                                                accessRightsLabel={accessRightsLabel}
+                                                jobLabel={jobLabel}
+                                                emailLabel={emailLabel}
+                                                nameLabel={nameLabel}
+                                                websiteLabel={websiteLabel}
+                                                phoneLabel={phoneLabel}
+                                                cancelBtn={cancelBtn}
+                                                saveBtn={saveBtn}
+                                                closeBtn={closeBtn}
                                                 />
 
                                                 <ModalLinkCompany 
@@ -424,6 +553,12 @@ export default function CompanyList(props) {
                                                 show={showLinkCompany} 
                                                 SendCloseMessage={ModalLinkCompanyClose}  
                                                 ForceRender={ForceRenderCompany}
+                                                cancelBtn={cancelBtn}
+                                                saveBtn={saveBtn}
+                                                closeBtn={closeBtn}
+                                                companyLabel={company}
+                                                founderLabel={founderLabel}
+                                                jobLabel={jobLabel}
                                                 />
 
                                                 {RenderAll()}

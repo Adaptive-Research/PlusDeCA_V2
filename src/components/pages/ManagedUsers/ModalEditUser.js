@@ -221,14 +221,14 @@ export default function ModalEditUser(props) {
                     <Row className="add-space">
                         <Col lg={12} md={12}>
                             <FormGroup>
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="email">{props.emailField}</label>
                                 <input
                                     id="email_ManagedUser" 
                                     className="form-control"
                                     type="email"
                                     readOnly={isReadOnly}
                                     defaultValue={email}
-                                    placeholder={emailMsg === "" ? "Email" : emailMsg}
+                                    placeholder={emailMsg === "" ? props.emailField : emailMsg}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                             </FormGroup>
@@ -238,7 +238,7 @@ export default function ModalEditUser(props) {
                     <Row className="add-space">
                         <Col lg={12} md={12}>
                             <FormGroup>
-                                <label htmlFor="name">Droits d'accès</label>
+                                <label htmlFor="name">{props.accessRightsField}</label>
 
                                 <select id="idRole"  className="form-control" onChange={(e) =>  idRole.current = e.target.value}>
                                             <option value="1">Standard</option>
@@ -253,11 +253,11 @@ export default function ModalEditUser(props) {
                     <Row className="add-space">
                         <Col lg={12} md={12}>
                             <FormGroup>
-                                <label htmlFor="website">Mot de passe</label>
+                                <label htmlFor="website">{props.passwordField}</label>
                                 <input
                                     className="form-control"
                                     type="text"
-                                    placeholder={emailMsg === "" ? "mot de passe" : passwordMsg}
+                                    placeholder={emailMsg === "" ? props.passwordField : passwordMsg}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </FormGroup>
@@ -272,11 +272,11 @@ export default function ModalEditUser(props) {
                 <Modal.Footer>
 
                     <Button variant="secondary" onClick={handleCancel}>
-                        Cancel
+                       {props.cancelBtn}
                     </Button>
 
                     <Button variant="primary" onClick={handleSave}>
-                        Save
+                        {props.saveBtn}
                     </Button>
 
                 </Modal.Footer>

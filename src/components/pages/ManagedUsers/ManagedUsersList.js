@@ -26,9 +26,24 @@ export default function ManagedUsersList(props) {
 
  // pour les traductions
     const sUsers = "Users";
+    const sCancel = 'Cancel';
+    const sSave = 'Save';
+    const sAddUserBtn = 'Add a User';
+    const sEmailField = 'E-mail';
+    const sPasswordField = 'Password';
+    const sAccessRightsField = 'Access Rights';
+    
+
+
+
 
     const [users, setUsers] = useState(sUsers);
-
+    const [saveBtn, setSaveBtn] = useState(sSave);
+    const [cancelBtn, setCancelBtn] = useState(sCancel);
+    const [addUserBtn,setAddUserBtn] = useState(sAddUserBtn);
+    const [emailField, setEmailField] = useState(sEmailField);
+    const [passwordField, setPasswordField] = useState(sPasswordField);
+    const [accessRightsField, setAccessRightsField] = useState(sAccessRightsField);
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
     const [showEditUser, SetShowEditUser] = useState(false) ;
@@ -98,6 +113,30 @@ export default function ManagedUsersList(props) {
         if (t !== "Not Found")
             setUsers(t);
     
+        t = FindTranslation(data, Page, sSave);
+        if (t !== "Not Found")
+            setSaveBtn(t);
+    
+        t = FindTranslation(data, Page, sCancel);
+        if (t !== "Not Found")
+            setCancelBtn(t);
+    
+        t = FindTranslation(data, Page, sAddUserBtn);
+        if (t !== "Not Found")
+            setAddUserBtn(t);
+    
+        t = FindTranslation(data, Page, sEmailField);
+        if (t !== "Not Found")
+            setEmailField(t);
+    
+        t = FindTranslation(data, Page, sPasswordField);
+        if (t !== "Not Found")
+            setPasswordField(t);
+    
+        t = FindTranslation(data, Page, sAccessRightsField);
+        if (t !== "Not Found")
+            setAccessRightsField(t);
+    
     }
     
 
@@ -108,13 +147,14 @@ export default function ManagedUsersList(props) {
         //getManagedUsers(storedToken,idUser, RenderAfterLoad) ;
 
         // Pour la traduction
-        const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL;
+ /*       const url = process.env.REACT_APP_API_SHOW_TRANSLATION_URL;
         const Page = "Company";
         const VL = "FR";
 
         TranslateAll(url, Page, VL);
 
-
+*/
+        TranslateAll(Translations_Text,"Company");
 
         // pour charger les droits utilisateurs sur les entreprises     
         let chaine = localStorage.getItem('EntrepriseUtilisateur') ;
@@ -181,6 +221,7 @@ export default function ManagedUsersList(props) {
                                     Ligne={Ligne} 
                                     SendData = {SendData}
                                     ForceRender = {ForceRender}
+                                    addUserBtn={addUserBtn}
                                 /> ) ;
             } );
         }
@@ -219,6 +260,13 @@ export default function ManagedUsersList(props) {
                     Mode={modeEdit}
                     idEntreprise={idEntreprise}
                     Ligne={ligneUser} 
+
+                    cancelBtn={cancelBtn}
+                    saveBtn={saveBtn}
+
+                    accessRightsField={accessRightsField}
+                    emailField={emailField}
+                    passwordField={passwordField}
                 />
 
                 { RenderCompanies() } 
