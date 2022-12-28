@@ -40,70 +40,72 @@ export default function FullCalendars() {
     let userEvents =  [] ;
     let suserEvents = localStorage.getItem('userEvents') ;
     if (suserEvents !== undefined)
+    {
       userEvents = JSON.parse(suserEvents) ;
-    
-
-
-    let pos = userEvents.indexOf("ERROR") ;
-    if (pos !== 0)
-    { 
-      let ed = [] ;
+      if (userEvents !== null) {
       
-      for (let i = 0 ; i < userEvents.length; i++)
-      {
-        let obj = userEvents[i] ;
-        let Event_Start = obj.Event_Start ;
-        let Event_End = obj.Event_End ;
-      
-      
-        let vAllDay = false ;  
-        if ( obj.Event_AllDay === "1")
-          vAllDay = true ;
-      
-      
-      
-        let bgColor= "#CCCCCC" ;
-        if  (obj.Event_Type === "1")
-          bgColor = "#06377e" ;
-        if  (obj.Event_Type === "2")
-          bgColor= "#006600" ;
-        if  (obj.Event_Type === "3")
-          bgColor = "#0d6efd" ;
-        if  (obj.Event_Type === "4")
-          bgColor= "#168c7f" ;
-        if  (obj.Event_Type === "5")
-          bgColor= "#b05002" ;
-        
-      
-      
-      
-        //console.log("bgColor") ;  
-        //console.log(bgColor) ;  
-      
-        let s = {
+        let pos = userEvents.indexOf("ERROR") ;
+        if (pos !== 0)
+        { 
+          let ed = [] ;
           
-          "id" : String(obj.id) ,
-          "title" : String(obj.Event_Title), 
-          "allDay" : vAllDay, 
-          "start" : String(Event_Start),
-          "end" : String(Event_End), 
-          "backgroundColor": String(bgColor),
-          "extendedProps":
+          for (let i = 0 ; i < userEvents.length; i++)
           {
-            "type" : String(obj.Event_Type), 
-            "location" : String(obj.Event_Location), 
-            "data" : String(obj.Event_Data)  
-          } 
-        
-                  
-        } ;
-        ed.push(s) ;
+            let obj = userEvents[i] ;
+            let Event_Start = obj.Event_Start ;
+            let Event_End = obj.Event_End ;
+          
+          
+            let vAllDay = false ;  
+            if ( obj.Event_AllDay === "1")
+              vAllDay = true ;
+          
+          
+          
+            let bgColor= "#CCCCCC" ;
+            if  (obj.Event_Type === "1")
+              bgColor = "#06377e" ;
+            if  (obj.Event_Type === "2")
+              bgColor= "#006600" ;
+            if  (obj.Event_Type === "3")
+              bgColor = "#0d6efd" ;
+            if  (obj.Event_Type === "4")
+              bgColor= "#168c7f" ;
+            if  (obj.Event_Type === "5")
+              bgColor= "#b05002" ;
+            
+          
+          
+          
+            //console.log("bgColor") ;  
+            //console.log(bgColor) ;  
+          
+            let s = {
+              
+              "id" : String(obj.id) ,
+              "title" : String(obj.Event_Title), 
+              "allDay" : vAllDay, 
+              "start" : String(Event_Start),
+              "end" : String(Event_End), 
+              "backgroundColor": String(bgColor),
+              "extendedProps":
+              {
+                "type" : String(obj.Event_Type), 
+                "location" : String(obj.Event_Location), 
+                "data" : String(obj.Event_Data)  
+              } 
+            
+                      
+            } ;
+            ed.push(s) ;
+          }
+
+          setDataEvents(ed) ;
+
+          if (ShouldRender)
+            fullCalendarRef.current.render();
+        }
       }
-
-      setDataEvents(ed) ;
-
-      if (ShouldRender)
-        fullCalendarRef.current.render();
     }
  }
 

@@ -61,17 +61,20 @@ export default function ModalCall(props) {
 
         ListeCalls.current = [] ;
         let userEvents = JSON.parse(localStorage.getItem("userEvents")) ;
-        console.log(userEvents) ;
-        for (let i = 0 ; i < userEvents.length ; i++) {
-            let Event = userEvents[i] ;
-            if (Event.Event_Type === "5")
-                ListeCalls.current.push(Event) ;
-        }
+        if (userEvents !== null)
+        {
+            console.log(userEvents) ;
+            for (let i = 0 ; i < userEvents.length ; i++) {
+                let Event = userEvents[i] ;
+                if (Event.Event_Type === "5")
+                    ListeCalls.current.push(Event) ;
+            }
 
-        console.log(ListeCalls) ;
-        return ListeCalls.current.map((Ligne) => {
-            return <option value={Ligne.id}> {Ligne.Event_Title}</option> ;
-        })
+            console.log(ListeCalls) ;
+            return ListeCalls.current.map((Ligne) => {
+                return <option value={Ligne.id}> {Ligne.Event_Title}</option> ;
+            })
+        }
     }
 
 
