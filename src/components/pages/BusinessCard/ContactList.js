@@ -9,6 +9,8 @@ import '../../../assets/css/ModalEditBusinessCard.css';
 import ModalImportBusinessCard from "./ModalImportBusinessCard.js";
 import ModalEditCategoryBusinessCard from "./ModalEditCategoryBusinessCard.js";
 import ModalClassifyBusinessCard from "./ModalClassifyBusinessCard.js";
+import ModalCall from "./ModalCall.js";
+
 import '../../../assets/css/GlobalInputbackground.css';
 
     
@@ -25,6 +27,7 @@ export default function ContactList() {
     const [showEditBusinessCard, setShowEditBusinessCard] = useState(false) ;
     const [showClassifyBusinessCard, setShowClassifyBusinessCard] = useState(false) ;
     const [showEditCategoryBusinessCard, setShowEditCategoryBusinessCard] = useState(false);
+    const [showCall, setShowCall] = useState(false);
 
 
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
@@ -308,6 +311,13 @@ export default function ContactList() {
     }
 
 
+// C'est le callback appele quand on ferme ModalEditBusinessCard
+function ModalCallClose(){
+    setShowCall(false) ;
+}
+
+
+
     function ClearBusinessCard() {
         console.log("ClearBusinessCard") ;
         
@@ -365,7 +375,13 @@ export default function ContactList() {
             setShowClassifyBusinessCard(true) ;
         }
 
-    
+        if (Mode === "Call")
+        {
+            console.log("businesscard.id: " + BusinessCard.id) ;
+            setIdBusinessCard(BusinessCard.id);
+            setShowCall(true) ;
+        }
+
     }   
 
 
@@ -566,6 +582,14 @@ export default function ContactList() {
                                             Render={compteur}
                                             show={showClassifyBusinessCard} 
                                             SendCloseMessage={ModalClassifyBusinessCardClose}  
+                                            ForceRenderBusinessCard={ForceRenderBusinessCard}
+                                        />
+
+                                        <ModalCall
+                                            IdBusinessCard={idBusinessCard}
+                                            Render={compteur}
+                                            show={showCall} 
+                                            SendCloseMessage={ModalCallClose}  
                                             ForceRenderBusinessCard={ForceRenderBusinessCard}
                                         />
 

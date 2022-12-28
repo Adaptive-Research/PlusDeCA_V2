@@ -44,8 +44,8 @@ export default function Register() {
         } 
 
 
-        if (password.length < 8) {
-            setPasswordMsg("Password must be at least 8 characters long");
+        if (password.length < 5) {
+            setPasswordMsg("Password must be at least 5 characters long");
             passwordCheck = false;
         } else {
             setPasswordMsg("");

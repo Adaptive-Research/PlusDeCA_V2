@@ -10,9 +10,9 @@ import {SaveClassementBusinessCard} from "../../../data/customlibs/api";
 
 
 
-export default function ModalClassifyBusinessCard(props) {
+export default function ModalCall(props) {
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
-    const ListeCategories = useRef([]) ;
+    const ListeCalls = useRef([]) ;
     const reloadInfos = useRef(true) ;
 
     const storedToken = localStorage.getItem('token');
@@ -32,10 +32,12 @@ export default function ModalClassifyBusinessCard(props) {
 
     const handleChange = () => {
         console.log("handleChange") ;
-        let v = document.getElementById('ListeCategories2').value ;
+        let v = document.getElementById('ListeCalls').value ;
+
+/*
         if (v === "Cartes de visite")
             SaveClassementBusinessCard(storedToken,props.IdBusinessCard, 0,ForceRender );
-        else {
+        else {      
             let arr = JSON.parse(localStorage.getItem("BusinessCardsCategories")) ;
             if (arr !== null)
             {
@@ -46,6 +48,7 @@ export default function ModalClassifyBusinessCard(props) {
                 }
             }
         }
+*/        
     }
 
     
@@ -53,18 +56,29 @@ export default function ModalClassifyBusinessCard(props) {
 
 
     function renderOptions() {
-        //console.log("renderOptions");
-        //console.log(ListeCategories.current);
-        return ListeCategories.current.map((Ligne) => {
-            return <option value={Ligne}> {Ligne}</option> ;
+        console.log("ModalCall renderOptions");
+        console.log(ListeCalls.current);
+
+        ListeCalls.current = [] ;
+        let userEvents = JSON.parse(localStorage.getItem("userEvents")) ;
+        console.log(userEvents) ;
+        for (let i = 0 ; i < userEvents.length ; i++) {
+            let Event = userEvents[i] ;
+            if (Event.Event_Type === "5")
+                ListeCalls.current.push(Event) ;
+        }
+
+        console.log(ListeCalls) ;
+        return ListeCalls.current.map((Ligne) => {
+            return <option value={Ligne.id}> {Ligne.Event_Title}</option> ;
         })
     }
 
 
 
-    console.log("ModaClassifyBusinessCard") ;
-    console.log("ModalClassifyBusinessCard props") ;
-    console.log(props) ;
+    console.log("ModaCall") ;
+    //console.log("ModalCall props") ;
+    //console.log(props) ;
 
 
 
@@ -73,33 +87,14 @@ export default function ModalClassifyBusinessCard(props) {
 
     if (reloadInfos.current === true)
     {
-        reloadInfos.current =false ;
-
-        ListeCategories.current = ["Cartes de visite"] ;
-        let arr = JSON.parse(localStorage.getItem("BusinessCardsCategories")) ;
-        if (arr !== null)
-        {
-           
-            for (let i = 0 ; i < arr.length ; i++) 
-                ListeCategories.current.push(arr[i].Categorie) ;
-        }
+        console.log("ModalCall reloadInfos") ;
+        reloadInfos.current = false ;
     }
 
 
     if (props.show !== lastIsModalOpen)
     {
-        var modal = document.getElementById('modal');
-        var shade = document.getElementById('shade');
-
         setLastIsModalOpen(props.show) ;
-    
-        if (props.show ===true) {
-            let s = document.getElementById('ListeCategories2') ;
-            s.value = "" ;
-            modal.style.display = shade.style.display = 'block';
-        }
-        else
-            modal.style.display = shade.style.display = 'none';
 
         if (props.show === true)
             reloadInfos.current = true ;
@@ -107,17 +102,19 @@ export default function ModalClassifyBusinessCard(props) {
 
     return (
         <>
-            <div id="shade"></div>
-            <div id="modal">
-                <div className="mb-4 ListBox">
-                    <div className="ListBoxContent">
-                        <select className="Dan-select-multiple" id="ListeCategories2" size="10" onChange={handleChange}>
-                            {renderOptions()}
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </>  
+
+            <Modal size="xl" className="Dan-modal"  show={props.show}>
+
+                <Modal.Body>
+                        <div className="ListBoxContent">
+                            <select className="Dan-select-multiple" id="ListeCalls" size="10" onChange={handleChange}>
+                                {renderOptions()}
+                            </select>
+                        </div>
+                </Modal.Body>
+
+            </Modal>
+        </>
     
     
     );

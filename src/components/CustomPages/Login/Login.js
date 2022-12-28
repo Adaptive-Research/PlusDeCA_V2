@@ -98,10 +98,8 @@ export default function Login() {
         if (password === "") {
             setPasswordMsg("Password is required");
             passwordCheck = false;
-        } else if (password.length < 8) {
-            setPasswordMsg("Password must be at least 8 characters");
-            passwordCheck = false;
-        } else {
+        } 
+        else {
             setPasswordMsg("");
             passwordCheck = true;
         }

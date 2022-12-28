@@ -20,10 +20,20 @@ export default function EditProfile(props) {
 
   const storedToken = localStorage.getItem('token') ;
   const idUser = getIDFromToken(storedToken) ;
-  const Profile =  localStorage.getItem('Profile') ;
+
+
+
+  const lsProfile =  localStorage.getItem('Profile') ;
+  let Profile = null ;
+  if (lsProfile !== undefined)
+    Profile = JSON.parse(lsProfile) ;
   
   //console.log(storedToken) ;  
   //console.log(idUser) ;
+
+
+
+
 
 
   const sLanguage = "Language" ;
@@ -158,23 +168,26 @@ export default function EditProfile(props) {
 
 
   function InitInfosFromProfile(){
-    setPrenom(Profile.Prenom) ;
-    setNom(Profile.Nom) ;
-    setEmail(Profile.Email) ;
-    setTelephone(Profile.Telephone) ;
-    setBio(Profile.Bio) ;
+    if (Profile !== null)
+    {
+      setPrenom(Profile.Prenom) ;
+      setNom(Profile.Nom) ;
+      setEmail(Profile.Email) ;
+      setTelephone(Profile.Telephone) ;
+      setBio(Profile.Bio) ;
 
-    setBioVisible(false) ;
-    if (Profile.BioVisible === "1")
-      setBioVisible(true) ;
+      setBioVisible(false) ;
+      if (Profile.BioVisible === "1")
+        setBioVisible(true) ;
 
-    setTelephoneVisible(false) ;
-    if (Profile.TelephoneVisible === "1")
-      setTelephoneVisible(true) ;
+      setTelephoneVisible(false) ;
+      if (Profile.TelephoneVisible === "1")
+        setTelephoneVisible(true) ;
 
-    setEmailVisible(false) ;
-    if (Profile.EmailVisible === "1")
-      setEmailVisible(true) ;
+      setEmailVisible(false) ;
+      if (Profile.EmailVisible === "1")
+        setEmailVisible(true) ;
+    }
   }
 
   

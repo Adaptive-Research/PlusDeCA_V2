@@ -25,6 +25,12 @@ export default function CardBusinessCard(props) {
     }
 
 
+    function CallBusinessCard(BusinessCard) {
+        if (props.SendBusinessCardData !== null)
+            props.SendBusinessCardData("Call",BusinessCard) ;
+    }
+
+
 
     let SiteWeb, S;
     S = props.BusinessCard.SiteWeb.toUpperCase() ;
@@ -50,7 +56,7 @@ export default function CardBusinessCard(props) {
                     </div>
                 </div>                  
                 <div className='BusinessCardBtns'>
-                    <button className='btn btn-success' onClick={() => ClasserBusinessCard(props.BusinessCard)}>
+                    <button className='btn btn-success' onClick={() => CallBusinessCard(props.BusinessCard)}>
                         <i className="fe fe-phone"></i>
                     </button>
 
