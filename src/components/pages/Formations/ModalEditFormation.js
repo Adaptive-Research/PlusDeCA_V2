@@ -61,8 +61,9 @@ export default function ModalEditFormation(props) {
 
         idcategorie.current = props.idCategorie ;
         if (props.idCategorie === "") {
-            if ( Formations_categories.length > 0)
-                idcategorie.current = Formations_categories[0].idCategorie ;
+            if (Formations_categories !== null)
+                if ( Formations_categories.length > 0)
+                    idcategorie.current = Formations_categories[0].idCategorie ;
         }
         //console.log("categorie.current") ;
         //console.log(categorie.current) ;

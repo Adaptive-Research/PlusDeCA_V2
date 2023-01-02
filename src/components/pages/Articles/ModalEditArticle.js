@@ -1,11 +1,12 @@
 import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import * as formeditor from "../../../data/Form/formeditor/formeditor";
-import { FormGroup, Row, Button, Modal} from "react-bootstrap";
+import { FormGroup, Row, Button, Modal,Image,Col} from "react-bootstrap";
 import {SaveArticle,UpdateArticle} from "../../../data/customlibs/api";
 import {UploadFile} from "../../../data/customlibs/api2";
 import '../../../assets/css/GlobalInputbackground.css';
 import '../../../assets/css/ArticleModale.css';
+import { useFormState } from "react-hook-form";
 
 
 
@@ -18,7 +19,7 @@ export default function ModalEditArticle(props) {
 
     console.log("ModalEditArticle") ;
     //console.log("props") ;
-    //console.log(props) ;
+    console.log(props) ;
 
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
@@ -30,7 +31,7 @@ export default function ModalEditArticle(props) {
     const modeEdit = useRef("") ;
     const [idAncestor,setIdAncestor] = useState("") ;
     const [title, setTitle] = useState("");
-    const category = useRef("");
+    const [category,setCategory] = useState("");
 
 
     const [content, setContent] = useState(""); // ceci est utilise pour initialiser l'Editor
@@ -52,7 +53,7 @@ export default function ModalEditArticle(props) {
         modeEdit.current = props.ModeEdit ;
         setIdAncestor(props.idAncestor) ;
         setTitle(props.Title) ;
-        category.current = props.Category ;
+        setCategory(props.Category) ;
         setContent(props.Html) ;
         setHtml(props.Html) ;
         texte.current = props.Text ;
@@ -83,7 +84,7 @@ export default function ModalEditArticle(props) {
 
         
         console.log("title: " + title) ;
-        console.log("category: " + category.current) ;
+        console.log("category: " + category) ;
         console.log("result") ;
         console.log(result) ;
         console.log("html") ;
@@ -111,7 +112,7 @@ export default function ModalEditArticle(props) {
             setTitleMsg("Le titre est obligatoire");
         }
 
-        if (category.current.length > 0) {
+        if (category.length > 0) {
             categoryCheck = true;
             setCategoryMsg("");
         } else {
@@ -184,7 +185,7 @@ export default function ModalEditArticle(props) {
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder={titleMsg === "" ? "Titre ..." : titleMsg}
+                                placeholder={titleMsg === "" ? " ..." : titleMsg}
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                             />
@@ -194,13 +195,13 @@ export default function ModalEditArticle(props) {
                     <Row className="mb-4">
                         <label className="col-md-3 form-label">{props.FieldCategory} :</label>
                         <div className="">
-                            <select id="Categories"  className="form-control"  onChange={(e) =>  category.current = e.target.value}>
-                            <option value="1">Techno</option>
-                            <option value="2">Juridique</option>
-                            <option value="3">Compta</option>
-                            <option value="4">News</option>
-                            <option value="5">Autre</option>
-                            </select>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder={titleMsg === "" ? "..." : titleMsg}
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                            />
                         </div>
 
 
@@ -269,17 +270,28 @@ export default function ModalEditArticle(props) {
 
                 </Modal.Body>
 
-                <Modal.Footer>
 
-                    <Button variant="secondary" onClick={handleCancel}>
-                        {props.CancelButton}
-                    </Button>
+                
 
-                    <Button variant="primary" onClick={handleSave}>
-                        {props.SaveButton}
-                    </Button>
+                <div style={{width:'100%'}}>
+                
+                    <div style={{float:'left',padding:'10px'}}>
+                        <Button variant="primary"  style={{margin:'10px'}} onClick={handleCancel}>
+                            Publier
+                        </Button>
+                    </div>
 
-                </Modal.Footer>
+                    <div style={{float:'right',padding:'10px'}}>
+                        <Button variant="secondary"  style={{margin:'10px'}} onClick={handleCancel}>
+                            {props.CancelButton}
+                        </Button>
+
+                        <Button variant="primary" onClick={handleSave}>
+                            {props.SaveButton}
+                        </Button>
+
+                    </div>
+                </div>
 
             </Modal>
 

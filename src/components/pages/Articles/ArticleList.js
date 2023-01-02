@@ -47,13 +47,13 @@ export default function ArticleList() {
 
    
     //Pour les Tabs
-    const sInWriting = "In Writing";
+    const sInProgress = "In Progress";
     const sValid = "Validated";
     const sPublished = "Published";
    // Pour le Titre
-   const sItems = "Items";
+   const sItems = "Articles";
    //Pour les Boutons
-   const sAddItem ='Add Item';
+   const sAddItem ='Add Article';
    const sCancel = 'Cancel';
    const sSave = 'Save';
    //Pour les labels et les champs de la modale
@@ -66,7 +66,7 @@ export default function ArticleList() {
     const sAddPicture  = 'Add a picture';
 
 
-    const [inWriting, setInWriting] = useState(sInWriting);
+    const [inProgress, setInProgress] = useState(sInProgress);
     const [valid, setValid] = useState(sValid);
     const [published, setPublished] = useState(sPublished);
     const [items, setItems] = useState(sItems);
@@ -84,12 +84,12 @@ export default function ArticleList() {
 
     function TranslateAll(data,Page){
 
-        console.log('ArticleList Translations') ;
+        console.log('ArticleList TranslateAll') ;
         console.log(data);
     
-        let t = FindTranslation(data,Page, sInWriting) ;
+        let t = FindTranslation(data,Page, sInProgress) ;
         if (t !== "Not Found")
-          setInWriting(t) ;
+          setInProgress(t) ;
     
         t = FindTranslation(data,Page, sValid) ;
         if (t !== "Not Found")
@@ -203,7 +203,7 @@ export default function ArticleList() {
             setModeEdit("Add") ;
             setIdAncestor("") ;
             setTitle("") ;
-            setCategory("1") ;
+            setCategory("") ;
             setText("") ;
             setHtml("") ;
             setPhoto("") ;
@@ -233,8 +233,6 @@ export default function ArticleList() {
 
 
     function ForceRenderArticle() {
-        
-        //console.log("ForceRenderArticle") ;
         setShowEditArticle(false) ;
 
         getUserArticles("userArticles",storedToken, RenderAfterLoad) ;
@@ -275,7 +273,7 @@ export default function ArticleList() {
             return articles.map((Ligne) => {
                 //console.log("Ligne.id: "+Ligne.id) ;
                 if  (TypeArticle === "Brouillon") {
-                    if (Ligne.iscurrent === "1" && Ligne.isValidated === "0" && Ligne.isPublished === "0") 
+                    if (Ligne.iscurrent === "1"  && Ligne.isPublished === "0") 
                         return <Col md={4}  key={Ligne.id}> 
                                     <CardArticle 
                                         Article={Ligne}
@@ -284,19 +282,6 @@ export default function ArticleList() {
                                         ForceRenderArticle = {ForceRenderArticle}
                                     /> 
                                 </Col> ;
-                }
-                else if(TypeArticle === "Valide"){
-                    if(Ligne.iscurrent === "1" && Ligne.isValidated === "1" && Ligne.isPublished === "0"){
-                        return <Col md={4}  key={Ligne.id}> 
-                                    <CardArticle 
-                                        key={Ligne.id}
-                                        Article={Ligne}
-                                        TypeArticle={TypeArticle}
-                                        SendArticleData={SendArticleData}  
-                                        ForceRenderArticle = {ForceRenderArticle}
-                                    /> 
-                                </Col> ;
-                    }
                 }
             })
         }
@@ -366,7 +351,7 @@ export default function ArticleList() {
                                             id=" tab-51"
                                             className="tab-content tabesbody "
                                         >
-                                            <Tab eventKey="Brouillon" title={inWriting}>
+                                            <Tab eventKey="Brouillon" title={inProgress}>
                                                 <div className="tab-pane " id="tab-61">
                                                     <Row className="row-cards ">
                                                         {renderArticles("Brouillon")}
@@ -375,13 +360,6 @@ export default function ArticleList() {
                                             </Tab>
 
 
-                                            <Tab eventKey="Valide" title={valid}>
-                                                <div className="tab-pane profiletab show">
-                                                    <Row className="row-cards ">
-                                                        {renderArticles("Valide")}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
                                             <Tab eventKey="Publié" title={published}>
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">

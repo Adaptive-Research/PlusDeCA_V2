@@ -95,6 +95,7 @@ export default function ModalCall(props) {
     }
 
 
+
     if (props.show !== lastIsModalOpen)
     {
         setLastIsModalOpen(props.show) ;
@@ -103,6 +104,7 @@ export default function ModalCall(props) {
             reloadInfos.current = true ;
     }
 
+    
     return (
         <>
 
