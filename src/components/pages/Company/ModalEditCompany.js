@@ -14,7 +14,7 @@ import {SaveCompany, UpdateCompany,UpdateFondateurUser, UpdateFonctionUser} from
 
 
 export default function ModalEditCompany(props) {
-
+    console.log("ModalEditCompany") ;
     const storedToken = localStorage.getItem("token");
 
 

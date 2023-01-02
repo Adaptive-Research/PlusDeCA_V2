@@ -96,6 +96,7 @@ export default function CompanyList(props) {
 
     // pour le Rerender
     const [compteur,setCompteur] = useState(0) ;
+    const [myCompanies,setMyCompanies] = useState([]) ;
     
 
 
@@ -179,31 +180,15 @@ export default function CompanyList(props) {
         t = FindTranslation(data, Page,  sDescription);
         if (t !== "Not Found")
             setDescriptionLabel(t);
-        /*
-        let t = FindTranslation(data, Page,  sMyProfile);
-        if (t !== "Not Found")
-            setMyProfile(t);
-        t = FindTranslation(data, Page,  sSignOut);
-        if (t !== "Not Found")
-            setSignOut(t);
-        t = FindTranslation(data, Page,  sAccountSettings);
-        if (t !== "Not Found")
-            setSettings(t);
-        t = FindTranslation(data, Page,  sMyMessages);
-        if (t !== "Not Found")
-            setMyMessages(t);
-        t = FindTranslation(data, Page,  sMyMails);
-        if (t !== "Not Found")
-            setMyMails(t);
-        */
     }
 
 
 
     
     if (reloadTraductions === true) {
-        TranslateAll(Translations_Text,"CompanyList") ;
         setReloadTraductions(false) ;
+        TranslateAll(Translations_Text,"CompanyList") ;
+       
     }
 
 
@@ -252,6 +237,8 @@ export default function CompanyList(props) {
         
         if (downloaded_UserActivities.current && downloaded_UserCompanies.current && downloaded_EntrepriseUtilisateur.current)
         {
+            ClearCompanyData() ;
+            setMyCompanies(JSON.parse(localStorage.getItem("userCompanies"))) ;
             setCompteur(compteur+1) ; 
         }
         
@@ -282,6 +269,17 @@ export default function CompanyList(props) {
     }
 
 
+    function ClearCompanyData() {
+        SetIdEntreprise("") ;
+        SetSiret("") ;
+        SetName("") ;
+        SetWebsite("") ;
+        SetEmail("") ;
+        SetPhone("") ;
+        SetJob("") ;
+        SetFondateur("") ;
+    }
+
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
     function SendCompanyData(ShowWindow, Ligne) {
         //console.log("SendCompanyData")
@@ -290,14 +288,8 @@ export default function CompanyList(props) {
             SetModeEdit("Add") ;
             SetTitleModalEditCompany(sAjouterEntreprise) ;
             setReloadTraductions(true);
-            SetIdEntreprise("") ;
-            SetSiret("") ;
-            SetName("") ;
-            SetWebsite("") ;
-            SetEmail("") ;
-            SetPhone("") ;
-            SetJob("") ;
-            SetFondateur("") ;
+            
+            ClearCompanyData() ;
         }
         else
         {
@@ -327,6 +319,7 @@ export default function CompanyList(props) {
     function ForceRenderCompany() {
         console.log("ForceRenderCompany") ;
 
+        setMyCompanies([]) ;
         downloaded_UserCompanies.current = false ;
         getCompaniesForUser("userCompanies",storedToken,idUser,RenderAfterLoad) ;
 
@@ -448,18 +441,21 @@ export default function CompanyList(props) {
     // le render du composant
     function RenderCompanies() {
         //console.log("renderCompanies") ;
-        const myCompanies = JSON.parse(localStorage.getItem("userCompanies"));
+      
    
         if (myCompanies !== null ) 
         {
             return myCompanies.map( (Ligne) => <CardCompany 
                                                         key={Ligne.idEntreprise} 
                                                         Ligne={Ligne} 
+
                                                         Render={compteur}
+
                                                         SendCompanyData={SendCompanyData}  
                                                         SendActivityData={SendActivityData} 
                                                         ForceRenderCompany = {ForceRenderCompany}
                                                         ForceRenderActivity = {ForceRenderActivity}
+                                                        
                                                         addActivityBtn={addActivityBtn}
                                                         founderLabel={founderLabel}
                                                         accessRightsLabel={accessRightsLabel}

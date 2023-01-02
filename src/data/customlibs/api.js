@@ -468,7 +468,7 @@ async function UpdateFonctionUser(tok, mail, idEntreprise,f) {
 
     var rqt =  {
         Submit: 1,
-        debug:1,
+        //debug:1,
         token: tok,
         idEntreprise: idEntreprise, 
         Fonction: f
@@ -502,7 +502,7 @@ async function UpdateFondateurUser(tok, mail, idEntreprise,f) {
 
     var rqt =  {
         Submit: 1,
-        debug:1,
+        //debug:1,
         token: tok,
         idEntreprise: idEntreprise, 
         Fondateur: f
