@@ -90,6 +90,8 @@ export default function CompanyList(props) {
     const [email, SetEmail] = useState("");
     const [phone, SetPhone] = useState("");
     const [description, SetDescription] = useState("");
+    const [job, SetJob] = useState("");
+    const [fondateur, SetFondateur] = useState("");
 
 
     // pour le Rerender
@@ -294,6 +296,8 @@ export default function CompanyList(props) {
             SetWebsite("") ;
             SetEmail("") ;
             SetPhone("") ;
+            SetJob("") ;
+            SetFondateur("") ;
         }
         else
         {
@@ -307,6 +311,8 @@ export default function CompanyList(props) {
             SetWebsite(Ligne.SiteWeb) ;
             SetEmail(Ligne.Email) ;
             SetPhone(Ligne.Telephone) ;
+            SetJob(Ligne.Fonction) ;
+            SetFondateur(Ligne.Fondateur) ;
         }
 
 
@@ -319,7 +325,7 @@ export default function CompanyList(props) {
 
 
     function ForceRenderCompany() {
-        //console.log("ForceRenderCompany") ;
+        console.log("ForceRenderCompany") ;
 
         downloaded_UserCompanies.current = false ;
         getCompaniesForUser("userCompanies",storedToken,idUser,RenderAfterLoad) ;
@@ -449,6 +455,7 @@ export default function CompanyList(props) {
             return myCompanies.map( (Ligne) => <CardCompany 
                                                         key={Ligne.idEntreprise} 
                                                         Ligne={Ligne} 
+                                                        Render={compteur}
                                                         SendCompanyData={SendCompanyData}  
                                                         SendActivityData={SendActivityData} 
                                                         ForceRenderCompany = {ForceRenderCompany}
@@ -502,6 +509,7 @@ export default function CompanyList(props) {
                                                 SendCloseMessage={ModalEditCompanyClose}  
                                                 ForceRender={ForceRenderCompany}
                                                 Mode={modeEdit}
+                                                
                                                 idEntreprise={idEntreprise}
                                                 Titre={companyModalTitle} 
                                                 Siret = {siret} 
@@ -509,6 +517,9 @@ export default function CompanyList(props) {
                                                 SiteWeb = {website}
                                                 Email = {email}
                                                 Telephone = {phone}
+                                                Fondateur={fondateur}
+                                                Fonction={job}
+
                                                 founderLabel={founderLabel}
                                                 accessRightsLabel={accessRightsLabel}
                                                 jobLabel={jobLabel}

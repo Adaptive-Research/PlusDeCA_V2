@@ -65,6 +65,9 @@ export default function ModalEditCompany(props) {
         setWebSite(props.SiteWeb) ;
         setEmail(props.Email) ;
         setPhone(props.Telephone) ;
+        setJob(props.Fonction) ;
+        Founder.current = props.Fondateur ;
+
         setReloadInfos(false) ;
     }
 
@@ -99,10 +102,19 @@ export default function ModalEditCompany(props) {
 
 
 
-    function ForceRender(idEntreprise) {
-        console.log("Founder: " + Founder.current) ;
-        UpdateFondateurUser(storedToken,null,idEntreprise,Founder.current) ;
-        UpdateFonctionUser(storedToken,null,idEntreprise,job) ;
+    function ForceRender(idE) {
+        let idE2 = idEntreprise ;
+        if (idE !== undefined)
+            idE2 = idE
+
+        //console.log("ModalEditCompany ForceRender") ;
+        //console.log("idEntreprise: " + idE2) ;
+        //console.log("Job: " + job) ;
+        //console.log("Founder: " + Founder.current) ;
+        
+        
+        UpdateFondateurUser(storedToken,null,idE2,Founder.current) ;
+        UpdateFonctionUser(storedToken,null,idE2,job) ;
         if (props.SendCloseMessage !== undefined)
             if (props.SendCloseMessage !== null)
                 props.SendCloseMessage() ;

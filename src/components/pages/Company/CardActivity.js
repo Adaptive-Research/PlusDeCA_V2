@@ -76,11 +76,63 @@ export default function CardActivity(props) {
     }
 
     
+    if (window.innerWidth > 960) {
+        return  (                              
 
-    return  (                              
+            <div key={Ligne.idActivite} className="border">
+                
+                <div className="bg-teal-100 min-height">
 
-        <div key={Ligne.idActivite} className="border">
-            
+                    <button type="btn" className="btn pt-3 float-left no-border">
+                        <h5>  <strong>{Ligne.Activite_Nom} </strong> </h5>
+                    </button>
+
+                    {renderButtons()}
+
+                </div>
+
+                <div key={Ligne.idActivite} className="table-responsive p-1 bg-teal-50" >
+
+                    <Table className="table row table-borderless bg-teal-50">
+                        <tbody className="col-lg-12 col-xl-12 p-0">
+                            <tr className="d-flex">
+                                <td className="col-4">
+                                    <strong>Website:</strong> {Ligne.Activite_SiteWeb}
+                                </td>
+                                <td className="col-5">
+                                    <strong>Email :</strong> {Ligne.Activite_Email}
+                                </td>
+                                <td className="col-3">
+                                    <strong>Phone :</strong> {Ligne.Activite_Telephone}
+                                </td>
+                            </tr>
+                        </tbody>
+                
+                        <tbody className="col-lg-12 col-xl-12 p-0">
+                            <tr>
+                                <td>
+                                    <strong>Description </strong>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    {Ligne.Description}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </div>
+            </div>
+            ) ;
+        }
+
+        else 
+         return (
+
+            <div key={Ligne.idActivite} className="border">
+                
             <div className="bg-teal-100 min-height">
 
                 <button type="btn" className="btn pt-3 float-left no-border">
@@ -88,25 +140,28 @@ export default function CardActivity(props) {
                 </button>
 
                 {renderButtons()}
-                
 
             </div>
-
-
 
             <div key={Ligne.idActivite} className="table-responsive p-1 bg-teal-50" >
 
                 <Table className="table row table-borderless bg-teal-50">
-                    <tbody className="col-lg-12 col-xl-12 p-0">
+                    <tbody className="col-sm-12 p-0">
                         <tr className="d-flex">
-                            <td className="col-4">
-                                <strong>Website:</strong> {Ligne.Activite_SiteWeb}
+                            <td>
+                                <strong>Website : </strong> {Ligne.Activite_SiteWeb}
                             </td>
+                        </tr>
+
+                        <tr>
                             <td className="col-5">
-                                <strong>Email :</strong> {Ligne.Activite_Email}
+                                <strong>Email : </strong> {Ligne.Activite_Email}
                             </td>
+                        </tr>
+
+                        <tr>
                             <td className="col-3">
-                                <strong>Phone :</strong> {Ligne.Activite_Telephone}
+                                <strong>Phone : </strong> {Ligne.Activite_Telephone}
                             </td>
                         </tr>
                     </tbody>

@@ -439,6 +439,7 @@ async function UpdateRoleUser(tok, mail, idEntreprise,idR) {
 
     if (mail !== null)
         rqt.Email = mail ; 
+    console.log(rqt) ;
 
     const url = process.env.REACT_APP_API_UPDATE_ROLE_USER_URL;
     const response = await axios.post(url, rqt, {
@@ -476,6 +477,7 @@ async function UpdateFonctionUser(tok, mail, idEntreprise,f) {
     if (mail !== null)
         rqt.Email = mail ; 
 
+    console.log(rqt) ;
     const url = process.env.REACT_APP_API_UPDATE_FONCTION_USER_URL;
     const response = await axios.post(url, rqt , {
         headers: {

@@ -149,71 +149,155 @@ export default function CardCompany(props) {
 
 
 
+    if (window.innerWidth > 960) {
 
-    return (
-        <Card key={Ligne.idEntreprise} className="block">
-            <Card.Body className="bg-white">
+        return (
+            <Card key={Ligne.idEntreprise} className="block">
+                <Card.Body className="bg-white">
 
-                <div className="bg-blue2-200">
-                     
-                    <button type="btn" className="btn pt-3 float-left no-border">
-                        <h5><strong>{Ligne.NomEntreprise}</strong></h5>
-                    </button>
+                    <div className="bg-blue2-200">
+                        
+                        <button type="btn" className="btn pt-3 float-left no-border">
+                            <h5><strong>{Ligne.NomEntreprise}</strong></h5>
+                        </button>
+                        
+                        {renderButtons()}
                     
-                    {renderButtons()}
-                   
 
-                </div>
+                    </div>
 
 
 
-                <div className="table-responsive p-1 bg-blue2-50">
-                    <Table className="table row table-borderless">
-                        <tbody className="col-lg-12 col-xl-12 p-0">
-                            <tr className="d-flex">
-                                <td className="col-6">
-                                    <strong>Siret :</strong> {Ligne.Siret}
-                                </td>
-                                <td className="col-6">
-                                    <strong>{props.websiteLabel}:</strong> {Ligne.SiteWeb}
-                                </td>
-                            </tr>
+                    <div className="table-responsive p-1 bg-blue2-50">
+                        <Table className="table row table-borderless">
+                            <tbody className="col-lg-12 col-xl-12 p-0">
+                                <tr className="d-flex">
+                                    <td className="col-6">
+                                        <strong>Siret :</strong> {Ligne.Siret}
+                                    </td>
+                                    <td className="col-6">
+                                        <strong>{props.websiteLabel}:</strong> {Ligne.SiteWeb}
+                                    </td>
+                                </tr>
 
-                            <tr className="d-flex">
-                                <td className="col-6">
-                                    <strong>{props.emailLabel} :</strong> {Ligne.Email}
-                                </td>
-                                <td className="col-6">
-                                    <strong> {props.phoneLabel}:</strong> {Ligne.Telephone}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </div>
+                                <tr className="d-flex">
+                                    <td className="col-6">
+                                        <strong>{props.emailLabel} :</strong> {Ligne.Email}
+                                    </td>
+                                    <td className="col-6">
+                                        <strong> {props.phoneLabel}:</strong> {Ligne.Telephone}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </div>
 
-                <div className="table-responsive p-1 bg-blue2-100">
-                    <Table className="table row table-borderless">
-                        <tbody className="col-lg-12 col-xl-12 p-0">
-                            <tr className="d-flex">
-                                <td className="col-4">
-                                    <strong>{props.founderLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "Fondateur")}
-                                </td>
-                                <td className="col-4">
-                                    <strong>{props.jobLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "Fonction")}
-                                </td>
-                                <td className="col-4">
-                                    <strong>{props.accessRightsLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "idRole")}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </div>
+                    <div className="table-responsive p-1 bg-blue2-100">
+                        <Table className="table row table-borderless">
+                            <tbody className="col-lg-12 col-xl-12 p-0">
+                                <tr className="d-flex">
+                                    <td className="col-4">
+                                        <strong>{props.founderLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "Fondateur")}
+                                    </td>
+                                    <td className="col-4">
+                                        <strong>{props.jobLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "Fonction")}
+                                    </td>
+                                    <td className="col-4">
+                                        <strong>{props.accessRightsLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "idRole")}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </div>
 
+                    
+                    {renderAll()}
                 
-                {renderAll()}
-              
 
-            </Card.Body>
-        </Card>
-    )
+                </Card.Body>
+            </Card>
+        )
+    }
+    else {
+        return (
+            <Card key={Ligne.idEntreprise} className="block">
+                <Card.Body className="bg-white">
+
+                    <div className="bg-blue2-200">
+                        
+                        <button type="btn" className="btn pt-3 float-left no-border">
+                            <h5><strong>{Ligne.NomEntreprise}</strong></h5>
+                        </button>
+                        
+                        {renderButtons()}
+                    
+
+                    </div>
+
+
+
+                    <div className="table-responsive p-1 bg-blue2-50">
+                        <Table className="table row table-borderless">
+                            <tbody className="col-sm-12  p-0">
+                                <tr className="d-flex">
+                                    <td>
+                                        <strong>Siret :</strong> {Ligne.Siret}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>{props.websiteLabel}:</strong> {Ligne.SiteWeb}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>{props.emailLabel} :</strong> {Ligne.Email}
+                                    </td>
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        <strong> {props.phoneLabel}:</strong> {Ligne.Telephone}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </div>
+
+                    <div className="table-responsive p-1 bg-blue2-100">
+                        <Table className="table row table-borderless">
+                            <tbody className="col-sm-12 p-0">
+                                <tr className="d-flex">
+                                    <td className="col-4">
+                                        <strong>{props.founderLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "Fondateur")}
+                                    </td>
+                                </tr>
+
+                                <tr>
+
+                                    <td className="col-4">
+                                        <strong>{props.jobLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "Fonction")}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td className="col-4">
+                                        <strong>{props.accessRightsLabel} :</strong> {FindEntrepriseUtilisateur(EntrepriseUtilisateur.current, Ligne.idEntreprise, "idRole")}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </div>
+
+                    
+                    {renderAll()}
+                
+
+                </Card.Body>
+            </Card>
+        )
+    }
 }
