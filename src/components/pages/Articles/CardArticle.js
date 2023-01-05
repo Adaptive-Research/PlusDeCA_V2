@@ -1,7 +1,6 @@
 
 import {Card} from "react-bootstrap";
 import {DeleteArticle} from "../../../data/customlibs/api";
-import {ValidateArticle,InvalidateArticle} from "../../../data/customlibs/api";
 
 
 
@@ -21,14 +20,14 @@ export default function CardArticle(props) {
     }
 
 
-
+    let FichierImage = process.env.REACT_APP_API_GET_IMAGE_URL + props.Article.Article_Image + '/' ;
 
     if(props.TypeArticle === 'Brouillon'){
         return  <Card key={props.Article.id}>
                     <img
                         className="card-img-top br-tr-7 br-tl-7"
-                        src={require("../../../assets/images/media/19.jpg")}
-                        alt="Card cap"
+                        src={FichierImage}
+                        alt=""
                     />
                     <Card.Header style={{padding: '2rem'}}>
                         <Card.Title as="h5">{props.Article.Article_Title}</Card.Title>
@@ -49,17 +48,14 @@ export default function CardArticle(props) {
         return  <Card key={props.Article.id}>
                     <img
                         className="card-img-top br-tr-7 br-tl-7"
-                        src={require("../../../assets/images/media/19.jpg")}
-                        alt="Card cap"
+                        src={FichierImage}
+                        alt=""
                     />
                     <Card.Header style={{padding: '2rem'}}>
                         <Card.Title as="h5">{props.Article.Article_Title}</Card.Title>
                         <Card.Body style={{position: 'absolute', right: '10px'}}>
                             <button className='btn btn-primary' onClick={() => EditArticle(props.Article)}>
                                 <i className="fa fa-edit"></i>
-                            </button>
-                            <button className='m-2 btn btn-danger' onClick={() => DeleteArticle(storedToken, props.Article.idAncestor,props.ForceRenderArticle)}>
-                                <i className="fa fa-trash"></i>
                             </button>
                         </Card.Body>
                     </Card.Header>

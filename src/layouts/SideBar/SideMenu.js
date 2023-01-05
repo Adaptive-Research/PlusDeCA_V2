@@ -4,22 +4,17 @@ import  { FindTranslation } from  "../../data/customlibs/utils" ;
 
 
 const menus = [
-    {
-        menutitle: "JOURNAL",
-        Items: [
-            {
-                path: `${process.env.PUBLIC_URL}/Journal/Page1`,
-                icon: "list",
-                type: "link",
-                active: false,
-                title: "Front page",
-            }
-        ],
-    },
 
     {
         menutitle: "FIND CUSTOMERS",
         Items: [
+            {
+                path: `${process.env.PUBLIC_URL}/Events`,
+                icon: "globe",
+                type: "link",
+                active: false,
+                title: "Events",
+            },
             {
                 path: `${process.env.PUBLIC_URL}/components/FullCalendar`,
                 icon: "calendar",

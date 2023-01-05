@@ -97,7 +97,7 @@ export default function FormationAvailableList() {
         //console.log("downloaded_Formations.current") ;
         //console.log(downloaded_Formations.current) ;
         
-        if (variable === "AvailableFormations")
+        if (variable === "Formations_Available")
             downloaded_Formations.current = true ;
         
         if (variable === "Formations_categories")
@@ -117,7 +117,7 @@ export default function FormationAvailableList() {
     if (reloadInfos.current === true)
     {
         console.log("reloadInfos") ;
-        getAvailableFormations("AvailableFormations",storedToken,RenderAfterLoad) ;
+        getAvailableFormations("Formations_Available",storedToken,RenderAfterLoad) ;
         getFormationsGroupes("Formations_groupes",storedToken,ValueLangue, RenderAfterLoad) ;
         getFormationsCategories("Formations_categories",storedToken,ValueLangue, RenderAfterLoad) ;
 
@@ -135,7 +135,7 @@ export default function FormationAvailableList() {
         setShowEditFormation(false) ;
 
         downloaded_Formations.current = false ;   
-        getAvailableFormations("AvailableFormations",storedToken, RenderAfterLoad) ;
+        getAvailableFormations("Formations_Available",storedToken, RenderAfterLoad) ;
     }
 
 
@@ -197,7 +197,7 @@ export default function FormationAvailableList() {
     // Separate drafts from published formations
     const renderAvailableFormations = (idCategorie) => {
         console.log("renderAvailableFormations");
-        const formations = JSON.parse(localStorage.getItem("AvailableFormations"));
+        const formations = JSON.parse(localStorage.getItem("Formations_Available"));
        {
         if (formations !== null){
             console.log(formations);

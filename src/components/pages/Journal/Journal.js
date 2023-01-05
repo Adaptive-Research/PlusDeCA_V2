@@ -77,6 +77,7 @@ export default function Journal(props) {
 
     return (
         <div>
+            {/* 
             <Journal_NavBar
                 Featured={featured}
                 NetworkNews={networkNews}
@@ -85,6 +86,7 @@ export default function Journal(props) {
                 FoundOnNet={foundOnNet}
                 EntrepreneursInLight={entrepreneursInLight}
             />
+            */}
 
             <div className='Journal Charbel-div-center-col Fill-Container'>
                 <div className='Journal_Header Charbel-div-center-line Fill-Container'>

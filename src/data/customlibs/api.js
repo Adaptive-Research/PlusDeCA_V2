@@ -887,7 +887,7 @@ async function getUserArticles(variable,tok,ForceRender) {
 
 
 // Function that sends axios requesst to create a new formation
-async function SaveArticle(tok,title,category,texte,html,photo,ForceRender) {
+async function SaveArticle(tok,title,tags,texte,html,photo,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_ARTICLE_URL;
     console.log("SaveArticle") ;
 
@@ -896,7 +896,7 @@ async function SaveArticle(tok,title,category,texte,html,photo,ForceRender) {
         Submit: 1,
         token: tok,
         Article_Title: title,
-        Article_Category: category,
+        Article_Tags: tags,
         Article_Text: texte,
         Article_Html: html,
         Article_Image: photo
@@ -912,7 +912,7 @@ async function SaveArticle(tok,title,category,texte,html,photo,ForceRender) {
 
 
 // Function that sends axios request to update an formation
-async function UpdateArticle(tok,idAncestor, title,category,texte,html,photo,ForceRender ){
+async function UpdateArticle(tok,idAncestor, title,tags,texte,html,photo,ForceRender ){
 
     const url =  process.env.REACT_APP_API_UPDATE_ARTICLE_URL;
     const response = await axios.post(url, {
@@ -920,7 +920,7 @@ async function UpdateArticle(tok,idAncestor, title,category,texte,html,photo,For
         token: tok,
         idAncestor: idAncestor,
         Article_Title: title,
-        Article_Category: category,
+        Article_Tags: tags,
         Article_Text: texte,
         Article_Html: html,
         Article_Image: photo
@@ -960,18 +960,16 @@ function DeleteArticle(tok, id, ForceRender) {
 
 
 
-// La fonction qui permet de Valider un Article
-async function ValidateArticle (tok, idArticle, ForceRender) {
-    console.log("ValidateArticle: " + idArticle) ;
-  
-    const url=process.env.REACT_APP_API_VALIDATE_ARTICLE_URL;
-    console.log("New URL " + url);
 
+// Function that sends axios request to update an formation
+async function PublishArticle(tok,idAncestor,ForceRender ){
+
+    const url =  process.env.REACT_APP_API_PUBLISH_ARTICLE_URL;
     const response = await axios.post(url, {
         Submit: 1,
         token: tok,
-        id: idArticle
-
+        debug:1,
+        idAncestor: idAncestor,
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -979,28 +977,6 @@ async function ValidateArticle (tok, idArticle, ForceRender) {
     });
 
     ManageResponse_save_axios(response,ForceRender) ;
-}
-
-
-// La fonction permettant d'invalider un formation
-async function InvalidateArticle (tok, idArticle, ForceRender) {
-    console.log("InvalidateArticle: " + idArticle) ;
-
-  
-    const url =  process.env.REACT_APP_API_INVALIDATE_ARTICLE_URL;
-    const response = await axios.post(url, {
-        Submit: 1,
-        token: tok,
-        id: idArticle
-
-    }, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-    });
-
-    ManageResponse_save_axios(response,ForceRender) ;
-       
 }
 
 
@@ -2095,8 +2071,7 @@ export {
     SaveArticle,
     UpdateArticle,
     DeleteArticle,
-    ValidateArticle,
-    InvalidateArticle,
+    PublishArticle,
 
     getUserInterviews,
     getInterviewQuestions,

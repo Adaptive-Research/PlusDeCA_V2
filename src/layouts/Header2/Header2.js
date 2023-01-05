@@ -57,7 +57,7 @@ import { Link } from "react-router-dom";
           ></Link>
           <div className="responsive-logo">
             <Link
-              to={`${process.env.PUBLIC_URL}/dashboard/`}
+              to={`${process.env.PUBLIC_URL}/Journal/Page1/`}
               className="header-logo"
             >
               <img

@@ -61,9 +61,10 @@ export default function ModalShowFormation(props) {
 
     function GetNombrePersonnes(sindex) {
         console.log("GetNombrePersonnes:" + sindex) ;
-        for (let i = 0 ; i <  Formations_groupes.length ; i++) 
-            if ( sindex === Formations_groupes[i].idGroupe  )
-                return Formations_groupes[i].groupe ;
+        if (Formations_groupes !== null)
+            for (let i = 0 ; i <  Formations_groupes.length ; i++) 
+                if ( sindex === Formations_groupes[i].idGroupe  )
+                    return Formations_groupes[i].groupe ;
 
     }
 

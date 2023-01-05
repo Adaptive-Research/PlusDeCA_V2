@@ -283,6 +283,19 @@ export default function ArticleList() {
                                     /> 
                                 </Col> ;
                 }
+                else if(TypeArticle === "Publie"){
+                    if(Ligne.iscurrent === "1" && Ligne.isPublished === "1"){
+                        return <Col md={4}  key={Ligne.id}> 
+                                    <CardArticle 
+                                        key={Ligne.id}
+                                        Article={Ligne}
+                                        TypeArticle={TypeArticle}
+                                        SendArticleData={SendArticleData}  
+                                        ForceRenderArticle = {ForceRenderArticle}
+                                    /> 
+                                </Col> ;
+                    }
+                }
             })
         }
         else
@@ -363,7 +376,7 @@ export default function ArticleList() {
                                             <Tab eventKey="Publié" title={published}>
                                                 <div className="tab-pane profiletab show">
                                                     <Row className="row-cards ">
-                                                        {renderArticles()}
+                                                        {renderArticles("Publie")}
                                                     </Row>
                                                 </div>
                                             </Tab>

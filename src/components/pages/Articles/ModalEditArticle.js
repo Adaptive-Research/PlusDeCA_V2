@@ -2,7 +2,7 @@ import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import * as formeditor from "../../../data/Form/formeditor/formeditor";
 import { FormGroup, Row, Button, Modal,Image,Col} from "react-bootstrap";
-import {SaveArticle,UpdateArticle} from "../../../data/customlibs/api";
+import {SaveArticle,UpdateArticle,PublishArticle} from "../../../data/customlibs/api";
 import {UploadFile} from "../../../data/customlibs/api2";
 import '../../../assets/css/GlobalInputbackground.css';
 import '../../../assets/css/ArticleModale.css';
@@ -138,7 +138,7 @@ export default function ModalEditArticle(props) {
 
 
 
-    const handleCancel = () => {
+    function handleCancel() {
         if (props.SendCloseMessage !== null)
             props.SendCloseMessage() ;
     }
@@ -146,7 +146,7 @@ export default function ModalEditArticle(props) {
 
 
     // Function that handle the submit event on the form
-    const handleSave = (e) => {
+    function handleSave(e){
         e.preventDefault();
         try {
             inputsValidation();
@@ -155,6 +155,18 @@ export default function ModalEditArticle(props) {
         } 
     }
 
+    function handlePublish(e) {
+        e.preventDefault();
+
+        if (modeEdit.current !== "Add") {
+            PublishArticle(storedToken,idAncestor, props.ForceRenderArticle);
+            if (props.SendCloseMessage !== null)
+                props.SendCloseMessage() ;
+        }
+
+    }
+
+
     function RenderUpload(NomFichierUploade){
         console.log("NomFichierUploade") ;
         console.log(NomFichierUploade) ;
@@ -162,13 +174,13 @@ export default function ModalEditArticle(props) {
         setPhoto(NomFichierUploade) ;
     }
 
-    const submitForm = (files, allFiles) => {
+    const submitForm = (files) => {
         console.log("submitForm") ;
         console.log(files);
        
         let Fichier = files[0].file ;
 
-        UploadFile(process.env.REACT_APP_API_Upload_ARTICLE_URL, storedToken, Fichier,RenderUpload) ;
+        UploadFile(process.env.REACT_APP_API_UPLOAD_IMAGE_ARTICLE_URL, storedToken, Fichier,RenderUpload) ;
       };
 
 
@@ -276,7 +288,7 @@ export default function ModalEditArticle(props) {
                 <div style={{width:'100%'}}>
                 
                     <div style={{float:'left',padding:'10px'}}>
-                        <Button variant="primary"  style={{margin:'10px'}} onClick={handleCancel}>
+                        <Button variant="primary"  style={{margin:'10px'}} onClick={handlePublish}>
                             Publier
                         </Button>
                     </div>

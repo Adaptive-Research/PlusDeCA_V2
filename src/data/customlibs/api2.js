@@ -6,14 +6,16 @@ import axios from "axios";
 
 
 function getLastLineFromResponse(response) {
-
-  let Reponse = String(response.data) ;
-  var lines = Reponse.split('\n');
   var LastLine = "" ;
-  for (let i = 0 ; i < lines.length ; i++)
-  {
-      if (lines[i].length > 1 )
-      LastLine = lines[i] ;
+
+  if (response !== undefined) {
+    let Reponse = String(response.data) ;
+    var lines = Reponse.split('\n');
+    for (let i = 0 ; i < lines.length ; i++)
+    {
+        if (lines[i].length > 1 )
+        LastLine = lines[i] ;
+    }
   }
 
   return LastLine ;
@@ -24,6 +26,7 @@ function getLastLineFromResponse(response) {
 
 
 function UploadFile(url, tok, Fichier, RenderUpload) {
+    console.log("UploadFile") ;
     const formData = new FormData();
     formData.append('Submit','1') ;
     formData.append('debug','1') ;
@@ -37,11 +40,13 @@ function UploadFile(url, tok, Fichier, RenderUpload) {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then(function (response) {
+          console.log("Response") ;
           console.log(response);
           RenderUpload(getLastLineFromResponse(response)) ;
 
         })
         .catch(function (response) {
+          console.log("Response") ;
           console.log(response);
           RenderUpload(getLastLineFromResponse(response)) ;
         });
