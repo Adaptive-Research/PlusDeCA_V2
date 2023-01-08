@@ -41,8 +41,13 @@ export default function ModalClassifyBusinessCard(props) {
             {
                 for (let i = 0 ; i < arr.length ; i++) {
                     console.log("categorie: " + arr[i].Categorie) ;
-                    if (arr[i].Categorie === v)
+                    if (arr[i].Categorie === v) {
+                        console.log("arr[]"+ i) ;
+                        console.log(arr[i]) ;
+                        if (arr[i].idAncestor === "0")
+                            arr[i].idAncestor = arr[i].id ;
                         SaveClassementBusinessCard(storedToken,props.IdBusinessCard, arr[i].idAncestor,ForceRender );
+                    }
                 }
             }
         }

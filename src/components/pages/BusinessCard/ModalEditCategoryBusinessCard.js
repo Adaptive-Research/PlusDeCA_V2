@@ -90,7 +90,7 @@ export default function ModalEditCategoryBusinessCard(props) {
         //console.log("renderOptions");
         //console.log(ListeCategories.current);
         return ListeCategories.current.map((Ligne) => {
-            return <option value={get(Ligne)}> {get(Ligne)}</option> ;
+            return <option key={Ligne.id} value={get(Ligne)}> {get(Ligne)}</option> ;
         })
     }
 
@@ -179,8 +179,8 @@ export default function ModalEditCategoryBusinessCard(props) {
       
 
         console.log("ModalEditCategoryBusinessCard") ;
-        console.log("ModalEditCategoryBusinessCard props") ;
-        console.log(props) ;
+        //console.log("ModalEditCategoryBusinessCard props") ;
+        //console.log(props) ;
     
     
         if (reloadInfos === true)

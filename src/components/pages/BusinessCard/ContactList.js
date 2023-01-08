@@ -32,8 +32,8 @@ export default function ContactList() {
 
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
-    console.log('Mes traductions');
-    console.log(Translations_Text);
+    //console.log('Mes traductions');
+    //console.log(Translations_Text);
 
     // pour le ForceRender
     const downloaded_BusinessCards = useRef(false) ;
@@ -423,8 +423,8 @@ function ModalCallClose(){
 
     const renderBusinessCardsForTab = (idCategorie) => {
         console.log("renderBusinessCardsForTab") ;
-        console.log("BusinessCards");
-        console.log(BusinessCards);
+        //console.log("BusinessCards");
+        //console.log(BusinessCards);
 
         if (BusinessCards !== null)
         {
@@ -469,8 +469,8 @@ function ModalCallClose(){
 
     const renderBusinessCards = () => {
         console.log("renderBusinessCards");
-        console.log("BusinessCards");
-        console.log(BusinessCards);
+        //console.log("BusinessCards");
+        //console.log(BusinessCards);
 
         if (BusinessCards !== null)
         {
