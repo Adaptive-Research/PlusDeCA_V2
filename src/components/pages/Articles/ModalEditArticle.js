@@ -26,7 +26,7 @@ export default function ModalEditArticle(props) {
     const modeEdit = useRef("") ;
     const [idAncestor,setIdAncestor] = useState("") ;
     const [title, setTitle] = useState("");
-    const [tag,setTag] = useState("");
+    const [tags,setTags] = useState("");
 
 
     const [content, setContent] = useState(""); // ceci est utilise pour initialiser l'Editor
@@ -36,7 +36,7 @@ export default function ModalEditArticle(props) {
 
     const [photo, setPhoto] = useState("");
     const [titleMsg, setTitleMsg] = useState("");
-    const [tagMsg, setTagMsg] = useState("");
+    const [tagsMsg, setTagsMsg] = useState("");
     const [photoMsg, setPhotoMsg] = useState("");
     const [Msg, setMsg] = useState("");
 
@@ -48,7 +48,7 @@ export default function ModalEditArticle(props) {
         modeEdit.current = props.ModeEdit ;
         setIdAncestor(props.idAncestor) ;
         setTitle(props.Title) ;
-        setTag(props.Tag) ;
+        setTags(props.Tagss) ;
         setContent(props.Html) ;
         setHtml(props.Html) ;
         texte.current = props.Text ;
@@ -79,7 +79,7 @@ export default function ModalEditArticle(props) {
 
         
         console.log("title: " + title) ;
-        console.log("tag: " + tag) ;
+        console.log("tags: " + tags) ;
         console.log("result") ;
         console.log(result) ;
         console.log("html") ;
@@ -98,7 +98,7 @@ export default function ModalEditArticle(props) {
         console.log(texte.current) ;
 
 
-        let titleCheck, tagCheck, descriptionCheck;
+        let titleCheck, tagsCheck, descriptionCheck;
         if (title.length > 0) {
             titleCheck = true;
             setTitleMsg("");
@@ -107,12 +107,12 @@ export default function ModalEditArticle(props) {
             setTitleMsg("Le titre est obligatoire");
         }
 
-        if (tag.length > 0) {
-            tagCheck = true;
-            setTagMsg("");
+        if (tags.length > 0) {
+            tagsCheck = true;
+            setTagsMsg("");
         } else {
-            tagCheck = false;
-            setTagMsg("Le tag est obligatoire");
+            tagsCheck = false;
+            setTagsMsg("Le tag est obligatoire");
         }
 
         if (texte.current.length > 0) {
@@ -123,11 +123,11 @@ export default function ModalEditArticle(props) {
             //setDescriptionMsg("La description est obligatoire");
         }
 
-        if (titleCheck && tagCheck && descriptionCheck) {
+        if (titleCheck && tagsCheck && descriptionCheck) {
             if (modeEdit.current === "Add")
-                SaveArticle(storedToken,title,tag,texte.current,html,photo, props.ForceRenderArticle);
+                SaveArticle(storedToken,title,tags,texte.current,html,photo, props.ForceRenderArticle);
             else
-                UpdateArticle(storedToken,idAncestor, title,tag,texte.current,html,photo, props.ForceRenderArticle);
+                UpdateArticle(storedToken,idAncestor, title,tags,texte.current,html,photo, props.ForceRenderArticle);
         }
     }
 
@@ -200,14 +200,14 @@ export default function ModalEditArticle(props) {
                     </Row>
 
                     <Row className="mb-4">
-                        <label className="col-md-3 form-label">{props.FieldTag} :</label>
+                        <label className="col-md-3 form-label">{props.FieldTags} :</label>
                         <div className="">
                             <input
                                 type="text"
                                 className="form-control"
                                 placeholder={titleMsg === "" ? "..." : titleMsg}
-                                value={tag}
-                                onChange={(e) => setTag(e.target.value)}
+                                value={tags}
+                                onChange={(e) => setTags(e.target.value)}
                             />
                         </div>
 

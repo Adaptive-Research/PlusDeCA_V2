@@ -35,7 +35,7 @@ export default function ArticleList() {
     const [modeEdit,setModeEdit]= useState("") ;
     const [idAncestor,setIdAncestor] = useState("") ;
     const [title, setTitle] = useState("");
-    const [category, setCategory] = useState("");
+    const [tags, setTags] = useState("");
     const [text, setText] = useState("");
     const [html, setHtml] = useState("<p>Hey this <strong>test</strong> rocks 😀</p>");
     const [photo, setPhoto] = useState("");
@@ -60,7 +60,7 @@ export default function ArticleList() {
 
     const sTitle = 'Title';
     const sContent = 'Content';
-    const sCategory = 'Category';
+    const sTags = 'Tags';
     const sPictureFile = 'Picture File';
     const sSendPhoto = 'Send Photo';
     const sAddPicture  = 'Add a picture';
@@ -75,7 +75,7 @@ export default function ArticleList() {
     const [save, setSave] = useState(sSave);
     const [fieldtitle, setFieldTitle] = useState(sTitle);
     const [fieldcontent, setFieldContent] = useState(sContent);
-    const [fieldcategory, setFieldCategory] = useState(sCategory);
+    const [fieldtags, setFieldTags] = useState(sTags);
     const [fieldPicture, setFieldPicture] = useState(sPictureFile);
     const [fieldSendPhoto, setSendPhoto] = useState(sSendPhoto);
     const [addPicture, setAddPicture] = useState(sAddPicture);
@@ -118,9 +118,9 @@ export default function ArticleList() {
         if (t !== "Not Found")
             setFieldTitle(t) ;
       
-        t = FindTranslation(data,Page, sCategory) ;
+        t = FindTranslation(data,Page, sTags) ;
         if (t !== "Not Found")
-            setFieldCategory(t) ;
+            setFieldTags(t) ;
       
         t = FindTranslation(data,Page, sContent) ;
         if (t !== "Not Found")
@@ -203,7 +203,7 @@ export default function ArticleList() {
             setModeEdit("Add") ;
             setIdAncestor("") ;
             setTitle("") ;
-            setCategory("") ;
+            setTags("") ;
             setText("") ;
             setHtml("") ;
             setPhoto("") ;
@@ -217,7 +217,7 @@ export default function ArticleList() {
 
             setIdAncestor(Article.idAncestor) ;
             setTitle(Article.Article_Title) ;
-            setCategory(Article.Article_Category) ;
+            setTags(Article.Article_Tags) ;
             setText(Article.Article_Text) ;
             setHtml(Article.Article_Html) ;
             setPhoto(Article.Article_Image) ;
@@ -343,12 +343,12 @@ export default function ArticleList() {
                                             ModeEdit={modeEdit}
                                             idAncestor={idAncestor}
                                             Title={title} 
-                                            Category = {category} 
+                                            Tags = {tags} 
                                             Html= {html}
                                             Text={text}
                                             Photo = {photo}
                                             FieldTitle={fieldtitle}
-                                            FieldCategory={fieldcategory}
+                                            FieldTags={fieldtags}
                                             FieldContent ={fieldcontent}
                                             FieldPicture={fieldPicture}
                                             FieldSendPhoto={fieldSendPhoto}
