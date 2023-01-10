@@ -17,7 +17,7 @@ export default function ArticleList() {
     const idUser = getIDFromToken(storedToken) ;
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
-    console.log('Mes traductions');
+    console.log('Translations_text');
     console.log(Translations_Text);
 
 
@@ -263,6 +263,7 @@ export default function ArticleList() {
 
     // Separate drafts from published articles
     const renderArticles = (TypeArticle) => {
+        console.log('ArticlesList renderArticles') ;
         const articles = JSON.parse(localStorage.getItem("userArticles"));
 
         if (articles !== null)

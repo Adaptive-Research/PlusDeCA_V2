@@ -4,7 +4,6 @@ import  { FindTranslation } from  "../../data/customlibs/utils" ;
 
 
 const menus = [
-
     {
         menutitle: "FIND CUSTOMERS",
         Items: [
@@ -26,6 +25,7 @@ const menus = [
                 path: `${process.env.PUBLIC_URL}/Contacts`,
                 icon: "user-plus",
                 type: "link",
+                access: "1",
                 active: false,
                 title: "Business Cards",
             },
@@ -33,6 +33,7 @@ const menus = [
                 path: `${process.env.PUBLIC_URL}/Prospection`,
                 icon: "phone",
                 type: "link",
+                access: "1",
                 active: false,
                 title: "Business development",
             },
@@ -42,6 +43,7 @@ const menus = [
                 path: `${process.env.PUBLIC_URL}/dashboard`,
                 icon: "star",
                 type: "link",
+                access: "1",
                 active: false,
                 title: "Results analysis",
             },
@@ -73,6 +75,7 @@ const menus = [
                 path: `${process.env.PUBLIC_URL}/Planifier`,
                 icon: "users",
                 type: "link",
+                access: "2",
                 active: false,
                 title: "Organize an Event",
             },
@@ -220,6 +223,38 @@ function TranslateMenus(data,m,VL) {
 }
 
 
+function GetVisibleMenus(m) {
+    var arr = JSON.parse(JSON.stringify(m));
+    var i, j, obj, obj2 ;
+
+    for (i = 0 ; i < arr.length ; i++) {
+
+        obj = arr[i] ;
+        console.log("obj.title: " + obj.menutitle) ;
+        console.log("obj.access: " + obj.access) ;
+
+        if (obj.access !== undefined)
+            arr.splice(i, 1);
+
+        for (j = 0 ; j < obj.Items.length ; j++) {
+
+            obj2 = obj.Items[j] ;
+
+            console.log("obj2.title: " + obj2.title) ;
+            console.log("obj2.access: " + obj2.access) ;
+
+            if (obj2.access !== undefined) {
+                obj.Items.splice(j, 1);
+                j = j-1 ;
+            }
+
+        }
+    } 
+
+    return arr ;
+}
+
+
 console.log("SideMenu") ;
 const VL = localStorage.getItem('ValueLangue') ;
 console.log("SideMenu ValueLangue: " + VL) ;
@@ -228,4 +263,8 @@ const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) 
 console.log("SideMenu Translations_Text") ;
 console.log(Translations_Text) ;
 
-export const MENUITEMS = TranslateMenus(Translations_Text,menus,VL) ;
+
+var menus2 = GetVisibleMenus(menus) ;
+
+
+export const MENUITEMS = TranslateMenus(Translations_Text,menus2,VL) ;
