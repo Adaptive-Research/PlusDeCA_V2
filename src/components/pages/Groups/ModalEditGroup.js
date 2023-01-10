@@ -2,20 +2,20 @@ import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import * as formeditor from "../../../data/Form/formeditor/formeditor";
 import { FormGroup, Row, Button, Modal,Image,Col} from "react-bootstrap";
-import {SaveArticle,UpdateArticle,PublishArticle} from "../../../data/customlibs/api";
+import {SaveGroup,UpdateGroup,PublishGroup} from "../../../data/customlibs/api";
 import {UploadFile} from "../../../data/customlibs/api2";
 import '../../../assets/css/GlobalInputbackground.css';
-import '../../../assets/css/ArticleModale.css';
+import '../../../assets/css/GroupModale.css';
 import { useFormState } from "react-hook-form";
 
-export default function ModalEditArticle(props) {
+
+export default function ModalEditGroup(props) {
 
     const storedToken = localStorage.getItem('token');
 
-    console.log("ModalEditArticle") ;
+    console.log("ModalEditGroup") ;
     //console.log("props") ;
     console.log(props) ;
-
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
     const [isModalOpen,setIsModalOpen] = useState(false) ;
@@ -24,121 +24,75 @@ export default function ModalEditArticle(props) {
     const [reloadInfos, setReloadInfos] = useState(true) ;
 
     const modeEdit = useRef("") ;
-    const [idAncestor,setIdAncestor] = useState("") ;
-    const [title, setTitle] = useState("");
-    const [tag,setTag] = useState("");
-
-
-    const [content, setContent] = useState(""); // ceci est utilise pour initialiser l'Editor
-    const [result, setResult] = useState("");   // ceci est ce que l'on recoit en sortie de l'editor
-    const [html, setHtml] = useState("");  // ceci est ce que l'on recoit en sortie de l'editor
-    const texte = useRef("");   // ceci est le texte contenu dans l'objet Result 
+    const [nom, setNom] = useState("");
+    const [sdescription, setDescription] = useState(""); 
+    const [tags, setTag] = useState("");
 
     const [photo, setPhoto] = useState("");
-    const [titleMsg, setTitleMsg] = useState("");
+    const [nomMsg, setNomMsg] = useState("");
     const [tagMsg, setTagMsg] = useState("");
+    const [descriptionMsg, setDescriptionMsg] = useState("");
     const [photoMsg, setPhotoMsg] = useState("");
     const [Msg, setMsg] = useState("");
 
-
-
-
-    if (reloadInfos === true)
-    {
+    if (reloadInfos === true) {
         modeEdit.current = props.ModeEdit ;
-        setIdAncestor(props.idAncestor) ;
-        setTitle(props.Title) ;
-        setTag(props.Tag) ;
-        setContent(props.Html) ;
-        setHtml(props.Html) ;
-        texte.current = props.Text ;
+        setNom(props.nom) ;
+        setTag(props.tags) ;
+        setDescription(props.sdescription) ;
         setPhoto(props.Photo) ;
         setReloadInfos(false) ;
     }
 
-
-    if (props.show !== lastIsModalOpen)
-    {
+    if (props.show !== lastIsModalOpen) {
         setIsModalOpen(props.show) ;
         setLastIsModalOpen(props.show) ;
         if (props.show === true)
             setReloadInfos(true) ;
     }
 
-
-
-
-
-
-    
-
-
     // Function that validates the form
     const inputsValidation = () => {
         console.log("inputsValidation") ;
-
         
-        console.log("title: " + title) ;
-        console.log("tag: " + tag) ;
-        console.log("result") ;
-        console.log(result) ;
-        console.log("html") ;
-        console.log(html) ;
-        console.log("texte") ;
-        console.log(texte.current) ;
+        console.log("nom: " + nom) ;
+        console.log("sdescription: " + sdescription) ;
         
-
-        if (result !== "")
-        {
-            if (result.blocks !== undefined)
-                texte.current = String(result.blocks[0].text) ;
-        }
-
-        console.log("texte2") ;
-        console.log(texte.current) ;
-
-
-        let titleCheck, tagCheck, descriptionCheck;
-        if (title.length > 0) {
-            titleCheck = true;
-            setTitleMsg("");
+        let nomCheck, descriptionCheck, tagCheck;
+        if (nom.length > 0) {
+            nomCheck = true;
+            setNomMsg("");
         } else {
-            titleCheck = false;
-            setTitleMsg("Le titre est obligatoire");
+            nomCheck = false;
+            setDescriptionMsg("Le nom est obligatoire");
         }
 
-        if (tag.length > 0) {
-            tagCheck = true;
-            setTagMsg("");
-        } else {
-            tagCheck = false;
-            setTagMsg("Le tag est obligatoire");
-        }
-
-        if (texte.current.length > 0) {
+        if (sdescription.length > 0) {
             descriptionCheck = true;
-            //setDescriptionMsg("");
         } else {
             descriptionCheck = false;
-            //setDescriptionMsg("La description est obligatoire");
+            setDescription("La description est obligatoire");
         }
 
-        if (titleCheck && tagCheck && descriptionCheck) {
+        if (tags.length > 0) {
+            tagCheck = true;
+        } else {
+            tagCheck = false;
+            setDescription("Le tag est obligatoire");
+        }
+
+        if (nomCheck && descriptionCheck) {
             if (modeEdit.current === "Add")
-                SaveArticle(storedToken,title,tag,texte.current,html,photo, props.ForceRenderArticle);
+                SaveGroup(storedToken,nom,sdescription,tags,photo, props.ForceRenderGroup);
             else
-                UpdateArticle(storedToken,idAncestor, title,tag,texte.current,html,photo, props.ForceRenderArticle);
+                UpdateGroup(storedToken, nom,sdescription,tags,photo, props.ForceRenderGroup);
         }
     }
-
-
 
     function handleCancel() {
         if (props.SendCloseMessage !== null)
             props.SendCloseMessage() ;
     }
-
-
 
     // Function that handle the submit event on the form
     function handleSave(e){
@@ -154,13 +108,11 @@ export default function ModalEditArticle(props) {
         e.preventDefault();
 
         if (modeEdit.current !== "Add") {
-            PublishArticle(storedToken,idAncestor, props.ForceRenderArticle);
+            PublishGroup(storedToken, props.ForceRenderGroup);
             if (props.SendCloseMessage !== null)
                 props.SendCloseMessage() ;
         }
-
     }
-
 
     function RenderUpload(NomFichierUploade){
         console.log("NomFichierUploade") ;
@@ -175,26 +127,24 @@ export default function ModalEditArticle(props) {
        
         let Fichier = files[0].file ;
 
-        UploadFile(process.env.REACT_APP_API_UPLOAD_IMAGE_ARTICLE_URL, storedToken, Fichier,RenderUpload) ;
+        UploadFile(process.env.REACT_APP_API_UPLOAD_IMAGE_GROUP_URL, storedToken, Fichier,RenderUpload) ;
       };
 
-
-
     return (
-        <div className="ModalEditArticle">
+        <div className="ModalEditGroup">
 
             <Modal size="xl" show={isModalOpen}>
 
                 <Modal.Body>
                     <Row className="mb-4">
-                        <label className="col-md-3 form-label">{props.FieldTitle} :</label>
+                        <label className="col-md-3 form-label">{props.FieldNom} :</label>
                         <div className="">
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder={titleMsg === "" ? " ..." : titleMsg}
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
+                                placeholder={nomMsg === "" ? " ..." : nomMsg}
+                                value={nom}
+                                onChange={(e) => setNom(e.target.value)}
                             />
                         </div>
                     </Row>
@@ -205,44 +155,26 @@ export default function ModalEditArticle(props) {
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder={titleMsg === "" ? "..." : titleMsg}
-                                value={tag}
+                                placeholder={tagMsg === "" ? " ..." : tagMsg}
+                                value={tags}
                                 onChange={(e) => setTag(e.target.value)}
                             />
                         </div>
-
-
                     </Row>
 
-
-
-                    <Row>
-                        <label className="col-md-3 form-label mb-4">
-                        {props.FieldContent}:
-                        </label>
-                        <div className="mb-4">
-
-                            <formeditor.EditorConvertToHTML Content={content} 
-                                onEditorChange={(v) => {
-                                    setHtml(v) ;
-                                    console.log("onEditorChange") ;
-                                    console.log("Html") ;
-                                    console.log(html) ;
-                                }}
-                                
-                                onChange={(v) => {
-                                    setResult(v) ;
-                                    console.log("onChange") ;
-                                    console.log("result") ;
-                                    console.log(result) ;
-                                }}
-                                
-
+                    <Row className="mb-4">
+                        <label className="col-md-3 form-label">{props.FieldDescription} :</label>
+                        <div className="">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder={descriptionMsg === "" ? "..." : descriptionMsg}
+                                value={sdescription}
+                                onChange={(e) => setDescription(e.target.value)}
                             />
                         </div>
 
                     </Row>
-
 
                     <Row>
                         <label className="col-md-3 form-label mb-4">
@@ -251,9 +183,6 @@ export default function ModalEditArticle(props) {
                         {photo}
                     </Row>
 
-
-
-                    
                     <FormGroup className="mb-0 file">
                         <label className="col-md-3 form-label mb-4">
                             {props.FieldSendPhoto}:
@@ -271,20 +200,14 @@ export default function ModalEditArticle(props) {
                             onSubmit={submitForm}
                         />
                     </FormGroup>    
-                    
-
-
 
                 </Modal.Body>
-
-
-                
 
                 <div style={{width:'100%'}}>
                 
                     <div style={{float:'left',padding:'10px'}}>
                         <Button variant="primary"  style={{margin:'10px'}} onClick={handlePublish}>
-                            Publier
+                            Ajouter
                         </Button>
                     </div>
 

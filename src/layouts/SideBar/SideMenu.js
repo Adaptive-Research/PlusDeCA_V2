@@ -77,7 +77,7 @@ const menus = [
                 title: "Organize an Event",
             },
             {
-                path: `${process.env.PUBLIC_URL}/MyNetwork`,
+                path: `${process.env.PUBLIC_URL}/MesGroupes`,
                 icon: "share-2",
                 type: "link",
                 active: false,

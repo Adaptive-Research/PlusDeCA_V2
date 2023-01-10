@@ -15,9 +15,11 @@ const Dashboard = React.lazy(() => import("./components/pages/Dashboard/Dashboar
 //Journal
 const Journal = React.lazy(() => import("./components/pages/Journal/Journal"));
 
-
 //Article
 const ArticleList = React.lazy(() => import("./components/pages/Articles/ArticleList"));
+
+//Group
+const GroupList = React.lazy(() => import("./components/pages/Groups/GroupList"));
 
 //Formation
 const FormationList = React.lazy(() => import("./components/pages/Formations/FormationList"));
@@ -144,10 +146,14 @@ const Root = () => {
                                 element={<InterviewQuestions/>}
                             />
 
-
                             <Route
                                 path={`${process.env.PUBLIC_URL}/MesArticles`}
                                 element={<ArticleList/>}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/MesGroupes`}
+                                element={<GroupList/>}
                             />
 
                             <Route
