@@ -14,10 +14,9 @@ import face14 from "../../assets/images/faces/14.jpg";
 import face15 from "../../assets/images/faces/15.jpg";
 
 
-import {FindTranslation, getIDFromToken, IsAdminOnce} from  "../../data/customlibs/utils" ;
+import {FindTranslation, getDecryptedData, getIDFromToken, IsAdminOnce} from  "../../data/customlibs/utils" ;
 
 
-var CryptoJS = require("crypto-js");
 
 
 
@@ -86,12 +85,7 @@ export function RightSidebar() {
     
     let chaine = localStorage.getItem('EntrepriseUtilisateur') ;
     if ( chaine !== null) {
-        var bytes = CryptoJS.AES.decrypt( chaine, "rtyGH;6435@fzw");
-        var sVal = bytes.toString(CryptoJS.enc.Utf8) ;
-        if (sVal != "") 
-            EntrepriseUtilisateur.current = JSON.parse(sVal);
-        console.log("EntrepriseUtilisateur") ;
-        console.log(EntrepriseUtilisateur) ;
+        EntrepriseUtilisateur.current = getDecryptedData(chaine) ;
     }
     
 

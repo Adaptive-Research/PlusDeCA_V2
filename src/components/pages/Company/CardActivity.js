@@ -1,9 +1,8 @@
 import React, { useState,useRef} from "react";
 import {Table} from "react-bootstrap";
 import {DeleteActivity} from "../../../data/customlibs/api";
-import {IsFullAdmin} from "../../../data/customlibs/utils";
+import {IsFullAdmin,getDecryptedData} from "../../../data/customlibs/utils";
 
-var CryptoJS = require("crypto-js");
 
 
 
@@ -34,14 +33,10 @@ export default function CardActivity(props) {
 
         // pour charger les droits utilisateurs sur les entreprises     
         let chaine = localStorage.getItem('EntrepriseUtilisateur') ;
-        console.log("chaine: "+chaine) ;
         if ( chaine !== null) {
-            var bytes = CryptoJS.AES.decrypt( chaine, "rtyGH;6435@fzw");
-            EntrepriseUtilisateur.current = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-            console.log("EntrepriseUtilisateur") ;
-            console.log(EntrepriseUtilisateur.current) ;
+            EntrepriseUtilisateur.current = getDecryptedData(chaine) ;
         }
-
+    
         setReloadInfos(false) ;
     }
 

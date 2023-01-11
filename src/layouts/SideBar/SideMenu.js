@@ -1,6 +1,6 @@
 
 
-import  { FindTranslation } from  "../../data/customlibs/utils" ;
+import  { FindTranslation, getDecryptedData,IsPaying } from  "../../data/customlibs/utils" ;
 
 
 const menus = [
@@ -223,7 +223,9 @@ function TranslateMenus(data,m,VL) {
 }
 
 
-function GetVisibleMenus(m) {
+
+
+function GetVisibleMenus(UserAccess,m) {
     var arr = JSON.parse(JSON.stringify(m));
     var i, j, obj, obj2 ;
 
@@ -233,8 +235,12 @@ function GetVisibleMenus(m) {
         console.log("obj.title: " + obj.menutitle) ;
         console.log("obj.access: " + obj.access) ;
 
-        if (obj.access !== undefined)
-            arr.splice(i, 1);
+        if (obj.access !== undefined) {
+            if ( IsPaying(UserAccess,obj.access) === false) {
+                arr.splice(i, 1);
+                i = i-1 ;
+            }
+        }
 
         for (j = 0 ; j < obj.Items.length ; j++) {
 
@@ -244,8 +250,10 @@ function GetVisibleMenus(m) {
             console.log("obj2.access: " + obj2.access) ;
 
             if (obj2.access !== undefined) {
-                obj.Items.splice(j, 1);
-                j = j-1 ;
+                if ( IsPaying(UserAccess,obj2.access) === false) {
+                    obj.Items.splice(j, 1);
+                    j = j-1 ;
+                }
             }
 
         }
@@ -264,7 +272,11 @@ console.log("SideMenu Translations_Text") ;
 console.log(Translations_Text) ;
 
 
-var menus2 = GetVisibleMenus(menus) ;
+
+var chaine = localStorage.getItem('userAccess') ;
+var UserAccess = getDecryptedData(chaine) ;
+
+var menus2 = GetVisibleMenus(UserAccess, menus) ;
 
 
 export const MENUITEMS = TranslateMenus(Translations_Text,menus2,VL) ;

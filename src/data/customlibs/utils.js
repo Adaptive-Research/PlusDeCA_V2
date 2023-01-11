@@ -1,4 +1,5 @@
 
+var CryptoJS = require("crypto-js");
 
 
 function checkEmail(mail) {
@@ -387,7 +388,50 @@ function FindEntrepriseUtilisateur(data,idEntreprise,Field) {
 
 
 
+// pour charger les droits utilisateurs sur les entreprises     
+function getDecryptedData(chaine) {
+    console.log("chaine: "+chaine) ;
+    if ( chaine !== null) {
+        var bytes = CryptoJS.AES.decrypt( chaine, "rtyGH;6435@fzw");
+        var sVar = bytes.toString(CryptoJS.enc.Utf8) ;
+        console.log("sVar: "+sVar+"*") ;
+        if (sVar !== "") 
+            return JSON.parse(sVar);
+    }
+    else 
+        return [] ;
+}
+
+
+// generateur de cle aleatoire
+const random = (length = 16) => {
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    let str = '';
+    for (let i = 0; i < length; i++) {
+        str += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    return str;
+
+};
+
+
+function IsPaying(UserAccess, AccessRight) {
+    for (var i = 0 ; i < UserAccess.length ; i++) {
+        var obj = UserAccess[i] ;
+        if (obj.idFonction === AccessRight)
+            return true ;
+
+    }
+    return false
+}
+
+
 export {
+    random, 
+    getDecryptedData,
+    IsPaying,
     checkEmail,
     checkWordLength,
     checkDuplicate,

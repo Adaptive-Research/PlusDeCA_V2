@@ -1,4 +1,8 @@
 
+import axios from "axios";
+import {getDataFromResponse} from "./api.js"
+
+var CryptoJS = require("crypto-js");
 
 
 async function getUtilisateurPayant(variable,tok,ForceRender) {
@@ -17,7 +21,7 @@ async function getUtilisateurPayant(variable,tok,ForceRender) {
 
     const data =  getDataFromResponse(response) ;
 
-    console.log("getEntrepriseUtilisateur: reponse") ;
+    console.log("getUtilisateurPayant: reponse") ;
     //console.log(response.data) ;
     let pos = data.indexOf("ERROR") ;
     if (pos < 0) {

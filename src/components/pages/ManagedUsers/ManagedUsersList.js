@@ -2,13 +2,13 @@ import React, { useState, useRef } from "react";
 
 import {Card, Col, Row} from "react-bootstrap";
 
-import {FindTranslation,getIDFromToken,IsAdmin} from  "../../../data/customlibs/utils";
+import {FindTranslation,getIDFromToken,IsAdmin,getDecryptedData} from  "../../../data/customlibs/utils";
 import {getManagedUsers, getCompaniesForUser} from "../../../data/customlibs/api";
 import CardCompany from "./CardCompany" ;
 import ModalEditUser from "./ModalEditUser" ;
 
 
-var CryptoJS = require("crypto-js");
+
 
 
 export default function ManagedUsersList(props) {
@@ -171,12 +171,9 @@ export default function ManagedUsersList(props) {
         let chaine = localStorage.getItem('EntrepriseUtilisateur') ;
         console.log("chaine: "+chaine) ;
         if ( chaine !== null) {
-            var bytes = CryptoJS.AES.decrypt( chaine, "rtyGH;6435@fzw");
-            EntrepriseUtilisateur.current = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-            console.log("EntrepriseUtilisateur") ;
-            console.log(EntrepriseUtilisateur.current) ;
+            EntrepriseUtilisateur.current = getDecryptedData(chaine) ;
         }
-
+    
 
 
         setReloadInfos(false) ;
