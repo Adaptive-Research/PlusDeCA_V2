@@ -1000,6 +1000,112 @@ async function PublishArticle(tok,idAncestor,ForceRender ){
     ManageResponse_save_axios(response,ForceRender) ;
 }
 
+/**************************************************************************************************
+ * 
+ *  Groupes
+ * 
+ **************************************************************************************************/
+
+//Method to get all groups created by this user
+async function getUserGroups(variable,tok,ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
+    const url =  process.env.REACT_APP_API_SHOW_GROUPS_BY_USER_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        debug:1,
+        Submit: 1,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    ManageResponse_select_axios(variable, response,ForceRender) ;
+}
+
+// Function that sends axios requesst to create a new group
+async function SaveGroup(tok,nom,tags,sdescription,photo,ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_GROUP_URL;
+    console.log("SaveGroup") ;
+
+    const url =  process.env.REACT_APP_API_CREATE_GROUP_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        debug: 1,
+        nom: nom,
+        tags: tags,
+        sdescription: sdescription,
+        group_image: photo
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    ManageResponse_save_axios(response,ForceRender) ;
+}
+
+// Function that sends axios request to update a group
+async function UpdateGroup(tok,idGroup,nom,tags,sdescription,photo,ForceRender ){
+
+    const url =  process.env.REACT_APP_API_UPDATE_GROUP_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        debug: 1,
+        id: idGroup,
+        nom: nom,
+        tags: tags,
+        sdescription: sdescription,
+        group_image: photo
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    ManageResponse_save_axios(response,ForceRender) ;
+}
+
+function DeleteGroup(tok, idGroup, ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_GROUP_URL;
+    const url = process.env.REACT_APP_API_DELETE_GROUP_URL;
+    axios.post(url, {
+        Submit: 1,
+        token: tok,
+        debug: 1,
+        id: idGroup,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then(
+        (response) => {
+            ManageResponse_save_axios(response,ForceRender) ;
+        }
+    )
+
+}
+
+// Function that sends axios request to update a group
+async function PublishGroup(tok, idGroup, ForceRender ){
+
+    const url =  process.env.REACT_APP_API_PUBLISH_GROUP_URL;
+    const response = await axios.post(url, {
+        Submit: 1,
+        token: tok,
+        debug:1,
+        id: idGroup,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    ManageResponse_save_axios(response,ForceRender) ;
+}
+
 /*****************************************************************************************************************************************************
  * 
  * 
@@ -2075,6 +2181,12 @@ export {
     UpdateArticle,
     DeleteArticle,
     PublishArticle,
+
+    getUserGroups,
+    SaveGroup,
+    UpdateGroup,
+    DeleteGroup,
+    PublishGroup,
 
     getUserInterviews,
     getInterviewQuestions,

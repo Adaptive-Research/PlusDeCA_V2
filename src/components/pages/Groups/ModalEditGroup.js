@@ -2,7 +2,7 @@ import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import * as formeditor from "../../../data/Form/formeditor/formeditor";
 import { FormGroup, Row, Button, Modal,Image,Col} from "react-bootstrap";
-import {SaveGroup,UpdateGroup,PublishGroup} from "../../../data/customlibs/api";
+import {SaveGroup,UpdateGroup,PublishGroup} from "../../../data/customlibs/api_angelo";
 import {UploadFile} from "../../../data/customlibs/api2";
 import '../../../assets/css/GlobalInputbackground.css';
 import '../../../assets/css/GroupModale.css';
@@ -24,11 +24,12 @@ export default function ModalEditGroup(props) {
     const [reloadInfos, setReloadInfos] = useState(true) ;
 
     const modeEdit = useRef("") ;
+    const [id, setIdGroup] = useState("");
     const [nom, setNom] = useState("");
     const [sdescription, setDescription] = useState(""); 
     const [tags, setTag] = useState("");
 
-    const [photo, setPhoto] = useState("");
+    const [group_image, setPhoto] = useState("");
     const [nomMsg, setNomMsg] = useState("");
     const [tagMsg, setTagMsg] = useState("");
     const [descriptionMsg, setDescriptionMsg] = useState("");
@@ -37,9 +38,10 @@ export default function ModalEditGroup(props) {
 
     if (reloadInfos === true) {
         modeEdit.current = props.ModeEdit ;
-        setNom(props.nom) ;
-        setTag(props.tags) ;
-        setDescription(props.sdescription) ;
+        setIdGroup(props.idGroup) ;
+        setNom(props.Nom) ;
+        setTag(props.Tags) ;
+        setDescription(props.Description) ;
         setPhoto(props.Photo) ;
         setReloadInfos(false) ;
     }
@@ -83,9 +85,9 @@ export default function ModalEditGroup(props) {
 
         if (nomCheck && descriptionCheck) {
             if (modeEdit.current === "Add")
-                SaveGroup(storedToken,nom,sdescription,tags,photo, props.ForceRenderGroup);
+                SaveGroup(storedToken,nom,sdescription,tags,group_image, props.ForceRenderGroup);
             else
-                UpdateGroup(storedToken, nom,sdescription,tags,photo, props.ForceRenderGroup);
+                UpdateGroup(storedToken,id,nom,sdescription,tags,group_image, props.ForceRenderGroup);
         }
     }
 
@@ -108,7 +110,7 @@ export default function ModalEditGroup(props) {
         e.preventDefault();
 
         if (modeEdit.current !== "Add") {
-            PublishGroup(storedToken, props.ForceRenderGroup);
+            PublishGroup(storedToken, id, props.ForceRenderGroup);
             if (props.SendCloseMessage !== null)
                 props.SendCloseMessage() ;
         }
@@ -180,7 +182,7 @@ export default function ModalEditGroup(props) {
                         <label className="col-md-3 form-label mb-4">
                             {props.FieldPicture}:
                         </label>
-                        {photo}
+                        {group_image}
                     </Row>
 
                     <FormGroup className="mb-0 file">

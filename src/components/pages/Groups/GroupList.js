@@ -1,7 +1,7 @@
 import React, { useState,useRef,useEffect} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from  "../../../data/customlibs/utils" ;
-import {getUserGroups} from "../../../data/customlibs/api";
+import {getUserGroups} from "../../../data/customlibs/api_angelo";
 import CardGroup from "./CardGroup" ;
 import ModalEditGroup from "./ModalEditGroup" ;
 
@@ -33,10 +33,11 @@ export default function GroupList() {
 
     // pour 
     const [modeEdit,setModeEdit]= useState("") ;
+    const [id, setIdGroup] = useState("");
     const [nom, setNom] = useState("");
     const [sdescription, setDescription] = useState("");
     const [tags, setTag] = useState("");
-    const [photo, setPhoto] = useState("");
+    const [group_image, setPhoto] = useState("");
 
     // pour le reload des infos
     const reloadInfos = useRef(true) ;
@@ -55,7 +56,7 @@ export default function GroupList() {
    //Pour les labels et les champs de la modale
 
     const sNom = 'Name';
-    const sTag = 'Tag';
+    const sTags = 'Tags';
     const sDescription = 'Description';
     const sPictureFile = 'Picture File';
     const sSendPhoto = 'Send Photo';
@@ -70,7 +71,7 @@ export default function GroupList() {
     const [cancel, setCancel] = useState(sCancel);
     const [save, setSave] = useState(sSave);
     const [fieldNom, setFieldNom] = useState(sNom);
-    const [fieldTag, setFieldTag] = useState(sTag);
+    const [fieldTag, setFieldTag] = useState(sTags);
     const [fieldDescription, setFieldDescription] = useState(sDescription);
     const [fieldPicture, setFieldPicture] = useState(sPictureFile);
     const [fieldSendPhoto, setSendPhoto] = useState(sSendPhoto);
@@ -115,7 +116,7 @@ export default function GroupList() {
         if (t !== "Not Found")
             setFieldNom(t) ;
     
-        t = FindTranslation(data,Page, sTag) ;
+        t = FindTranslation(data,Page, sTags) ;
         if (t !== "Not Found")
             setFieldDescription(t) ;
       
@@ -181,6 +182,7 @@ export default function GroupList() {
         if (Group === null)
         {
             setModeEdit("Add") ;
+            setIdGroup("") ;
             setNom("") ;
             setTag("") ;
             setDescription("") ;
@@ -193,10 +195,11 @@ export default function GroupList() {
             //console.log("Group") ;
             //console.log(Group) ;
 
-            setNom(Group.Group_Nom) ;
-            setTag(Group.Group_Tag) ;
-            setDescription(Group.Group_Description) ;
-            setPhoto(Group.Group_Image) ;
+            setIdGroup(Group.idGroup) ;
+            setNom(Group.nom) ;
+            setTag(Group.tags) ;
+            setDescription(Group.sdescription) ;
+            setPhoto(Group.group_image) ;
         }
         
 
@@ -221,13 +224,13 @@ export default function GroupList() {
         if (groups !== null)
         {
 
-            return groups.map((Ligne) => {
-                //console.log("Ligne.id: "+Ligne.id) ;
+            return groups.map((group) => {
+                //console.log("group.id: "+group.id) ;
                 if  (TypeGroup === "Brouillon") {
-                    if (Ligne.iscurrent === "1"  && Ligne.isPublished === "0") 
-                        return <Col md={4}  key={Ligne.id}> 
+                    if (group.iscurrent === "1"  && group.ispublished === "0") 
+                        return <Col md={4}  key={group.id}> 
                                     <CardGroup 
-                                        Group={Ligne}
+                                        Group={group}
                                         TypeGroup={TypeGroup}
                                         SendGroupData={SendGroupData}  
                                         ForceRenderGroup = {ForceRenderGroup}
@@ -235,11 +238,11 @@ export default function GroupList() {
                                 </Col> ;
                 }
                 else if(TypeGroup === "Publie"){
-                    if(Ligne.iscurrent === "1" && Ligne.isPublished === "1"){
-                        return <Col md={4}  key={Ligne.id}> 
+                    if(group.iscurrent === "1" && group.ispublished === "1"){
+                        return <Col md={4}  key={group.id}> 
                                     <CardGroup 
-                                        key={Ligne.id}
-                                        Group={Ligne}
+                                        key={group.id}
+                                        Group={group}
                                         TypeGroup={TypeGroup}
                                         SendGroupData={SendGroupData}  
                                         ForceRenderGroup = {ForceRenderGroup}
@@ -284,10 +287,11 @@ export default function GroupList() {
                                             SendCloseMessage={ModalEditGroupClose}  
                                             ForceRenderGroup={ForceRenderGroup}
                                             ModeEdit={modeEdit}
+                                            idGroup={id} 
                                             Nom={nom} 
-                                            Tag = {tags} 
+                                            Tags = {tags} 
                                             Description = {sdescription} 
-                                            Photo = {photo}
+                                            Photo = {group_image}
                                             FieldNom={fieldNom}
                                             FieldDescription ={fieldDescription}
                                             FieldTag ={fieldTag}
