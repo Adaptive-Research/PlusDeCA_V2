@@ -48,7 +48,6 @@ export default function ArticleList() {
    
     //Pour les Tabs
     const sInProgress = "In Progress";
-    const sValid = "Validated";
     const sPublished = "Published";
    // Pour le Titre
    const sItems = "Articles";
@@ -67,7 +66,6 @@ export default function ArticleList() {
 
 
     const [inProgress, setInProgress] = useState(sInProgress);
-    const [valid, setValid] = useState(sValid);
     const [published, setPublished] = useState(sPublished);
     const [items, setItems] = useState(sItems);
     const [addItem, setAddItem] = useState(sAddItem);
@@ -90,10 +88,6 @@ export default function ArticleList() {
         let t = FindTranslation(data,Page, sInProgress) ;
         if (t !== "Not Found")
           setInProgress(t) ;
-    
-        t = FindTranslation(data,Page, sValid) ;
-        if (t !== "Not Found")
-          setValid(t) ;
     
         t = FindTranslation(data,Page, sPublished) ;
         if (t !== "Not Found")
