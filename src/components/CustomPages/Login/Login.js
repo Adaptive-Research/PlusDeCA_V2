@@ -174,7 +174,7 @@ export default function Login() {
                 else {
                     PrintLog("User logged");
         
-                    storedToken  = remove_linebreaks(temp); // le token contient des retours chariots, on doit les eliminer
+                    var storedToken  = remove_linebreaks(temp); // le token contient des retours chariots, on doit les eliminer
     
                     const now = new Date();
     
@@ -182,7 +182,7 @@ export default function Login() {
                     localStorage.setItem('userMail', email);
                     localStorage.setItem('lastLogin', now.toString());
                     
-                    let storedToken = temp ;
+                    storedToken = temp ;
                     const idUser = getIDFromToken(storedToken) ;
 
                     getLanguage( "ValueLangue",storedToken,LoadTranslations) ;  // C'est pour charger la langue et les traductions
