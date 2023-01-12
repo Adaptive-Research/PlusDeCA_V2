@@ -26,7 +26,7 @@ export default function FullCalendars() {
 
 
   
-  console.log("FullCalendar component") ;
+  PrintLog("FullCalendar component") ;
 
 
   const storedToken = localStorage.getItem('token') ;
@@ -77,8 +77,8 @@ export default function FullCalendars() {
           
           
           
-            //console.log("bgColor") ;  
-            //console.log(bgColor) ;  
+            //PrintLog("bgColor") ;  
+            //PrintLog(bgColor) ;  
           
             let s = {
               
@@ -137,7 +137,7 @@ export default function FullCalendars() {
 
 
   function ForceRender(variable) {
-        console.log("ForceRender") ;
+        PrintLog("ForceRender") ;
         delay(500).then(() => AddEventsToFullCalendar(true) );
   }
 
@@ -148,8 +148,8 @@ export default function FullCalendars() {
 
  
   function renderEventContent(eventInfo) {
-    //console.log("eventInfo") ;
-    //console.log(eventInfo) ;
+    //PrintLog("eventInfo") ;
+    //PrintLog(eventInfo) ;
     return (
       <>
         <span>{eventInfo.timeText}</span>
@@ -175,17 +175,17 @@ export default function FullCalendars() {
 
   // utilise quand on clique sur un evenement
   const handleEventClick = (clickInfo) => {
-    console.log('handleEventClick') ;
+    PrintLog('handleEventClick') ;
 
-    console.log("id: " + clickInfo.event.id) ;
-    console.log("title: " + clickInfo.event.title) ;
-    console.log("allDay: " + clickInfo.event.allDay) ;
-    console.log("startStr: " + clickInfo.event.startStr) ;
-    console.log("endStr: " + clickInfo.event.endStr) ;
-    console.log("url: " + clickInfo.event.url) ;
-    console.log("backgroundColor: " + clickInfo.event.backgroundColor) ;
-    console.log("borderColor: " + clickInfo.event.borderColor) ;
-    console.log("textColor: " + clickInfo.event.textColor) ;
+    PrintLog("id: " + clickInfo.event.id) ;
+    PrintLog("title: " + clickInfo.event.title) ;
+    PrintLog("allDay: " + clickInfo.event.allDay) ;
+    PrintLog("startStr: " + clickInfo.event.startStr) ;
+    PrintLog("endStr: " + clickInfo.event.endStr) ;
+    PrintLog("url: " + clickInfo.event.url) ;
+    PrintLog("backgroundColor: " + clickInfo.event.backgroundColor) ;
+    PrintLog("borderColor: " + clickInfo.event.borderColor) ;
+    PrintLog("textColor: " + clickInfo.event.textColor) ;
 
 
     SetModeEdit("Edit") ;
@@ -218,8 +218,8 @@ export default function FullCalendars() {
   // c'est utilise quand on selectionne une date
   const handleDateSelect = (selectInfo) => {
 
-    console.log('handleDateSelect') ;
-    console.log(selectInfo) ;
+    PrintLog('handleDateSelect') ;
+    PrintLog(selectInfo) ;
 
     SetShowEditEvent(true) ;
     SetModeEdit("Add") ;
@@ -238,7 +238,7 @@ export default function FullCalendars() {
 
 
   const openCloseEventData = () => {
-    console.log('openCloseEventData') ;
+    PrintLog('openCloseEventData') ;
   };
 
 

@@ -10,15 +10,15 @@ import ModalEditArticle from "./ModalEditArticle" ;
 
 
 export default function ArticleList() {
-    console.log("ArticleList") ;
+    PrintLog("ArticleList") ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
-    console.log('Translations_text');
-    console.log(Translations_Text);
+    PrintLog('Translations_text');
+    PrintLog(Translations_Text);
 
 
     // pour le Rerender
@@ -82,8 +82,8 @@ export default function ArticleList() {
 
     function TranslateAll(data,Page){
 
-        console.log('ArticleList TranslateAll') ;
-        console.log(data);
+        PrintLog('ArticleList TranslateAll') ;
+        PrintLog(data);
     
         let t = FindTranslation(data,Page, sInProgress) ;
         if (t !== "Not Found")
@@ -144,7 +144,7 @@ export default function ArticleList() {
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
-        console.log("reloadInfos") ;
+        PrintLog("reloadInfos") ;
         getUserArticles("userArticles",storedToken,RenderAfterLoad) ;
         reloadInfos.current = false ;
     }
@@ -153,9 +153,9 @@ export default function ArticleList() {
 
 
     function RenderAfterLoad(variable) {
-        console.log("RenderAfterLoad") ;
-        //console.log("downloaded_Articles.current") ;
-        //console.log(downloaded_Articles.current) ;
+        PrintLog("RenderAfterLoad") ;
+        //PrintLog("downloaded_Articles.current") ;
+        //PrintLog(downloaded_Articles.current) ;
         
         if (variable === "userArticles")
             downloaded_Articles.current = true ;
@@ -191,7 +191,7 @@ export default function ArticleList() {
 
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
     function SendArticleData(ShowWindow, Article) {
-        //console.log("SendCompanyData")
+        //PrintLog("SendCompanyData")
         if (Article === null)
         {
             setModeEdit("Add") ;
@@ -205,9 +205,9 @@ export default function ArticleList() {
         else
         {
             setModeEdit("Edit") ;
-            console.log("Mode Edit") ;
-            //console.log("Article") ;
-            //console.log(Article) ;
+            PrintLog("Mode Edit") ;
+            //PrintLog("Article") ;
+            //PrintLog(Article) ;
 
             setIdAncestor(Article.idAncestor) ;
             setTitle(Article.Article_Title) ;
@@ -257,16 +257,16 @@ export default function ArticleList() {
 
     // Separate drafts from published articles
     const renderArticles = (TypeArticle) => {
-        console.log('ArticlesList renderArticles') ;
+        PrintLog('ArticlesList renderArticles') ;
         const articles = JSON.parse(localStorage.getItem("userArticles"));
 
         if (articles !== null)
         {
-            //console.log("articles") ;
-            //console.log(articles);
+            //PrintLog("articles") ;
+            //PrintLog(articles);
 
             return articles.map((Ligne) => {
-                //console.log("Ligne.id: "+Ligne.id) ;
+                //PrintLog("Ligne.id: "+Ligne.id) ;
                 if  (TypeArticle === "Brouillon") {
                     if (Ligne.iscurrent === "1"  && Ligne.isPublished === "0") 
                         return <Col md={4}  key={Ligne.id}> 

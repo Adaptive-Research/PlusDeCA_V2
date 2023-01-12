@@ -13,9 +13,9 @@ export default function ModalEditGroup(props) {
 
     const storedToken = localStorage.getItem('token');
 
-    console.log("ModalEditGroup") ;
-    //console.log("props") ;
-    console.log(props) ;
+    PrintLog("ModalEditGroup") ;
+    //PrintLog("props") ;
+    PrintLog(props) ;
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
     const [isModalOpen,setIsModalOpen] = useState(false) ;
@@ -55,10 +55,10 @@ export default function ModalEditGroup(props) {
 
     // Function that validates the form
     const inputsValidation = () => {
-        console.log("inputsValidation") ;
+        PrintLog("inputsValidation") ;
         
-        console.log("nom: " + nom) ;
-        console.log("sdescription: " + sdescription) ;
+        PrintLog("nom: " + nom) ;
+        PrintLog("sdescription: " + sdescription) ;
         
         let nomCheck, descriptionCheck, tagCheck;
         if (nom.length > 0) {
@@ -102,7 +102,7 @@ export default function ModalEditGroup(props) {
         try {
             inputsValidation();
         } catch (e) {
-            console.log(e);
+            PrintLog(e);
         } 
     }
 
@@ -117,15 +117,15 @@ export default function ModalEditGroup(props) {
     }
 
     function RenderUpload(NomFichierUploade){
-        console.log("NomFichierUploade") ;
-        console.log(NomFichierUploade) ;
+        PrintLog("NomFichierUploade") ;
+        PrintLog(NomFichierUploade) ;
 
         setPhoto(NomFichierUploade) ;
     }
 
     const submitForm = (files) => {
-        console.log("submitForm") ;
-        console.log(files);
+        PrintLog("submitForm") ;
+        PrintLog(files);
        
         let Fichier = files[0].file ;
 

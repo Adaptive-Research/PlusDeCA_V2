@@ -14,9 +14,9 @@ export default function ModalShowFormation(props) {
     const storedToken = localStorage.getItem('token');
     const Formations_groupes = JSON.parse(localStorage.getItem('Formations_groupes')); 
 
-    console.log("ModalEditFormation") ;
-    //console.log("props") ;
-    //console.log(props) ;
+    PrintLog("ModalEditFormation") ;
+    //PrintLog("props") ;
+    //PrintLog(props) ;
 
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
@@ -60,7 +60,7 @@ export default function ModalShowFormation(props) {
 
 
     function GetNombrePersonnes(sindex) {
-        console.log("GetNombrePersonnes:" + sindex) ;
+        PrintLog("GetNombrePersonnes:" + sindex) ;
         if (Formations_groupes !== null)
             for (let i = 0 ; i <  Formations_groupes.length ; i++) 
                 if ( sindex === Formations_groupes[i].idGroupe  )

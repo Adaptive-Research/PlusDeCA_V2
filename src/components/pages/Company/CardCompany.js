@@ -9,8 +9,8 @@ import {IsFullAdmin,FindEntrepriseUtilisateur, getDecryptedData} from "../../../
 
 
 export default function CardCompany(props) {
-    //console.log("CardCompany: ") ;
-    //console.log(props) ;
+    //PrintLog("CardCompany: ") ;
+    //PrintLog(props) ;
 
     let Ligne = props.Ligne ;
     let SendCompanyData = props.SendCompanyData ;
@@ -19,7 +19,7 @@ export default function CardCompany(props) {
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
-    //console.log(storedToken) ;  
+    //PrintLog(storedToken) ;  
     
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
@@ -31,7 +31,7 @@ export default function CardCompany(props) {
 
 
     function EditCompany(ligne) {
-        //console.log("EditCompany") ;
+        //PrintLog("EditCompany") ;
         if (SendCompanyData !== null)
             SendCompanyData(true, ligne) ;
     }
@@ -64,7 +64,7 @@ export default function CardCompany(props) {
 
     function renderActivities(idEntreprise) {
             
-        //console.log("renderActivities: " +idEntreprise ) ;
+        //PrintLog("renderActivities: " +idEntreprise ) ;
         const myActivities = JSON.parse(localStorage.getItem("userActivities"));
 
         if (myActivities !== null ) {
@@ -91,8 +91,8 @@ export default function CardCompany(props) {
     }
 
     function renderButtons() {
-        console.log("renderButtons:" + Ligne.idEntreprise) ;
-        console.log(EntrepriseUtilisateur.current) ;
+        PrintLog("renderButtons:" + Ligne.idEntreprise) ;
+        PrintLog(EntrepriseUtilisateur.current) ;
 
         if (IsFullAdmin(EntrepriseUtilisateur.current,Ligne.idEntreprise))
             return ( 

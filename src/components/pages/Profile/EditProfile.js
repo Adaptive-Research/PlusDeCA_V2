@@ -16,7 +16,7 @@ export default function EditProfile(props) {
   
   const compteur  = useRef(0) ;
   compteur.current = compteur.current+1 ;
-  console.log("\n\nEditProfile:" + compteur.current) ;
+  PrintLog("\n\nEditProfile:" + compteur.current) ;
 
   const storedToken = localStorage.getItem('token') ;
   const idUser = getIDFromToken(storedToken) ;
@@ -28,8 +28,8 @@ export default function EditProfile(props) {
   if (lsProfile !== undefined)
     Profile = JSON.parse(lsProfile) ;
   
-  //console.log(storedToken) ;  
-  //console.log(idUser) ;
+  //PrintLog(storedToken) ;  
+  //PrintLog(idUser) ;
 
 
 
@@ -96,9 +96,9 @@ export default function EditProfile(props) {
 
 
   function TranslateAll(data,Page){
-    console.log("EditProfile TranslateAll") ;
+    PrintLog("EditProfile TranslateAll") ;
     let t ;
-    //console.log(data) ;
+    //PrintLog(data) ;
 
     t = FindTranslation(data,Page, sTitle) ;
     if (t !== "Not Found")
@@ -160,7 +160,7 @@ export default function EditProfile(props) {
 
  
   function InitEnglishTraductions() {
-    console.log("InitEnglishTraductions: " + compteur.current) ;
+    PrintLog("InitEnglishTraductions: " + compteur.current) ;
    
     title.current = sTitle ;
     profile.current = sProfile ;
@@ -215,7 +215,7 @@ export default function EditProfile(props) {
 
  
   if (reloadInfos.current === true) {
-    console.log("reloadInfos.current === true") ;
+    PrintLog("reloadInfos.current === true") ;
     reloadInfos.current = false ;
 
 
@@ -242,7 +242,7 @@ export default function EditProfile(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     try {
-      console.log("Save") ;
+      PrintLog("Save") ;
 
       let bv = 0 ;
       if (bioVisible === true)
@@ -256,34 +256,34 @@ export default function EditProfile(props) {
       SaveProfile(storedToken,prenom,nom,email,ev,telephone,tv,bio,bv) ;
       navigate(`${process.env.PUBLIC_URL}/pages/editProfile`)
     } catch (e) {
-      console.log(e);
+      PrintLog(e);
     } finally {
-      console.log("Login attempt");
+      PrintLog("Login attempt");
     }
   }
 
 
   const handleCancel = (event) => {
     event.preventDefault();
-    console.log("Cancel") ;
+    PrintLog("Cancel") ;
     reloadInfos.current= true ;
     navigate(-1);
   }
 
   const handleChangePassword = (event) => {
     event.preventDefault();
-    console.log("handleChangePassword") ;
+    PrintLog("handleChangePassword") ;
   }
 
   const handleAddPhoto = (event) => {
     event.preventDefault();
-    console.log("handleAddPhoto") ;
+    PrintLog("handleAddPhoto") ;
   }
 
 
 
   function SelectFlag(code) {
-      console.log("SelectFlag") ;
+      PrintLog("SelectFlag") ;
       setSelectedFlag(code) ;
 
       // le composant transmet un code pays et pas une langue
@@ -296,7 +296,7 @@ export default function EditProfile(props) {
       localStorage.setItem('ValueLangue', VL);
       ValueLangue.current = VL ;
 
-      console.log("SelectFlag: ValueLangue " + ValueLangue.current) ;
+      PrintLog("SelectFlag: ValueLangue " + ValueLangue.current) ;
 
   }
 
@@ -305,8 +305,8 @@ export default function EditProfile(props) {
 
 
   function Render() {
-    console.log("Render: " + compteur.current) ;
-    console.log("\n\n") ;
+    PrintLog("Render: " + compteur.current) ;
+    PrintLog("\n\n") ;
     return (
       <>
         <div className="page-header">

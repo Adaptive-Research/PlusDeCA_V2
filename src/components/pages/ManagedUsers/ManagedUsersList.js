@@ -13,8 +13,8 @@ import ModalEditUser from "./ModalEditUser" ;
 
 export default function ManagedUsersList(props) {
 
-    console.log("ManageUsersList") ;
-    //console.log(props) ;
+    PrintLog("ManageUsersList") ;
+    //PrintLog(props) ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
@@ -67,8 +67,8 @@ export default function ManagedUsersList(props) {
 
 
     function RenderAfterLoad(variable){
-        console.log("RenderAfterLoad") ;
-         //console.log("RenderAfterLoad: "+ variable) ;
+        PrintLog("RenderAfterLoad") ;
+         //PrintLog("RenderAfterLoad: "+ variable) ;
 
          if (variable === "ManagedUsers")
                 downloaded_ManagedUsers.current = true ;
@@ -79,7 +79,7 @@ export default function ManagedUsersList(props) {
         
         if (downloaded_ManagedUsers.current === true)
         {
-            //console.log("compteur+1") ;
+            //PrintLog("compteur+1") ;
             setCompteur(compteur+1) ; 
         }
      
@@ -169,7 +169,7 @@ export default function ManagedUsersList(props) {
 
         // pour charger les droits utilisateurs sur les entreprises     
         let chaine = localStorage.getItem('EntrepriseUtilisateur') ;
-        console.log("chaine: "+chaine) ;
+        PrintLog("chaine: "+chaine) ;
         if ( chaine !== null) {
             EntrepriseUtilisateur.current = getDecryptedData(chaine) ;
         }
@@ -186,8 +186,8 @@ export default function ManagedUsersList(props) {
     
     // C'est le callback appele quand on clique sur + ou Edit dans CardActivity, il sert a replir la fenetre ModalEditActivity
     function SendData(ShowWindow, idEntreprise2, Ligne) {
-        console.log("SendData: ") ;
-        console.log(Ligne) ;
+        PrintLog("SendData: ") ;
+        PrintLog(Ligne) ;
 
         if (Ligne === null)
         {
@@ -244,7 +244,7 @@ export default function ManagedUsersList(props) {
     // C'est le callback appele quand on ferme ModalEditActivity
     function ModalEditUserClose()
     {
-        //console.log("ModalEditActivityClose") ;
+        //PrintLog("ModalEditActivityClose") ;
         SetShowEditUser(false) ;
     }
   

@@ -25,14 +25,14 @@ export default function ModalEditCategoryBusinessCard(props) {
 
 
     function RenderAfterSave() {
-        console.log("RenderAfterSave: "+CompteurSave.current) ;
+        PrintLog("RenderAfterSave: "+CompteurSave.current) ;
         if (CompteurSave.current >=  ListeCategories.current.length)
             if (props.ForceRenderCategoriesBusinessCards !== null)
                 props.ForceRenderCategoriesBusinessCards() ;
     }
 
     function RenderAfterDelete() {
-        console.log("RenderAfterDelete") ;
+        PrintLog("RenderAfterDelete") ;
         if  (ListeCategories.current.length === 0)
         {
             if (props.ForceRenderCategoriesBusinessCards !== null)
@@ -44,8 +44,8 @@ export default function ModalEditCategoryBusinessCard(props) {
                 CompteurSave.current = 1 ;
                 ListeCategories.current.map(Ligne =>{
                     if(Ligne.Categorie !== '') {
-                        console.log("Ligne") ;
-                        console.log(Ligne) ;
+                        PrintLog("Ligne") ;
+                        PrintLog(Ligne) ;
                         SaveBusinessCardCategory(storedToken, Ligne.idAncestor, Ligne.Categorie, CompteurSave.current,RenderAfterSave);
                     }
                     CompteurSave.current = CompteurSave.current+1 ;
@@ -58,9 +58,9 @@ export default function ModalEditCategoryBusinessCard(props) {
 
     // Function that validates the form
     async function inputsValidation() {
-        //console.log("inputsValidation") ;
-        //console.log("ListeCategories");
-        //console.log(ListeCategories.current);
+        //PrintLog("inputsValidation") ;
+        //PrintLog("ListeCategories");
+        //PrintLog(ListeCategories.current);
         DeleteAllBusinessCardCategories(storedToken,RenderAfterDelete) ;
     }
 
@@ -87,8 +87,8 @@ export default function ModalEditCategoryBusinessCard(props) {
 
 
     function renderOptions() {
-        //console.log("renderOptions");
-        //console.log(ListeCategories.current);
+        //PrintLog("renderOptions");
+        //PrintLog(ListeCategories.current);
         return ListeCategories.current.map((Ligne) => {
             return <option key={Ligne.id} value={get(Ligne)}> {get(Ligne)}</option> ;
         })
@@ -100,21 +100,21 @@ export default function ModalEditCategoryBusinessCard(props) {
 
 
     const handleAdd = (e) => {
-        console.log("handleAdd") ;
+        PrintLog("handleAdd") ;
         if (Categorie.current !== ""){
             let v = { "Categorie": Categorie.current, "idAncestor": 0 } ;
             ListeCategories.current.push(v) ;
         }
             
         Categorie.current = "" ;
-        console.log(ListeCategories.current) ;
+        PrintLog(ListeCategories.current) ;
         document.getElementById('Categorie').value = "";
         setCompteur(compteur+1) ;
       };
 
 
       const handleDelete = (e) => {
-        console.log("handleDelete") ;
+        PrintLog("handleDelete") ;
         let select = document.getElementById('ListeCategories') ;
         if  (select.selectedOptions !== undefined){
             let temp = Array.from(select.selectedOptions) ;
@@ -126,10 +126,10 @@ export default function ModalEditCategoryBusinessCard(props) {
 
 
     const handleUp = (e) => {
-        console.log("handleUp") ;
+        PrintLog("handleUp") ;
         let res, select,arr ;
         select = document.getElementById('ListeCategories') ;
-        console.log(select.selectedOptions) ;
+        PrintLog(select.selectedOptions) ;
         if  (select.selectedOptions !== undefined){
             let temp = Array.from(select.selectedOptions) ;
             
@@ -146,10 +146,10 @@ export default function ModalEditCategoryBusinessCard(props) {
       
 
     const handleDown = (e) => {
-        console.log("handleDown") ;
+        PrintLog("handleDown") ;
         let res, select,arr ;
         select = document.getElementById('ListeCategories') ;
-        console.log(select.selectedOptions) ;
+        PrintLog(select.selectedOptions) ;
         if  (select.selectedOptions !== undefined){
             let temp = Array.from(select.selectedOptions) ;
             arr = DownInArray(ListeCategories.current,get, temp[0].value) ;
@@ -178,9 +178,9 @@ export default function ModalEditCategoryBusinessCard(props) {
     else {
       
 
-        console.log("ModalEditCategoryBusinessCard") ;
-        //console.log("ModalEditCategoryBusinessCard props") ;
-        //console.log(props) ;
+        PrintLog("ModalEditCategoryBusinessCard") ;
+        //PrintLog("ModalEditCategoryBusinessCard props") ;
+        //PrintLog(props) ;
     
     
         if (reloadInfos === true)

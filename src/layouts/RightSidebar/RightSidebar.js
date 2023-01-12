@@ -21,13 +21,13 @@ import {FindTranslation, getDecryptedData, getIDFromToken, IsAdminOnce} from  ".
 
 
 export function RightSidebar() {
-    console.log("RightSidebar") ;
+    PrintLog("RightSidebar") ;
     const storedToken = localStorage.getItem('token');
     const idUser = getIDFromToken(storedToken);
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
-    //console.log(storedToken) ;
-    //console.log(idUser) ;
+    //PrintLog(storedToken) ;
+    //PrintLog(idUser) ;
 
 
     // les titres des champs
@@ -154,8 +154,8 @@ export function RightSidebar() {
 
 
     function renderManagedUsers() {
-        console.log("RightSideBar: renderManagedUsers") ;
-        console.log(EntrepriseUtilisateur) ;
+        PrintLog("RightSideBar: renderManagedUsers") ;
+        PrintLog(EntrepriseUtilisateur) ;
 
         if ( IsAdminOnce(EntrepriseUtilisateur.current) )
             return  <Link

@@ -16,14 +16,14 @@ import ModalLinkCompany from "./ModalLinkCompany" ;
 
 export default function CompanyList(props) {
 
-    console.log("CompanyList") ;
+    PrintLog("CompanyList") ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
-    //console.log(storedToken) ;  
-    //console.log(idUser) ;
+    //PrintLog(storedToken) ;  
+    //PrintLog(idUser) ;
   
 
 
@@ -199,7 +199,7 @@ export default function CompanyList(props) {
     // recuperation des informations au depart
     if (reloadInfos === true)
     {
-        //console.log("reloadInfos") ;
+        //PrintLog("reloadInfos") ;
         getActivitiesForUser("userActivities",storedToken,idUser,RenderAfterLoad) ;
         getCompaniesForUser("userCompanies",storedToken,idUser,RenderAfterLoad) ;
 
@@ -223,7 +223,7 @@ export default function CompanyList(props) {
     // le callback qui est appele apres le chargement des donnees
     function RenderAfterLoad(variable) {
 
-        //console.log("RenderAfterLoad: "+ variable) ;
+        //PrintLog("RenderAfterLoad: "+ variable) ;
 
         if (variable === "userActivities")
             downloaded_UserActivities.current = true ;
@@ -264,7 +264,7 @@ export default function CompanyList(props) {
     // C'est le callback appele quand on ferme ModalEditCompany 
     function ModalEditCompanyClose()
     {
-        //console.log("ModalEditCompanyClose") ;
+        //PrintLog("ModalEditCompanyClose") ;
         SetShowEditCompany(false) ;
     }
 
@@ -282,7 +282,7 @@ export default function CompanyList(props) {
 
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
     function SendCompanyData(ShowWindow, Ligne) {
-        //console.log("SendCompanyData")
+        //PrintLog("SendCompanyData")
         if (Ligne === null)
         {
             SetModeEdit("Add") ;
@@ -317,7 +317,7 @@ export default function CompanyList(props) {
 
 
     function ForceRenderCompany() {
-        console.log("ForceRenderCompany") ;
+        PrintLog("ForceRenderCompany") ;
 
         setMyCompanies([]) ;
         downloaded_UserCompanies.current = false ;
@@ -350,7 +350,7 @@ export default function CompanyList(props) {
      // C'est le callback appele quand on ferme ModalEditActivity
     function ModalEditActivityClose()
     {
-        //console.log("ModalEditActivityClose") ;
+        //PrintLog("ModalEditActivityClose") ;
         SetShowEditActivity(false) ;
     }
 
@@ -358,7 +358,7 @@ export default function CompanyList(props) {
 
     // C'est le callback appele quand on clique sur + ou Edit dans CardActivity, il sert a replir la fenetre ModalEditActivity
     function SendActivityData(ShowWindow,idEntreprise2, Ligne) {
-        //console.log("SendActivityData: " + idEntreprise2) ;
+        //PrintLog("SendActivityData: " + idEntreprise2) ;
 
 
         if (Ligne === null)
@@ -400,7 +400,7 @@ export default function CompanyList(props) {
 
     
     function ForceRenderActivity() {
-        //console.log("ForceRenderActivity") ;
+        //PrintLog("ForceRenderActivity") ;
 
         downloaded_UserActivities.current = false ;
         getActivitiesForUser("userActivities",storedToken,idUser,RenderAfterLoad) ;
@@ -413,7 +413,7 @@ export default function CompanyList(props) {
 
     function ModalLinkCompanyClose()
     {
-        //console.log("ModalEditActivityClose") ;
+        //PrintLog("ModalEditActivityClose") ;
         SetShowLinkCompany(false) ;
     }
 
@@ -440,7 +440,7 @@ export default function CompanyList(props) {
 
     // le render du composant
     function RenderCompanies() {
-        //console.log("renderCompanies") ;
+        //PrintLog("renderCompanies") ;
       
    
         if (myCompanies !== null ) 

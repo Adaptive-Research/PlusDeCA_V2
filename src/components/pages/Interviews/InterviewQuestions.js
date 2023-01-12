@@ -11,7 +11,7 @@ import {createArticle} from "../../../data/customlibs/utils";
 
 
 export default function InterviewQuestions(props) {
-    console.log("InterviewQuestions");
+    PrintLog("InterviewQuestions");
 
    
 
@@ -44,11 +44,11 @@ export default function InterviewQuestions(props) {
         Questions.current = JSON.parse(localStorage.getItem("interviewQuestions"));
         Answers.current = JSON.parse(localStorage.getItem("interviewAnswers"));
 
-        console.log("reloadInfos === true");
-        console.log("Questions");
-        console.log(Questions.current);
-        console.log("Answers");
-        console.log(Answers.current);
+        PrintLog("reloadInfos === true");
+        PrintLog("Questions");
+        PrintLog(Questions.current);
+        PrintLog("Answers");
+        PrintLog(Answers.current);
 
         if (Questions.current === null)
             Questions.current = [] ;
@@ -171,13 +171,13 @@ export default function InterviewQuestions(props) {
     }
 
     function FindNextQuestionFromIDAndAnswer(idQuestion,Answer) {
-        //console.log("FindNextQuestionFromIDAndAnswer") ;
-        //console.log("idQuestion: " +idQuestion) ;
-        //console.log("Answer: "+Answer) ;
+        //PrintLog("FindNextQuestionFromIDAndAnswer") ;
+        //PrintLog("idQuestion: " +idQuestion) ;
+        //PrintLog("Answer: "+Answer) ;
         for (let i=0 ; i < Questions.current.length ; i++)
         {
             if (Questions.current[i].idQuestion === idQuestion && Questions.current[i].idSelectOption === Answer) {
-                //console.log("idQuestionSuivante: " + Questions.current[i].idQuestionSuivante) ;
+                //PrintLog("idQuestionSuivante: " + Questions.current[i].idQuestionSuivante) ;
                 return Questions.current[i].idQuestionSuivante ;
             }
         }
@@ -197,7 +197,7 @@ export default function InterviewQuestions(props) {
 
     function AddReponse() {
 
-        console.log("AddReponse") ;
+        PrintLog("AddReponse") ;
         let rep = "" ;
         if (InterviewQuestion.idSelectOption === "0")
         {
@@ -232,8 +232,8 @@ export default function InterviewQuestions(props) {
     
 
     function FindReponse(idQuestion) {
-        //console.log("FindReponse:" + idQuestion) ;
-        //console.log(Answers) ;
+        //PrintLog("FindReponse:" + idQuestion) ;
+        //PrintLog(Answers) ;
         for (let i = 0 ; i < Answers.current.length; i++) {
             if (Answers.current[i].idQuestion === idQuestion)
                 return Answers.current[i].Reponse ;
@@ -243,7 +243,7 @@ export default function InterviewQuestions(props) {
 
 
     function SetReponse(s) {
-        //console.log("SetReponse: "+s) ;
+        //PrintLog("SetReponse: "+s) ;
 
         let rep = "" ;
 
@@ -269,13 +269,13 @@ export default function InterviewQuestions(props) {
             else {
                 if (rep !== "") {
                     setSelectInput(rep) ;
-                    //console.log("reponseSelect.current") ;
-                    //console.log(reponseSelect.current) ;
+                    //PrintLog("reponseSelect.current") ;
+                    //PrintLog(reponseSelect.current) ;
                 }
                 else {
                     setSelectInput(Questions.current[s].idSelectOption) ;
-                    //console.log("reponseSelect.current") ;
-                    //console.log(reponseSelect.current) ;
+                    //PrintLog("reponseSelect.current") ;
+                    //PrintLog(reponseSelect.current) ;
                 }
             }
         }
@@ -289,7 +289,7 @@ export default function InterviewQuestions(props) {
 
 
     const onNext = () =>{
-        console.log("onNext") ;
+        PrintLog("onNext") ;
 
 
         AddReponse() ;
@@ -309,7 +309,7 @@ export default function InterviewQuestions(props) {
                 setStep(Questions.current.length) ;
         }
         else{
-            //console.log("selectInput: " + selectInput) ;
+            //PrintLog("selectInput: " + selectInput) ;
             res = FindNextQuestionFromIDAndAnswer(Questions.current[step].idQuestion,selectInput) ;
             if (res > 0)
             {
@@ -331,8 +331,8 @@ export default function InterviewQuestions(props) {
             
           
         }
-        //console.log("path.current") ;
-        //console.log(path.current) ;
+        //PrintLog("path.current") ;
+        //PrintLog(path.current) ;
     }
 
 
@@ -341,7 +341,7 @@ export default function InterviewQuestions(props) {
 
 
     const onBack = () =>{
-        //console.log("onBack") ;
+        //PrintLog("onBack") ;
         if (path.current.length > 0)
         {
 
@@ -351,11 +351,11 @@ export default function InterviewQuestions(props) {
 
             SetReponse(s) ;
 
-            //console.log("path.current") ;
-            //console.log(path.current) ;
+            //PrintLog("path.current") ;
+            //PrintLog(path.current) ;
 
-            //console.log("Answers.current") ;
-            //console.log(Answers.current) ;
+            //PrintLog("Answers.current") ;
+            //PrintLog(Answers.current) ;
         }
     }
 

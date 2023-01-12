@@ -7,8 +7,8 @@ import CardUser from "./CardUser" ;
 
 
 export default function CardCompany(props) {
-    //console.log("CardCompany: ") ;
-    //console.log(props) ;
+    //PrintLog("CardCompany: ") ;
+    //PrintLog(props) ;
 
 
 
@@ -33,7 +33,7 @@ export default function CardCompany(props) {
 
 
     function renderUsers(idEntreprise) {
-        console.log("renderUsers: " +idEntreprise ) ;
+        PrintLog("renderUsers: " +idEntreprise ) ;
         const ManagedUsers = localStorage.getItem("ManagedUsers") ;
 
 

@@ -11,8 +11,8 @@ import {DeleteUser} from "../../../data/customlibs/api";
 
 
 export default function CardUser(props) {
-    console.log("CardUser: ") ;
-    console.log(props) ;
+    PrintLog("CardUser: ") ;
+    PrintLog(props) ;
 
 
 
@@ -23,7 +23,7 @@ export default function CardUser(props) {
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
-    //console.log(storedToken) ;  
+    //PrintLog(storedToken) ;  
     
 
 
@@ -33,7 +33,7 @@ export default function CardUser(props) {
 
 
     function EditUser(ligne) {
-        //console.log("EditUser") ;
+        //PrintLog("EditUser") ;
         if (SendData !== undefined)
             if (SendData !== null)
                 SendData(true, ligne.idEntreprise, ligne) ;

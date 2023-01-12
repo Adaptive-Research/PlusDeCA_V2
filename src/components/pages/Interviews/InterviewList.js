@@ -65,8 +65,8 @@ export default function InterviewList() {
 
  function TranslateAll(data,Page){
 
-        console.log('InterviewList Translations') ;
-        console.log(data);
+        PrintLog('InterviewList Translations') ;
+        PrintLog(data);
     
         let t = FindTranslation(data,Page, sMyInterviews) ;
         if (t !== "Not Found")
@@ -181,8 +181,8 @@ export default function InterviewList() {
         if (interviews !== null)
         {
             
-            //console.log("interviews") ;
-            //console.log(interviews);
+            //PrintLog("interviews") ;
+            //PrintLog(interviews);
 
             return interviews.map((Interview) => {
                 if  (TypeInterview === 'A_Repondre') {

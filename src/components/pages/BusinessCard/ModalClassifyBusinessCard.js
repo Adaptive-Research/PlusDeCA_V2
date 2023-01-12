@@ -31,7 +31,7 @@ export default function ModalClassifyBusinessCard(props) {
     
 
     const handleChange = () => {
-        console.log("handleChange") ;
+        PrintLog("handleChange") ;
         let v = document.getElementById('ListeCategories2').value ;
         if (v === "Cartes de visite")
             SaveClassementBusinessCard(storedToken,props.IdBusinessCard, 0,ForceRender );
@@ -40,10 +40,10 @@ export default function ModalClassifyBusinessCard(props) {
             if (arr !== null)
             {
                 for (let i = 0 ; i < arr.length ; i++) {
-                    console.log("categorie: " + arr[i].Categorie) ;
+                    PrintLog("categorie: " + arr[i].Categorie) ;
                     if (arr[i].Categorie === v) {
-                        console.log("arr[]"+ i) ;
-                        console.log(arr[i]) ;
+                        PrintLog("arr[]"+ i) ;
+                        PrintLog(arr[i]) ;
                         if (arr[i].idAncestor === "0")
                             arr[i].idAncestor = arr[i].id ;
                         SaveClassementBusinessCard(storedToken,props.IdBusinessCard, arr[i].idAncestor,ForceRender );
@@ -58,8 +58,8 @@ export default function ModalClassifyBusinessCard(props) {
 
 
     function renderOptions() {
-        //console.log("renderOptions");
-        //console.log(ListeCategories.current);
+        //PrintLog("renderOptions");
+        //PrintLog(ListeCategories.current);
         return ListeCategories.current.map((Ligne) => {
             return <option value={Ligne}> {Ligne}</option> ;
         })
@@ -67,9 +67,9 @@ export default function ModalClassifyBusinessCard(props) {
 
 
 
-    console.log("ModaClassifyBusinessCard") ;
-    console.log("ModalClassifyBusinessCard props") ;
-    console.log(props) ;
+    PrintLog("ModaClassifyBusinessCard") ;
+    PrintLog("ModalClassifyBusinessCard props") ;
+    PrintLog(props) ;
 
 
 

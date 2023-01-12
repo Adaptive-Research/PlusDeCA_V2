@@ -57,14 +57,14 @@ export default function ModalEditBusinessCard(props) {
     else {
     
 
-        console.log("ModalEditBusinessCard") ;
-        console.log("props") ;
-        console.log(props) ;
+        PrintLog("ModalEditBusinessCard") ;
+        PrintLog("props") ;
+        PrintLog(props) ;
 
 
         if (reloadInfos === true)
         {
-            console.log("reloadinfos === true") ;
+            PrintLog("reloadinfos === true") ;
             modeEdit.current = props.ModeEdit ;
             sexe.current = props.Sexe ;
 
@@ -83,8 +83,8 @@ export default function ModalEditBusinessCard(props) {
                     idActivite.current = props.idActivite ;
             }
 
-            console.log("idEntreprise:" + idEntreprise.current) ;
-            console.log("idActivite:" + idActivite.current) ;
+            PrintLog("idEntreprise:" + idEntreprise.current) ;
+            PrintLog("idActivite:" + idActivite.current) ;
 
 
             setLieuRencontre(props.LieuRencontre);
@@ -104,11 +104,11 @@ export default function ModalEditBusinessCard(props) {
 
 
         function renderCompanies() {
-            console.log("renderCompanies") ;   
+            PrintLog("renderCompanies") ;   
             
             const myCompanies = JSON.parse(localStorage.getItem("userCompanies"));
-            console.log("myCompanies") ;
-            console.log(myCompanies) ;
+            PrintLog("myCompanies") ;
+            PrintLog(myCompanies) ;
     
             if (myCompanies !== null ) {
                 if (myCompanies.length > 0) {
@@ -125,8 +125,8 @@ export default function ModalEditBusinessCard(props) {
                         }
                     })
 
-                    console.log("options") ;
-                    console.log(options) ;
+                    PrintLog("options") ;
+                    PrintLog(options) ;
                     return options ;
                 }
     
@@ -137,7 +137,7 @@ export default function ModalEditBusinessCard(props) {
 
 
         function renderActivities() {
-            console.log("renderActivities") ;   
+            PrintLog("renderActivities") ;   
             
             const myActivities = JSON.parse(localStorage.getItem("userActivities"));
 
@@ -157,8 +157,8 @@ export default function ModalEditBusinessCard(props) {
                     const reactElement = React.createElement('option', {value:"0"}, '') ;
                     options.unshift(reactElement) ;
 
-                    console.log("options") ;
-                    console.log(options) ;
+                    PrintLog("options") ;
+                    PrintLog(options) ;
                     return options ;
                 }
     
@@ -169,10 +169,10 @@ export default function ModalEditBusinessCard(props) {
     
 
         function renderSexe() {
-            console.log("renderSexe") ;   
+            PrintLog("renderSexe") ;   
             const ListeSexes = [{"id":"1","sexe":"Homme"},{"id":"2","sexe":"Femme"}] ;
-            //console.log(ListeSexes) ;
-            //console.log(sexe.current) ;
+            //PrintLog(ListeSexes) ;
+            //PrintLog(sexe.current) ;
             let options =  ListeSexes.map( (Ligne) => 
                     {
                         if (Ligne.sexe !== null) {
@@ -183,8 +183,8 @@ export default function ModalEditBusinessCard(props) {
                         }
                     })
 
-                    console.log("options") ;
-                    console.log(options) ;
+                    PrintLog("options") ;
+                    PrintLog(options) ;
                     return options ;
 
 
@@ -195,18 +195,18 @@ export default function ModalEditBusinessCard(props) {
 
         // Function that validates the form
         const inputsValidation = () => {
-            console.log("inputsValidation") ;  
+            PrintLog("inputsValidation") ;  
 
-            console.log("LieuRencontre: " + lieuRencontre) ;
-            console.log("SiteWeb: " + siteWeb) ;
-            console.log("idEntreprise: " + idEntreprise.current) ;
-            console.log("Entreprise: " + entreprise) ;
-            console.log("Sexe: " + sexe.current) ;
-            console.log("Prenom: " + prenom) ;
-            console.log("Nom: " + nom) ;
-            console.log("Fonction: " + fonction) ;
-            console.log("Telephone: " + telephone) ;
-            console.log("Email: " + email) ;
+            PrintLog("LieuRencontre: " + lieuRencontre) ;
+            PrintLog("SiteWeb: " + siteWeb) ;
+            PrintLog("idEntreprise: " + idEntreprise.current) ;
+            PrintLog("Entreprise: " + entreprise) ;
+            PrintLog("Sexe: " + sexe.current) ;
+            PrintLog("Prenom: " + prenom) ;
+            PrintLog("Nom: " + nom) ;
+            PrintLog("Fonction: " + fonction) ;
+            PrintLog("Telephone: " + telephone) ;
+            PrintLog("Email: " + email) ;
 
             let  entrepriseCheck, prenomCheck, nomCheck ;
             if (entreprise.length > 0) {
@@ -262,7 +262,7 @@ export default function ModalEditBusinessCard(props) {
             try {
                 inputsValidation();
             } catch (e) {
-                console.log(e);
+                PrintLog(e);
             } 
         }
 

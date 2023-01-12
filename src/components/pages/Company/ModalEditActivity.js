@@ -37,14 +37,14 @@ export default function ModalEditActivity(props) {
 
 
 
-    console.log("ModalEditActivity") ;
-    //console.log("props") ;
-    //console.log(props) ;
+    PrintLog("ModalEditActivity") ;
+    //PrintLog("props") ;
+    //PrintLog(props) ;
     /*
-    console.log("props.idEntreprise") ;
-    console.log(props.idEntreprise) ;
-    console.log("props.idActivite") ;
-    console.log(props.idActivite) ;
+    PrintLog("props.idEntreprise") ;
+    PrintLog(props.idEntreprise) ;
+    PrintLog("props.idActivite") ;
+    PrintLog(props.idActivite) ;
     */
 
 
@@ -120,7 +120,7 @@ export default function ModalEditActivity(props) {
         try {
             inputsValidation();
         } catch (e) {
-            console.log(e);
+            PrintLog(e);
         } finally {
         }
     }

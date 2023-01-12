@@ -59,7 +59,7 @@ export default function ModalLinkCompany(props) {
 
     
     function renderFounder() {
-        console.log("renderFounder") ;   
+        PrintLog("renderFounder") ;   
         const ListeReponses = [{"id":"1","reponse":""} , {"id":"2","reponse":"Fondateur"},{"id":"3","reponse":"Co Fondateur"}  ] ;
         let options =  ListeReponses.map( (Ligne) => 
                 {
@@ -71,8 +71,8 @@ export default function ModalLinkCompany(props) {
                     }
                 })
 
-                console.log("options") ;
-                console.log(options) ;
+                PrintLog("options") ;
+                PrintLog(options) ;
                 return options ;
     }    
 
@@ -90,10 +90,10 @@ export default function ModalLinkCompany(props) {
     const handleSave = (e) => {
         e.preventDefault();
 
-        console.log ("ModalEditLink Company handleSave: " ) ;
-        console.log ("idEntreprise: "+ idEntreprise.current ) ;
-        console.log ("Founder: "+ Founder.current ) ;
-        console.log ("Job: "+ job ) ;
+        PrintLog ("ModalEditLink Company handleSave: " ) ;
+        PrintLog ("idEntreprise: "+ idEntreprise.current ) ;
+        PrintLog ("Founder: "+ Founder.current ) ;
+        PrintLog ("Job: "+ job ) ;
 
 
         LinkCompany(storedToken,idEntreprise.current,Founder.current,job, ForceRender) ;

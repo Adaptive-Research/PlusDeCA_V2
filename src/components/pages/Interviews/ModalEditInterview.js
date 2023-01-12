@@ -13,9 +13,9 @@ export default function ModalEditInterview(props) {
 
     const storedToken = localStorage.getItem('token');
 
-    //console.log("ModalEditInterview") ;
-    //console.log("props") ;
-    //console.log(props) ;
+    //PrintLog("ModalEditInterview") ;
+    //PrintLog("props") ;
+    //PrintLog(props) ;
 
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
@@ -31,7 +31,7 @@ export default function ModalEditInterview(props) {
     
 
     function RenderAfterLoad(variable) {
-        console.log("RenderAfterLoad: "+variable) ;
+        PrintLog("RenderAfterLoad: "+variable) ;
         if (variable === "interviewQuestions")
             downloaded_InterviewQuestions.current = true ;
 
@@ -85,8 +85,8 @@ export default function ModalEditInterview(props) {
 
     // callback pour que les Answers arrivent de InterviewQuestions a ModalEditInterview
     function SendAnswers(rep){
-        //console.log("SendAnswers") ;
-        //console.log(rep.current) ;
+        //PrintLog("SendAnswers") ;
+        //PrintLog(rep.current) ;
         Answers.current = rep.current ;
     }
 
@@ -100,7 +100,7 @@ export default function ModalEditInterview(props) {
 
 
     function SaveInterview(){
-        console.log("SaveInterview") ;
+        PrintLog("SaveInterview") ;
         for (let i = 0 ; i < Answers.current.length ; i++ ){
             let rep = Answers.current[i] ;
             let srep = rep.Reponse ;
@@ -125,7 +125,7 @@ export default function ModalEditInterview(props) {
         try {
             SaveInterview();
         } catch (e) {
-            console.log(e);
+            PrintLog(e);
         }
     }
 
@@ -141,7 +141,7 @@ export default function ModalEditInterview(props) {
 
     function Render() 
     {
-        //console.log("Render()") ;
+        //PrintLog("Render()") ;
 
         if(props.Mode === 'Edit'){
             return <div>

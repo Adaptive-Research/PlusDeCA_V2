@@ -31,7 +31,7 @@ export default function ModalCall(props) {
     
 
     const handleChange = () => {
-        console.log("handleChange") ;
+        PrintLog("handleChange") ;
         let v = document.getElementById('ListeCalls').value ;
 
 /*
@@ -42,7 +42,7 @@ export default function ModalCall(props) {
             if (arr !== null)
             {
                 for (let i = 0 ; i < arr.length ; i++) {
-                    console.log("categorie: " + arr[i].Categorie) ;
+                    PrintLog("categorie: " + arr[i].Categorie) ;
                     if (arr[i].Categorie === v)
                         SaveClassementBusinessCard(storedToken,props.IdBusinessCard, arr[i].idAncestor,ForceRender );
                 }
@@ -56,21 +56,21 @@ export default function ModalCall(props) {
 
 
     function renderOptions() {
-        console.log("ModalCall renderOptions");
-        console.log(ListeCalls.current);
+        PrintLog("ModalCall renderOptions");
+        PrintLog(ListeCalls.current);
 
         ListeCalls.current = [] ;
         let userEvents = JSON.parse(localStorage.getItem("userEvents")) ;
         if (userEvents !== null)
         {
-            console.log(userEvents) ;
+            PrintLog(userEvents) ;
             for (let i = 0 ; i < userEvents.length ; i++) {
                 let Event = userEvents[i] ;
                 if (Event.Event_Type === "5")
                     ListeCalls.current.push(Event) ;
             }
 
-            console.log(ListeCalls) ;
+            PrintLog(ListeCalls) ;
             return ListeCalls.current.map((Ligne) => {
                 return <option value={Ligne.id}> {Ligne.Event_Title}</option> ;
             })
@@ -79,9 +79,9 @@ export default function ModalCall(props) {
 
 
 
-    console.log("ModaCall") ;
-    //console.log("ModalCall props") ;
-    //console.log(props) ;
+    PrintLog("ModaCall") ;
+    //PrintLog("ModalCall props") ;
+    //PrintLog(props) ;
 
 
 
@@ -90,7 +90,7 @@ export default function ModalCall(props) {
 
     if (reloadInfos.current === true)
     {
-        console.log("ModalCall reloadInfos") ;
+        PrintLog("ModalCall reloadInfos") ;
         reloadInfos.current = false ;
     }
 

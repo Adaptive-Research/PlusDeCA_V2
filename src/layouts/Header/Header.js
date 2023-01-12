@@ -40,7 +40,7 @@ export function Header() {
 
   //rightsidebar
   const openCloseSidebarright = () => {
-    console.log('openCloseSidebarright') ;
+    PrintLog('openCloseSidebarright') ;
     document.querySelector(".sidebar-right").classList.toggle("sidebar-open");
   };
 

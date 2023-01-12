@@ -7,8 +7,8 @@ import {DeleteGroup} from "../../../data/customlibs/api_angelo";
 
 
 export default function CardGroup(props) {
-    console.log("CardGroup") ;
-    console.log(props) ;
+    PrintLog("CardGroup") ;
+    PrintLog(props) ;
     const storedToken = localStorage.getItem('token') ;
 
     // props.Group provient directment de ce qui a ete charge de la base de donnees

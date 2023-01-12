@@ -22,9 +22,9 @@ export default function ModalImportBusinessCard(props) {
         return "" ;
     else {
    
-        console.log("ModalImportBusinessCard") ;
-        console.log("ModalImportBusinessCard props") ;
-        console.log(props) ;
+        PrintLog("ModalImportBusinessCard") ;
+        PrintLog("ModalImportBusinessCard props") ;
+        PrintLog(props) ;
 
         if (reloadInfos === true)
         {
@@ -40,8 +40,8 @@ export default function ModalImportBusinessCard(props) {
         }
 
         function renderOptions() {
-            //console.log("renderOptions");
-            //console.log(ListeCategories.current);
+            //PrintLog("renderOptions");
+            //PrintLog(ListeCategories.current);
             return ListeCategories.current.map((Ligne) => {
                 return <option value={Ligne}> {Ligne}</option> ;
             })
@@ -56,8 +56,8 @@ export default function ModalImportBusinessCard(props) {
 
         
         function RenderUpload(NomFichierUploade){
-            console.log("NomFichierUploade") ;
-            console.log(NomFichierUploade) ;
+            PrintLog("NomFichierUploade") ;
+            PrintLog(NomFichierUploade) ;
 
             //setBusinessCardsFile(NomFichierUploade) ;
             props.ForceRenderBusinessCard() ;
@@ -65,8 +65,8 @@ export default function ModalImportBusinessCard(props) {
 
 
         const submitForm = (files, allFiles) => {
-            console.log("submitForm") ;
-            console.log(files);
+            PrintLog("submitForm") ;
+            PrintLog(files);
         
             let Fichier = files[0].file ;
             let Categorie = document.getElementById('ListeCategories3').value ;

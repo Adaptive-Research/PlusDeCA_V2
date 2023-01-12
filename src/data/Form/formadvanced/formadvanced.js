@@ -165,16 +165,16 @@ export function OuterDropzone(props) {
   }
 
   const handleChangeStatus = ({ meta }, status) => {
-    console.log(status, meta);
+    PrintLog(status, meta);
   };
 
   const handleSubmit = (files, allFiles) => {
-    console.log("handleSubmit") ;
+    PrintLog("handleSubmit") ;
 
     if (props.onSubmit !== null)
       props.onSubmit(files,allFiles) ;
 
-    //console.log(files.map((f) => f.meta));
+    //PrintLog(files.map((f) => f.meta));
     //allFiles.forEach((f) => f.remove());
   };
 
@@ -225,11 +225,11 @@ export function Dropimg1() {
   };
 
   const handleChangeStatus = ({ meta }, status) => {
-    console.log(status, meta);
+    PrintLog(status, meta);
   };
 
   const handleSubmit = (files, allFiles) => {
-    console.log(files.map((f) => f.meta));
+    PrintLog(files.map((f) => f.meta));
     allFiles.forEach((f) => f.remove());
   };
   return (
@@ -456,7 +456,7 @@ export function GroupOptionMutipleSelect() {
     },
   ];
   function logChange(val) {
-    console.log("Selected: " + JSON.stringify(val));
+    PrintLog("Selected: " + JSON.stringify(val));
   }
   return (
     <div>
@@ -498,7 +498,7 @@ export function Singleselectdis() {
     { value: "fiat", label: "fiat" },
   ];
   function logChange(val) {
-    console.log("Selected: " + JSON.stringify(val));
+    PrintLog("Selected: " + JSON.stringify(val));
   }
 
   return (
@@ -1145,7 +1145,7 @@ export const Selectbox = () => {
   let [value, setValue] = useState(["PDF - Swap Valuation"]);
   function handleChange(selected) {
     setValue(selected);
-    console.log(selected);
+    PrintLog(selected);
   }
   const options = [
     {
@@ -1197,11 +1197,11 @@ export const Selectbox = () => {
         if (filterInput === "") {
           return true;
         }
-        console.log(option);
+        PrintLog(option);
         let words = filterInput.split(" ");
         let res = false;
         for (let word of words) {
-          console.log(word);
+          PrintLog(word);
           res = new RegExp(word, "i").test(option.label);
           if (res === false) {
             break;
@@ -1218,7 +1218,7 @@ export const Selectbox1 = () => {
   let [value, setValue] = useState(["PDF - Swap Valuation"]);
   function handleChange(selected) {
     setValue(selected);
-    console.log(selected);
+    PrintLog(selected);
   }
   const options = [
     {
@@ -1277,11 +1277,11 @@ export const Selectbox1 = () => {
         if (filterInput === "") {
           return true;
         }
-        console.log(option);
+        PrintLog(option);
         let words = filterInput.split(" ");
         let res = false;
         for (let word of words) {
-          console.log(word);
+          PrintLog(word);
           res = new RegExp(word, "i").test(option.label);
           if (res === false) {
             break;

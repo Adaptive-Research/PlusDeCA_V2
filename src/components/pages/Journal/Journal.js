@@ -22,7 +22,7 @@ export default function Journal(props) {
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
    
 
-    //console.log(Translations_Text);
+    //PrintLog(Translations_Text);
 
     const sFeatured = 'Featured';
     const sNetworkNews = 'Network News';
@@ -41,8 +41,8 @@ export default function Journal(props) {
 
     
     function TranslateAll(data,Page){
-        console.log("Journal TranslateAll");
-        console.log(data) ;
+        PrintLog("Journal TranslateAll");
+        PrintLog(data) ;
     
         let t = FindTranslation(data,Page, sFeatured) ;
         if (t !== "Not Found")

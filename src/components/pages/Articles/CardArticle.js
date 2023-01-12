@@ -7,8 +7,8 @@ import {DeleteArticle} from "../../../data/customlibs/api";
 
 
 export default function CardArticle(props) {
-    console.log("CardArticle") ;
-    console.log(props) ;
+    PrintLog("CardArticle") ;
+    PrintLog(props) ;
     const storedToken = localStorage.getItem('token') ;
 
     // props.Article provient directment de ce qui a ete charge de la base de donnees

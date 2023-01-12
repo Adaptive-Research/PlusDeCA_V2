@@ -10,15 +10,13 @@ import ModalEditGroup from "./ModalEditGroup" ;
 
 
 export default function GroupList() {
-    console.log("GroupList") ;
+    PrintLog("GroupList") ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
     const idUser = getIDFromToken(storedToken) ;
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
-    console.log('Mes traductions');
-    console.log(Translations_Text);
 
 
     // pour le Rerender
@@ -81,8 +79,8 @@ export default function GroupList() {
 
     function TranslateAll(data,Page){
 
-        console.log('GroupList TranslateAll') ;
-        console.log(data);
+        PrintLog('GroupList TranslateAll') ;
+        PrintLog(data);
     
         let t = FindTranslation(data,Page, sInProgress) ;
         if (t !== "Not Found")
@@ -145,15 +143,15 @@ export default function GroupList() {
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
-        console.log("reloadInfos") ;
+        PrintLog("reloadInfos") ;
         getUserGroups("userGroups",storedToken,RenderAfterLoad) ;
         reloadInfos.current = false ;
     }
 
     function RenderAfterLoad(variable) {
-        console.log("RenderAfterLoad") ;
-        //console.log("downloaded_Groups.current") ;
-        //console.log(downloaded_Groups.current) ;
+        PrintLog("RenderAfterLoad") ;
+        //PrintLog("downloaded_Groups.current") ;
+        //PrintLog(downloaded_Groups.current) ;
         
         if (variable === "userGroups")
             downloaded_Groups.current = true ;
@@ -178,7 +176,7 @@ export default function GroupList() {
 
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
     function SendGroupData(ShowWindow, Group) {
-        //console.log("SendCompanyData")
+        //PrintLog("SendCompanyData")
         if (Group === null)
         {
             setModeEdit("Add") ;
@@ -191,9 +189,9 @@ export default function GroupList() {
         else
         {
             setModeEdit("Edit") ;
-            console.log("Mode Edit") ;
-            //console.log("Group") ;
-            //console.log(Group) ;
+            PrintLog("Mode Edit") ;
+            //PrintLog("Group") ;
+            //PrintLog(Group) ;
 
             setIdGroup(Group.idGroup) ;
             setNom(Group.nom) ;
@@ -225,7 +223,7 @@ export default function GroupList() {
         {
 
             return groups.map((group) => {
-                //console.log("group.id: "+group.id) ;
+                //PrintLog("group.id: "+group.id) ;
                 if  (TypeGroup === "Brouillon") {
                     if (group.iscurrent === "1"  && group.ispublished === "0") 
                         return <Col md={4}  key={group.id}> 

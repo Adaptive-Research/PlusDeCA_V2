@@ -9,15 +9,15 @@ import {FormGroup,Modal, Button} from "react-bootstrap";
 
 
 export function ModalEditEvent(props) {
-  console.log("ModalEditEvent") ;
+  PrintLog("ModalEditEvent") ;
 
 
   const storedToken = localStorage.getItem('token') ;
   const idUser = getIDFromToken(storedToken) ;
   const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
   const Translations_SelectBox = JSON.parse(localStorage.getItem('Translations_SelectBox')) ;
-  //console.log(storedToken) ;
-  //console.log(idUser) ;
+  //PrintLog(storedToken) ;
+  //PrintLog(idUser) ;
 
   const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
   const [isModalOpen,setIsModalOpen] = useState(false) ;
@@ -43,7 +43,7 @@ export function ModalEditEvent(props) {
 
   function AllDayChange()
   {
-    console.log("AllDayChange") ;
+    PrintLog("AllDayChange") ;
     isAllDay.current = !isAllDay.current ;
     if (isAllDay.current === true)
     {
@@ -92,7 +92,7 @@ export function ModalEditEvent(props) {
 
   
   function SetHourAndMinute(){
-    console.log("SetHourAndMinute") ;
+    PrintLog("SetHourAndMinute") ;
 
       // pour mettre a jour la checkbox AllDay et faire ou ne pas faire afficher la plage horaire
       if (props.AllDay === true) {
@@ -119,14 +119,14 @@ export function ModalEditEvent(props) {
   
       // pour selectionner la bonne option dans le select startHour et startMinute
       let h = dateStart.getHours() ;
-      //console.log("h") ;
-      //console.log(h) ;
+      //PrintLog("h") ;
+      //PrintLog(h) ;
       s = document.getElementById("startHour") ;
       if (s !== null)
       {
         for (var option of s.options) 
         {
-          //console.log(option.value) ;
+          //PrintLog(option.value) ;
           if (h == option.value)
           {
             option.selected = true ;
@@ -162,14 +162,14 @@ export function ModalEditEvent(props) {
   
       // pour selectionner la bonne option dans le select endHour et endMinute
       h = dateEnd.getHours() ;
-      //console.log("h") ;
-      //console.log(h) ;
+      //PrintLog("h") ;
+      //PrintLog(h) ;
       s = document.getElementById("endHour") ;
       if (s !== null)
       {
         for (var option of s.options) 
         {
-          //console.log(option.value) ;
+          //PrintLog(option.value) ;
           if (h == option.value)
           {
             eventEndHour.current = option.value ;
@@ -224,7 +224,7 @@ export function ModalEditEvent(props) {
 
 
   useEffect(() => {
-    console.log("ModalEditEvent useEffect") ;
+    PrintLog("ModalEditEvent useEffect") ;
 
     if (compteur === 0) {
       SetHourAndMinute() ;
@@ -367,8 +367,8 @@ export function ModalEditEvent(props) {
       let sStartDate = printDate2(dateStart) + " " + padStr(eventStartHour.current) + ":" + padStr(eventStartMinute.current) ;
       let sEndDate = printDate2(dateStart) + " " + padStr(eventEndHour.current) + ":" + padStr(eventEndMinute.current) ;
 
-      console.log(sStartDate) ;
-      console.log(sEndDate) ;
+      PrintLog(sStartDate) ;
+      PrintLog(sEndDate) ;
       
       let sAllDay = "0" ;
       if (isAllDay.current === true)
@@ -390,7 +390,7 @@ export function ModalEditEvent(props) {
       try {
           inputsValidation();
       } catch (e) {
-          console.log(e);
+          PrintLog(e);
       } finally {
       }
   }
@@ -502,7 +502,7 @@ export function ModalEditEvent(props) {
 
                   <select id="endHour" className="form-control-Dan add-hspace-15" onChange={(e) => { 
                     eventEndHour.current = e.target.value ; 
-                    console.log("change endHour") ;
+                    PrintLog("change endHour") ;
                   } }>
                     <option value="0">0h</option>
                     <option value="1">1h</option>

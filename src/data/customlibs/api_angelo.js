@@ -179,10 +179,10 @@ function ManageResponse_select_axios(variable, response , ForceRender) {
 
 function ManageResponse_save_axios(response,ForceRender) {
     if (window.DEBUG_API)
-        console.log(response.data) ;
+        PrintLog(response.data) ;
 
     if (response.data.includes("ERROR:")) {
-        console.log(`Error: ${response.data}`);
+        PrintLog(`Error: ${response.data}`);
     } else {
         if (ForceRender !== undefined)            
             if (ForceRender!== null)
@@ -231,7 +231,7 @@ async function getAllUsersEmail() {
 async function SaveNewUser(mail, pass) {
     const url = process.env.REACT_APP_API_SIGNUP_URL;
 
-    console.log("password: " + pass) ;
+    PrintLog("password: " + pass) ;
     
     const response = await axios.post(url, {
         Submit: 1,
@@ -249,7 +249,7 @@ async function SaveNewUser(mail, pass) {
     if (response.data.includes("ERROR:")) 
         return [false,response.data] ;
     else {
-        console.log("User created");
+        PrintLog("User created");
         return [true,response.data] ;
     }
 }
@@ -269,8 +269,8 @@ async function requestLogin(mail, pass)  {
         }
     })
 
-    //console.log("requestLogin: response");
-    //console.log(response.data);
+    //PrintLog("requestLogin: response");
+    //PrintLog(response.data);
 
     const data =  getLastLineFromResponse(response) ;
 
@@ -283,7 +283,7 @@ async function requestLogin(mail, pass)  {
 
 
 async function UpdatePasswordUser(tok, mail, pass) {
-    console.log("ChangePasswordForUser") ;
+    PrintLog("ChangePasswordForUser") ;
 
 
     const url = process.env.REACT_APP_API_UPDATE_PASSWORD_USER_URL;
@@ -301,12 +301,12 @@ async function UpdatePasswordUser(tok, mail, pass) {
 
     
 
-    //console.log(response.data) ;
+    //PrintLog(response.data) ;
 
     if (response.data.includes("ERROR:")) 
         return [false,response.data] ;
     else {
-        console.log("User created");
+        PrintLog("User created");
         return [true,response.data] ;
     }
 }
@@ -314,7 +314,7 @@ async function UpdatePasswordUser(tok, mail, pass) {
 
 
 function DeleteUser(tok,idUser,ForceRender) {
-    console.log("DeleteUser") ;
+    PrintLog("DeleteUser") ;
 
     const url = process.env.REACT_APP_API_DELETE_USER_URL;
     axios.post(
@@ -349,7 +349,7 @@ function DeleteUser(tok,idUser,ForceRender) {
 
  async function getManagedUsers(variable, tok, ForceRender) {
     if (window.DEBUG_getManagedUser) {
-        console.log("getManagedUsers") ;
+        PrintLog("getManagedUsers") ;
     }
 
     const url = process.env.REACT_APP_API_GET_MANAGED_USERS_URL;
@@ -364,8 +364,8 @@ function DeleteUser(tok,idUser,ForceRender) {
     })
 
     if (window.DEBUG_getManagedUser) {
-        console.log("getManagedUsers: reponse") ;
-        console.log(response.data) ;
+        PrintLog("getManagedUsers: reponse") ;
+        PrintLog(response.data) ;
     }
 
     const data =  getDataFromResponse(response) ;
@@ -386,9 +386,9 @@ function DeleteUser(tok,idUser,ForceRender) {
 async function AddManagedUser(tok, mail, pass,idEntreprise,idR) {
 
     if (window.DEBUG_AddManagedUser) {
-        console.log("AddManagedUtilisateur") ;
-        console.log("idEntreprise: " + idEntreprise) ;
-        console.log("idRole: " + idR) ;
+        PrintLog("AddManagedUtilisateur") ;
+        PrintLog("idEntreprise: " + idEntreprise) ;
+        PrintLog("idRole: " + idR) ;
     }
 
     const url = process.env.REACT_APP_API_ADD_MANAGED_USER_URL;
@@ -407,15 +407,15 @@ async function AddManagedUser(tok, mail, pass,idEntreprise,idR) {
     });
 
     if (window.DEBUG_AddManagedUser) {
-        console.log("AddManagedUtilisateur; reponse") 
-        console.log(response.data) ;
+        PrintLog("AddManagedUtilisateur; reponse") 
+        PrintLog(response.data) ;
     }
 
 
     if (response.data.includes("ERROR:")) 
         return [false,response.data] ;
     else {
-        console.log("User created");
+        PrintLog("User created");
         return [true,response.data] ;
     }
 }
@@ -426,7 +426,7 @@ async function AddManagedUser(tok, mail, pass,idEntreprise,idR) {
 
 async function UpdateRoleUser(tok, mail, idEntreprise,idR) {
     if (window.DEBUG_UpdateRoleUser) {
-        console.log("UpdateRoleUser: (" + mail + "," + idEntreprise + "," + idR + " ) ") ;
+        PrintLog("UpdateRoleUser: (" + mail + "," + idEntreprise + "," + idR + " ) ") ;
     }
 
     var rqt =  {
@@ -439,7 +439,7 @@ async function UpdateRoleUser(tok, mail, idEntreprise,idR) {
 
     if (mail !== null)
         rqt.Email = mail ; 
-    console.log(rqt) ;
+    PrintLog(rqt) ;
 
     const url = process.env.REACT_APP_API_UPDATE_ROLE_USER_URL;
     const response = await axios.post(url, rqt, {
@@ -449,14 +449,14 @@ async function UpdateRoleUser(tok, mail, idEntreprise,idR) {
     });
 
     if (window.DEBUG_UpdateRoleUser) {
-        console.log("UpdateRoleUser: reponse") ;
-        console.log(response.data) ;
+        PrintLog("UpdateRoleUser: reponse") ;
+        PrintLog(response.data) ;
     }
 
     if (response.data.includes("ERROR:")) 
         return [false,response.data] ;
     else {
-        console.log("User access rights modified");
+        PrintLog("User access rights modified");
         return [true,response.data] ;
     }
 }
@@ -464,7 +464,7 @@ async function UpdateRoleUser(tok, mail, idEntreprise,idR) {
 
 
 async function UpdateFonctionUser(tok, mail, idEntreprise,f) {
-    console.log("UpdateFonctionUser") ;
+    PrintLog("UpdateFonctionUser") ;
 
     var rqt =  {
         Submit: 1,
@@ -477,7 +477,7 @@ async function UpdateFonctionUser(tok, mail, idEntreprise,f) {
     if (mail !== null)
         rqt.Email = mail ; 
 
-    console.log(rqt) ;
+    PrintLog(rqt) ;
     const url = process.env.REACT_APP_API_UPDATE_FONCTION_USER_URL;
     const response = await axios.post(url, rqt , {
         headers: {
@@ -485,20 +485,20 @@ async function UpdateFonctionUser(tok, mail, idEntreprise,f) {
         }
     });
 
-    console.log("UpdateFonctionUser: reponse") ;
-    //console.log(response.data) ;
+    PrintLog("UpdateFonctionUser: reponse") ;
+    //PrintLog(response.data) ;
 
     if (response.data.includes("ERROR:")) 
         return [false,response.data] ;
     else {
-        console.log("User Job modified");
+        PrintLog("User Job modified");
         return [true,response.data] ;
     }
 }
 
 
 async function UpdateFondateurUser(tok, mail, idEntreprise,f) {
-    console.log("UpdateFonctionUser") ;
+    PrintLog("UpdateFonctionUser") ;
 
     var rqt =  {
         Submit: 1,
@@ -518,12 +518,12 @@ async function UpdateFondateurUser(tok, mail, idEntreprise,f) {
         }
     });
 
-    //console.log(response.data) ;
+    //PrintLog(response.data) ;
 
     if (response.data.includes("ERROR:")) 
         return [false,response.data] ;
     else {
-        console.log("User Founder modified");
+        PrintLog("User Founder modified");
         return [true,response.data] ;
     }
 }
@@ -534,7 +534,7 @@ async function UpdateFondateurUser(tok, mail, idEntreprise,f) {
 
 
 async function getEntrepriseUtilisateur(variable,tok,ForceRender) {
-    console.log("getEntrepriseUtilisateur") ;
+    PrintLog("getEntrepriseUtilisateur") ;
     let chaine = "" ;
     const url = process.env.REACT_APP_API_UPDATE_GET_COMPANY_ROLE_FOR_USER_URL;
     const response = await axios.post(url, {
@@ -549,8 +549,8 @@ async function getEntrepriseUtilisateur(variable,tok,ForceRender) {
 
     const data =  getDataFromResponse(response) ;
 
-    console.log("getEntrepriseUtilisateur: reponse") ;
-    //console.log(response.data) ;
+    PrintLog("getEntrepriseUtilisateur: reponse") ;
+    //PrintLog(response.data) ;
     let pos = data.indexOf("ERROR") ;
     if (pos < 0) {
         const res = [];
@@ -560,7 +560,7 @@ async function getEntrepriseUtilisateur(variable,tok,ForceRender) {
         chaine = JSON.stringify(res);
     }
        
-    //console.log("chaine:" + chaine) ;
+    //PrintLog("chaine:" + chaine) ;
     var encrypted = CryptoJS.AES.encrypt(chaine, "rtyGH;6435@fzw");
     localStorage.setItem(variable, encrypted);
 
@@ -575,7 +575,7 @@ async function getEntrepriseUtilisateur(variable,tok,ForceRender) {
 
 
 async function getUtilisateurPayant(variable,tok,ForceRender) {
-    console.log("getUtilisateurPayant") ;
+    PrintLog("getUtilisateurPayant") ;
     let chaine = "" ;
     const url = process.env.REACT_APP_API_PAYING_USER_URL;
     const response = await axios.post(url, {
@@ -590,8 +590,8 @@ async function getUtilisateurPayant(variable,tok,ForceRender) {
 
     const data =  getDataFromResponse(response) ;
 
-    console.log("getEntrepriseUtilisateur: reponse") ;
-    //console.log(response.data) ;
+    PrintLog("getEntrepriseUtilisateur: reponse") ;
+    //PrintLog(response.data) ;
     let pos = data.indexOf("ERROR") ;
     if (pos < 0) {
         const res = [];
@@ -601,7 +601,7 @@ async function getUtilisateurPayant(variable,tok,ForceRender) {
         chaine = JSON.stringify(res);
     }
        
-    //console.log("chaine:" + chaine) ;
+    //PrintLog("chaine:" + chaine) ;
     var encrypted = CryptoJS.AES.encrypt(chaine, "rtyGH;6435@fzw");
     localStorage.setItem(variable, encrypted);
 
@@ -674,7 +674,7 @@ function getCompaniesForUser(variable,tok, UserId,ForceRender) {
 
 
 async function SaveCompany (tok,name,webSite,siret,email,phone,ForceRender) {
-    console.log("SaveCompany") ;
+    PrintLog("SaveCompany") ;
     const url = process.env.REACT_APP_API_CREATE_COMPANY_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -696,7 +696,7 @@ async function SaveCompany (tok,name,webSite,siret,email,phone,ForceRender) {
 
 
 async function UpdateCompany (tok,idEntreprise, name,webSite,siret,email,phone,ForceRender) {
-    console.log("UpdateCompany") ;
+    PrintLog("UpdateCompany") ;
     const url = process.env.REACT_APP_API_UPDATE_COMPANY_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -719,7 +719,7 @@ async function UpdateCompany (tok,idEntreprise, name,webSite,siret,email,phone,F
 
 
 function DeleteCompany(tok,idEntreprise,ForceRender) {
-    //console.log("DeleteCompany") ;
+    //PrintLog("DeleteCompany") ;
 
     const url = process.env.REACT_APP_API_DELETE_COMPANY_URL;
     axios.post(
@@ -738,7 +738,7 @@ function DeleteCompany(tok,idEntreprise,ForceRender) {
 
 
 async function LinkCompany (tok,idEntreprise, founder, job,ForceRender) {
-    console.log("LinkCompany") ;
+    PrintLog("LinkCompany") ;
     const url = process.env.REACT_APP_API_LINK_COMPANY_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -758,7 +758,7 @@ async function LinkCompany (tok,idEntreprise, founder, job,ForceRender) {
 }
 
 async function DeleteLinkCompany (tok,idEntreprise,ForceRender) {
-    console.log("DeleteLinkCompany") ;
+    PrintLog("DeleteLinkCompany") ;
     const url = process.env.REACT_APP_API_DELETE_LINK_COMPANY_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -794,7 +794,7 @@ async function DeleteLinkCompany (tok,idEntreprise,ForceRender) {
 
 
 function getActivitiesForUser(variable, Token,UserId, ForceRender) {
-    //console.log("getActivitiesForUser: "+ UserId) ;
+    //PrintLog("getActivitiesForUser: "+ UserId) ;
     const url = process.env.REACT_APP_API_SHOW_ENTERPRISESETACTIVITES_FOR_USER_URL;
     axios.post(url, {
         token: Token,
@@ -824,7 +824,7 @@ function getAllActivities(variable,ForceRender) {
 }
 
 async function SaveActivity(tok,idEntreprise,name,webSite,email,phone,description,ForceRender) {
-    console.log("SaveActivity") ;
+    PrintLog("SaveActivity") ;
     const url = process.env.REACT_APP_API_CREATE_ACTIVITY_URL;
 
     const response = await axios.post(url, {
@@ -916,7 +916,7 @@ async function getUserArticles(variable,tok,ForceRender) {
 // Function that sends axios requesst to create a new formation
 async function SaveArticle(tok,title,tags,texte,html,photo,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_ARTICLE_URL;
-    console.log("SaveArticle") ;
+    PrintLog("SaveArticle") ;
 
     const url =  process.env.REACT_APP_API_CREATE_ARTICLE_URL;
     const response = await axios.post(url, {
@@ -1026,7 +1026,7 @@ async function getUserGroups(variable,tok,ForceRender) {
 // Function that sends axios requesst to create a new group
 async function SaveGroup(tok,nom,tags,sdescription,photo,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_GROUP_URL;
-    console.log("SaveGroup") ;
+    PrintLog("SaveGroup") ;
 
     const url =  process.env.REACT_APP_API_CREATE_GROUP_URL;
     const response = await axios.post(url, {
@@ -1115,7 +1115,7 @@ async function PublishGroup(tok, idGroup, ForceRender ){
  ****************************************************************************************************************************************************/
 
 async function getUserInterviews(variable,tok,ForceRender) {
-    console.log("getUserInterviews") ;
+    PrintLog("getUserInterviews") ;
 
     localStorage.removeItem(variable);
     const url =  process.env.REACT_APP_API_SHOW_INTERVIEWS_FOR_USER_URL;
@@ -1137,7 +1137,7 @@ async function getUserInterviews(variable,tok,ForceRender) {
 
 
 async function getInterviewQuestions(variable,tok,idInter, ForceRender) {
-    console.log(" getInterviewQuestions") ;
+    PrintLog(" getInterviewQuestions") ;
     localStorage.removeItem(variable);
 
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
@@ -1160,9 +1160,9 @@ async function getInterviewQuestions(variable,tok,idInter, ForceRender) {
 
 
 async function getInterviewAnswers(variable,tok,idInter, ForceRender) {
-    console.log(" getInterviewAnswers") ;
-    console.log("token: ",tok) ;
-    console.log("idInter: ",idInter) ; 
+    PrintLog(" getInterviewAnswers") ;
+    PrintLog("token: ",tok) ;
+    PrintLog("idInter: ",idInter) ; 
 
     localStorage.removeItem(variable);
 
@@ -1187,7 +1187,7 @@ async function getInterviewAnswers(variable,tok,idInter, ForceRender) {
 
  // Function that sends axios requesst to save an answer for am Interview
 async function SaveAnswer (tok, idInter, idQ, rep,ForceRender ) {
-    console.log("SaveInterview") ;
+    PrintLog("SaveInterview") ;
     
     const url =  process.env.REACT_APP_API_SAVE_ANSWER_URL;
     const response = await axios.post(url, {
@@ -1211,11 +1211,11 @@ async function SaveAnswer (tok, idInter, idQ, rep,ForceRender ) {
 
 // Function that sends axios requesst to save an answer for am Interview
 async function ValidateInterview (tok, idInter,ForceRender) {
-    console.log("ValidateInterview: " + idInter) ;
+    PrintLog("ValidateInterview: " + idInter) ;
 
   
     const url =  process.env.REACT_APP_API_VALIDATE_INTERVIEW_URL;
-    console.log("URL Valide  " + url);
+    PrintLog("URL Valide  " + url);
     const response = await axios.post(url, {
         Submit: 1,
         token: tok,
@@ -1234,7 +1234,7 @@ async function ValidateInterview (tok, idInter,ForceRender) {
 
 // Function that sends axios requesst to save an answer for am Interview
 async function InvalidateInterview (tok, idInter,ForceRender ) {
-    console.log("InvalidateInterview: " + idInter) ;
+    PrintLog("InvalidateInterview: " + idInter) ;
 
   
     const url =  process.env.REACT_APP_API_INVALIDATE_INTERVIEW_URL;
@@ -1274,7 +1274,7 @@ async function InvalidateInterview (tok, idInter,ForceRender ) {
 
 function getEventsForUser(variable,tok,ForceRender) 
 {
-  console.log("GetEventsForUser") ;
+  PrintLog("GetEventsForUser") ;
 
   const url = process.env.REACT_APP_API_SHOW_EVENT_URL ;
   axios.post(url, {
@@ -1294,7 +1294,7 @@ function getEventsForUser(variable,tok,ForceRender)
 
 
 async function SaveEvent(tok,eventType,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,ForceRender)  {
-    console.log("SaveEvent") ;
+    PrintLog("SaveEvent") ;
     
     const url = process.env.REACT_APP_API_CREATE_EVENT_URL ;
     const response = await axios.post(url, {
@@ -1320,7 +1320,7 @@ async function SaveEvent(tok,eventType,eventTitle,sAllDay, sStartDate,sEndDate,e
   
 
   async function UpdateEvent(tok,idEvent, eventType,eventTitle,sAllDay, sStartDate,sEndDate,eventLocation,eventData,ForceRender)  {
-      console.log("UpdateEvent") ;
+      PrintLog("UpdateEvent") ;
       const url = process.env.REACT_APP_API_UPDATE_EVENT_URL;
       const response = await axios.post(url, {
           token: tok,
@@ -1347,7 +1347,7 @@ async function SaveEvent(tok,eventType,eventTitle,sAllDay, sStartDate,sEndDate,e
 
 
 async function DeleteEvent(tok,idEvent,ForceRender ) {
-    console.log("DeleteEvent()") ;
+    PrintLog("DeleteEvent()") ;
 
     const url = process.env.REACT_APP_API_DELETE_EVENT_URL;
     const response = await axios.post(url, {
@@ -1381,7 +1381,7 @@ async function DeleteEvent(tok,idEvent,ForceRender ) {
 
 async function getProfile(variable,tok,id, ForceRender)
   {
-    console.log("getProfile: ", id) ;
+    PrintLog("getProfile: ", id) ;
 
     const url = process.env.REACT_APP_API_SHOW_INFOS_UTILISATEUR_URL;
     axios.post(url, {
@@ -1419,10 +1419,10 @@ async function getProfile(variable,tok,id, ForceRender)
       }
     })
 
-    //console.log(response.data);
+    //PrintLog(response.data);
 
     if (response.data.includes("ERROR:")) {
-      console.log(`Error found: ${response.data}`);
+      PrintLog(`Error found: ${response.data}`);
     }
     else {
         const profileDetails = {
@@ -1436,7 +1436,7 @@ async function getProfile(variable,tok,id, ForceRender)
             BioVisible: bv
         }
         localStorage.setItem('profileDetails', JSON.stringify(profileDetails));
-        console.log("Profile Saved");
+        PrintLog("Profile Saved");
     }
   }
 
@@ -1465,7 +1465,7 @@ async function getProfile(variable,tok,id, ForceRender)
 
 
 function getLanguage(variable, tok,ForceRender) {
-    console.log("getLanguage") ;  
+    PrintLog("getLanguage") ;  
     const url = process.env.REACT_APP_API_SHOW_LANGUAGE_URL ;
     axios.post(url, {
       Submit: 1,
@@ -1476,7 +1476,7 @@ function getLanguage(variable, tok,ForceRender) {
         'Content-Type': 'application/x-www-form-urlencoded',
       }
     }).then((response) => {
-        console.log(response) ;
+        PrintLog(response) ;
         const variable = "ValueLangue" ; 
         
         const data =  getLastLineFromResponse(response) ;
@@ -1533,7 +1533,7 @@ async function getUserContacts(variable,tok,ForceRender) {
 // Function that sends axios requesst to create a new Contact
 async function SaveContact(tok,title,category,texte,html,photo,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_Contact_URL;
-    console.log("SaveContact") ;
+    PrintLog("SaveContact") ;
 
     const url =  process.env.REACT_APP_API_CREATE_CONTACT_URL;
     const response = await axios.post(url, {
@@ -1633,7 +1633,7 @@ async function getUserBusinessCards(variable,tok,ForceRender) {
 // Function that sends axios requesst to create a new BusinessCard
 async function SaveBusinessCard(tok,ide, lr,ent, tele,sw,sexe,pre,nom,fo,tel,em,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_BusinessCard_URL;
-    console.log("SaveBusinessCard") ;
+    PrintLog("SaveBusinessCard") ;
 
     const url =  process.env.REACT_APP_API_CREATE_BUSINESSCARD_URL;
     const response = await axios.post(url, {
@@ -1728,7 +1728,7 @@ function DeleteBusinessCard(tok, id, ForceRender) {
 
 //Method to get all formations created by this user
 async function getUserFormations(variable,tok,ForceRender) {
-    console.log("getUserFormations") ;
+    PrintLog("getUserFormations") ;
     const url =  process.env.REACT_APP_API_SHOW_FORMATIONS_BY_USER_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -1747,7 +1747,7 @@ async function getUserFormations(variable,tok,ForceRender) {
 
 //Method to get all formations
 async function getAvailableFormations(variable,tok,ForceRender) {
-    console.log("getAvailableFormations") ;
+    PrintLog("getAvailableFormations") ;
     const url =  process.env.REACT_APP_API_SHOW_AVAILABLE_FORMATIONS_URL;
     const response = await axios.post(url, {
         Submit: 1,
@@ -1765,7 +1765,7 @@ async function getAvailableFormations(variable,tok,ForceRender) {
 
 //Method to get all formations created by this user
 async function getFormationsGroupes(variable,tok,vl, ForceRender) {
-    console.log("getFormationsGroupes") ;
+    PrintLog("getFormationsGroupes") ;
     const url =  process.env.REACT_APP_API_SHOW_GROUPES_FORMATIONS_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -1782,7 +1782,7 @@ async function getFormationsGroupes(variable,tok,vl, ForceRender) {
 
 
 async function getFormationsCategories(variable,tok,vl, ForceRender) {
-    console.log("getFormationsCategories") ;
+    PrintLog("getFormationsCategories") ;
     const url =  process.env.REACT_APP_API_SHOW_CATEGORIES_FORMATIONS_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -1801,7 +1801,7 @@ async function getFormationsCategories(variable,tok,vl, ForceRender) {
 // Function that sends axios requesst to create a new formation
 async function SaveFormation(tok,title,duree,idgroupe,tarif, idcategorie,texte,html,photo,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_FORMATION_URL;
-    console.log("SaveFormation") ;
+    PrintLog("SaveFormation") ;
 
     const url =  process.env.REACT_APP_API_CREATE_FORMATION_URL;
     const response = await axios.post(url, {
@@ -1882,10 +1882,10 @@ function DeleteFormation(tok, id, ForceRender) {
 
 // La fonction qui permet de Valider une Formation
 async function ValidateFormation (tok, idFormation, ForceRender) {
-    console.log("ValidateFormation: " + idFormation) ;
+    PrintLog("ValidateFormation: " + idFormation) ;
   
     const url=process.env.REACT_APP_API_VALIDATE_FORMATION_URL;
-    console.log("New URL " + url);
+    PrintLog("New URL " + url);
 
     const response = await axios.post(url, {
         Submit: 1,
@@ -1904,7 +1904,7 @@ async function ValidateFormation (tok, idFormation, ForceRender) {
 
 // La fonction permettant d'invalider une formation
 async function InvalidateFormation (tok, idFormation, ForceRender) {
-    console.log("InvalidateFormation: " + idFormation) ;
+    PrintLog("InvalidateFormation: " + idFormation) ;
 
   
     const url =  process.env.REACT_APP_API_INVALIDATE_FORMATION_URL;
@@ -1934,7 +1934,7 @@ async function InvalidateFormation (tok, idFormation, ForceRender) {
 //La fonction permettant de Récupérer les Categories de BusinessCards
 
 async function getBusinessCardCategories (variable,tok,ForceRender) {
-    console.log("getBusinessCardsCategories") ;
+    PrintLog("getBusinessCardsCategories") ;
     const url =  process.env.REACT_APP_API_SHOW_CATEGORIES_BUSINESSCARDS_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -1950,7 +1950,7 @@ async function getBusinessCardCategories (variable,tok,ForceRender) {
 
 //La fonction permettant de Créer les Categories de BusinessCards
 async function SaveBusinessCardCategory (tok,idancestor, categorie,ordre,ForceRender) {
-    console.log("SaveBusinessCardCategory") ;
+    PrintLog("SaveBusinessCardCategory") ;
     const url = process.env.REACT_APP_API_CREATE_CATEGORIE_BUSINESSCARD_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -1974,7 +1974,7 @@ async function SaveBusinessCardCategory (tok,idancestor, categorie,ordre,ForceRe
 
 // La fonction permettant de Modifier les Categories de BusinessCards
 async function UpdateBusinessCardCategory (tok,idCategorie,categorie,ordre,ForceRender) {
-    console.log("UpdateBusinessCardCategory") ;
+    PrintLog("UpdateBusinessCardCategory") ;
     const url = process.env.REACT_APP_API_UPDATE_CATEGORIE_BUSINESSCARD_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -2014,7 +2014,7 @@ async function DeleteAllBusinessCardCategories (tok,ForceRender) {
 
 
 async function SaveClassementBusinessCard (tok,idBusinessCard, idCategorie,ForceRender) {
-    console.log("SaveClassementBusinessCard") ;
+    PrintLog("SaveClassementBusinessCard") ;
     const url = process.env.REACT_APP_API_CREATE_CLASSEMENT_BUSINESSCARD_URL;
     const response = await axios.post(url, {
         token: tok,
@@ -2079,8 +2079,8 @@ async function getTranslations_Text(variable,VL,ForceRender) {
         ValueLangue: VL
     }) ;
 
-    //console.log("getTranslations_Text Body") ;
-    //console.log(b) ;
+    //PrintLog("getTranslations_Text Body") ;
+    //PrintLog(b) ;
 
     fetch(url, {
         method: "post",
@@ -2091,8 +2091,8 @@ async function getTranslations_Text(variable,VL,ForceRender) {
             body: b
         }).then(response => response.text()) 
         .then(body => {
-            //console.log(" getTranslations_Text reponse") ;
-            //console.log(body) ;
+            //PrintLog(" getTranslations_Text reponse") ;
+            //PrintLog(body) ;
             ManageResponse_fetch(variable, body , ForceRender) ;
         }) ;
 }

@@ -149,10 +149,10 @@ export default function Login() {
 
 
         function LoadTranslations(variable) {
-            console.log("Login LoadTranslations")
+            PrintLog("Login LoadTranslations")
             
             const VL = localStorage.getItem('ValueLangue') ;
-            console.log("ValueLangue: " +VL) ;
+            PrintLog("ValueLangue: " +VL) ;
 
             getTranslations_Text("Translations_Text",VL,RenderAfterLoad) ;
             getTranslations_SelectBox("Translations_SelectBox",VL,RenderAfterLoad) ;
@@ -169,10 +169,10 @@ export default function Login() {
                 temp = values[1];
 
                 if (res === false) {
-                    console.log("Password or User unknown") ;
+                    PrintLog("Password or User unknown") ;
                 }
                 else {
-                    console.log("User logged");
+                    PrintLog("User logged");
         
                     storedToken  = remove_linebreaks(temp); // le token contient des retours chariots, on doit les eliminer
     
@@ -209,7 +209,7 @@ export default function Login() {
         try {
             inputsValidation();
         } catch (e) {
-            console.log(e);
+            PrintLog(e);
         } 
     }
 

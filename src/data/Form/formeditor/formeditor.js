@@ -165,25 +165,25 @@ export class EditorConvertToHTML extends Component {
   }
 
   onContentStateChange = contentState => {
-    console.log("onContentStateChange")
+    PrintLog("onContentStateChange")
     this.setState({
       contentState
     });
-    console.log("contentState") ;
-    console.log(contentState) ;
+    PrintLog("contentState") ;
+    PrintLog(contentState) ;
 
     //this.props.onChange(draftToHtml(convertToRaw(contentState.getCurrentContent())));
   };
 
 
   onEditorStateChange = editorState => {
-    console.log("onEditorStateChange")
+    PrintLog("onEditorStateChange")
     this.setState({
       editorState
     });
 
-    //console.log("editorState.getCurrentContent()") ;
-    //console.log(draftToHtml(convertToRaw(editorState.getCurrentContent()))) ;
+    //PrintLog("editorState.getCurrentContent()") ;
+    //PrintLog(draftToHtml(convertToRaw(editorState.getCurrentContent()))) ;
     this.props.onEditorChange(draftToHtml(convertToRaw(editorState.getCurrentContent())));
   };
 
@@ -261,7 +261,7 @@ export const FormEditorstyle1 = () => {
     mode: "onChange",
   });
   const handleSubmitOnClick = ({ editor_content }) => {
-    console.log("editor_content ==> ", editor_content);
+    PrintLog("editor_content ==> ", editor_content);
   };
 
 
@@ -301,7 +301,7 @@ export function LargeModaleditor() {
   });
 
   const handleSubmitOnClick = ({ editor_content }) => {
-    console.log("editor_content ==> ", editor_content);
+    PrintLog("editor_content ==> ", editor_content);
   };
 
   const values = [true];

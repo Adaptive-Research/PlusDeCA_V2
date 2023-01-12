@@ -794,7 +794,7 @@ export function switcherArrowFn() {
         menuItems.scrollWidth +
         (0 - menuWidth?.offsetWidth) +
         menuContainerWidth;
-      // console.log(menuWidth?.offsetWidth, menuItems.scrollWidth);
+      // PrintLog(menuWidth?.offsetWidth, menuItems.scrollWidth);
       if (menuWidth?.offsetWidth > menuItems.scrollWidth) {
         document.querySelector(".slide-left")?.classList.add("d-none");
         document.querySelector(".slide-right")?.classList.add("d-none");

@@ -55,7 +55,7 @@ function FindReponseFromIDQuestionAndAnswerForSelect(Questions,idQuestion,Answer
 
 
 function FindReponse(Answers,idQuestion) {
-    //console.log("FindReponse:" + idQuestion) ;
+    //PrintLog("FindReponse:" + idQuestion) ;
     for (let i = 0 ; i < Answers.length; i++) {
         if (Answers[i].idQuestion === idQuestion)
             return Answers[i].Reponse ;
@@ -86,16 +86,16 @@ function FindQuestionAndAnswer(Questions,Answers,Texte,step){
         if (step >= 0 && step < Questions.length)
         {
             q = Questions[step].Question ;
-            //console.log("q") ;
-            //console.log(q) ;
+            //PrintLog("q") ;
+            //PrintLog(q) ;
 
     
 
             idQ = Questions[step].idQuestion ;
             idS = Questions[step].idSelectOption ;
 
-            //console.log("idS") ;
-            //console.log(idS) ;
+            //PrintLog("idS") ;
+            //PrintLog(idS) ;
 
             if (idS === "0")
             {
@@ -108,8 +108,8 @@ function FindQuestionAndAnswer(Questions,Answers,Texte,step){
                 step = values[0] ;
                 a = values[1] ; 
             }
-            //console.log("a") ;
-            //console.log(a) ;
+            //PrintLog("a") ;
+            //PrintLog(a) ;
         }
     }
 
@@ -145,8 +145,8 @@ function createArticle(Questions,Answers,RenderQuestionReponse)
                 step = FindQuestionFromID(Questions,idQS) ;
             }
 
-            //console.log("Texte") ;
-            //console.log(Texte) ;
+            //PrintLog("Texte") ;
+            //PrintLog(Texte) ;
         }
 
     }
@@ -264,13 +264,13 @@ function FindTranslation(data,Page, Message ){
   
 function remove_NLastChars(str,n) {
   let s = str.slice(0, -n);
-  console.log(s) ;
+  PrintLog(s) ;
   return s ;
  }
 
 function remove_linebreaks( str ) {
     let s3 = str.replace( /(\r\n|\n|\r)/gm , '' );
-    console.log(s3) ;
+    PrintLog(s3) ;
     return s3 ;
 }
 
@@ -309,14 +309,14 @@ function printFondateur(idR) {
 
 
 function IsAdmin(data, idEntreprise) {
-//    console.log("IsAdmin: " + idEntreprise) ;
-//    console.log(data) ;
+//    PrintLog("IsAdmin: " + idEntreprise) ;
+//    PrintLog(data) ;
     for(var x in data) {
       if (data[x].idEntreprise === idEntreprise) {
         var v = parseInt(data[x].idRole) ;  
-//        console.log(data[x].idEntreprise, " --> " , v) ;
+//        PrintLog(data[x].idEntreprise, " --> " , v) ;
         if (v >= 2 ){
-//            console.log("true") ;
+//            PrintLog("true") ;
             return true ;
         }
       }
@@ -326,14 +326,14 @@ function IsAdmin(data, idEntreprise) {
 
 
 function IsFullAdmin(data, idEntreprise) {
-//    console.log("IsAdmin: " + idEntreprise) ;
-//    console.log(data) ;
+//    PrintLog("IsAdmin: " + idEntreprise) ;
+//    PrintLog(data) ;
     for(var x in data) {
       if (data[x].idEntreprise === idEntreprise) {
         var v = parseInt(data[x].idRole) ;  
-//        console.log(data[x].idEntreprise, " --> " , v) ;
+//        PrintLog(data[x].idEntreprise, " --> " , v) ;
         if (v >= 3 ){
-//            console.log("true") ;
+//            PrintLog("true") ;
             return true ;
         }
       }
@@ -343,8 +343,8 @@ function IsFullAdmin(data, idEntreprise) {
 
 
 function IsAdminOnce(data) {
-    //console.log("IsAdminOnce") ;
-    //console.log(data) ;
+    //PrintLog("IsAdminOnce") ;
+    //PrintLog(data) ;
     for(var x in data) {
       var v = parseInt(data[x].idRole) ;  
       if (v >= 2)
@@ -356,8 +356,8 @@ function IsAdminOnce(data) {
 
 
 function IsFullAdminOnce(data) {
-    //console.log("IsAdminOnce") ;
-    //console.log(data) ;
+    //PrintLog("IsAdminOnce") ;
+    //PrintLog(data) ;
     for(var x in data) {
       var v = parseInt(data[x].idRole) ;  
       if (v >= 3)
@@ -368,13 +368,13 @@ function IsFullAdminOnce(data) {
 
 
 function FindEntrepriseUtilisateur(data,idEntreprise,Field) {
-    console.log("FindEntrepriseUtilisateur") ;
-    console.log(data) ;
-    console.log(idEntreprise) ;
-    console.log(Field) ;
+    PrintLog("FindEntrepriseUtilisateur") ;
+    PrintLog(data) ;
+    PrintLog(idEntreprise) ;
+    PrintLog(Field) ;
     for (let i = 0 ; i < data.length ; i++) {
         let d = data[i] ;
-        console.log(d) ;
+        PrintLog(d) ;
         if (d.idEntreprise === idEntreprise) {
             if (Field === "idRole")
                 return printRole(d.idRole) ;
@@ -390,11 +390,11 @@ function FindEntrepriseUtilisateur(data,idEntreprise,Field) {
 
 // pour charger les droits utilisateurs sur les entreprises     
 function getDecryptedData(chaine) {
-    console.log("chaine: "+chaine) ;
+    //PrintLog("chaine: "+chaine) ;
     if ( chaine !== null) {
         var bytes = CryptoJS.AES.decrypt( chaine, "rtyGH;6435@fzw");
         var sVar = bytes.toString(CryptoJS.enc.Utf8) ;
-        console.log("sVar: "+sVar+"*") ;
+        //PrintLog("sVar: "+sVar+"*") ;
         if (sVar !== "") 
             return JSON.parse(sVar);
     }
@@ -418,9 +418,9 @@ const random = (length = 16) => {
 
 
 function IsPaying(UserAccess, AccessRight) {
-    console.log("IsPaying") ;
-    console.log(UserAccess) ;
-    console.log("AccessRight: " + AccessRight) ;
+    PrintLog("IsPaying") ;
+    PrintLog(UserAccess) ;
+    PrintLog("AccessRight: " + AccessRight) ;
 
     for (var i = 0 ; i < UserAccess.length ; i++) {
         var obj = UserAccess[i] ;
@@ -432,7 +432,14 @@ function IsPaying(UserAccess, AccessRight) {
 }
 
 
+function PrintLog(chaine) {
+    PrintLog(chaine) ;
+}
+
+
+
 export {
+    PrintLog,
     random, 
     getDecryptedData,
     IsPaying,

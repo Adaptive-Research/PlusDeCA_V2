@@ -7,13 +7,13 @@ import {IsFullAdmin,getDecryptedData} from "../../../data/customlibs/utils";
 
 
 export default function CardActivity(props) {
-     //console.log("CardActivity") ;
+     //PrintLog("CardActivity") ;
     let Ligne = props.Ligne ;
-    //console.log(Ligne) ;
+    //PrintLog(Ligne) ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
-    //console.log(storedToken) ;  
+    //PrintLog(storedToken) ;  
 
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
@@ -44,7 +44,7 @@ export default function CardActivity(props) {
 
 
     function EditActivite(token) {
-        console.log("EditActivite") ;
+        PrintLog("EditActivite") ;
         if (SendActivityData !== null)
             SendActivityData(true, Ligne.idEntreprise, Ligne) ;
     }

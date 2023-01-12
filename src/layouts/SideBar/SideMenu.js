@@ -232,8 +232,8 @@ function GetVisibleMenus(UserAccess,m) {
     for (i = 0 ; i < arr.length ; i++) {
 
         obj = arr[i] ;
-        console.log("obj.title: " + obj.menutitle) ;
-        console.log("obj.access: " + obj.access) ;
+        PrintLog("obj.title: " + obj.menutitle) ;
+        PrintLog("obj.access: " + obj.access) ;
 
         if (obj.access !== undefined) {
             if ( IsPaying(UserAccess,obj.access) === false) {
@@ -259,13 +259,13 @@ function GetVisibleMenus(UserAccess,m) {
 }
 
 
-console.log("SideMenu") ;
+PrintLog("SideMenu") ;
 const VL = localStorage.getItem('ValueLangue') ;
-console.log("SideMenu ValueLangue: " + VL) ;
+PrintLog("SideMenu ValueLangue: " + VL) ;
 const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
-console.log("SideMenu Translations_Text") ;
-console.log(Translations_Text) ;
+PrintLog("SideMenu Translations_Text") ;
+PrintLog(Translations_Text) ;
 
 
 

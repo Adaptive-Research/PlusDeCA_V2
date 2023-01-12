@@ -6,7 +6,7 @@ var CryptoJS = require("crypto-js");
 
 
 async function getUtilisateurPayant(variable,tok,ForceRender) {
-    console.log("getUtilisateurPayant") ;
+    PrintLog("getUtilisateurPayant") ;
     let chaine = "" ;
     const url = process.env.REACT_APP_API_PAYING_USER_URL;
     const response = await axios.post(url, {
@@ -21,8 +21,8 @@ async function getUtilisateurPayant(variable,tok,ForceRender) {
 
     const data =  getDataFromResponse(response) ;
 
-    console.log("getUtilisateurPayant: reponse") ;
-    //console.log(response.data) ;
+    PrintLog("getUtilisateurPayant: reponse") ;
+    //PrintLog(response.data) ;
     let pos = data.indexOf("ERROR") ;
     if (pos < 0) {
         const res = [];
@@ -32,7 +32,7 @@ async function getUtilisateurPayant(variable,tok,ForceRender) {
         chaine = JSON.stringify(res);
     }
        
-    //console.log("chaine:" + chaine) ;
+    //PrintLog("chaine:" + chaine) ;
     var encrypted = CryptoJS.AES.encrypt(chaine, "rtyGH;6435@fzw");
     localStorage.setItem(variable, encrypted);
 

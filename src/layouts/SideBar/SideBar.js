@@ -18,8 +18,8 @@ const Sidebar = () => {
     if (LastChar === "\\")
        currentUrl = chemin.slice(0,-1) ;
 
-    //console.log("currentUrl") ;
-    //console.log(currentUrl) ;
+    //PrintLog("currentUrl") ;
+    //PrintLog(currentUrl) ;
     MENUITEMS.map((items) => {
       
       items.Items.filter((Items) => {
@@ -104,7 +104,7 @@ const Sidebar = () => {
     }
     item.active = !item.active;
     setMainMenu({ mainmenu: MENUITEMS });
-    console.log(mainmenu)
+    PrintLog(mainmenu)
   };
 
   //Hover effect

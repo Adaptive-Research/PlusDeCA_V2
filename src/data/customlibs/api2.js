@@ -26,7 +26,7 @@ function getLastLineFromResponse(response) {
 
 
 function UploadFile(url, tok, Fichier, RenderUpload) {
-    console.log("UploadFile") ;
+    PrintLog("UploadFile") ;
     const formData = new FormData();
     formData.append('Submit','1') ;
     formData.append('debug','1') ;
@@ -40,14 +40,14 @@ function UploadFile(url, tok, Fichier, RenderUpload) {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then(function (response) {
-          console.log("Response") ;
-          console.log(response);
+          PrintLog("Response") ;
+          PrintLog(response);
           RenderUpload(getLastLineFromResponse(response)) ;
 
         })
         .catch(function (response) {
-          console.log("Response") ;
-          console.log(response);
+          PrintLog("Response") ;
+          PrintLog(response);
           RenderUpload(getLastLineFromResponse(response)) ;
         });
       
@@ -71,12 +71,12 @@ function UploadBusinessCards(tok, Categorie, Fichier, RenderUpload) {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then(function (response) {
-          console.log(response);
+          PrintLog(response);
           RenderUpload(getLastLineFromResponse(response)) ;
 
         })
         .catch(function (response) {
-          console.log(response);
+          PrintLog(response);
           RenderUpload(getLastLineFromResponse(response)) ;
         });
       

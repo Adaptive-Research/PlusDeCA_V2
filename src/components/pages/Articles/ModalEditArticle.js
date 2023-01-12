@@ -12,9 +12,9 @@ export default function ModalEditArticle(props) {
 
     const storedToken = localStorage.getItem('token');
 
-    console.log("ModalEditArticle") ;
-    //console.log("props") ;
-    console.log(props) ;
+    PrintLog("ModalEditArticle") ;
+    //PrintLog("props") ;
+    PrintLog(props) ;
 
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
@@ -75,17 +75,17 @@ export default function ModalEditArticle(props) {
 
     // Function that validates the form
     const inputsValidation = () => {
-        console.log("inputsValidation") ;
+        PrintLog("inputsValidation") ;
 
         
-        console.log("title: " + title) ;
-        console.log("tags: " + tags) ;
-        console.log("result") ;
-        console.log(result) ;
-        console.log("html") ;
-        console.log(html) ;
-        console.log("texte") ;
-        console.log(texte.current) ;
+        PrintLog("title: " + title) ;
+        PrintLog("tags: " + tags) ;
+        PrintLog("result") ;
+        PrintLog(result) ;
+        PrintLog("html") ;
+        PrintLog(html) ;
+        PrintLog("texte") ;
+        PrintLog(texte.current) ;
         
 
         if (result !== "")
@@ -94,8 +94,8 @@ export default function ModalEditArticle(props) {
                 texte.current = String(result.blocks[0].text) ;
         }
 
-        console.log("texte2") ;
-        console.log(texte.current) ;
+        PrintLog("texte2") ;
+        PrintLog(texte.current) ;
 
 
         let titleCheck, tagsCheck, descriptionCheck;
@@ -146,7 +146,7 @@ export default function ModalEditArticle(props) {
         try {
             inputsValidation();
         } catch (e) {
-            console.log(e);
+            PrintLog(e);
         } 
     }
 
@@ -163,15 +163,15 @@ export default function ModalEditArticle(props) {
 
 
     function RenderUpload(NomFichierUploade){
-        console.log("NomFichierUploade") ;
-        console.log(NomFichierUploade) ;
+        PrintLog("NomFichierUploade") ;
+        PrintLog(NomFichierUploade) ;
 
         setPhoto(NomFichierUploade) ;
     }
 
     const submitForm = (files) => {
-        console.log("submitForm") ;
-        console.log(files);
+        PrintLog("submitForm") ;
+        PrintLog(files);
        
         let Fichier = files[0].file ;
 
@@ -225,16 +225,16 @@ export default function ModalEditArticle(props) {
                             <formeditor.EditorConvertToHTML Content={content} 
                                 onEditorChange={(v) => {
                                     setHtml(v) ;
-                                    console.log("onEditorChange") ;
-                                    console.log("Html") ;
-                                    console.log(html) ;
+                                    PrintLog("onEditorChange") ;
+                                    PrintLog("Html") ;
+                                    PrintLog(html) ;
                                 }}
                                 
                                 onChange={(v) => {
                                     setResult(v) ;
-                                    console.log("onChange") ;
-                                    console.log("result") ;
-                                    console.log(result) ;
+                                    PrintLog("onChange") ;
+                                    PrintLog("result") ;
+                                    PrintLog(result) ;
                                 }}
                                 
 

@@ -12,7 +12,7 @@ import ModalShowFormation from "../Formations/ModalShowFormation" ;
 
 
 export default function FormationAvailableList() {
-    console.log("FormationAvailableList") ;
+    PrintLog("FormationAvailableList") ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
@@ -21,8 +21,8 @@ export default function FormationAvailableList() {
 
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
-    console.log('Mes traductions');
-    console.log(Translations_Text);
+    PrintLog('Mes traductions');
+    PrintLog(Translations_Text);
    
 
 
@@ -69,8 +69,8 @@ export default function FormationAvailableList() {
    
 
     function TranslateAll(data,Page){
-        console.log('TranslateAll') ;
-        console.log(data);
+        PrintLog('TranslateAll') ;
+        PrintLog(data);
     
         let t = FindTranslation(data,Page, sTrainings) ;
         if (t !== "Not Found")
@@ -93,9 +93,9 @@ export default function FormationAvailableList() {
 
 
     function RenderAfterLoad(variable) {
-        console.log("RenderAfterLoad") ;
-        //console.log("downloaded_Formations.current") ;
-        //console.log(downloaded_Formations.current) ;
+        PrintLog("RenderAfterLoad") ;
+        //PrintLog("downloaded_Formations.current") ;
+        //PrintLog(downloaded_Formations.current) ;
         
         if (variable === "Formations_Available")
             downloaded_Formations.current = true ;
@@ -116,7 +116,7 @@ export default function FormationAvailableList() {
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
-        console.log("reloadInfos") ;
+        PrintLog("reloadInfos") ;
         getAvailableFormations("Formations_Available",storedToken,RenderAfterLoad) ;
         getFormationsGroupes("Formations_groupes",storedToken,ValueLangue, RenderAfterLoad) ;
         getFormationsCategories("Formations_categories",storedToken,ValueLangue, RenderAfterLoad) ;
@@ -131,7 +131,7 @@ export default function FormationAvailableList() {
 
     function ForceRenderFormation() {
         
-        //console.log("ForceRenderFormation") ;
+        //PrintLog("ForceRenderFormation") ;
         setShowEditFormation(false) ;
 
         downloaded_Formations.current = false ;   
@@ -196,11 +196,11 @@ export default function FormationAvailableList() {
 
     // Separate drafts from published formations
     const renderAvailableFormations = (idCategorie) => {
-        console.log("renderAvailableFormations");
+        PrintLog("renderAvailableFormations");
         const formations = JSON.parse(localStorage.getItem("Formations_Available"));
        {
         if (formations !== null){
-            console.log(formations);
+            PrintLog(formations);
             return formations.map((formation) => {
                 if(formation.Formation_idCategorie == idCategorie){
                     return  <Col md={4}  key={formation.id}> 
@@ -224,8 +224,8 @@ export default function FormationAvailableList() {
     const RenderFormationAvailableTabs = () =>{
         const FormationsCategories = JSON.parse(localStorage.getItem("Formations_categories"));
         if(FormationsCategories !== null){
-            console.log('FormationsCategories');
-            console.log(FormationsCategories);
+            PrintLog('FormationsCategories');
+            PrintLog(FormationsCategories);
             return FormationsCategories.map((formationCategorie) => {
                 if(formationCategorie.categorie !== null){
                     return  <Tab eventKey={formationCategorie.categorie} title={formationCategorie.categorie}>
@@ -239,7 +239,7 @@ export default function FormationAvailableList() {
             });
 
         }else{
-            console.log("Aucune formation n'est disponible");
+            PrintLog("Aucune formation n'est disponible");
         }
     }
 

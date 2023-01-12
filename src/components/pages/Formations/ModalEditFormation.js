@@ -18,9 +18,9 @@ export default function ModalEditFormation(props) {
 
     
 
-    console.log("ModalEditFormation") ;
-    //console.log("props") ;
-    //console.log(props) ;
+    PrintLog("ModalEditFormation") ;
+    //PrintLog("props") ;
+    //PrintLog(props) ;
 
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
@@ -54,7 +54,7 @@ export default function ModalEditFormation(props) {
 
     if (reloadInfos === true)
     {
-        console.log("reloadInfos") ;
+        PrintLog("reloadInfos") ;
         modeEdit.current = props.ModeEdit ;
         setIdAncestor(props.idAncestor) ;
         setTitle(props.Title) ;
@@ -65,8 +65,8 @@ export default function ModalEditFormation(props) {
                 if ( Formations_categories.length > 0)
                     idcategorie.current = Formations_categories[0].idCategorie ;
         }
-        //console.log("categorie.current") ;
-        //console.log(categorie.current) ;
+        //PrintLog("categorie.current") ;
+        //PrintLog(categorie.current) ;
            
         setContent(props.Html) ;
         setHtml(props.Html) ;
@@ -110,17 +110,17 @@ export default function ModalEditFormation(props) {
 
     // Function that validates the form
     const inputsValidation = () => {
-        console.log("inputsValidation") ;
+        PrintLog("inputsValidation") ;
 
         
-        console.log("title: " + title) ;
-        console.log("categorie: " + idcategorie.current) ;
-        console.log("result") ;
-        console.log(result) ;
-        console.log("html") ;
-        console.log(html) ;
-        console.log("texte") ;
-        console.log(texte.current) ;
+        PrintLog("title: " + title) ;
+        PrintLog("categorie: " + idcategorie.current) ;
+        PrintLog("result") ;
+        PrintLog(result) ;
+        PrintLog("html") ;
+        PrintLog(html) ;
+        PrintLog("texte") ;
+        PrintLog(texte.current) ;
         
 
         if (result !== "")
@@ -129,8 +129,8 @@ export default function ModalEditFormation(props) {
                 texte.current = String(result.blocks[0].text) ;
         }
 
-        console.log("texte2") ;
-        console.log(texte.current) ;
+        PrintLog("texte2") ;
+        PrintLog(texte.current) ;
 
 
         let titleCheck, categorieCheck, descriptionCheck;
@@ -181,7 +181,7 @@ export default function ModalEditFormation(props) {
         try {
             inputsValidation();
         } catch (e) {
-            console.log(e);
+            PrintLog(e);
         } 
     }
 
@@ -261,16 +261,16 @@ export default function ModalEditFormation(props) {
                             <formeditor.EditorConvertToHTML Content={content} 
                                 onEditorChange={(v) => {
                                     setHtml(v) ;
-                                    console.log("onEditorChange") ;
-                                    console.log("Html") ;
-                                    console.log(html) ;
+                                    PrintLog("onEditorChange") ;
+                                    PrintLog("Html") ;
+                                    PrintLog(html) ;
                                 }}
                                 
                                 onChange={(v) => {
                                     setResult(v) ;
-                                    console.log("onChange") ;
-                                    console.log("result") ;
-                                    console.log(result) ;
+                                    PrintLog("onChange") ;
+                                    PrintLog("result") ;
+                                    PrintLog(result) ;
                                 }}
                                 
 

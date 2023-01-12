@@ -14,7 +14,7 @@ import {SaveCompany, UpdateCompany,UpdateFondateurUser, UpdateFonctionUser} from
 
 
 export default function ModalEditCompany(props) {
-    console.log("ModalEditCompany") ;
+    PrintLog("ModalEditCompany") ;
     const storedToken = localStorage.getItem("token");
 
 
@@ -46,13 +46,13 @@ export default function ModalEditCompany(props) {
 
 
 
-    //console.log("ModalEditCompany") ;
+    //PrintLog("ModalEditCompany") ;
 
     /*
-    console.log("props") ;
-    console.log(props.show) ;
-    console.log("lastIsModalOpen") ;
-    console.log(lastIsModalOpen) ;
+    PrintLog("props") ;
+    PrintLog(props.show) ;
+    PrintLog("lastIsModalOpen") ;
+    PrintLog(lastIsModalOpen) ;
     */
 
 
@@ -83,7 +83,7 @@ export default function ModalEditCompany(props) {
 
     
     function renderFounder() {
-        console.log("renderFounder") ;   
+        PrintLog("renderFounder") ;   
         const ListeReponses = [{"id":"1","reponse":""} , {"id":"2","reponse":"Fondateur"},{"id":"3","reponse":"Co Fondateur"}  ] ;
         let options =  ListeReponses.map( (Ligne) => 
                 {
@@ -95,8 +95,8 @@ export default function ModalEditCompany(props) {
                     }
                 })
 
-                console.log("options") ;
-                console.log(options) ;
+                PrintLog("options") ;
+                PrintLog(options) ;
                 return options ;
     }
 
@@ -107,10 +107,10 @@ export default function ModalEditCompany(props) {
         if (idE !== undefined)
             idE2 = idE
 
-        //console.log("ModalEditCompany ForceRender") ;
-        //console.log("idEntreprise: " + idE2) ;
-        //console.log("Job: " + job) ;
-        //console.log("Founder: " + Founder.current) ;
+        //PrintLog("ModalEditCompany ForceRender") ;
+        //PrintLog("idEntreprise: " + idE2) ;
+        //PrintLog("Job: " + job) ;
+        //PrintLog("Founder: " + Founder.current) ;
         
         
         UpdateFondateurUser(storedToken,null,idE2,Founder.current) ;
@@ -167,7 +167,7 @@ export default function ModalEditCompany(props) {
         try {
             inputsValidation();
         } catch (e) {
-            console.log(e);
+            PrintLog(e);
         } finally {
         }
     }

@@ -8,7 +8,7 @@ import {createArticle} from "../../../data/customlibs/utils";
 
 
 export default function InterviewArticle(props) {
-    console.log("InterviewArticle");
+    PrintLog("InterviewArticle");
 
    
 
@@ -29,11 +29,11 @@ export default function InterviewArticle(props) {
         let Questions = JSON.parse(localStorage.getItem("interviewQuestions"));
         let Answers = JSON.parse(localStorage.getItem("interviewAnswers"));
 
-        console.log("reloadInfos === true");
-        console.log("Questions");
-        console.log(Questions);
-        console.log("Answers");
-        console.log(Answers);
+        PrintLog("reloadInfos === true");
+        PrintLog("Questions");
+        PrintLog(Questions);
+        PrintLog("Answers");
+        PrintLog(Answers);
 
         if (Questions === null)
             Questions = [] ;

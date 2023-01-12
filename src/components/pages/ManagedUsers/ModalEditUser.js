@@ -16,8 +16,8 @@ import {encrypt} from "../../../data/customlibs/hasher";
 
 
 export default function ModalEditUser(props) {
-    console.log("ModalEditUser") ;
-    console.log(props) ;
+    PrintLog("ModalEditUser") ;
+    PrintLog(props) ;
 
     const storedToken = localStorage.getItem("token");
 
@@ -99,7 +99,7 @@ export default function ModalEditUser(props) {
     }        
 
 
-    console.log("idRole:" + idRole.current) ;
+    PrintLog("idRole:" + idRole.current) ;
     
    
 
@@ -110,8 +110,8 @@ export default function ModalEditUser(props) {
 
 
     const inputsValidation = () => {
-        console.log("inputsValidation") ;
-        console.log(email,password) ;
+        PrintLog("inputsValidation") ;
+        PrintLog(email,password) ;
         let emailCheck, passwordCheck;
 
         if (props.Mode === "Add"){
@@ -144,13 +144,13 @@ export default function ModalEditUser(props) {
 
 
             if (emailCheck && passwordCheck) {
-                console.log("after emailCheck && passwordCheck ") ;
+                PrintLog("after emailCheck && passwordCheck ") ;
                 
                 let values = AddManagedUser(storedToken, email, encrypt(password),props.idEntreprise,idRole.current);
                 let res = values[0] ;
                 let data = values[1] ;
                 if (res === false)
-                    console.log(data) ;
+                    PrintLog(data) ;
                 else {
 
                     if (props.ForceRender !== null)
@@ -194,7 +194,7 @@ export default function ModalEditUser(props) {
         try {
             inputsValidation();
         } catch (e) {
-            console.log(e);
+            PrintLog(e);
         } finally {
         }
     }

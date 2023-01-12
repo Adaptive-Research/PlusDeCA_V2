@@ -13,7 +13,7 @@ import ModalShowFormation from "./ModalShowFormation" ;
 
 
 export default function FormationList() {
-    console.log("FormationList") ;
+    PrintLog("FormationList") ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
@@ -23,8 +23,8 @@ export default function FormationList() {
     
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
-    console.log('Mes traductions');
-    console.log(Translations_Text);
+    PrintLog('Mes traductions');
+    PrintLog(Translations_Text);
    
 
 
@@ -107,8 +107,8 @@ export default function FormationList() {
     const [titleField, setTitleField] = useState(sTitle);
 
     function TranslateAll(data,Page){
-        console.log('TranslateAll') ;
-        console.log(data);
+        PrintLog('TranslateAll') ;
+        PrintLog(data);
     
         let t = FindTranslation(data,Page, sTrainings) ;
         if (t !== "Not Found")
@@ -192,9 +192,9 @@ export default function FormationList() {
       
 
     function RenderAfterLoad(variable) {
-        console.log("RenderAfterLoad") ;
-        //console.log("downloaded_Formations.current") ;
-        //console.log(downloaded_Formations.current) ;
+        PrintLog("RenderAfterLoad") ;
+        //PrintLog("downloaded_Formations.current") ;
+        //PrintLog(downloaded_Formations.current) ;
         
         if (variable === "userFormations")
             downloaded_Formations.current = true ;
@@ -215,7 +215,7 @@ export default function FormationList() {
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
-        console.log("reloadInfos: " + ValueLangue) ;
+        PrintLog("reloadInfos: " + ValueLangue) ;
         getUserFormations("userFormations",storedToken,RenderAfterLoad) ;
         getFormationsGroupes("Formations_groupes",storedToken,ValueLangue, RenderAfterLoad) ;
         getFormationsCategories("Formations_categories",storedToken,ValueLangue, RenderAfterLoad) ;
@@ -245,7 +245,7 @@ export default function FormationList() {
 
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
     function SendFormationData(ShowWindow, Formation) {
-        console.log("SendFormationData")
+        PrintLog("SendFormationData")
         if (Formation === null)
         {
             setModeEdit("Add") ;
@@ -261,7 +261,7 @@ export default function FormationList() {
         else
         {
             setModeEdit("Edit") ;
-            console.log("Mode Edit") ;
+            PrintLog("Mode Edit") ;
 
             setIdAncestor(Formation.idAncestor) ;
             setTitle(Formation.Formation_Title) ;
@@ -284,7 +284,7 @@ export default function FormationList() {
 
     function ForceRenderFormation() {
         
-        //console.log("ForceRenderFormation") ;
+        //PrintLog("ForceRenderFormation") ;
         setShowEditFormation(false) ;
 
         downloaded_Formations.current = false ;   
@@ -355,7 +355,7 @@ export default function FormationList() {
         {
 
             return formations.map((Ligne) => {
-                //console.log("Ligne.id: "+Ligne.id) ;
+                //PrintLog("Ligne.id: "+Ligne.id) ;
                 if  (TypeFormation === "Brouillon") {
                     if (Ligne.iscurrent === "1" && Ligne.isValidated === "0") 
                         return <Col md={4}  key={Ligne.id}> 

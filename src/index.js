@@ -90,8 +90,8 @@ const Loaderimg = () => {
 
 
 const Root = () => {
-    console.log("PUBLIC_URL") ;
-    console.log(process.env.PUBLIC_URL) ;
+    PrintLog("PUBLIC_URL") ;
+    PrintLog(process.env.PUBLIC_URL) ;
 
     return (
         <Fragment>

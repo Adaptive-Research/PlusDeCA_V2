@@ -32,8 +32,8 @@ export default function ContactList() {
 
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
-    //console.log('Mes traductions');
-    //console.log(Translations_Text);
+    //PrintLog('Mes traductions');
+    //PrintLog(Translations_Text);
 
     // pour le ForceRender
     const downloaded_BusinessCards = useRef(false) ;
@@ -130,8 +130,8 @@ export default function ContactList() {
 
     function TranslateAll(data,Page){
 
-        console.log('TranslateAll') ;
-        console.log(data);
+        PrintLog('TranslateAll') ;
+        PrintLog(data);
     
         let t = FindTranslation(data,Page, sBusinessCards) ;
         if (t !== "Not Found")
@@ -245,7 +245,7 @@ export default function ContactList() {
 
 
 
-    console.log("ContactList") ;
+    PrintLog("ContactList") ;
     const storedToken = localStorage.getItem('token') ;
 
 
@@ -259,7 +259,7 @@ export default function ContactList() {
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
-        console.log("reloadInfos") ;
+        PrintLog("reloadInfos") ;
         getUserBusinessCards("userBusinessCards",storedToken,RenderAfterLoad) ;
         getBusinessCardCategories("BusinessCardsCategories",storedToken,RenderAfterLoad) ;
             
@@ -270,7 +270,7 @@ export default function ContactList() {
 
     function RenderAfterLoad(variable) {
         reloadInfos.current = false ;
-        console.log("RenderAfterLoad: " + variable ) ;
+        PrintLog("RenderAfterLoad: " + variable ) ;
 
         if (variable === "userBusinessCards")
             downloaded_BusinessCards.current = true ;            
@@ -319,7 +319,7 @@ function ModalCallClose(){
 
 
     function ClearBusinessCard() {
-        console.log("ClearBusinessCard") ;
+        PrintLog("ClearBusinessCard") ;
         
         setLieuRencontre("");
         setEntreprise("");
@@ -341,7 +341,7 @@ function ModalCallClose(){
 
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
     function SendBusinessCardData(Mode, BusinessCard) {
-        console.log("SendBusinessCardData")
+        PrintLog("SendBusinessCardData")
         if (Mode === "Add")
         {
             setModeEdit("Add") ;
@@ -370,14 +370,14 @@ function ModalCallClose(){
 
         if (Mode === "Classify")
         {
-            console.log("businesscard.id: " + BusinessCard.id) ;
+            PrintLog("businesscard.id: " + BusinessCard.id) ;
             setIdBusinessCard(BusinessCard.id);
             setShowClassifyBusinessCard(true) ;
         }
 
         if (Mode === "Call")
         {
-            console.log("businesscard.id: " + BusinessCard.id) ;
+            PrintLog("businesscard.id: " + BusinessCard.id) ;
             setIdBusinessCard(BusinessCard.id);
             setShowCall(true) ;
         }
@@ -422,9 +422,9 @@ function ModalCallClose(){
 
 
     const renderBusinessCardsForTab = (idCategorie) => {
-        console.log("renderBusinessCardsForTab") ;
-        //console.log("BusinessCards");
-        //console.log(BusinessCards);
+        PrintLog("renderBusinessCardsForTab") ;
+        //PrintLog("BusinessCards");
+        //PrintLog(BusinessCards);
 
         if (BusinessCards !== null)
         {
@@ -446,9 +446,9 @@ function ModalCallClose(){
 
     const RenderBusinessCardsCategoriesTabs = () =>{
         if(BusinessCardsCategories !== null){
-            console.log("RenderBusinessCardsCategoriesTabs") ;
-            console.log('BusinessCardsCategories');
-            console.log(BusinessCardsCategories);
+            PrintLog("RenderBusinessCardsCategoriesTabs") ;
+            PrintLog('BusinessCardsCategories');
+            PrintLog(BusinessCardsCategories);
             return BusinessCardsCategories.map((BusinessCardCategorie) => {
                 if(BusinessCardCategorie.Categorie !== null){
                     return  <Tab eventKey={BusinessCardCategorie.Categorie} title={BusinessCardCategorie.Categorie}>
@@ -468,9 +468,9 @@ function ModalCallClose(){
 
 
     const renderBusinessCards = () => {
-        console.log("renderBusinessCards");
-        //console.log("BusinessCards");
-        //console.log(BusinessCards);
+        PrintLog("renderBusinessCards");
+        //PrintLog("BusinessCards");
+        //PrintLog(BusinessCards);
 
         if (BusinessCards !== null)
         {

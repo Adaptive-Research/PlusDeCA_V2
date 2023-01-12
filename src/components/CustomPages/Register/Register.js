@@ -58,7 +58,7 @@ export default function Register() {
                 let res = values[0] ;
                 let data = values[1] ;
                 if (res === false)
-                    console.log(data) ;
+                    PrintLog(data) ;
             }
         }
 
@@ -72,12 +72,12 @@ export default function Register() {
         try {
             inputValidation();
         } catch (e) {
-            console.log(e);
+            PrintLog(e);
         } finally {
-            console.log(`user signup attempt with ${email} and ${password}`);
+            PrintLog(`user signup attempt with ${email} and ${password}`);
             setEmail("");
             setPassword("");
-            console.log(`new values are ${email} and ${password}`);
+            PrintLog(`new values are ${email} and ${password}`);
         }
 
     }
