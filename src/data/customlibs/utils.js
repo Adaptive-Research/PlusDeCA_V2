@@ -418,6 +418,10 @@ const random = (length = 16) => {
 
 
 function IsPaying(UserAccess, AccessRight) {
+    console.log("IsPaying") ;
+    console.log(UserAccess) ;
+    console.log("AccessRight: " + AccessRight) ;
+
     for (var i = 0 ; i < UserAccess.length ; i++) {
         var obj = UserAccess[i] ;
         if (obj.idFonction === AccessRight)

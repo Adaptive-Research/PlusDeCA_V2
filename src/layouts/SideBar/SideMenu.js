@@ -243,11 +243,7 @@ function GetVisibleMenus(UserAccess,m) {
         }
 
         for (j = 0 ; j < obj.Items.length ; j++) {
-
             obj2 = obj.Items[j] ;
-
-            console.log("obj2.title: " + obj2.title) ;
-            console.log("obj2.access: " + obj2.access) ;
 
             if (obj2.access !== undefined) {
                 if ( IsPaying(UserAccess,obj2.access) === false) {
