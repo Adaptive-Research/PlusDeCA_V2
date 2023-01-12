@@ -433,7 +433,7 @@ function IsPaying(UserAccess, AccessRight) {
 
 
 function PrintLog(chaine) {
-    PrintLog(chaine) ;
+    console.log(chaine) ;
 }
 
 
