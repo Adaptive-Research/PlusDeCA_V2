@@ -232,8 +232,8 @@ function GetVisibleMenus(UserAccess,m) {
     for (i = 0 ; i < arr.length ; i++) {
 
         obj = arr[i] ;
-        PrintLog("obj.title: " + obj.menutitle) ;
-        PrintLog("obj.access: " + obj.access) ;
+        //PrintLog("obj.title: " + obj.menutitle) ;
+        //PrintLog("obj.access: " + obj.access) ;
 
         if (obj.access !== undefined) {
             if ( IsPaying(UserAccess,obj.access) === false) {

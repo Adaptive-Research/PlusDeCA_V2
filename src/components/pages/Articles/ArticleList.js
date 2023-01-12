@@ -19,8 +19,8 @@ export default function ArticleList() {
     const idUser = getIDFromToken(storedToken) ;
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
-    PrintLog('Translations_text');
-    PrintLog(Translations_Text);
+    //PrintLog('Translations_text');
+    //PrintLog(Translations_Text);
 
 
     // pour le Rerender
