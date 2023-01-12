@@ -9,6 +9,7 @@ import {encrypt} from "../../../data/customlibs/hasher.js";
 
 import {getTranslations_Text, getTranslations_SelectBox,getLanguage,getProfile,getActivitiesForUser,getCompaniesForUser} from "../../../data/customlibs/api";
 import {getEntrepriseUtilisateur,getEventsForUser} from "../../../data/customlibs/api";
+import {getUtilisateurPayant} from "../../../data/customlibs/api_daniel";
 
 import  {getIDFromToken} from  "../../../data/customlibs/utils" ;
 import {searchCompanies} from "../../../data/customlibs/api";
@@ -34,6 +35,7 @@ export default function Login() {
     const downloaded_CompanyList = useRef(false) ;
     const downloaded_userEvents = useRef(false) ;
     const downloaded_Profile = useRef(false) ;
+    const downloaded_userAccess = useRef(false) ;
 
 
     const [reloadLogin, setReloadLogin] = useState(true);
@@ -52,6 +54,7 @@ export default function Login() {
         localStorage.removeItem("EntrepriseUtilisateur");
         localStorage.removeItem("userCompanies");
         localStorage.removeItem("userActivities");
+        localStorage.removeItem("userAccess");
         localStorage.removeItem("userEvents");
         localStorage.removeItem("CompanyList");
         localStorage.removeItem("Profile");
@@ -128,12 +131,15 @@ export default function Login() {
                 downloaded_Profile.current = true ;             
 
             if (variable === 'userEvents')
-                downloaded_userEvents.current = true ;                         
+                downloaded_userEvents.current = true ;            
+            
+            if (variable === 'userAccess')
+                downloaded_userAccess.current = true ;                         
 
 
             if (downloaded_Translations_Text.current && downloaded_Translations_SelectBox.current && downloaded_EntrepriseUtilisateur.current &&
                 downloaded_userCompanies.current && downloaded_userActivities.current && downloaded_CompanyList.current && downloaded_Profile.current
-                && downloaded_userEvents.current )
+                && downloaded_userEvents.current  && downloaded_userAccess.current )
             {
                 // window.location.href comme la fonction navigate utilisent le server side routing 
                 let url = `${process.env.PUBLIC_URL}/Journal/Page1` ;
@@ -182,6 +188,7 @@ export default function Login() {
                     getLanguage( "ValueLangue",storedToken,LoadTranslations) ;  // C'est pour charger la langue et les traductions
 
                     getProfile("Profile",storedToken,idUser,RenderAfterLoad) ;                      // Ce sont les infos personnelles
+                    getUtilisateurPayant("userAccess",storedToken,RenderAfterLoad)
                     getEventsForUser("userEvents",storedToken,RenderAfterLoad) ;
                     getEntrepriseUtilisateur('EntrepriseUtilisateur',storedToken,RenderAfterLoad) ; // Ce sont les droits d'acces et les infos de l'utilisateur pour les enteprises avec lesquelles il a un lien 
                     getCompaniesForUser("userCompanies",storedToken, idUser,RenderAfterLoad) ;      // Ce sont toutes les boites auxquelles est associe l'utilisateur
