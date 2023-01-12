@@ -418,9 +418,9 @@ const random = (length = 16) => {
 
 
 function IsPaying(UserAccess, AccessRight) {
-    PrintLog("IsPaying") ;
-    PrintLog(UserAccess) ;
-    PrintLog("AccessRight: " + AccessRight) ;
+    //PrintLog("IsPaying") ;
+    //PrintLog(UserAccess) ;
+    //PrintLog("AccessRight: " + AccessRight) ;
 
     for (var i = 0 ; i < UserAccess.length ; i++) {
         var obj = UserAccess[i] ;

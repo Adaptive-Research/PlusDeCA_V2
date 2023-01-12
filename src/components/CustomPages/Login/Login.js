@@ -13,7 +13,7 @@ import {getUtilisateurPayant} from "../../../data/customlibs/api_daniel";
 
 import  {getIDFromToken} from  "../../../data/customlibs/utils" ;
 import {searchCompanies} from "../../../data/customlibs/api";
-
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

@@ -264,8 +264,8 @@ const VL = localStorage.getItem('ValueLangue') ;
 PrintLog("SideMenu ValueLangue: " + VL) ;
 const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
-PrintLog("SideMenu Translations_Text") ;
-PrintLog(Translations_Text) ;
+//PrintLog("SideMenu Translations_Text") ;
+//PrintLog(Translations_Text) ;
 
 
 
