@@ -4,6 +4,7 @@ import '../../../assets/css/ModalEditCategoryBusinessCard.css';
 import { DeleteAllBusinessCardCategories, SaveBusinessCardCategory } from "../../../data/customlibs/api";
 import { UpInArray, DownInArray, DeleteFromArray } from "../../../data/customlibs/utils";
 import '../../../assets/css/GlobalInputbackground.css';
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

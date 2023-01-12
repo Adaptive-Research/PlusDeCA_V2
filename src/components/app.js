@@ -7,7 +7,9 @@ import RightSidebar from "../layouts/RightSidebar/RightSidebar";
 import * as Switcherdata from "../data/Switcher/Switcherdata";
 import {Outlet} from "react-router-dom";
 import TabToTop from "../layouts/TabToTop/TabToTop";
-import Login from "../components/CustomPages/Login/Login";
+import Login from "./CustomPages/Login/Login";
+import {PrintLog} from  "../data/customlibs/utils";
+
 
 
 export default function App() {

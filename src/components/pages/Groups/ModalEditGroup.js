@@ -1,13 +1,11 @@
 import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
-import * as formeditor from "../../../data/Form/formeditor/formeditor";
-import { FormGroup, Row, Button, Modal,Image,Col} from "react-bootstrap";
+import { FormGroup, Row, Button, Modal} from "react-bootstrap";
 import {SaveGroup,UpdateGroup,PublishGroup} from "../../../data/customlibs/api_angelo";
 import {UploadFile} from "../../../data/customlibs/api2";
 import '../../../assets/css/GlobalInputbackground.css';
 import '../../../assets/css/GroupModale.css';
-import { useFormState } from "react-hook-form";
-
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 export default function ModalEditGroup(props) {
 

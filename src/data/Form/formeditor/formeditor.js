@@ -7,6 +7,8 @@ import draftToHtml from "draftjs-to-html";
 import htmlToDraft from 'html-to-draftjs';
 
 import "../../../assets/css/style_draftjs.css" ;
+import {PrintLog} from  "../../../data/customlibs/utils";
+
 
 
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { Dropdown, Navbar, Container,Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {PrintLog} from  "../../data/customlibs/utils";
 
 export function Header() {
   //full screen

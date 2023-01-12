@@ -1,10 +1,11 @@
-import React, { useState,useRef,useEffect} from "react";
+import React, { useState,useRef} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from  "../../../data/customlibs/utils";
 import {getUserFormations,getFormationsCategories,getFormationsGroupes} from "../../../data/customlibs/api";
 import CardFormation from "./CardFormation" ;
 import ModalEditFormation from "./ModalEditFormation" ;
 import ModalShowFormation from "./ModalShowFormation" ;
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
     

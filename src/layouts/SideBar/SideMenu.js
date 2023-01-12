@@ -1,7 +1,7 @@
 
 
 import  { FindTranslation, getDecryptedData,IsPaying } from  "../../data/customlibs/utils" ;
-
+import {PrintLog} from  "../../data/customlibs/utils";
 
 const menus = [
     {

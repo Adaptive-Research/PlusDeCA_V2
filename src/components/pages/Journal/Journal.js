@@ -10,6 +10,7 @@ import RecentsArticles from './RecentsArticles';
 import {getTranslations_Text, getTranslations_SelectBox, getLanguage,getActivitiesForUser,getCompaniesForUser,getEntrepriseUtilisateur} from "../../../data/customlibs/api";
 import  { getIDFromToken, FindTranslation } from  "../../../data/customlibs/utils" ;
 import {searchCompanies, getDataFromResponse} from "../../../data/customlibs/api";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

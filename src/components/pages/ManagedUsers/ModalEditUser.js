@@ -1,8 +1,9 @@
 import React, {useState,useRef,useEffect} from "react";
 import {Button, Col, FormGroup, Row, Modal } from "react-bootstrap";
-import {checkDuplicate, checkEmail,remove_linebreaks} from "../../../data/customlibs/utils";
+import {checkEmail} from "../../../data/customlibs/utils";
 import {AddManagedUser,UpdatePasswordUser,UpdateRoleUser} from "../../../data/customlibs/api";
 import {encrypt} from "../../../data/customlibs/hasher";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

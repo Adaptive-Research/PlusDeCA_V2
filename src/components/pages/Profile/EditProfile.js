@@ -1,12 +1,11 @@
 import React , { useState, useRef,useCallback } from "react";
-//import * as formelement from "../../../data/Form/formelement/formelement";
-//import * as editprofile from "../../../data/Pages/editprofile/editprofile";
 import {useNavigate} from "react-router";
 import {Col,Row,Card,Form,Button,FormGroup} from "react-bootstrap";
 
 import  { FindTranslation, getIDFromToken } from  "../../../data/customlibs/utils" ;
-import {getProfile,SaveProfile,SaveLanguage,getTranslations_Text} from "../../../data/customlibs/api";
+import {SaveProfile,SaveLanguage} from "../../../data/customlibs/api";
 import ReactFlagsSelect from "react-flags-select";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

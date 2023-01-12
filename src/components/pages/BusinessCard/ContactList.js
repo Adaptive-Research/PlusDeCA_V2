@@ -12,6 +12,7 @@ import ModalClassifyBusinessCard from "./ModalClassifyBusinessCard.js";
 import ModalCall from "./ModalCall.js";
 
 import '../../../assets/css/GlobalInputbackground.css';
+import {PrintLog} from  "../../../data/customlibs/utils";
 
     
   

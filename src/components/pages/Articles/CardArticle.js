@@ -1,6 +1,8 @@
 
 import {Card} from "react-bootstrap";
 import {DeleteArticle} from "../../../data/customlibs/api";
+import {PrintLog} from  "../../../data/customlibs/utils";
+
 
 
 

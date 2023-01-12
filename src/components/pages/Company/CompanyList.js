@@ -8,6 +8,7 @@ import CardCompany from "./CardCompany" ;
 import ModalEditCompany from "./ModalEditCompany" ;
 import ModalEditActivity from "./ModalEditActivity" ;
 import ModalLinkCompany from "./ModalLinkCompany" ;
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

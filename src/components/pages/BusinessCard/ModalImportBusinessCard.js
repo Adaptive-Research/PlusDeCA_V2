@@ -4,6 +4,7 @@ import { FormGroup, Row, Col, Button, Modal, Card} from "react-bootstrap";
 import '../../../assets/css/ModalImportBusinessCard.css';
 import {UploadBusinessCards} from "../../../data/customlibs/api2";
 import '../../../assets/css/GlobalInputbackground.css';
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

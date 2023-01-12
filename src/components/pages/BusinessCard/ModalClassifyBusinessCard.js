@@ -4,6 +4,7 @@ import { FormGroup, Row, Col, Button, Modal, Card} from "react-bootstrap";
 import '../../../assets/css/ModalImportBusinessCard.css';
 import '../../../assets/css/GlobalInputbackground.css';
 import {SaveClassementBusinessCard} from "../../../data/customlibs/api";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

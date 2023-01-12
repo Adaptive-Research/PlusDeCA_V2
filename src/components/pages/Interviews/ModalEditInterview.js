@@ -4,6 +4,7 @@ import InterviewQuestions  from "./InterviewQuestions";
 import InterviewArticle  from "./InterviewArticle";
 import {getInterviewAnswers,getInterviewQuestions,SaveAnswer} from "../../../data/customlibs/api";
 import "../../../assets/css/InterviewQuestions.css";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

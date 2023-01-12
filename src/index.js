@@ -2,6 +2,8 @@ import React, {Fragment} from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {PrintLog} from "./data/customlibs/utils";
+
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App

@@ -4,6 +4,7 @@ import {Button,Card, Table} from "react-bootstrap";
 import CardActivity from "./CardActivity" ;
 import {DeleteCompany,DeleteLinkCompany} from "../../../data/customlibs/api";
 import {IsFullAdmin,FindEntrepriseUtilisateur, getDecryptedData} from "../../../data/customlibs/utils";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

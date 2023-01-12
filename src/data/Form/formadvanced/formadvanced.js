@@ -25,6 +25,9 @@ import Compact from "@uiw/react-color-compact";
 import { MultiSelect } from "react-multi-select-component";
 import Creatable from "react-select/creatable";
 import DualListBox from "react-dual-listbox";
+import {PrintLog} from  "../../../data/customlibs/utils";
+
+
 // //ColorPicker
 export function ColorPicker() {
   const [initial] = useState("#6259ca");

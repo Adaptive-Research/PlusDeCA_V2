@@ -7,6 +7,8 @@ import {UploadFile} from "../../../data/customlibs/api2";
 import '../../../assets/css/GlobalInputbackground.css';
 import '../../../assets/css/ArticleModale.css';
 import { useFormState } from "react-hook-form";
+import {PrintLog} from  "../../../data/customlibs/utils";
+
 
 export default function ModalEditArticle(props) {
 

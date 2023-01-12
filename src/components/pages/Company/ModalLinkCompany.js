@@ -2,6 +2,7 @@ import React, {useState, useRef} from "react";
 import {Button, Col, FormGroup, Row, Modal,Form } from "react-bootstrap";
 import AsyncSelect from 'react-select/async'
 import {searchCompanies, getDataFromResponse,LinkCompany} from "../../../data/customlibs/api";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

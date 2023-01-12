@@ -2,6 +2,7 @@
 import {Card} from "react-bootstrap";
 import {DeleteFormation} from "../../../data/customlibs/api";
 import {ValidateFormation,InvalidateFormation} from "../../../data/customlibs/api";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

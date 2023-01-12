@@ -5,6 +5,7 @@ import {FindTranslation} from  "../../../data/customlibs/utils" ;
 import '../../../assets/css/InterviewsList.css';
 import CardInterview from "./CardInterview.js";
 import ModalEditInterview from "./ModalEditInterview.js";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

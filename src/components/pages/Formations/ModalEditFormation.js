@@ -3,6 +3,7 @@ import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import * as formeditor from "../../../data/Form/formeditor/formeditor";
 import { FormGroup, Row, Button, Modal} from "react-bootstrap";
 import {SaveFormation,UpdateFormation} from "../../../data/customlibs/api";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

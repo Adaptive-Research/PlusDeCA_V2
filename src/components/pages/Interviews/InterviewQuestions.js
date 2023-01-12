@@ -2,10 +2,9 @@ import React from 'react'
 import "../../../assets/css/InterviewQuestions.css";
 import "../../../assets/css/style_Dan.css";
 import  InterviewImg  from "../../../assets/images/interviews/interview.png";
-import  InterviewImg2  from "../../../assets/images/interviews/Interview2.png";
 import { useState,useRef } from 'react';
 import Buttons from './Buttons';
-import {createArticle} from "../../../data/customlibs/utils";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 

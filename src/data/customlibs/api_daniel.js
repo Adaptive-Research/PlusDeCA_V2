@@ -1,6 +1,8 @@
 
 import axios from "axios";
 import {getDataFromResponse} from "./api.js"
+import {PrintLog} from "./utils";
+
 
 var CryptoJS = require("crypto-js");
 

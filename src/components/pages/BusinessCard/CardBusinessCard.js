@@ -5,6 +5,8 @@ import '../../../assets/css/BusinessCard.css';
 import { FaGlobe } from 'react-icons/fa';
 import { IoMdPhonePortrait, IoMdMail } from 'react-icons/io';
 import '../../../assets/css/GlobalInputbackground.css';
+import {PrintLog} from  "../../../data/customlibs/utils";
+
 
 
 

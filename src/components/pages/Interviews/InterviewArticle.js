@@ -3,6 +3,7 @@ import "../../../assets/css/InterviewQuestions.css";
 import "../../../assets/css/style_Dan.css";
 import { useState,useRef } from 'react';
 import {createArticle} from "../../../data/customlibs/utils";
+import {PrintLog} from  "../../../data/customlibs/utils";
 
 
 
