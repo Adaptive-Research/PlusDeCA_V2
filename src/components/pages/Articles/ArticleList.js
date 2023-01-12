@@ -1,4 +1,4 @@
-import React, { useState,useRef,useEffect} from "react";
+import React, { useState,useRef} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
 import {FindTranslation,getIDFromToken} from  "../../../data/customlibs/utils" ;
 import {getUserArticles} from "../../../data/customlibs/api";
