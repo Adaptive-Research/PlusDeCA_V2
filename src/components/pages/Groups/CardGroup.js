@@ -20,7 +20,7 @@ export default function CardGroup(props) {
     }
 
 
-    let FichierImage = process.env.REACT_APP_API_GET_IMAGE_URL + props.Group.group_image + '/' ;
+    var FichierImage = process.env.REACT_APP_API_GET_IMAGE_URL + props.Group.group_image + '/' ;
 
     return  <Card key={props.Group.idGroup}>
                 <img

@@ -1,6 +1,6 @@
-import React, { useState,useRef,useEffect} from "react";
-import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
-import {FindTranslation,getIDFromToken} from  "../../../data/customlibs/utils" ;
+import React, { useState,useRef} from "react";
+import {Card, Col, Row} from "react-bootstrap";
+import {FindTranslation} from  "../../../data/customlibs/utils" ;
 import {getUserGroups} from "../../../data/customlibs/api_angelo";
 import CardGroup from "./CardGroup" ;
 import ModalEditGroup from "./ModalEditGroup" ;
@@ -14,7 +14,6 @@ export default function GroupList() {
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
-    const idUser = getIDFromToken(storedToken) ;
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
 
@@ -41,10 +40,6 @@ export default function GroupList() {
     const reloadInfos = useRef(true) ;
     const [reloadTraductions, setReloadTraductions] = useState(true) ;
    
-    //Pour les Tabs
-    const sInProgress = "In Progress";
-    const sValid = "Validated";
-    const sPublished = "Published";
    // Pour le Titre
    const sItems = "Groups";
    //Pour les Boutons
@@ -79,9 +74,8 @@ export default function GroupList() {
         PrintLog('GroupList TranslateAll') ;
         PrintLog(data);
     
-        let t = FindTranslation(data,Page, sInProgress) ;
     
-        t = FindTranslation(data,Page, sItems) ;
+        let t = FindTranslation(data,Page, sItems) ;
         if (t !== "Not Found")
           setItems(t) ;
     
@@ -103,7 +97,7 @@ export default function GroupList() {
     
         t = FindTranslation(data,Page, sTags) ;
         if (t !== "Not Found")
-            setFieldDescription(t) ;
+            setFieldTag(t) ;
       
         t = FindTranslation(data,Page, sDescription) ;
         if (t !== "Not Found")
@@ -212,7 +206,6 @@ export default function GroupList() {
         {
 
             return groups.map((group) => {
-                if (group.iscurrent === "1") 
                     return <Col md={6}  key={group.id}> 
                                 <CardGroup 
                                     Group={group}
