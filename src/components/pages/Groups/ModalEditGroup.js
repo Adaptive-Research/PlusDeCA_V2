@@ -1,5 +1,6 @@
 import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
+import * as formeditor from "../../../data/Form/formeditor/formeditor";
 import { FormGroup, Row, Button, Modal} from "react-bootstrap";
 import {SaveGroup,UpdateGroup} from "../../../data/customlibs/api_angelo";
 import {UploadFile} from "../../../data/customlibs/api2";
@@ -24,8 +25,13 @@ export default function ModalEditGroup(props) {
     const modeEdit = useRef("") ;
     const [idGroup, setIdGroup] = useState("");
     const [nom, setNom] = useState("");
-    const [sdescription, setDescription] = useState(""); 
+    // const [sdescription, setDescription] = useState(""); 
     const [tags, setTag] = useState("");
+
+    const [content, setContent] = useState(""); // ceci est utilise pour initialiser l'Editor
+    const [result, setResult] = useState("");   // ceci est ce que l'on recoit en sortie de l'editor
+    const [html, setHtml] = useState("");  // ceci est ce que l'on recoit en sortie de l'editor
+    const sdescription = useRef("");   // ceci est le texte contenu dans l'objet Result 
 
     const [group_image, setPhoto] = useState("");
     const [nomMsg, setNomMsg] = useState("");
@@ -37,7 +43,10 @@ export default function ModalEditGroup(props) {
         setIdGroup(props.idGroup) ;
         setNom(props.Nom) ;
         setTag(props.Tags) ;
-        setDescription(props.Description) ;
+        // setDescription(props.Description) ;
+        setContent(props.Description) ;
+        setHtml(props.Description) ;
+        sdescription.current = props.Description ;
         setPhoto(props.Photo) ;
         setReloadInfos(false) ;
     }
@@ -54,8 +63,14 @@ export default function ModalEditGroup(props) {
         PrintLog("inputsValidation") ;
         
         PrintLog("nom: " + nom) ;
-        PrintLog("sdescription: " + sdescription) ;
+        PrintLog("sdescription: " + sdescription.current) ;
         
+        if (result !== "")
+        {
+            if (result.blocks !== undefined)
+                sdescription.current = String(result.blocks[0].text) ;
+        }
+
         let nomCheck, descriptionCheck, tagCheck;
         if (nom.length > 0) {
             nomCheck = true;
@@ -65,7 +80,7 @@ export default function ModalEditGroup(props) {
             setNomMsg("Le nom est obligatoire");
         }
 
-        if (sdescription.length > 0) {
+        if (sdescription.current.length > 0) {
             descriptionCheck = true;
         } else {
             descriptionCheck = false;
@@ -81,9 +96,9 @@ export default function ModalEditGroup(props) {
 
         if (nomCheck && descriptionCheck && tagCheck) {
             if (modeEdit.current === "Add")
-                SaveGroup(storedToken,nom,tags,sdescription,group_image, props.ForceRenderGroup);
+                SaveGroup(storedToken,nom,tags,sdescription.current,group_image, props.ForceRenderGroup);
             else
-                UpdateGroup(storedToken,idGroup,nom,tags,sdescription,group_image, props.ForceRenderGroup);
+                UpdateGroup(storedToken,idGroup,nom,tags,sdescription.current,group_image, props.ForceRenderGroup);
         }
     }
 
@@ -151,15 +166,27 @@ export default function ModalEditGroup(props) {
                         </div>
                     </Row>
 
-                    <Row className="mb-4">
-                        <label className="col-md-3 form-label">{props.FieldDescription} :</label>
-                        <div className="">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder={descriptionMsg === "" ? "..." : descriptionMsg}
-                                value={sdescription}
-                                onChange={(e) => setDescription(e.target.value)}
+                    <Row>
+                        <label className="col-md-3 form-label mb-4">
+                        {props.FieldDescription}:
+                        </label>
+                        <div className="mb-4">
+
+                            <formeditor.EditorConvertToHTML Content={content} 
+                                onEditorChange={(v) => {
+                                    setHtml(v) ;
+                                    PrintLog("onEditorChange") ;
+                                    PrintLog("Html") ;
+                                    PrintLog(html) ;
+                                }}
+                                
+                                onChange={(v) => {
+                                    setResult(v) ;
+                                    PrintLog("onChange") ;
+                                    PrintLog("result") ;
+                                    PrintLog(result) ;
+                                }}
+
                             />
                         </div>
 

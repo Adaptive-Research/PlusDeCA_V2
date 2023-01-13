@@ -33,6 +33,7 @@ export default function GroupList() {
     const [id, setId] = useState("");
     const [nom, setNom] = useState("");
     const [sdescription, setDescription] = useState("");
+    const [html, setHtml] = useState("<p>Hey this <strong>test</strong> rocks 😀</p>");
     const [tags, setTag] = useState("");
     const [group_image, setPhoto] = useState("");
 
@@ -55,7 +56,6 @@ export default function GroupList() {
     const sSendPhoto = 'Send Photo';
     const sAddPicture  = 'Add a picture';
 
-
     const [items, setItems] = useState(sItems);
     const [addItem, setAddItem] = useState(sAddItem);
     const [cancel, setCancel] = useState(sCancel);
@@ -66,8 +66,6 @@ export default function GroupList() {
     const [fieldPicture, setFieldPicture] = useState(sPictureFile);
     const [fieldSendPhoto, setSendPhoto] = useState(sSendPhoto);
     const [addPicture, setAddPicture] = useState(sAddPicture);
-
-
 
     function TranslateAll(data,Page){
 
@@ -196,24 +194,21 @@ export default function GroupList() {
         getUserGroups("userGroups",storedToken, RenderAfterLoad) ;
     }
 
-
-
     // Separate drafts from published groups
     const renderGroups = (TypeGroup) => {
         const groups = JSON.parse(localStorage.getItem("userGroups"));
 
         if (groups !== null)
         {
-
             return groups.map((group) => {
-                    return <Col md={6}  key={group.id}> 
+                    return <Row md={6}  key={group.id}> 
                                 <CardGroup 
                                     Group={group}
                                     TypeGroup={TypeGroup}
                                     SendGroupData={SendGroupData}  
                                     ForceRenderGroup = {ForceRenderGroup}
                                 /> 
-                            </Col> ;
+                            </Row> ;
             })
         }
         else
@@ -254,6 +249,7 @@ export default function GroupList() {
                                             idGroup={id} 
                                             Nom={nom} 
                                             Tags = {tags} 
+                                            Html= {html}
                                             Description = {sdescription} 
                                             Photo = {group_image}
                                             FieldNom={fieldNom}

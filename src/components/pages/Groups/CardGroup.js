@@ -1,10 +1,8 @@
 
-import {Card} from "react-bootstrap";
+import {Card, Row} from "react-bootstrap";
 import {DeleteGroup} from "../../../data/customlibs/api_angelo";
 import {PrintLog} from  "../../../data/customlibs/utils";
-
-
-
+import './CardGroup.css';
 
 export default function CardGroup(props) {
     PrintLog("CardGroup") ;
@@ -22,9 +20,9 @@ export default function CardGroup(props) {
 
     var FichierImage = process.env.REACT_APP_API_GET_IMAGE_URL + props.Group.group_image + '/' ;
 
-    return  <Card key={props.Group.idGroup}>
+    return  <Card key={props.Group.idGroup} className="cardGroup d-flex">
                 <img
-                    className="card-img-top br-tr-7 br-tl-7"
+                    className="cardImage"
                     src={FichierImage}
                     alt=""
                 />
