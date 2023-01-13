@@ -1,7 +1,7 @@
 import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import { FormGroup, Row, Button, Modal} from "react-bootstrap";
-import {SaveGroup,UpdateGroup,PublishGroup} from "../../../data/customlibs/api_angelo";
+import {SaveGroup,UpdateGroup} from "../../../data/customlibs/api_angelo";
 import {UploadFile} from "../../../data/customlibs/api2";
 import '../../../assets/css/GlobalInputbackground.css';
 import '../../../assets/css/GroupModale.css';
@@ -31,8 +31,6 @@ export default function ModalEditGroup(props) {
     const [nomMsg, setNomMsg] = useState("");
     const [tagMsg, setTagMsg] = useState("");
     const [descriptionMsg, setDescriptionMsg] = useState("");
-    const [photoMsg, setPhotoMsg] = useState("");
-    const [Msg, setMsg] = useState("");
 
     if (reloadInfos === true) {
         modeEdit.current = props.ModeEdit ;
@@ -64,24 +62,24 @@ export default function ModalEditGroup(props) {
             setNomMsg("");
         } else {
             nomCheck = false;
-            setDescriptionMsg("Le nom est obligatoire");
+            setNomMsg("Le nom est obligatoire");
         }
 
         if (sdescription.length > 0) {
             descriptionCheck = true;
         } else {
             descriptionCheck = false;
-            setDescription("La description est obligatoire");
+            setDescriptionMsg("La description est obligatoire");
         }
 
         if (tags.length > 0) {
             tagCheck = true;
         } else {
             tagCheck = false;
-            setDescription("Le tag est obligatoire");
+            setTagMsg("Le tag est obligatoire");
         }
 
-        if (nomCheck && descriptionCheck) {
+        if (nomCheck && descriptionCheck && tagCheck) {
             if (modeEdit.current === "Add")
                 SaveGroup(storedToken,nom,tags,sdescription,group_image, props.ForceRenderGroup);
             else
