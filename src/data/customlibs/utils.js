@@ -422,11 +422,13 @@ function IsPaying(UserAccess, AccessRight) {
     //PrintLog(UserAccess) ;
     //PrintLog("AccessRight: " + AccessRight) ;
 
-    for (var i = 0 ; i < UserAccess.length ; i++) {
-        var obj = UserAccess[i] ;
-        if (obj.idFonction === AccessRight)
-            return true ;
+    if (UserAccess !== undefined && UserAccess !== null) {
+        for (var i = 0 ; i < UserAccess.length ; i++) {
+            var obj = UserAccess[i] ;
+            if (obj.idFonction === AccessRight)
+                return true ;
 
+        }
     }
     return false
 }

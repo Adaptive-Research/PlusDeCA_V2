@@ -22,44 +22,26 @@ export default function CardGroup(props) {
 
     let FichierImage = process.env.REACT_APP_API_GET_IMAGE_URL + props.Group.group_image + '/' ;
 
-    if(props.TypeGroup === 'Brouillon'){
-        return  <Card key={props.Group.idGroup}>
-                    <img
-                        className="card-img-top br-tr-7 br-tl-7"
-                        src={FichierImage}
-                        alt=""
-                    />
-                    <Card.Header style={{padding: '2rem'}}>
-                        <Card.Title as="h5">{props.Group.nom}</Card.Title>
-                        <Card.Body  style={{position: 'absolute', right: '10px'}}>
-                            <button className='btn btn-primary' onClick={() => EditGroup(props.Group)}>
-                                <i className="fa fa-edit"></i>
-                            </button>
-                            <button className='m-2 btn btn-danger' onClick={() => DeleteGroup(storedToken, props.Group.idGroup,props.ForceRenderGroup)}>
-                                <i className="fa fa-trash"></i>
-                            </button>                     
-                        </Card.Body>
-                        
-                    </Card.Header>
-                   
-                </Card>
-    }
-    else  {
-        return  <Card key={props.Group.idGroup}>
-                    <img
-                        className="card-img-top br-tr-7 br-tl-7"
-                        src={FichierImage}
-                        alt=""
-                    />
-                    <Card.Header style={{padding: '2rem'}}>
-                        <Card.Title as="h5">{props.Group.nom}</Card.Title>
-                        <Card.Body style={{position: 'absolute', right: '10px'}}>
-                            <button className='btn btn-primary' onClick={() => EditGroup(props.Group)}>
-                                <i className="fa fa-edit"></i>
-                            </button>
-                        </Card.Body>
-                    </Card.Header>
-                </Card>
-    }
+    return  <Card key={props.Group.idGroup}>
+                <img
+                    className="card-img-top br-tr-7 br-tl-7"
+                    src={FichierImage}
+                    alt=""
+                />
+                <Card.Header style={{padding: '2rem'}}>
+                    <Card.Title as="h5">{props.Group.nom}</Card.Title>
+                    <Card.Body  style={{position: 'absolute', right: '0px'}}>
+                        <button className='btn btn-primary' onClick={() => EditGroup(props.Group)}>
+                            <i className="fa fa-edit"></i>
+                        </button>
+                        <button className='m-1 btn btn-danger' onClick={() => DeleteGroup(storedToken, props.Group.idGroup,props.ForceRenderGroup)}>
+                            <i className="fa fa-trash"></i>
+                        </button>                     
+                    </Card.Body>
+                    
+                </Card.Header>
+                
+            </Card>
+
 
 }

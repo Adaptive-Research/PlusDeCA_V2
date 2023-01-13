@@ -31,7 +31,7 @@ export default function GroupList() {
 
     // pour 
     const [modeEdit,setModeEdit]= useState("") ;
-    const [id, setIdGroup] = useState("");
+    const [id, setId] = useState("");
     const [nom, setNom] = useState("");
     const [sdescription, setDescription] = useState("");
     const [tags, setTag] = useState("");
@@ -61,9 +61,6 @@ export default function GroupList() {
     const sAddPicture  = 'Add a picture';
 
 
-    const [inProgress, setInProgress] = useState(sInProgress);
-    const [valid, setValid] = useState(sValid);
-    const [published, setPublished] = useState(sPublished);
     const [items, setItems] = useState(sItems);
     const [addItem, setAddItem] = useState(sAddItem);
     const [cancel, setCancel] = useState(sCancel);
@@ -83,16 +80,6 @@ export default function GroupList() {
         PrintLog(data);
     
         let t = FindTranslation(data,Page, sInProgress) ;
-        if (t !== "Not Found")
-          setInProgress(t) ;
-    
-        t = FindTranslation(data,Page, sValid) ;
-        if (t !== "Not Found")
-          setValid(t) ;
-    
-        t = FindTranslation(data,Page, sPublished) ;
-        if (t !== "Not Found")
-          setPublished(t) ;
     
         t = FindTranslation(data,Page, sItems) ;
         if (t !== "Not Found")
@@ -180,7 +167,7 @@ export default function GroupList() {
         if (Group === null)
         {
             setModeEdit("Add") ;
-            setIdGroup("") ;
+            setId("") ;
             setNom("") ;
             setTag("") ;
             setDescription("") ;
@@ -193,7 +180,7 @@ export default function GroupList() {
             //PrintLog("Group") ;
             //PrintLog(Group) ;
 
-            setIdGroup(Group.idGroup) ;
+            setId(Group.id) ;
             setNom(Group.nom) ;
             setTag(Group.tags) ;
             setDescription(Group.sdescription) ;
@@ -215,6 +202,8 @@ export default function GroupList() {
         getUserGroups("userGroups",storedToken, RenderAfterLoad) ;
     }
 
+
+
     // Separate drafts from published groups
     const renderGroups = (TypeGroup) => {
         const groups = JSON.parse(localStorage.getItem("userGroups"));
@@ -223,31 +212,15 @@ export default function GroupList() {
         {
 
             return groups.map((group) => {
-                //PrintLog("group.id: "+group.id) ;
-                if  (TypeGroup === "Brouillon") {
-                    if (group.iscurrent === "1"  && group.ispublished === "0") 
-                        return <Col md={4}  key={group.id}> 
-                                    <CardGroup 
-                                        Group={group}
-                                        TypeGroup={TypeGroup}
-                                        SendGroupData={SendGroupData}  
-                                        ForceRenderGroup = {ForceRenderGroup}
-                                    /> 
-                                </Col> ;
-                }
-                else if(TypeGroup === "Publie"){
-                    if(group.iscurrent === "1" && group.ispublished === "1"){
-                        return <Col md={4}  key={group.id}> 
-                                    <CardGroup 
-                                        key={group.id}
-                                        Group={group}
-                                        TypeGroup={TypeGroup}
-                                        SendGroupData={SendGroupData}  
-                                        ForceRenderGroup = {ForceRenderGroup}
-                                    /> 
-                                </Col> ;
-                    }
-                }
+                if (group.iscurrent === "1") 
+                    return <Col md={6}  key={group.id}> 
+                                <CardGroup 
+                                    Group={group}
+                                    TypeGroup={TypeGroup}
+                                    SendGroupData={SendGroupData}  
+                                    ForceRenderGroup = {ForceRenderGroup}
+                                /> 
+                            </Col> ;
             })
         }
         else
@@ -300,29 +273,11 @@ export default function GroupList() {
                                             SaveButton={save}
                                         />
 
-                                        <Tabs
-                                            variant="Tabs"
-                                            defaultActiveKey="Brouillon"
-                                            id=" tab-51"
-                                            className="tab-content tabesbody "
-                                        >
-                                            <Tab eventKey="Brouillon" title={inProgress}>
-                                                <div className="tab-pane " id="tab-61">
-                                                    <Row className="row-cards ">
-                                                        {renderGroups("Brouillon")}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
-
-                                            <Tab eventKey="Publié" title={published}>
-                                                <div className="tab-pane profiletab show">
-                                                    <Row className="row-cards ">
-                                                        {renderGroups("Publie")}
-                                                    </Row>
-                                                </div>
-                                            </Tab>
-
-                                        </Tabs>
+                                        <div className="tab-pane profiletab show">
+                                            <Row className="row-cards ">
+                                                {renderGroups()}
+                                            </Row>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

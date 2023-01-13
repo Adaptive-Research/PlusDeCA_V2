@@ -22,7 +22,7 @@ export default function ModalEditGroup(props) {
     const [reloadInfos, setReloadInfos] = useState(true) ;
 
     const modeEdit = useRef("") ;
-    const [id, setIdGroup] = useState("");
+    const [idGroup, setIdGroup] = useState("");
     const [nom, setNom] = useState("");
     const [sdescription, setDescription] = useState(""); 
     const [tags, setTag] = useState("");
@@ -83,9 +83,9 @@ export default function ModalEditGroup(props) {
 
         if (nomCheck && descriptionCheck) {
             if (modeEdit.current === "Add")
-                SaveGroup(storedToken,nom,sdescription,tags,group_image, props.ForceRenderGroup);
+                SaveGroup(storedToken,nom,tags,sdescription,group_image, props.ForceRenderGroup);
             else
-                UpdateGroup(storedToken,id,nom,sdescription,tags,group_image, props.ForceRenderGroup);
+                UpdateGroup(storedToken,idGroup,nom,tags,sdescription,group_image, props.ForceRenderGroup);
         }
     }
 
@@ -104,15 +104,6 @@ export default function ModalEditGroup(props) {
         } 
     }
 
-    function handlePublish(e) {
-        e.preventDefault();
-
-        if (modeEdit.current !== "Add") {
-            PublishGroup(storedToken, id, props.ForceRenderGroup);
-            if (props.SendCloseMessage !== null)
-                props.SendCloseMessage() ;
-        }
-    }
 
     function RenderUpload(NomFichierUploade){
         PrintLog("NomFichierUploade") ;
@@ -205,11 +196,6 @@ export default function ModalEditGroup(props) {
 
                 <div style={{width:'100%'}}>
                 
-                    <div style={{float:'left',padding:'10px'}}>
-                        <Button variant="primary"  style={{margin:'10px'}} onClick={handlePublish}>
-                            Ajouter
-                        </Button>
-                    </div>
 
                     <div style={{float:'right',padding:'10px'}}>
                         <Button variant="secondary"  style={{margin:'10px'}} onClick={handleCancel}>

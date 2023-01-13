@@ -1,6 +1,6 @@
 import React, { useState,useRef} from "react";
 import {Card, Col, Row, Tab, Tabs} from "react-bootstrap";
-import {FindTranslation,getIDFromToken} from  "../../../data/customlibs/utils" ;
+import {FindTranslation} from  "../../../data/customlibs/utils" ;
 import {getUserArticles} from "../../../data/customlibs/api";
 import CardArticle from "./CardArticle" ;
 import ModalEditArticle from "./ModalEditArticle" ;
@@ -16,7 +16,6 @@ export default function ArticleList() {
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
-    const idUser = getIDFromToken(storedToken) ;
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
     //PrintLog('Translations_text');
@@ -293,6 +292,7 @@ export default function ArticleList() {
                                 </Col> ;
                     }
                 }
+                return <></> ;
             })
         }
         else

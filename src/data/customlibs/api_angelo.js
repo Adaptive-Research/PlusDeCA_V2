@@ -1056,7 +1056,7 @@ async function UpdateGroup(tok,idGroup,nom,tags,sdescription,photo,ForceRender )
         Submit: 1,
         token: tok,
         debug: 1,
-        id: idGroup,
+        idGroup: idGroup,
         nom: nom,
         tags: tags,
         sdescription: sdescription,
