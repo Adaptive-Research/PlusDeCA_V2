@@ -1,8 +1,15 @@
-.cardGroup {
-    display: flex;
+.rowGroup {
+    width: 100%;
+    padding-top: 10px;
 }
-.cardImage {
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
+.rowImage {
+    width: 180px;
+    height: 90px;
+} 
+
+@media(max-width: 668px) {
+    .rowImage {
+        width: 150px;
+        height: 80px;
+    } 
 }
