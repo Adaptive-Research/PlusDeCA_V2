@@ -5,15 +5,41 @@ import {PrintLog} from  "../../data/customlibs/utils";
 
 const menus = [
     {
-        menutitle: "FIND CUSTOMERS",
+        menutitle: "SEARCH",
         Items: [
             {
-                path: `${process.env.PUBLIC_URL}/Events`,
-                icon: "globe",
+                path: `${process.env.PUBLIC_URL}/SearchArticles`,
+                icon: "file-text",
+                type: "link",
+                active: false,
+                title: "Articles",
+            },
+            {
+                path: `${process.env.PUBLIC_URL}/SearchEvents`,
+                icon: "calendar",
                 type: "link",
                 active: false,
                 title: "Events",
             },
+            {
+                path: `${process.env.PUBLIC_URL}/SearchMembers`,
+                icon: "users",
+                type: "link",
+                active: false,
+                title: "Members",
+            },
+            {
+                path: `${process.env.PUBLIC_URL}/SearchGroups`,
+                icon: "share-2",
+                type: "link",
+                active: false,
+                title: "Groups",
+            }
+        ],
+    },
+    {
+        menutitle: "FIND CUSTOMERS",
+        Items: [
             {
                 path: `${process.env.PUBLIC_URL}/components/FullCalendar`,
                 icon: "calendar",
