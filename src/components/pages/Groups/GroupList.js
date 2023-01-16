@@ -201,7 +201,7 @@ export default function GroupList() {
         if (groups !== null)
         {
             return groups.map((group) => {
-                    return <Row md={6}  key={group.id}> 
+                    return <Row  key={group.id}> 
                                 <CardGroup 
                                     Group={group}
                                     TypeGroup={TypeGroup}
@@ -216,7 +216,7 @@ export default function GroupList() {
     }
 
     return (
-        <div>
+        <div style={{ backgroundColor:"#fff" }}>
 
             <div className="page-header" >
                 <div>
