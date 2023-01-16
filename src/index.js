@@ -21,6 +21,7 @@ const Journal = React.lazy(() => import("./components/pages/Journal/Journal"));
 const ArticleList = React.lazy(() => import("./components/pages/Articles/ArticleList"));
 
 //Group
+const Groups = React.lazy(() => import("./components/pages/Groups/Groups"));
 const GroupList = React.lazy(() => import("./components/pages/Groups/GroupList"));
 
 //Formation
@@ -30,11 +31,9 @@ const FormationAvailableList =  React.lazy(() => import("./components/pages/Form
 //Contact
 const ContactList = React.lazy(() => import("./components/pages/BusinessCard/ContactList"));
 
-
 //Interview
 const InterviewList = React.lazy(() => import("./components/pages/Interviews/InterviewList"));
 const InterviewQuestions = React.lazy(() => import("./components/pages/Interviews/InterviewQuestions"));
-
 
 //pages
 const CompanyList = React.lazy(() => import("./components/pages/Company/CompanyList"));
@@ -50,15 +49,7 @@ const ForgotPassword = React.lazy(() => import("./components/CustomPages/ForgotP
 //const LockScreen = React.lazy(() => import("./components/CustomPages/LockScreen/LockScreen"));
 
 
-
 const FullCalendar = React.lazy(() => import("./components/Components/FullCalendar/FullCalendar"));
-
-
-
-
-
-
-
 
 //Icons
 const FontAwesome = React.lazy(() => import("./components/Icons/FontAwesomes/FontAwesomes"));
@@ -72,11 +63,8 @@ const ThemifyIcons = React.lazy(() => import("./components/Icons/ThemifyIcons/Th
 const TypiconsIcons = React.lazy(() => import("./components/Icons/TypiconsIcons/TypiconsIcons"));
 const WeatherIcons = React.lazy(() => import("./components/Icons/WeatherIcons/WeatherIcons"));
 
-
 //Errorpages
 const Errorpage400 = React.lazy(() => import("./components/ErrorPages/ErrorPages/400/400"));
-
-
 
 const Loaderimg = () => {
     return (
@@ -151,6 +139,11 @@ const Root = () => {
                             <Route
                                 path={`${process.env.PUBLIC_URL}/MesArticles`}
                                 element={<ArticleList/>}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/SearchGroups`}
+                                element={<Groups/>}
                             />
 
                             <Route

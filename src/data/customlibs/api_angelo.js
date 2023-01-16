@@ -1009,6 +1009,23 @@ async function PublishArticle(tok,idAncestor,ForceRender ){
  **************************************************************************************************/
 
 //Method to get all groups created by this user
+async function getAllGroups(variable,tok,ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
+    const url =  process.env.REACT_APP_API_SHOW_ALL_GROUPS_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        debug:1,
+        Submit: 1,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    ManageResponse_select_axios(variable, response,ForceRender) ;
+}
+
+//Method to get all groups created by this user
 async function getUserGroups(variable,tok,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_GROUPS_BY_USER_URL;
@@ -2184,6 +2201,7 @@ export {
     DeleteArticle,
     PublishArticle,
 
+    getAllGroups,
     getUserGroups,
     SaveGroup,
     UpdateGroup,

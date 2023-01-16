@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { Dropdown, Navbar, Container,Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {PrintLog} from  "../../data/customlibs/utils";
 
+import { SearchBar } from '../SearchBar/SearchBar';
+import {getUserGroups} from "../../data/customlibs/api_angelo";
+
+
 export function Header() {
+  console.log(getUserGroups("allGroups",storedToken, RenderAfterLoad));
+  // on recupere les infos sur le token et l'utilisateur
+  const storedToken = localStorage.getItem('token') ;
+
+  const [data, setData] = useState(getUserGroups("allGroups",storedToken, RenderAfterLoad));
+  
+    // pour le ForceRender
+    const downloaded_Groups = useRef(false) ;
+
+  function RenderAfterLoad(variable) {
+    PrintLog("RenderAfterLoad") ;
+    //PrintLog("downloaded_Groups.current") ;
+    //PrintLog(downloaded_Groups.current) ;
+    
+    if (variable === "allGroups")
+        downloaded_Groups = true ;
+
+    downloaded_Groups = false ;      
+}
+
   //full screen
   function Fullscreen() {
     if (
@@ -101,11 +125,13 @@ export function Header() {
             />
           </Link>
           <div className="main-header-center ms-3 d-none d-lg-block">
-            <input
+            {/* <input
               className="form-control"
-              placeholder="Search for anything..."
+              placeholder="Rechercher..."
               type="search"
-            />
+            /> */}
+            {/* <SearchBar filterField={ (item) => item.Groups.name } list={data} setList={setData} /> */}
+            <SearchBar list={data} setList={setData} />
             <Button variant="" className="btn">
               <i className="fa fa-search" aria-hidden="true"></i>
             </Button>
