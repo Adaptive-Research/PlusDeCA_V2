@@ -34,14 +34,13 @@ export function RightSidebar() {
     // les titres des champs
     const sPersonalData = "Who am I";
     const sMyCompany = "My Company";
-    const sMyJob = "My Job";
+    const sMyGroups = "My Groups";
     const sSignOut = "Sign out";
     const sManageUsers = "Manage Users";
-    const sMyMails = "My Mails";
     const sPremiumMember = 'Premium Member';
     const sPersonalInfo = 'Personal information';
     const sCompanyInfo = 'Company information';
-    const sBusinessRole = 'Business Role';
+    const sGroupsInfo = 'Everything to manage our groups';
     const sAddUser = 'Add a user';
     const sDefineRoles = 'define roles';
     const sAccountSignOut = 'Account Signout';
@@ -52,15 +51,14 @@ export function RightSidebar() {
 
     const [rightsidebartoogle, setSidebartoogleright] = useState(true);
     const [myCompany, setMyCompany] = useState(sMyCompany);
-    const [myJob, setMyJob] = useState(sMyJob);
+    const [myGroups, setMyGroups] = useState(sMyGroups);
     const [signout, setSignOut] = useState(sSignOut);
     const [personalData, setPersonalData] = useState(sPersonalData);
     const [manageUsers, setManageUsers] = useState(sManageUsers);
-    const [myMails, setMyMails] = useState(sMyMails);
     const [premiumMember, setPremiumMember] = useState(sPremiumMember);
     const [personalInfo, setPersonalInfo] = useState(sPersonalInfo);
     const [companyInfo, setCompanyInfo] = useState(sCompanyInfo);
-    const [businessRole,setBusinessRole] = useState(sBusinessRole);
+    const [groupsInfo, setGroupsInfo] = useState(sGroupsInfo);
     const [addUser,setAddUser] = useState(sAddUser);
     const [defineRoles, setDefineRoles] = useState(sDefineRoles);
     const [accountSignout, setAccountSignout] = useState(sAccountSignOut);
@@ -98,6 +96,9 @@ export function RightSidebar() {
         let t = FindTranslation(data, Page,  sMyCompany);
         if (t !== "Not Found")
             setMyCompany(t);
+        t = FindTranslation(data, Page,  sMyGroups);
+        if (t !== "Not Found")
+            setMyGroups(t);
         t = FindTranslation(data, Page,  sSignOut);
         if (t !== "Not Found")
             setSignOut(t);
@@ -107,12 +108,6 @@ export function RightSidebar() {
         t = FindTranslation(data, Page,  sManageUsers);
         if (t !== "Not Found")
             setManageUsers(t);
-        t = FindTranslation(data, Page,  sMyMails);
-        if (t !== "Not Found")
-            setMyMails(t);
-        t = FindTranslation(data, Page,  sMyJob);
-        if (t !== "Not Found")
-            setMyJob(t);
         t = FindTranslation(data, Page,  sPremiumMember);
         if (t !== "Not Found")
             setPremiumMember(t);
@@ -122,9 +117,9 @@ export function RightSidebar() {
         t = FindTranslation(data, Page,  sCompanyInfo);
         if (t !== "Not Found")
             setCompanyInfo(t);
-        t = FindTranslation(data, Page,  sBusinessRole);
+        t = FindTranslation(data, Page,  sGroupsInfo);
         if (t !== "Not Found")
-            setBusinessRole(t);
+            setGroupsInfo(t);            
         t = FindTranslation(data, Page,  sAddUser);
         if (t !== "Not Found")
             setAddUser(t);
@@ -255,6 +250,23 @@ export function RightSidebar() {
 
                                 { renderManagedUsers() }
                                 
+
+                                <Link
+                                    className="dropdown-item d-flex border-bottom border-top"
+                                    to={`${process.env.PUBLIC_URL}/pages/mygroups/`}
+                                >
+                                    <div className="d-flex">
+                                        <i className="fe fe-settings me-3 tx-20 text-muted"></i>
+                                        <div className="pt-1">
+                                            <h6 className="mb-0">{myGroups}</h6>
+                                            <p className="tx-12 mb-0 text-muted">
+                                               {groupsInfo}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </Link>
+
+
 
                                 <Link
                                     className="dropdown-item d-flex border-bottom"
