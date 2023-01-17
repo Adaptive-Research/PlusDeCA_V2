@@ -35,12 +35,12 @@ export default function CardGroup(props) {
                         <h6 as="h6" className="mb-4 text-uppercase" style={{ color:"rgb(135 116 87)", marginTop:"-10px", fontWeight:"600" }}>{props.Group.tags}</h6>
                         <div>
                             <p className="text-justify" style={{ color:"rgb(135 116 67)" }}>{ props.Group.sdescription.substr(0, 150) + ' ...' }</p>
-                            {/* <button className='btn btn-primary' onClick={() => EditGroup(props.Group)}>
+                            <button className='btn btn-primary' onClick={() => EditGroup(props.Group)}>
                                 <i className="fa fa-edit"></i>
                             </button>
                             <button className='m-1 btn btn-danger' onClick={() => DeleteGroup(storedToken, props.Group.idGroup,props.ForceRenderGroup)}>
                                 <i className="fa fa-trash"></i>
-                            </button>                      */}
+                            </button>                     
                         </div>
                     </div>
                 </div>

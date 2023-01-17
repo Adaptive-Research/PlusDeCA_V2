@@ -1,9 +1,8 @@
 import React, { useState,useRef} from "react";
 import {Card, Col, Row} from "react-bootstrap";
 import {FindTranslation} from  "../../../data/customlibs/utils" ;
-import {getUserGroups} from "../../../data/customlibs/api_angelo";
+import {getAllGroups} from "../../../data/customlibs/api_angelo";
 import CardGroup from "./CardGroup" ;
-import ModalEditGroup from "./ModalEditGroup" ;
 import {PrintLog} from  "../../../data/customlibs/utils";
 
 export default function GroupList() {
@@ -14,7 +13,7 @@ export default function GroupList() {
     const Translations_Text = JSON.parse(localStorage.getItem('Translations_Text')) ;
 
     // pour le Rerender
-    const [compteur,setCompteur] = useState(0) ;
+    const [compteur,setCompteur] = useState(0) ;    
 
     // pour l'affichage de la fenetre modale
     const [showEditGroup, setShowEditGroup] = useState(false) ;
@@ -27,7 +26,7 @@ export default function GroupList() {
     const [id, setId] = useState("");
     const [nom, setNom] = useState("");
     const [sdescription, setDescription] = useState("");
-    const [htmltext, setHtml] = useState("<p>Hey this <strong>test</strong> rocks 😀</p>");
+    const [html, setHtml] = useState("<p>Hey this <strong>test</strong> rocks 😀</p>");
     const [tags, setTag] = useState("");
     const [group_image, setPhoto] = useState("");
 
@@ -35,30 +34,18 @@ export default function GroupList() {
     const reloadInfos = useRef(true) ;
     const [reloadTraductions, setReloadTraductions] = useState(true) ;
    
-   // Pour le Titre
-   const sItems = "Groups";
-   //Pour les Boutons
-   const sAddItem ='Add Group';
-   const sCancel = 'Cancel';
-   const sSave = 'Save';
    //Pour les labels et les champs de la modale
 
     const sNom = 'Name';
     const sTags = 'Tags';
-    const sContent = 'Content';
     const sDescription = 'Description';
     const sPictureFile = 'Picture File';
     const sSendPhoto = 'Send Photo';
     const sAddPicture  = 'Add a picture';
 
-    const [items, setItems] = useState(sItems);
-    const [addItem, setAddItem] = useState(sAddItem);
-    const [cancel, setCancel] = useState(sCancel);
-    const [save, setSave] = useState(sSave);
     const [fieldNom, setFieldNom] = useState(sNom);
     const [fieldTag, setFieldTag] = useState(sTags);
     const [fieldDescription, setFieldDescription] = useState(sDescription);
-    const [fieldcontent, setFieldContent] = useState(sContent);
     const [fieldPicture, setFieldPicture] = useState(sPictureFile);
     const [fieldSendPhoto, setSendPhoto] = useState(sSendPhoto);
     const [addPicture, setAddPicture] = useState(sAddPicture);
@@ -67,35 +54,15 @@ export default function GroupList() {
 
         PrintLog('GroupList TranslateAll') ;
         PrintLog(data);
-    
-        let t = FindTranslation(data,Page, sItems) ;
-        if (t !== "Not Found")
-          setItems(t) ;
-    
-        t = FindTranslation(data,Page, sAddItem) ;
-        if (t !== "Not Found")
-          setAddItem(t) ;
-    
-        t = FindTranslation(data,Page, sCancel) ;
-        if (t !== "Not Found")
-          setCancel(t) ;
-    
-        t = FindTranslation(data,Page, sSave) ;
-        if (t !== "Not Found")
-          setSave(t) ;
 
-        t = FindTranslation(data,Page, sNom) ;
+        let t = FindTranslation(data,Page, sNom) ;
         if (t !== "Not Found")
             setFieldNom(t) ;
     
         t = FindTranslation(data,Page, sTags) ;
         if (t !== "Not Found")
             setFieldTag(t) ;
-            
-        t = FindTranslation(data,Page, sContent) ;
-        if (t !== "Not Found")
-            setFieldContent(t) ;
-        
+      
         t = FindTranslation(data,Page, sDescription) ;
         if (t !== "Not Found")
           setFieldDescription(t) ;
@@ -122,7 +89,7 @@ export default function GroupList() {
     if (reloadInfos.current === true)
     {
         PrintLog("reloadInfos") ;
-        getUserGroups("userGroups",storedToken,RenderAfterLoad) ;
+        getAllGroups("allGroups",storedToken,RenderAfterLoad) ;
         reloadInfos.current = false ;
     }
 
@@ -131,7 +98,7 @@ export default function GroupList() {
         //PrintLog("downloaded_Groups.current") ;
         //PrintLog(downloaded_Groups.current) ;
         
-        if (variable === "userGroups")
+        if (variable === "allGroups")
             downloaded_Groups.current = true ;
     
         if (downloaded_Groups.current === true)
@@ -139,19 +106,7 @@ export default function GroupList() {
     
         downloaded_Groups.current = false ;      
     }
-
-    // Callbacks pour la fenetre ModalEditGroup
-    // il y en a 3
-    // - ModalEditGroupClose
-    // - SendGroupData
-    // - ForceRenderGroup
-
-    // C'est le callback appele quand on ferme ModalEditGroup
-    function ModalEditGroupClose()
-    {
-        setShowEditGroup(false) ;
-    }
-
+    
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
     function SendGroupData(ShowWindow, Group) {
         //PrintLog("SendCompanyData")
@@ -162,7 +117,6 @@ export default function GroupList() {
             setNom("") ;
             setTag("") ;
             setDescription("") ;
-            setHtml("") ;
             setPhoto("") ;
         }
         else
@@ -176,28 +130,24 @@ export default function GroupList() {
             setNom(Group.nom) ;
             setTag(Group.tags) ;
             setDescription(Group.sdescription) ;
-            setHtml(Group.htmltext) ;
             setPhoto(Group.group_image) ;
         }
         
-
-
         if (ShowWindow === "false")
             setShowEditGroup(false) ;
         else
             setShowEditGroup(true) ;
     }    
 
-
     function ForceRenderGroup() {
         setShowEditGroup(false) ;
 
-        getUserGroups("userGroups",storedToken, RenderAfterLoad) ;
+        getAllGroups("allGroups",storedToken, RenderAfterLoad) ;
     }
 
     // Separate drafts from published groups
     const renderGroups = (TypeGroup) => {
-        const groups = JSON.parse(localStorage.getItem("userGroups"));
+        const groups = JSON.parse(localStorage.getItem("allGroups"));
 
         if (groups !== null)
         {
@@ -220,16 +170,7 @@ export default function GroupList() {
         <div style={{ backgroundColor:"#fff" }}>
 
             <div className="page-header" >
-                <div>
-                    <h1 className="page-title">{items}</h1>
-                </div>
-                <div className="ms-auto pageheader-btn">
-                    <button className='btn btn-primary' onClick={() => {SendGroupData(true, null) ;}}>
-                        <span> <i className="fe fe-plus"></i>&nbsp;</span>
-                       {addItem}
-                    </button>
-
-                </div>
+                
             </div>
 
             <Row id="user-profile">
@@ -239,31 +180,6 @@ export default function GroupList() {
                             <div className="wideget-user-tab">
                                 <div className="tab-menu-heading">
                                     <div className="tabs-menu1 ">
-
-
-                                        <ModalEditGroup 
-                                            Render={compteur}
-                                            show={showEditGroup} 
-                                            SendCloseMessage={ModalEditGroupClose}  
-                                            ForceRenderGroup={ForceRenderGroup}
-                                            ModeEdit={modeEdit}
-                                            idGroup={id} 
-                                            Nom={nom} 
-                                            Tags = {tags} 
-                                            Html= {htmltext}
-                                            Description = {sdescription} 
-                                            Photo = {group_image}
-                                            FieldNom={fieldNom}
-                                            FieldDescription ={fieldDescription}
-                                            FieldTag ={fieldTag}
-                                            FieldContent ={fieldcontent}
-                                            FieldPicture={fieldPicture}
-                                            FieldSendPhoto={fieldSendPhoto}
-                                            AddPicture={addPicture}
-                                            CancelButton={cancel}
-                                            SaveButton={save}
-                                        />
-
                                         <div className="tab-pane profiletab show">
                                             <Row className="row-cards ">
                                                 {renderGroups()}

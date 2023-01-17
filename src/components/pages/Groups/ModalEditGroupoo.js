@@ -1,12 +1,14 @@
 import React, {useState,useRef} from "react";
 import * as formadvanced from "../../../data/Form/formadvanced/formadvanced";
 import * as formeditor from "../../../data/Form/formeditor/formeditor";
-import { FormGroup, Row, Button, Modal} from "react-bootstrap";
-import {SaveGroup,UpdateGroup} from "../../../data/customlibs/api_angelo";
+import { FormGroup, Row, Button, Modal,Image,Col} from "react-bootstrap";
+import {SaveGroup,UpdateGroup,PublishGroup} from "../../../data/customlibs/api_angelo";
 import {UploadFile} from "../../../data/customlibs/api2";
 import '../../../assets/css/GlobalInputbackground.css';
 import '../../../assets/css/GroupModale.css';
+import { useFormState } from "react-hook-form";
 import {PrintLog} from  "../../../data/customlibs/utils";
+
 
 export default function ModalEditGroup(props) {
 
@@ -15,6 +17,7 @@ export default function ModalEditGroup(props) {
     PrintLog("ModalEditGroup") ;
     //PrintLog("props") ;
     PrintLog(props) ;
+
 
     const [lastIsModalOpen,setLastIsModalOpen] = useState(false) ;
     const [isModalOpen,setIsModalOpen] = useState(false) ;
@@ -38,12 +41,12 @@ export default function ModalEditGroup(props) {
     const [tagMsg, setTagMsg] = useState("");
     const [descriptionMsg, setDescriptionMsg] = useState("");
 
-    if (reloadInfos === true) {
+    if (reloadInfos === true)
+    {
         modeEdit.current = props.ModeEdit ;
         setIdGroup(props.idGroup) ;
         setNom(props.Nom) ;
         setTag(props.Tags) ;
-        // setDescription(props.Description) ;
         setContent(props.Html) ;
         setHtml(props.Html) ;
         sdescription.current = props.Description ;
@@ -51,7 +54,9 @@ export default function ModalEditGroup(props) {
         setReloadInfos(false) ;
     }
 
-    if (props.show !== lastIsModalOpen) {
+
+    if (props.show !== lastIsModalOpen)
+    {
         setIsModalOpen(props.show) ;
         setLastIsModalOpen(props.show) ;
         if (props.show === true)
@@ -61,40 +66,43 @@ export default function ModalEditGroup(props) {
     // Function that validates the form
     const inputsValidation = () => {
         PrintLog("inputsValidation") ;
-        
-        PrintLog("nom: " + nom) ;
-        PrintLog("sdescription: " + sdescription.current) ;
-        
+
         if (result !== "")
         {
             if (result.blocks !== undefined)
-                sdescription.current = String(result.blocks[0].text) ;
+                texte.current = String(result.blocks[0].text) ;
         }
 
-        let nomCheck, descriptionCheck, tagCheck;
-        if (nom.length > 0) {
-            nomCheck = true;
-            setNomMsg("");
-        } else {
-            nomCheck = false;
-            setNomMsg("Le nom est obligatoire");
-        }
+        PrintLog("texte2") ;
+        PrintLog(texte.current) ;
 
-        if (sdescription.current.length > 0) {
-            descriptionCheck = true;
+
+        let titleCheck, tagsCheck, descriptionCheck;
+        if (title.length > 0) {
+            titleCheck = true;
+            setTitleMsg("");
         } else {
-            descriptionCheck = false;
-            setDescriptionMsg("La description est obligatoire");
+            titleCheck = false;
+            setTitleMsg("Le titre est obligatoire");
         }
 
         if (tags.length > 0) {
-            tagCheck = true;
+            tagsCheck = true;
+            setTagMsg("");
         } else {
-            tagCheck = false;
+            tagsCheck = false;
             setTagMsg("Le tag est obligatoire");
         }
 
-        if (nomCheck && descriptionCheck && tagCheck) {
+        if (texte.current.length > 0) {
+            descriptionCheck = true;
+            //setDescriptionMsg("");
+        } else {
+            descriptionCheck = false;
+            //setDescriptionMsg("La description est obligatoire");
+        }
+
+        if (titleCheck && tagsCheck && descriptionCheck) {
             if (modeEdit.current === "Add")
                 SaveGroup(storedToken,nom,tags,sdescription.current,htmltext,group_image, props.ForceRenderGroup);
             else
@@ -116,7 +124,6 @@ export default function ModalEditGroup(props) {
             PrintLog(e);
         } 
     }
-
 
     function RenderUpload(NomFichierUploade){
         PrintLog("NomFichierUploade") ;
@@ -148,7 +155,7 @@ export default function ModalEditGroup(props) {
                                 className="form-control"
                                 placeholder={nomMsg === "" ? " ..." : nomMsg}
                                 value={nom}
-                                onChange={(e) => setNom(e.target.value)}
+                                onChange={(e) => setTitle(e.target.value)}
                             />
                         </div>
                     </Row>
@@ -159,12 +166,16 @@ export default function ModalEditGroup(props) {
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder={tagMsg === "" ? " ..." : tagMsg}
+                                placeholder={tagMsg === "" ? "..." : tagMsg}
                                 value={tags}
                                 onChange={(e) => setTag(e.target.value)}
                             />
                         </div>
+
+
                     </Row>
+
+
 
                     <Row>
                         <label className="col-md-3 form-label mb-4">
@@ -186,11 +197,13 @@ export default function ModalEditGroup(props) {
                                     PrintLog("result") ;
                                     PrintLog(result) ;
                                 }}
+                                
 
                             />
                         </div>
 
                     </Row>
+
 
                     <Row>
                         <label className="col-md-3 form-label mb-4">
@@ -199,6 +212,9 @@ export default function ModalEditGroup(props) {
                         {group_image}
                     </Row>
 
+
+
+                    
                     <FormGroup className="mb-0 file">
                         <label className="col-md-3 form-label mb-4">
                             {props.FieldSendPhoto}:
@@ -216,11 +232,10 @@ export default function ModalEditGroup(props) {
                             onSubmit={submitForm}
                         />
                     </FormGroup>    
-
+                    
                 </Modal.Body>
 
                 <div style={{width:'100%'}}>
-                
 
                     <div style={{float:'right',padding:'10px'}}>
                         <Button variant="secondary"  style={{margin:'10px'}} onClick={handleCancel}>
