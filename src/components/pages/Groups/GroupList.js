@@ -30,6 +30,7 @@ export default function GroupList() {
     const [htmltext, setHtml] = useState("<p>Hey this <strong>test</strong> rocks 😀</p>");
     const [tags, setTag] = useState("");
     const [group_image, setPhoto] = useState("");
+    const [group_city, setCity] = useState("");
 
     // pour le reload des infos
     const reloadInfos = useRef(true) ;
@@ -47,6 +48,7 @@ export default function GroupList() {
     const sTags = 'Tags';
     const sContent = 'Content';
     const sDescription = 'Description';
+    const sCity = 'City';
     const sPictureFile = 'Picture File';
     const sSendPhoto = 'Send Photo';
     const sAddPicture  = 'Add a picture';
@@ -58,6 +60,7 @@ export default function GroupList() {
     const [fieldNom, setFieldNom] = useState(sNom);
     const [fieldTag, setFieldTag] = useState(sTags);
     const [fieldDescription, setFieldDescription] = useState(sDescription);
+    const [fieldCity, setFieldCity] = useState(sCity);
     const [fieldcontent, setFieldContent] = useState(sContent);
     const [fieldPicture, setFieldPicture] = useState(sPictureFile);
     const [fieldSendPhoto, setSendPhoto] = useState(sSendPhoto);
@@ -99,6 +102,10 @@ export default function GroupList() {
         t = FindTranslation(data,Page, sDescription) ;
         if (t !== "Not Found")
           setFieldDescription(t) ;
+        
+        t = FindTranslation(data,Page, sCity) ;
+        if (t !== "Not Found")
+          setFieldCity(t) ;
     
         t = FindTranslation(data,Page, sPictureFile) ;
         if (t !== "Not Found")
@@ -163,6 +170,7 @@ export default function GroupList() {
             setTag("") ;
             setDescription("") ;
             setHtml("") ;
+            setCity("") ;
             setPhoto("") ;
         }
         else
@@ -177,6 +185,7 @@ export default function GroupList() {
             setTag(Group.tags) ;
             setDescription(Group.sdescription) ;
             setHtml(Group.htmltext) ;
+            setCity(Group.group_city) ;
             setPhoto(Group.group_image) ;
         }
         
@@ -251,11 +260,13 @@ export default function GroupList() {
                                             Nom={nom} 
                                             Tags = {tags} 
                                             Html= {htmltext}
+                                            City = {group_city} 
                                             Description = {sdescription} 
                                             Photo = {group_image}
                                             FieldNom={fieldNom}
                                             FieldDescription ={fieldDescription}
                                             FieldTag ={fieldTag}
+                                            FieldCity ={fieldCity}
                                             FieldContent ={fieldcontent}
                                             FieldPicture={fieldPicture}
                                             FieldSendPhoto={fieldSendPhoto}

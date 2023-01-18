@@ -25,8 +25,8 @@ export default function ModalEditGroup(props) {
     const modeEdit = useRef("") ;
     const [idGroup, setIdGroup] = useState("");
     const [nom, setNom] = useState("");
-    // const [sdescription, setDescription] = useState(""); 
     const [tags, setTag] = useState("");
+    const [city, setCity] = useState("");
 
     const [content, setContent] = useState(""); // ceci est utilise pour initialiser l'Editor
     const [result, setResult] = useState("");   // ceci est ce que l'on recoit en sortie de l'editor
@@ -36,6 +36,7 @@ export default function ModalEditGroup(props) {
     const [group_image, setPhoto] = useState("");
     const [nomMsg, setNomMsg] = useState("");
     const [tagMsg, setTagMsg] = useState("");
+    const [cityMsg, setCityMsg] = useState("");
     const [descriptionMsg, setDescriptionMsg] = useState("");
 
     if (reloadInfos === true) {
@@ -47,6 +48,7 @@ export default function ModalEditGroup(props) {
         setContent(props.Html) ;
         setHtml(props.Html) ;
         sdescription.current = props.Description ;
+        setCity(props.City) ;
         setPhoto(props.Photo) ;
         setReloadInfos(false) ;
     }
@@ -71,7 +73,7 @@ export default function ModalEditGroup(props) {
                 sdescription.current = String(result.blocks[0].text) ;
         }
 
-        let nomCheck, descriptionCheck, tagCheck;
+        let nomCheck, descriptionCheck, tagCheck, cityCheck;
         if (nom.length > 0) {
             nomCheck = true;
             setNomMsg("");
@@ -94,11 +96,18 @@ export default function ModalEditGroup(props) {
             setTagMsg("Le tag est obligatoire");
         }
 
-        if (nomCheck && descriptionCheck && tagCheck) {
+        if (city.length > 0) {
+            cityCheck = true;
+        } else {
+            cityCheck = false;
+            setCityMsg("La ville est obligatoire");
+        }
+
+        if (nomCheck && descriptionCheck && tagCheck && cityCheck) {
             if (modeEdit.current === "Add")
-                SaveGroup(storedToken,nom,tags,sdescription.current,htmltext,group_image, props.ForceRenderGroup);
+                SaveGroup(storedToken,nom,tags,sdescription.current,htmltext,city,group_image, props.ForceRenderGroup);
             else
-                UpdateGroup(storedToken,idGroup,nom,tags,sdescription.current,htmltext,group_image, props.ForceRenderGroup);
+                UpdateGroup(storedToken,idGroup,nom,tags,sdescription.current,htmltext,city,group_image, props.ForceRenderGroup);
         }
     }
 
@@ -162,6 +171,19 @@ export default function ModalEditGroup(props) {
                                 placeholder={tagMsg === "" ? " ..." : tagMsg}
                                 value={tags}
                                 onChange={(e) => setTag(e.target.value)}
+                            />
+                        </div>
+                    </Row>
+
+                    <Row className="mb-4">
+                        <label className="col-md-3 form-label">{props.FieldCity} :</label>
+                        <div className="">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder={cityMsg === "" ? " ..." : cityMsg}
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
                             />
                         </div>
                     </Row>

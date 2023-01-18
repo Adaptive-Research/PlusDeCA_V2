@@ -1043,7 +1043,7 @@ async function getUserGroups(variable,tok,ForceRender) {
 }
 
 // Function that sends axios requesst to create a new group
-async function SaveGroup(tok,nom,tags,sdescription,htmltext,photo,ForceRender) {
+async function SaveGroup(tok,nom,tags,sdescription,htmltext,group_city,photo,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_CREATE_GROUP_URL;
     PrintLog("SaveGroup") ;
 
@@ -1056,6 +1056,7 @@ async function SaveGroup(tok,nom,tags,sdescription,htmltext,photo,ForceRender) {
         tags: tags,
         sdescription: sdescription,
         htmltext: htmltext,
+        group_city: group_city,
         group_image: photo
     }, {
         headers: {
@@ -1067,7 +1068,7 @@ async function SaveGroup(tok,nom,tags,sdescription,htmltext,photo,ForceRender) {
 }
 
 // Function that sends axios request to update a group
-async function UpdateGroup(tok,idGroup,nom,tags,sdescription,htmltext,photo,ForceRender ){
+async function UpdateGroup(tok,idGroup,nom,tags,sdescription,htmltext,group_city,photo,ForceRender ){
 
     const url =  process.env.REACT_APP_API_UPDATE_GROUP_URL;
     const response = await axios.post(url, {
@@ -1079,6 +1080,7 @@ async function UpdateGroup(tok,idGroup,nom,tags,sdescription,htmltext,photo,Forc
         tags: tags,
         sdescription: sdescription,
         htmltext: htmltext,
+        group_city: group_city,
         group_image: photo
     }, {
         headers: {
