@@ -20,7 +20,7 @@ export default function CardGroup(props) {
 
     var FichierImage = process.env.REACT_APP_API_GET_IMAGE_URL + props.Group.group_image + '/' ;
 
-    return  <Row key={props.Group.idGroup} className="rowGroup">
+    return  <Row key={props.Group.id} className="rowGroup">
                 <hr />
                 <div className="d-flex">
                     <div className="col-lg-3 col-md-3 col-sm-2">
@@ -38,7 +38,7 @@ export default function CardGroup(props) {
                             <button className='btn btn-primary' onClick={() => EditGroup(props.Group)}>
                                 <i className="fa fa-edit"></i>
                             </button>
-                            <button className='m-1 btn btn-danger' onClick={() => DeleteGroup(storedToken, props.Group.idGroup,props.ForceRenderGroup)}>
+                            <button className='m-1 btn btn-danger' onClick={() => DeleteGroup(storedToken, props.Group.id,props.ForceRenderGroup)}>
                                 <i className="fa fa-trash"></i>
                             </button>                     
                         </div>
