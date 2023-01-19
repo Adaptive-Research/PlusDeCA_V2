@@ -110,7 +110,7 @@ const menus = [
                 icon: "share-2",
                 type: "link",
                 active: false,
-                title: "Create a network",
+                title: "Create a group",
             },
             {
                 path: `${process.env.PUBLIC_URL}/MesFormations`,
