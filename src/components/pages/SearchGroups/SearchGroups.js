@@ -2,7 +2,7 @@ import React, { useState,useRef} from "react";
 import {Card, Col, Row} from "react-bootstrap";
 import {FindTranslation} from  "../../../data/customlibs/utils" ;
 import {getAllGroups} from "../../../data/customlibs/api_angelo";
-import CardGroup from "./CardSearchGroup" ;
+import CardSearchGroup from "./CardSearchGroup" ;
 import {PrintLog} from  "../../../data/customlibs/utils";
 
 export default function SearchGroup() {
@@ -153,7 +153,7 @@ export default function SearchGroup() {
         {
             return groups.map((group) => {
                     return <Row  key={group.id}> 
-                                <CardGroup 
+                                <CardSearchGroup 
                                     Group={group}
                                     TypeGroup={TypeGroup}
                                     SendGroupData={SendGroupData}  

@@ -4,8 +4,8 @@ import {subscribeGroup} from "../../../data/customlibs/api_angelo";
 import {PrintLog} from  "../../../data/customlibs/utils";
 import './CardSearchGroup.css';
 
-export default function CardGroup(props) {
-    PrintLog("CardGroup") ;
+export default function CardSearchGroup(props) {
+    PrintLog("CardSearchGroup") ;
     PrintLog(props) ;
     const storedToken = localStorage.getItem('token') ;
 
