@@ -196,8 +196,7 @@ export default function ArticleList() {
         if (Article === null)
         {
             setModeEdit("Add") ;
-            set
-            or("") ;
+            setIdAncestor("") ;
             setTitle("") ;
             setTags("") ;
             setText("") ;
