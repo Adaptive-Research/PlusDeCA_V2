@@ -1111,6 +1111,26 @@ function DeleteGroup(tok, idGroup, ForceRender) {
 
 }
 
+function subscribeGroup(tok, idGroup, ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_GROUP_URL;
+    const url = process.env.REACT_APP_API_SUBSCRIBE_GROUP_URL;
+    axios.post(url, {
+        Submit: 1,
+        token: tok,
+        debug: 1,
+        idgroupe: idGroup,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then(
+        (response) => {
+            ManageResponse_save_axios(response,ForceRender) ;
+        }
+    )
+
+}
+
 // Function that sends axios request to update a group
 async function PublishGroup(tok, idGroup, ForceRender ){
 
@@ -2211,6 +2231,7 @@ export {
     UpdateGroup,
     DeleteGroup,
     PublishGroup,
+    subscribeGroup,
 
     getUserInterviews,
     getInterviewQuestions,

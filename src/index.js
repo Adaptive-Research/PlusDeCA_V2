@@ -21,7 +21,7 @@ const Journal = React.lazy(() => import("./components/pages/Journal/Journal"));
 const ArticleList = React.lazy(() => import("./components/pages/Articles/ArticleList"));
 
 //Group
-const Groups = React.lazy(() => import("./components/pages/Groups/Groups"));
+const SearchGroups = React.lazy(() => import("./components/pages/SearchGroups/SearchGroups"));
 const GroupList = React.lazy(() => import("./components/pages/Groups/GroupList"));
 
 //Formation
@@ -143,7 +143,7 @@ const Root = () => {
 
                             <Route
                                 path={`${process.env.PUBLIC_URL}/SearchGroups`}
-                                element={<Groups/>}
+                                element={<SearchGroups/>}
                             />
 
                             <Route

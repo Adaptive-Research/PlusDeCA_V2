@@ -2,11 +2,11 @@ import React, { useState,useRef} from "react";
 import {Card, Col, Row} from "react-bootstrap";
 import {FindTranslation} from  "../../../data/customlibs/utils" ;
 import {getAllGroups} from "../../../data/customlibs/api_angelo";
-import CardGroup from "./CardGroup" ;
+import CardGroup from "./CardSearchGroup" ;
 import {PrintLog} from  "../../../data/customlibs/utils";
 
-export default function GroupList() {
-    PrintLog("GroupList") ;
+export default function SearchGroup() {
+    PrintLog("SearchGroup") ;
 
     // on recupere les infos sur le token et l'utilisateur
     const storedToken = localStorage.getItem('token') ;
@@ -52,7 +52,7 @@ export default function GroupList() {
 
     function TranslateAll(data,Page){
 
-        PrintLog('GroupList TranslateAll') ;
+        PrintLog('SearchGroup TranslateAll') ;
         PrintLog(data);
 
         let t = FindTranslation(data,Page, sNom) ;
@@ -81,7 +81,7 @@ export default function GroupList() {
     }
 
     if (reloadTraductions === true) {
-        TranslateAll(Translations_Text,"GroupList") ;
+        TranslateAll(Translations_Text,"SearchGroup") ;
         setReloadTraductions(false) ;
     }
                 
