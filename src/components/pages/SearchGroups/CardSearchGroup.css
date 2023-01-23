@@ -1,6 +1,8 @@
 .rowGroup {
     width: 100%;
     padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
 }
 .rowImage {
     width: 180px;
@@ -8,10 +10,32 @@
 } 
 
 @media(max-width: 668px) {
+    .rowGroup {
+        display: flex;
+    }
+    .secondPartGroup {
+        display: flex;
+    }
     .rowImage {
         width: 150px;
         height: 80px;
     }
+    .titleGroup {
+        font-size: 17px;
+    }
+    .cityGroup {
+        font-size: 12px;
+        text-transform: none;
+    }
+    .textDescript {
+        display: none;
+    }
+    .buttonJoin {
+        margin-top: 10px;
+    }
+    /* .groupBlock1, .groupBlock2 {
+        display: block;
+    } */
 }
 
 

@@ -32,9 +32,9 @@ export default function CardGroup(props) {
                     </div>
                     <div className="col-lg-9 col-md-9 col-sm-10">
                         <h3 className="text-xl font-weight-semibold">{props.Group.nom}</h3>
-                        <h6 as="h6" className="mb-4 text-uppercase" style={{ color:"rgb(135 116 87)", marginTop:"-10px", fontWeight:"600" }}>{props.Group.tags}</h6>
+                        <h6 as="h6" className="mb-4 text-uppercase" style={{ color:"rgb(135 116 87)", marginTop:"-10px", fontWeight:"600" }}>{props.Group.group_city}</h6>
                         <div>
-                            <p className="text-justify" style={{ color:"rgb(135 116 67)" }}>{ props.Group.sdescription.substr(0, 150) + ' ...' }</p>
+                            <p className="text-justify" style={{ color:"rgb(135 116 67)" }}>{ props.Group.sdescription.substr(0, 200) + ' ...' }</p>
                             <button className='btn btn-primary' onClick={() => EditGroup(props.Group)}>
                                 <i className="fa fa-edit"></i>
                             </button>

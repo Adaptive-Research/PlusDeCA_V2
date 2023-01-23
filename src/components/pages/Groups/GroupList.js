@@ -190,7 +190,6 @@ export default function GroupList() {
         }
         
 
-
         if (ShowWindow === "false")
             setShowEditGroup(false) ;
         else

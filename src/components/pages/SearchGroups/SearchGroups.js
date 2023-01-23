@@ -148,20 +148,14 @@ export default function SearchGroup() {
     // Separate drafts from published groups
     const renderGroups = (TypeGroup) => {
         const groups = JSON.parse(localStorage.getItem("allGroups"));
-        let nombre = 1
 
         if (groups !== null)
         {
             return groups.map((group) => {
-                    if ( group.group_number === null) 
-                        nombre = 1 ;
-                    else 
-                        nombre = parseInt(group.group_number)+1  ;
 
                     return <Row  key={group.id}> 
                                 <CardSearchGroup 
                                     Group={group}
-                                    Nombre={nombre}
                                     TypeGroup={TypeGroup}
                                     SendGroupData={SendGroupData}  
                                     ForceRenderGroup = {ForceRenderGroup}

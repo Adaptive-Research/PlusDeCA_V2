@@ -1,8 +1,10 @@
-
+// import React, {Fragment} from "react";
+import { Route, Link, useParams } from "react-router-dom";
 import {Card, Row} from "react-bootstrap";
 import {subscribeGroup} from "../../../data/customlibs/api_angelo";
 import {PrintLog} from  "../../../data/customlibs/utils";
 import './CardSearchGroup.css';
+// const ShowGroup = React.lazy(() => import("./ShowGroup"));
 
 export default function CardSearchGroup(props) {
     PrintLog("CardSearchGroup") ;
@@ -15,10 +17,10 @@ export default function CardSearchGroup(props) {
     let sMembres = 'membres'
     let sNombre = '' ;
 
-    if (props.Nombre === 1)
+    if (props.Group.group_number === 0)
         sNombre = '1' + ' '  + sMembre ;
     else 
-        sNombre = props.Nombre + ' ' + sMembres ;
+        sNombre = props.Group.group_number + 1 + ' ' + sMembres ;
 
 
 
@@ -33,45 +35,45 @@ export default function CardSearchGroup(props) {
     }
 
 
-    return  <Row key={props.Group.id} className="rowGroup">
+    return  <Row key={props.Group.id} className="">
                 <hr />
-                <div className="d-flex">
+                <div className="rowGroup container col-lg-9 col-md-12 col-sm-12">
+                    <div className="col-lg-3 col-md-3">
                     { props.Group.group_image !== '0' ?
-                        <div className="col-lg-3 col-md-3 col-sm-2">
+                        <div>
                             <img
-                                className="rowImage"
+                                className="rowImage rounded-3"
                                 src={FichierImage}
                                 alt=""  
                             />
                         </div> : null
                     }
-                    <div className="col-lg-9 col-md-9 col-sm-10">
-                        <h3 className="text-xl font-weight-semibold">{props.Group.nom}</h3>
-                        <h6 as="h6" className="mb-4 text-uppercase" style={{ color:"rgb(135 116 87)", marginTop:"-10px", fontWeight:"600" }}>{props.Group.tags}</h6>
-                        <div>
+                    </div>
+                    <div className="secondPartGroup col-lg-9 col-md-9">
+                        <div className="col-lg-12 col-md-12 col-sm-8">
+                            <h3 className="titleGroup text-xl font-weight-semibold mb-3">{props.Group.nom}</h3>
+                            <h6 as="h6" className="cityGroup mb-5" style={{ color:"rgb(135 116 87)", marginTop:"-10px", fontWeight:"600", textTransform: "uppercase" }}>{props.Group.group_city}</h6>
+                            <p className="textDescript text-justify mb-5" style={{ color:"rgb(135 116 67)" }}>{ props.Group.sdescription.substr(0, 200) + ' ...' }</p>
                             <p className="text-justify" style={{ color:"rgb(135 116 67)" }}>{ sNombre }</p>
-                            <p className="text-justify" style={{ color:"rgb(135 116 67)" }}>{ props.Group.sdescription.substr(0,100) }</p>
+                        </div>
+                        <div className="col-lg-12 col-md-12 col-sm-3">
                             <button className='btn-primary' onClick={() => ShowGroupe(props.Group)}>
                                 <i className="fa fa-eye"></i>
                                 &nbsp;
-                                <span>Voir</span>
-                                {/* <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg fill-current" data-src="https://secure.meetupstatic.com/next/images/design-system-icons/share-outline.svg" data-icon="icon-32">
-                                        <title>icon</title>
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.8232 5.23741C10.9807 5.07992 11.25 5.19146 11.25 5.41419L11.25 14.25C11.25 14.6642 11.5858 15 12 15C12.4142 15 12.75 14.6642 12.75 14.25V5.41418C12.75 5.19146 13.0193 5.07992 13.1768 5.23741L15.9697 8.0303C16.2626 8.32319 16.7374 8.32319 17.0303 8.0303C17.3232 7.73741 17.3232 7.26253 17.0303 6.96964L13.2374 3.17675C12.554 2.49333 11.446 2.49333 10.7626 3.17675L6.96967 6.96964C6.67678 7.26253 6.67678 7.73741 6.96967 8.0303C7.26256 8.32319 7.73744 8.32319 8.03033 8.0303L10.8232 5.23741ZM9.25 10H6C4.89543 10 4 10.8954 4 12V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V12C20 10.8954 19.1046 10 18 10H14.75V11.5H18C18.2761 11.5 18.5 11.7239 18.5 12V20C18.5 20.2761 18.2761 20.5 18 20.5H6C5.72386 20.5 5.5 20.2761 5.5 20V12C5.5 11.7239 5.72386 11.5 6 11.5H9.25V10Z"></path>
-                                    </svg>
-                                </div> */}
+                                    <Link 
+                                        to={{
+                                        pathname: `${process.env.PUBLIC_URL}/VoirGroup`, 
+                                        query:{idGroup: props.Group.idGroup},
+                                        // state:{idGroup: props.Group.idGroup}
+                                    }} className="text-white">
+                                    Voir
+                                  </Link>
                             </button>
-                            <button className='btn-success' onClick={() => subscribeGroup(storedToken, props.Group.id,props.ForceRenderGroup)}>
-                                <i className="fa fa-share"></i>
+                            &nbsp; &nbsp;
+                            <button className='buttonJoin btn-success' onClick={() => subscribeGroup(storedToken, props.Group.id,props.ForceRenderGroup)}>
+                                {/* <i className="fa fa-share"></i> */}
                                 &nbsp;
                                 <span>Rejoindre</span>
-                                {/* <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg fill-current" data-src="https://secure.meetupstatic.com/next/images/design-system-icons/share-outline.svg" data-icon="icon-32">
-                                        <title>icon</title>
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.8232 5.23741C10.9807 5.07992 11.25 5.19146 11.25 5.41419L11.25 14.25C11.25 14.6642 11.5858 15 12 15C12.4142 15 12.75 14.6642 12.75 14.25V5.41418C12.75 5.19146 13.0193 5.07992 13.1768 5.23741L15.9697 8.0303C16.2626 8.32319 16.7374 8.32319 17.0303 8.0303C17.3232 7.73741 17.3232 7.26253 17.0303 6.96964L13.2374 3.17675C12.554 2.49333 11.446 2.49333 10.7626 3.17675L6.96967 6.96964C6.67678 7.26253 6.67678 7.73741 6.96967 8.0303C7.26256 8.32319 7.73744 8.32319 8.03033 8.0303L10.8232 5.23741ZM9.25 10H6C4.89543 10 4 10.8954 4 12V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V12C20 10.8954 19.1046 10 18 10H14.75V11.5H18C18.2761 11.5 18.5 11.7239 18.5 12V20C18.5 20.2761 18.2761 20.5 18 20.5H6C5.72386 20.5 5.5 20.2761 5.5 20V12C5.5 11.7239 5.72386 11.5 6 11.5H9.25V10Z"></path>
-                                    </svg>
-                                </div> */}
                             </button>                    
                         </div>
                     </div>

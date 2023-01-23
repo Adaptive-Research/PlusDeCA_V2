@@ -23,6 +23,7 @@ const ArticleList = React.lazy(() => import("./components/pages/Articles/Article
 //Group
 const SearchGroups = React.lazy(() => import("./components/pages/SearchGroups/SearchGroups"));
 const GroupList = React.lazy(() => import("./components/pages/Groups/GroupList"));
+const ShowGroup = React.lazy(() => import("./components/pages/SearchGroups/ShowGroup"));
 
 //Formation
 const FormationList = React.lazy(() => import("./components/pages/Formations/FormationList"));
@@ -149,6 +150,11 @@ const Root = () => {
                             <Route
                                 path={`${process.env.PUBLIC_URL}/MesGroupes`}
                                 element={<GroupList/>}
+                            />
+
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/VoirGroup`}
+                                element={<ShowGroup/>}
                             />
 
                             <Route

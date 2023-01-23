@@ -3,14 +3,7 @@ import axios from "axios";
 import  "../../GlobalVariables" ;
 import {PrintLog} from "./utils";
 
-
-
 var CryptoJS = require("crypto-js");
-
-
-
-
-
 
 // Cette fonction sert a psser les parametres quand on utilise fetch plutot que axios
 
@@ -24,15 +17,6 @@ function getParameters(parameters) {
     formBody = formBody.join("&");
     return formBody ;
 }
-
-
-
-
-
-
-
-
-
 
 // Tout le bloc ci-dessous dans le cas ou on utilise  fetch plutot qu'axios
 // Cela sert a extraire les donnees de la reponse
@@ -88,13 +72,6 @@ function ManageResponse_fetch( variable,  body, ForceRender ) {
             ForceRender(variable) ; 
 
 }
-
-
-
-
-
-
-
 
 // Tout ce bloc sert quand on utilise axios plutot que fetch 
 // Cela sert a extraire les donnees de la reponse
@@ -192,9 +169,6 @@ function ManageResponse_save_axios(response,ForceRender) {
     }
 }
 
-
-
-
 /*****************************************************************************************************************************************************
  * 
  * 
@@ -202,8 +176,6 @@ function ManageResponse_save_axios(response,ForceRender) {
  * 
  * 
  ****************************************************************************************************************************************************/
-
-
 
 async function getAllUsersEmail() {
     const url = process.env.REACT_APP_API_GET_USERS_URL;
@@ -530,11 +502,6 @@ async function UpdateFondateurUser(tok, mail, idEntreprise,f) {
     }
 }
 
-
-
-
-
-
 async function getEntrepriseUtilisateur(variable,tok,ForceRender) {
     PrintLog("getEntrepriseUtilisateur") ;
     let chaine = "" ;
@@ -572,9 +539,6 @@ async function getEntrepriseUtilisateur(variable,tok,ForceRender) {
 
 
 }
-
-
-
 
 async function getUtilisateurPayant(variable,tok,ForceRender) {
     PrintLog("getUtilisateurPayant") ;
@@ -614,11 +578,6 @@ async function getUtilisateurPayant(variable,tok,ForceRender) {
 
 }
 
-
-
-
-
-
 /*****************************************************************************************************************************************************
  * 
  * 
@@ -626,8 +585,6 @@ async function getUtilisateurPayant(variable,tok,ForceRender) {
  * 
  * 
  ****************************************************************************************************************************************************/
-
-
 
  async function searchCompanies(variable,tok, s, ForceRender) {
     const url = process.env.REACT_APP_API_SEARCH_COMPANIES_URL;
@@ -1016,6 +973,24 @@ async function getAllGroups(variable,tok,ForceRender) {
         token: tok,
         debug:1,
         Submit: 1,
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
+
+    ManageResponse_select_axios(variable, response,ForceRender) ;
+}
+
+//Method to get a specific group 
+async function getASpecificGroup(variable,idGroup, tok,ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
+    const url =  process.env.REACT_APP_API_SHOW_A_SPECIFIC_GROUP_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        debug:1,
+        Submit: 1,
+        idGroup: idGroup,
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -2226,6 +2201,7 @@ export {
     PublishArticle,
 
     getAllGroups,
+    getASpecificGroup,
     getUserGroups,
     SaveGroup,
     UpdateGroup,
