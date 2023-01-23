@@ -186,11 +186,8 @@ export {
     UpdateGroup,
     DeleteGroup,
     PublishGroup,
-<<<<<<< HEAD
-    subscribeGroup,
-    getASpecificGroup
+    getASpecificGroup,
+    subscribeGroup
 
-=======
->>>>>>> feature_dan
    
 };
