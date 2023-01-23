@@ -6,15 +6,6 @@ import {PrintLog} from "./utils";
 
 
 
-var CryptoJS = require("crypto-js");
-
-
-
-
-
-
-
-
 
 
 
