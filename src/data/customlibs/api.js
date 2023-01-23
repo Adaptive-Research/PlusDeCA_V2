@@ -1999,6 +1999,8 @@ async function  getTranslations_SelectBox(variable,VL,ForceRender) {
 
 export {
     getDataFromResponse,
+    ManageResponse_select_axios,
+    ManageResponse_save_axios,
 
     getAllUsersEmail,
     SaveNewUser,
