@@ -1,15 +1,12 @@
 
 import axios from "axios";
-import {getDataFromResponse,ManageResponse_select_axios,ManageResponse_save_axios} from "./api.js"
+import {ManageResponse_select_axios,ManageResponse_save_axios} from "./api.js"
 import  "../../GlobalVariables" ;
 import {PrintLog} from "./utils";
 
 
 
 var CryptoJS = require("crypto-js");
-
-
-
 
 
 
@@ -190,7 +187,6 @@ async function getASpecificGroup(variable,idGroup, tok,ForceRender) {
 
 
 
-
 export {
 
     getAllGroups,
@@ -199,8 +195,11 @@ export {
     UpdateGroup,
     DeleteGroup,
     PublishGroup,
+<<<<<<< HEAD
     subscribeGroup,
     getASpecificGroup
 
+=======
+>>>>>>> feature_dan
    
 };
