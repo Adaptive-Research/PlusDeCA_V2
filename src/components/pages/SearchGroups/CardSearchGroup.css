@@ -1,20 +1,73 @@
 .rowGroup {
     width: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    text-align: justify;
+    align-items: justify;
+    justify-content: flex-start;
+    margin-left: 0;
     display: flex;
 }
 .rowImage {
-    width: 180px;
+    min-width: 180px;
     height: 90px;
+    border-radius: 11%;
 } 
+.titleGroup {
+    font-weight: 400;
+}
+.buttonJoin {
+    margin-left: 200px;
+    margin-bottom: 10px;
+}
+@media(max-width: 995px) {
+    .buttonJoin {
+        margin-left: 230px;
+        margin-bottom: 10px;
+    }
+}
 
-@media(max-width: 668px) {
-    .rowGroup {
+@media(max-width: 835px) {
+    .buttonJoin {
+        margin-left: 200px;
+        margin-bottom: 10px;
+    }
+}
+
+@media(max-width: 767px) {
+    .bigRow {
         display: flex;
     }
+    .rowImage {
+        width: 160px;
+        margin-right: 0px;
+    } 
     .secondPartGroup {
-        display: flex;
+        /* margin-left: 200px; */
+        width: 100%;
+        text-align: justify;
+        align-items: justify;
+        justify-content: flex-start;
+        margin-left: 0px;
+        float: left;
+    }
+}
+
+@media(max-width: 668px) {
+    .bigRow {
+        display: row;
+    }
+    .rowGroup {
+        max-width: 80%;
+    }
+    .btnDiv {
+        width: 20%;
+        position: relative;
+        top: 30%;
+    }
+    .buttonJoin {
+        position: absolute;
+        float: right;
+        right: 0px;
+        margin-bottom: 0px;
     }
     .rowImage {
         width: 150px;
@@ -30,13 +83,10 @@
     .textDescript {
         display: none;
     }
-    .buttonJoin {
-        margin-top: 10px;
-    }
-    /* .groupBlock1, .groupBlock2 {
-        display: block;
-    } */
 }
+
+
+
 
 
 

@@ -42,7 +42,7 @@ export default function ShowGroup(props) {
     if (reloadInfos.current === true)
     {
         PrintLog("reloadInfos") ;
-        getAllGroups("showGroup",props.idGroup,storedToken,RenderAfterLoad) ;
+        getASpecificGroup("showGroup",props.idGroup,storedToken,RenderAfterLoad) ;
         reloadInfos.current = false ;
     }
 
