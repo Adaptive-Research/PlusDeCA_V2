@@ -18,6 +18,18 @@
     margin-left: 200px;
     margin-bottom: 10px;
 }
+.btnIcon{
+    position: relative;
+}
+.iconBut {
+    position: absolute;
+    float: right;
+    right: 20px;
+    top: -50px;
+}
+.btnDiv {
+    display: none;
+}
 @media(max-width: 995px) {
     .buttonJoin {
         margin-left: 230px;
@@ -52,6 +64,9 @@
 }
 
 @media(max-width: 668px) {
+    .iconBut {
+        display: none;
+    }
     .bigRow {
         display: row;
     }
@@ -60,13 +75,15 @@
     }
     .btnDiv {
         width: 20%;
-        position: relative;
-        top: 30%;
+        /* position: relative; */
+        top: 50%;
+        display: block;
     }
     .buttonJoin {
         position: absolute;
         float: right;
-        right: 0px;
+        margin-top: -12%;
+        right: 20px;
         margin-bottom: 0px;
     }
     .rowImage {
@@ -85,8 +102,10 @@
     }
 }
 
-
-
-
+@media(max-width: 522px) {
+    .buttonJoin {
+        margin-top: -16%;
+    }
+}
 
 

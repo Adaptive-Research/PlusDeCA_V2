@@ -81,7 +81,7 @@ export default function ShowGroup(props) {
                                 {/* <img src={ group.group_image } alt="" /> */}
                                 <img src={ 'https://secure.meetupstatic.com/photos/event/e/f/d/clean_509523837.jpeg' } className="rounded-3" alt="" />
                             </div>
-                            <div className="col-lg-5 col-md-5 col-sm-12">
+                            <div className="col-lg-5 col-md-5 col-sm-12 mb-5">
                                 {/* <h3 className="mb-5">{ group.nom }</h3> */}
                                 <h2 className="mb-5 text-bold">{ 'Nom du groupe' }</h2>
                                 <div className="text-small">
