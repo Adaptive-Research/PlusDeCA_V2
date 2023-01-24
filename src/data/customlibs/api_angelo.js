@@ -157,14 +157,14 @@ function subscribeGroup(tok, idGroup, ForceRender) {
 }
 
 //Method to get a specific group 
-async function getASpecificGroup(variable,idGroup, tok,ForceRender) {
+async function getASpecificGroup(variable,id, tok,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
     const url =  process.env.REACT_APP_API_SHOW_A_SPECIFIC_GROUP_URL;
     const response = await axios.post(url, {
         token: tok,
         debug:1,
         Submit: 1,
-        idGroup: idGroup,
+        id: id, 
     }, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

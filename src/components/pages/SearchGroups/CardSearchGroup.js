@@ -38,11 +38,12 @@ export default function CardSearchGroup(props) {
     return  <Row key={props.Group.id} className="bigRow">
                 <hr />
                 <Link 
-                    to={{
-                    pathname: `${process.env.PUBLIC_URL}/VoirGroup`, 
-                    query:{idGroup: props.Group.idGroup},
-                    // state:{idGroup: props.Group.idGroup}
-                    }}
+                    // to={{
+                    // pathname: `${process.env.PUBLIC_URL}/VoirGroup`, 
+                    // query:{idGroup: props.Group.idGroup},
+                    // // state:{idGroup: props.Group.idGroup}
+                    // }}
+                    to={ `${process.env.PUBLIC_URL}/VoirGroup/${props.Group.id}` }
                     className="rowGroup container col-lg-9 col-md-12 col-sm-12 mb-2"
                     >
                     { props.Group.group_image !== '0' ?

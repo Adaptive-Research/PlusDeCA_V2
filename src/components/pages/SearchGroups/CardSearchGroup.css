@@ -30,10 +30,18 @@
 .btnDiv {
     display: none;
 }
+
+.imageGroup {
+    height: "360px"
+}
+
 @media(max-width: 995px) {
     .buttonJoin {
         margin-left: 230px;
         margin-bottom: 10px;
+    }
+    .imageGroup {
+        height: "320px"
     }
 }
 
@@ -41,6 +49,9 @@
     .buttonJoin {
         margin-left: 200px;
         margin-bottom: 10px;
+    }
+    .imageGroup {
+        height: "300px"
     }
 }
 
@@ -52,6 +63,9 @@
         width: 160px;
         margin-right: 0px;
     } 
+    .imageGroup {
+        height: "280px"
+    }
     .secondPartGroup {
         /* margin-left: 200px; */
         width: 100%;

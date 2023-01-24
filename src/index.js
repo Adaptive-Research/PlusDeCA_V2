@@ -153,7 +153,7 @@ const Root = () => {
                             />
 
                             <Route
-                                path={`${process.env.PUBLIC_URL}/VoirGroup`}
+                                path={`${process.env.PUBLIC_URL}/VoirGroup/:id`}
                                 element={<ShowGroup/>}
                             />
 
