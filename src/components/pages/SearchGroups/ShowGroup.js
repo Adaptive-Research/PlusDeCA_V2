@@ -20,6 +20,12 @@ export default function ShowGroup(props) {
     // pour le reload des infos
     const [reloadInfos, setReloadInfos] = useState(true) ;
 
+    // pour le Rerender
+    const [compteur,setCompteur] = useState(0) ;    
+ 
+    // pour le ForceRender
+    const downloaded_Groups = useRef(false) ;
+        
     const modeEdit = useRef("") ;
     const [idGroup, setIdGroup] = useState("");
     const [nom, setNom] = useState("");
@@ -37,7 +43,19 @@ export default function ShowGroup(props) {
     const [tagMsg, setTagMsg] = useState("");
     const [cityMsg, setCityMsg] = useState("");
     const [descriptionMsg, setDescriptionMsg] = useState("");
+   
+    function RenderAfterLoad(variable) {
+        PrintLog("RenderAfterLoad") ;
+
+        if (variable === "showGroup")
+            downloaded_Groups.current = true ;
     
+        if (downloaded_Groups.current === true)
+            setCompteur(compteur+1) ; 
+    
+        downloaded_Groups.current = false ;      
+    }
+
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
