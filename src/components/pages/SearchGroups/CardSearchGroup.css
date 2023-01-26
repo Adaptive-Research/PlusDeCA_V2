@@ -21,7 +21,8 @@
 .btnIcon{
     position: relative;
 }
-.iconBut {
+.iconBut,
+.unsubscribeBut {
     position: absolute;
     float: right;
     right: 20px;
@@ -32,7 +33,7 @@
 }
 
 .imageGroup {
-    height: "360px"
+    height: 300px
 }
 
 @media(max-width: 995px) {
@@ -41,7 +42,7 @@
         margin-bottom: 10px;
     }
     .imageGroup {
-        height: "320px"
+        height: 280px
     }
 }
 
@@ -49,9 +50,6 @@
     .buttonJoin {
         margin-left: 200px;
         margin-bottom: 10px;
-    }
-    .imageGroup {
-        height: "300px"
     }
 }
 
@@ -63,9 +61,6 @@
         width: 160px;
         margin-right: 0px;
     } 
-    .imageGroup {
-        height: "280px"
-    }
     .secondPartGroup {
         /* margin-left: 200px; */
         width: 100%;
@@ -75,11 +70,24 @@
         margin-left: 0px;
         float: left;
     }
+
+    .groupContent1 {
+        margin-left: 17%;
+        margin-right: 15%;
+    }
+
+    .groupBlock2 {
+        margin-left: 15%;
+        margin-right: 15%;
+    }
 }
 
 @media(max-width: 668px) {
     .iconBut {
         display: none;
+    }
+    .unsubscribeBut {
+        margin-top: -3%;
     }
     .bigRow {
         display: row;
@@ -89,7 +97,6 @@
     }
     .btnDiv {
         width: 20%;
-        /* position: relative; */
         top: 50%;
         display: block;
     }
@@ -116,9 +123,26 @@
     }
 }
 
+@media(max-width: 573px) {
+    .groupContent1 {
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+    .groupBlock2 {
+        margin-left: 0%;
+        margin-right: 0%;
+    }
+    .unsubscribeBut {
+        margin-top: -4%;
+    }
+}
+
 @media(max-width: 522px) {
     .buttonJoin {
         margin-top: -16%;
+    }
+    .unsubscribeBut {
+        margin-top: -5%;
     }
 }
 

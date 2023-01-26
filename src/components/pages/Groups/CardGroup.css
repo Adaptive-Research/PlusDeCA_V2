@@ -1,18 +1,131 @@
 .rowGroup {
     width: 100%;
-    padding-top: 10px;
+    text-align: justify;
+    align-items: justify;
+    justify-content: flex-start;
+    margin-left: 0;
+    display: flex;
 }
 .rowImage {
-    width: 180px;
+    min-width: 180px;
     height: 90px;
+    border-radius: 11%;
 } 
+.titleGroup {
+    font-weight: 400;
+}
+.btnIcon{
+    position: relative;
+}
+.iconBut1 {
+    position: absolute;
+    float: right;
+    right: 70px;
+    top: -50px;
+}
+.iconBut2 {
+    position: absolute;
+    float: right;
+    right: 20px;
+    top: -50px;
+}
+
+.imageGroup {
+    height: "360px"
+}
+
+@media(max-width: 995px) {
+    /* .iconBut1 {
+        margin-left: 230px;
+        margin-bottom: 0px;
+    } */
+    .imageGroup {
+        height: "320px"
+    }
+}
+
+@media(max-width: 835px) {
+    /* .iconBut1 {
+        margin-left: 200px;
+        margin-bottom: 10px;
+    } */
+    .imageGroup {
+        height: "300px"
+    }
+}
+
+@media(max-width: 767px) {
+    .bigRow {
+        display: flex;
+    }
+    .rowImage {
+        width: 160px;
+        margin-right: 0px;
+    } 
+    .imageGroup {
+        height: "280px"
+    }
+    .secondPartGroup {
+        /* margin-left: 200px; */
+        width: 100%;
+        text-align: justify;
+        align-items: justify;
+        justify-content: flex-start;
+        margin-left: 0px;
+        float: left;
+    }
+}
 
 @media(max-width: 668px) {
+    .bigRow {
+        display: row;
+    }
+    .rowGroup {
+        max-width: 80%;
+    }
+    .iconBut1 {
+        position: absolute;
+        float: right;
+        margin-top: -8%;
+        right: 20px;
+        margin-bottom: 0px;
+        width: 10px;
+    }
+    .iconBut2 {
+        margin-top: 1%;
+    }
     .rowImage {
         width: 150px;
         height: 80px;
     }
+    .titleGroup {
+        font-size: 17px;
+    }
+    .cityGroup {
+        font-size: 12px;
+        text-transform: none;
+    }
+    .textDescript {
+        display: none;
+    }
 }
 
+@media(max-width: 540px) {
+    .iconBut1 {
+        margin-top: -10%;
+    }
+}
+
+@media(max-width: 522px) {
+    .iconBut1 {
+        margin-top: -15%;
+    }
+}
+
+@media(max-width: 442px) {
+    .iconBut1 {
+        margin-top: -20%;
+    }
+}
 
 
