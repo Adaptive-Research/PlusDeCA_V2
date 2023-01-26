@@ -15,9 +15,6 @@ export default function SearchGroup() {
     // pour le Rerender
     const [compteur,setCompteur] = useState(0) ;    
 
-    // pour l'affichage de la fenetre modale
-    const [showEditGroup, setShowEditGroup] = useState(false) ;
-
     // pour le ForceRender
     const downloaded_Groups = useRef(false) ;
 
@@ -95,8 +92,6 @@ export default function SearchGroup() {
 
     function RenderAfterLoad(variable) {
         PrintLog("RenderAfterLoad") ;
-        //PrintLog("downloaded_Groups.current") ;
-        //PrintLog(downloaded_Groups.current) ;
         
         if (variable === "allGroups")
             downloaded_Groups.current = true ;
@@ -123,8 +118,6 @@ export default function SearchGroup() {
         {
             setModeEdit("Edit") ;
             PrintLog("Mode Edit") ;
-            //PrintLog("Group") ;
-            //PrintLog(Group) ;
 
             setId(Group.id) ;
             setNom(Group.nom) ;
@@ -133,14 +126,9 @@ export default function SearchGroup() {
             setPhoto(Group.group_image) ;
         }
         
-        if (ShowWindow === "false")
-            setShowEditGroup(false) ;
-        else
-            setShowEditGroup(true) ;
     }    
 
     function ForceRenderGroup() {
-        setShowEditGroup(false) ;
 
         getAllGroups("allGroups",storedToken, RenderAfterLoad) ;
     }

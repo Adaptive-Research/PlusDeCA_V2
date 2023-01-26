@@ -176,6 +176,24 @@ function unSubscribeGroup(tok, idGroup, ForceRender) {
 
 }
 
+async function showAllMembersIntoAGroup(variable, id, tok,ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/' + process.env.REACT_APP_API_DELETE_GROUP_URL;
+    const url = process.env.REACT_APP_API_SHOW_ALL_MEMBERS_INTO_A_GROUP_URL;
+    const response = await axios.post(url, {
+        token: tok,
+        debug:1,
+        Submit: 1,
+        id: id, 
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+    
+    ManageResponse_select_axios(variable,response,ForceRender) ;
+
+}
+
 //Method to get a specific group 
 async function getASpecificGroup(variable,id, tok,ForceRender) {
     //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
@@ -208,6 +226,7 @@ export {
     PublishGroup,
     getASpecificGroup,
     subscribeGroup,
-    unSubscribeGroup
+    unSubscribeGroup,
+    showAllMembersIntoAGroup,
    
 };

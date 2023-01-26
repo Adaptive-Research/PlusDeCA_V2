@@ -1,11 +1,9 @@
 import React, {useState, useRef} from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FormGroup, Row, Button, Modal} from "react-bootstrap";
-import {SaveGroup,UpdateGroup} from "../../../data/customlibs/api_angelo";
-import {FindTranslation} from  "../../../data/customlibs/utils" ;
-import {getASpecificGroup} from "../../../data/customlibs/api_angelo";
+import {getASpecificGroup, subscribeGroup, unSubscribeGroup, showAllMembersIntoAGroup} from "../../../data/customlibs/api_angelo";
+import {FindTranslation, PrintLog} from  "../../../data/customlibs/utils" ;
 import '../../../assets/css/GlobalInputbackground.css';
-import {PrintLog} from  "../../../data/customlibs/utils";
 import './CardSearchGroup.css';
 
 export default function ShowGroup(props) {
@@ -20,6 +18,8 @@ export default function ShowGroup(props) {
  
     // pour le ForceRender
     const downloaded_Groups = useRef(false) ;
+
+    const downloaded_Members = useRef(false) ;
         
     const { id } = useParams();
    
@@ -33,6 +33,14 @@ export default function ShowGroup(props) {
             setCompteur(compteur+1) ; 
     
         downloaded_Groups.current = false ;      
+
+        if (variable === "allMembers")
+            downloaded_Members.current = true ;
+    
+        if (downloaded_Members.current === true)
+            setCompteur(compteur+1) ; 
+    
+        downloaded_Members.current = false ;      
     }
 
     // recuperation des informations au depart
@@ -40,6 +48,7 @@ export default function ShowGroup(props) {
     {
         PrintLog("reloadInfos") ;
         getASpecificGroup("showGroup",id,storedToken,RenderAfterLoad) ;
+        showAllMembersIntoAGroup("allMembers",id, storedToken, RenderAfterLoad)
         reloadInfos.current = false ;
     }
 
@@ -53,10 +62,20 @@ export default function ShowGroup(props) {
         return temp.textContent; // Or return temp.innerText if you need to return only visible text. It's slower.
     }
     
-    // Separate drafts from published groups
+    const renderAllMembersOfGroup = () => {
+        const allGroupMembers = JSON.parse(localStorage.getItem("allMembers"));
+        console.log(allGroupMembers);
+        if(allGroupMembers != null){
+            return allGroupMembers.map((member) => {
+                    return <Row key={member.id}>
+                        <span>{ member.Prenom + " " + member.Nom }</span>
+                    </Row>
+            });
+        }
+    }
+    
     const renderGroup = () => {
         const group = JSON.parse(localStorage.getItem("showGroup"));
-        console.log(process.env.REACT_APP_API_GET_IMAGE_URL + group[0].group_image + '/');
 
         var groupImage = '' ;    
         if (group[0].group_image !== '0')
@@ -77,8 +96,29 @@ export default function ShowGroup(props) {
         // console.log(doc.firstChild.innerHTML); // => <a href="#">Link...
         // console.log(doc.firstChild.firstChild.innerHTML); 
 
+
         if (group !== null)
         {
+            function renderSubscriptionButtons() {
+                return <div className="btnIcon">
+                    { 
+                        group[0].isMember != true  ?
+                            <div className="subscriptButDiv">
+                                <button className='btn-success p-1 rounded-2' onClick={() => subscribeGroup(storedToken, id,ForceRenderGroup)}>Rejoindre le groupe</button>                    
+                            </div>
+                        :
+                            <div className="subscriptButDiv">
+                                <Link 
+                                    to={ `${process.env.PUBLIC_URL}/SearchGroups` }
+                                    onClick={() => unSubscribeGroup(storedToken, id,ForceRenderGroup)} 
+                                    className="btn-danger p-1 rounded-2">
+                                        Quitter le groupe
+                                </Link>
+                            </div>
+                    }
+                </div>
+            }
+        
             return <Row className="">
                         <div className="groupBlock1 mb-2 bg-white pt-4 pl-4 pr-4 row">
                             <div className="col-lg-1 col-md-1 col-sm-2"></div>
@@ -99,19 +139,20 @@ export default function ShowGroup(props) {
                                 </div>
                             </div>
                             <hr />
+                            { renderSubscriptionButtons() }
                             <div className="col-lg-1 col-md-1 col-sm-2"></div>
                         </div>
                         <div className="groupBlock2 mt-4 p-4 row">
                             <div className="col-lg-1 col-md-1 col-sm-2"></div>
-                            <div className="col-lg-5 col-md-5 col-sm-12">
+                            <div className="col-lg-5 col-md-5 col-sm-5">
                                 <h3 className=" font-weight-bold">A propos du groupe</h3>
                                 <p className="text-justify">{ group[0].sdescription }</p>
                             </div>
-                            <div className="col-lg-5 col-md-5 col-sm-12">
+                            <div className="col-lg-5 col-md-5 col-sm-5">
                                 <h3 className=" font-weight-bold">Organisateur</h3>
                                 <span className="mb-5">Nom Prénoms</span>
                                 <h3 className="mt-5 font-weight-bold">Membres</h3>
-                                <span>Nom Prénoms</span>
+                                { renderAllMembersOfGroup() }
                             </div>
                             <div className="col-lg-1 col-md-1 col-sm-2"></div>
                         </div>

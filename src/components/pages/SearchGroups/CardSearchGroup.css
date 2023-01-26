@@ -14,42 +14,27 @@
 .titleGroup {
     font-weight: 400;
 }
-.buttonJoin {
-    margin-left: 200px;
-    margin-bottom: 10px;
-}
 .btnIcon{
     position: relative;
 }
-.iconBut,
-.unsubscribeBut {
+.subscriptionButDiv {
     position: absolute;
     float: right;
-    right: 20px;
+    right: 0px;
     top: -50px;
 }
-.btnDiv {
-    display: none;
+.subscriptButDiv {
+    position: relative;
+    left: 51%;
+    margin-bottom: 10px;
 }
-
 .imageGroup {
     height: 300px
 }
 
 @media(max-width: 995px) {
-    .buttonJoin {
-        margin-left: 230px;
-        margin-bottom: 10px;
-    }
     .imageGroup {
         height: 280px
-    }
-}
-
-@media(max-width: 835px) {
-    .buttonJoin {
-        margin-left: 200px;
-        margin-bottom: 10px;
     }
 }
 
@@ -62,7 +47,6 @@
         margin-right: 0px;
     } 
     .secondPartGroup {
-        /* margin-left: 200px; */
         width: 100%;
         text-align: justify;
         align-items: justify;
@@ -70,23 +54,17 @@
         margin-left: 0px;
         float: left;
     }
-
     .groupContent1 {
         margin-left: 17%;
         margin-right: 15%;
     }
-
-    .groupBlock2 {
-        margin-left: 15%;
-        margin-right: 15%;
+    .subscriptButDiv {
+        left: 17%;
     }
 }
 
 @media(max-width: 668px) {
-    .iconBut {
-        display: none;
-    }
-    .unsubscribeBut {
+    .subscriptionButDiv {
         margin-top: -3%;
     }
     .bigRow {
@@ -94,18 +72,6 @@
     }
     .rowGroup {
         max-width: 80%;
-    }
-    .btnDiv {
-        width: 20%;
-        top: 50%;
-        display: block;
-    }
-    .buttonJoin {
-        position: absolute;
-        float: right;
-        margin-top: -12%;
-        right: 20px;
-        margin-bottom: 0px;
     }
     .rowImage {
         width: 150px;
@@ -128,21 +94,23 @@
         margin-left: 2%;
         margin-right: 2%;
     }
-    .groupBlock2 {
-        margin-left: 0%;
-        margin-right: 0%;
-    }
-    .unsubscribeBut {
+    .subscriptionButDiv {
         margin-top: -4%;
+    }
+    .subscriptButDiv {
+        left: 2%;
     }
 }
 
 @media(max-width: 522px) {
-    .buttonJoin {
-        margin-top: -16%;
+    .subscriptionButDiv {
+        margin-top: -6%;
     }
-    .unsubscribeBut {
-        margin-top: -5%;
+}
+
+@media(max-width: 450px) {
+    .subscriptionButDiv {
+        margin-top: -11%;
     }
 }
 
