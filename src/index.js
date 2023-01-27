@@ -40,6 +40,7 @@ const InterviewQuestions = React.lazy(() => import("./components/pages/Interview
 const CompanyList = React.lazy(() => import("./components/pages/Company/CompanyList"));
 
 const EditProfile = React.lazy(() => import("./components/pages/Profile/EditProfile"));
+const ShowProfile = React.lazy(() => import("./components/pages/Profile/ShowProfile"));
 const ManagedUsersList = React.lazy(() => import("./components/pages/ManagedUsers/ManagedUsersList"));
 
 
@@ -121,6 +122,10 @@ const Root = () => {
                             <Route
                                 path={`${process.env.PUBLIC_URL}/pages/editProfile`}
                                 element={<EditProfile/>}
+                            />
+                            <Route
+                                path={`${process.env.PUBLIC_URL}/pages/showProfile`}
+                                element={<ShowProfile/>}
                             />
 
                             <Route

@@ -68,7 +68,11 @@ export default function ShowGroup(props) {
         if(allGroupMembers != null){
             return allGroupMembers.map((member) => {
                     return <Row key={member.id}>
-                        <span>{ member.Prenom + " " + member.Nom }</span>
+                        <Link
+                            to={ `${process.env.PUBLIC_URL}/pages/showProfile` } 
+                            className="text-2xl"
+                        >{ member.Prenom + " " + member.Nom }
+                        </Link>
                     </Row>
             });
         }
@@ -87,9 +91,12 @@ export default function ShowGroup(props) {
         let sNombre = '' ;
 
         if (group[0].group_number === 0)
-            sNombre = '1' + ' '  + sMembre ;
+            sNombre = '0' + ' '  + sMembre ;
         else 
-            sNombre = group[0].group_number + 1 + ' ' + sMembres ;
+            if(group[0].group_number === 1)
+                sNombre = '1' + ' '  + sMembre ;
+            else
+                sNombre = group[0].group_number + ' ' + sMembres ;
 
         // var xmlString = "<div id='foo'><a href='#'>Link</a><span></span></div>";
         // var doc = new DOMParser().parseFromString(xmlString, "text/xml");
@@ -130,7 +137,7 @@ export default function ShowGroup(props) {
                                 }
                             {/* </div> */}
                             <div className="groupContent1 col-lg-5 col-md-5 col-sm-8">
-                                <h3 className="mb-5 text-bold">{ group[0].nom }</h3>
+                                <h3 className="mb-5 font-weight-bold">{ group[0].nom }</h3>
                                 <div className="text-small">
                                     <span>{ group[0].group_city }</span>
                                 </div>

@@ -16,10 +16,14 @@ export default function CardGroup(props) {
     let sMembres = 'membres'
     let sNombre = '' ;
 
-    if (props.Group.group_number === 0)
-        sNombre = '1' + ' '  + sMembre ;
-    else 
-        sNombre = props.Group.group_number + 1 + ' ' + sMembres ;
+    if (props.Group.group_number === 0){
+        sNombre = '0' + ' '  + sMembre ;
+    }else {
+        if(props.Group.group_number === 1)
+            sNombre = '1' + ' '  + sMembre ;
+        else
+            sNombre = props.Group.group_number + ' ' + sMembres ;
+    }
 
     function EditGroup(Group) {
         if (props.SendGroupData !== null)
