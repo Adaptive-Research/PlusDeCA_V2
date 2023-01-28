@@ -1,8 +1,8 @@
-import React , { useState, useRef,useCallback } from "react";
+import React , { useState, useRef } from "react";
 import {useNavigate} from "react-router";
 import {Col,Row,Card,Form,Button,FormGroup} from "react-bootstrap";
 
-import  { FindTranslation, getIDFromToken } from  "../../../data/customlibs/utils" ;
+import  { FindTranslation } from  "../../../data/customlibs/utils" ;
 import {SaveProfile,SaveLanguage} from "../../../data/customlibs/api";
 import ReactFlagsSelect from "react-flags-select";
 import {PrintLog} from  "../../../data/customlibs/utils";
@@ -16,17 +16,16 @@ export default function EditProfile(props) {
   const compteur  = useRef(0) ;
   compteur.current = compteur.current+1 ;
   PrintLog("\n\nEditProfile:" + compteur.current) ;
-
   const storedToken = localStorage.getItem('token') ;
-  const idUser = getIDFromToken(storedToken) ;
 
 
 
-  const lsProfile =  localStorage.getItem('Profile') ;
-  let Profile = null ;
-  if (lsProfile !== undefined)
-    Profile = JSON.parse(lsProfile) ;
+  const lsInfosPerso =  localStorage.getItem('Profile') ;
+  var InfosPerso = null ;
+  if (lsInfosPerso !== undefined)
+  InfosPerso = JSON.parse(lsInfosPerso) ;
   
+  PrintLog(InfosPerso) ;  
   //PrintLog(storedToken) ;  
   //PrintLog(idUser) ;
 
@@ -187,25 +186,26 @@ export default function EditProfile(props) {
 
 
 
-  function InitInfosFromProfile(){
-    if (Profile !== null)
+  function InitProfileFromInfosPerso(){
+    if (InfosPerso !== null)
     {
-      setPrenom(Profile.Prenom) ;
-      setNom(Profile.Nom) ;
-      setEmail(Profile.Email) ;
-      setTelephone(Profile.Telephone) ;
-      setBio(Profile.Bio) ;
+      var Infos = InfosPerso[0] ;
+      setPrenom(Infos.Prenom) ;
+      setNom(Infos.Nom) ;
+      setEmail(Infos.Email) ;
+      setTelephone(Infos.Telephone) ;
+      setBio(Infos.Bio) ;
 
       setBioVisible(false) ;
-      if (Profile.BioVisible === "1")
+      if (Infos.BioVisible === "1")
         setBioVisible(true) ;
 
       setTelephoneVisible(false) ;
-      if (Profile.TelephoneVisible === "1")
+      if (Infos.TelephoneVisible === "1")
         setTelephoneVisible(true) ;
 
       setEmailVisible(false) ;
-      if (Profile.EmailVisible === "1")
+      if (Infos.EmailVisible === "1")
         setEmailVisible(true) ;
     }
   }
@@ -226,7 +226,7 @@ export default function EditProfile(props) {
     else
       setSelectedFlag(ValueLangue.current) ;
     
-    InitInfosFromProfile()
+    InitProfileFromInfosPerso()
 
 
     LoadTranslations() ;  
