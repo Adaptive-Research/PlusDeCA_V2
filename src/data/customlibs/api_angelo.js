@@ -212,9 +212,41 @@ async function getASpecificGroup(variable,id, tok,ForceRender) {
     ManageResponse_select_axios(variable, response,ForceRender) ;
 }
 
+//Method to get a specific group 
+async function getAGroupCreator(variable,id, tok,ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
+    const url =  process.env.REACT_APP_API_SHOW_A_SPECIFIC_GROUP_CREATOR;
+    const response = await axios.post(url, {
+        token: tok,
+        debug:1,
+        Submit: 1,
+        id: id, 
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
 
+    ManageResponse_select_axios(variable, response,ForceRender) ;
+}
 
+//Method to get a specific group 
+async function getAUserNotifications(variable,id, tok,ForceRender) {
+    //const url = 'https://frozen-cove-79898.herokuapp.com/http://78.249.128.56:8001/API/Show-Articles';
+    const url =  process.env.REACT_APP_API_SHOW_A_USER_NOTIFS;
+    const response = await axios.post(url, {
+        token: tok,
+        debug:1,
+        Submit: 1,
+        id: id, 
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    });
 
+    ManageResponse_select_axios(variable, response,ForceRender) ;
+}
 
 export {
 
@@ -228,5 +260,7 @@ export {
     subscribeGroup,
     unSubscribeGroup,
     showAllMembersIntoAGroup,
+    getAGroupCreator,
+    getAUserNotifications,
    
 };
