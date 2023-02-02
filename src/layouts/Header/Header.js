@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
-import { Dropdown, Navbar, Container,Button } from "react-bootstrap";
+import { Dropdown, Navbar, Container,Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {PrintLog} from  "../../data/customlibs/utils";
 
 import { SearchBar } from '../SearchBar/SearchBar';
-import {getUserGroups} from "../../data/customlibs/api_angelo";
+import { getUserNotifications } from "../../data/customlibs/api_angelo";
+import CardNotification from "../../components/pages/Notifications/CardNotification";
 
 
 export function Header() {
@@ -62,6 +63,89 @@ export function Header() {
     document.querySelector(".demo_changer").style.right = "0px";
   };
 
+  const storedToken = localStorage.getItem('token') ;
+
+  // pour le reload des infos
+  const reloadInfos = useRef(true) ;
+
+  // pour le ForceRender
+  const downloaded_Notifs = useRef(false) ;
+
+  // pour 
+  const [id, setId] = useState("");
+  const [isread, setIsRead] = useState("");
+  const [idutilisateur, setIdUtilisateur] = useState("");
+  const [notification_content, setNotificationContent] = useState("");
+  const [idtype_notification, setIdTypeNotification] = useState("");
+  const [valuelangue, setValuelangue] = useState("");
+
+  // pour le Rerender
+  const [compteur,setCompteur] = useState(0) ;
+
+  // recuperation des informations au depart
+  if (reloadInfos.current === true)
+  {
+      PrintLog("reloadInfos") ;
+      getUserNotifications("userNotifs",storedToken,RenderAfterLoad) ;
+      reloadInfos.current = false ;
+  }
+
+    // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
+    function SendNotifData(Notif) {
+      if (Notif === null)
+      {
+          setIsRead("");
+          setIdUtilisateur("");
+          setNotificationContent("");
+          setIdTypeNotification("");
+          setValuelangue("");
+      }
+      else
+      {
+          setIsRead(Notif.id) ;
+          setIdUtilisateur(Notif.idutilisateur) ;
+          setNotificationContent(Notif.notification_content) ;
+          setIdTypeNotification(Notif.idtype_notification) ;
+          setValuelangue(Notif.valuelangue) ;
+      }
+      
+  }    
+
+  function RenderAfterLoad(variable) {
+      
+      if (variable === "userNotifs")
+          downloaded_Notifs.current = true ;
+  
+      if (downloaded_Notifs.current === true)
+          setCompteur(compteur+1) ; 
+  
+      downloaded_Notifs.current = false ;      
+  }
+
+  function ForceRenderNotif() {
+      getUserNotifications("userNotifs",storedToken,RenderAfterLoad) ;
+  }
+
+  // Separate drafts from notifs
+  const renderNotifs = (TypeNotif) => {
+    const userNotifs = JSON.parse(localStorage.getItem("userNotifs"));
+    console.log(userNotifs);
+    if (userNotifs !== null)
+    {
+        return userNotifs.map((notif) => {
+              return <div className="notifications-menu"  key={notif.id}> 
+                          <CardNotification 
+                              Notif={notif}
+                              SendNotifData={SendNotifData}  
+                              TypeNotif={TypeNotif}  
+                              ForceRenderNotif = {ForceRenderNotif}
+                          /> 
+                      </div> ;
+        })
+    }
+    else
+        return "" ;
+  }
 
   return (
     <Navbar expand="md" className="app-header header sticky">
@@ -197,56 +281,7 @@ export function Header() {
                           </div>
                         </div>
                       </div>
-                      <div className="notifications-menu">
-                        <Dropdown.Item
-                          className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
-                        >
-                          <div className="me-3 notifyimg  bg-primary-gradient brround box-shadow-primary">
-                            <i className="fe fe-message-square"></i>
-                          </div>
-                          <div className="mt-1">
-                            <h5 className="notification-label mb-1">
-                              New review received
-                            </h5>
-                            <span className="notification-subtext">
-                              2 hours ago
-                            </span>
-                          </div>
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
-                        >
-                          <div className="me-3 notifyimg  bg-secondary-gradient brround box-shadow-primary">
-                            <i className="fe fe-mail"></i>
-                          </div>
-                          <div className="mt-1">
-                            <h5 className="notification-label mb-1">
-                              New Mails Received
-                            </h5>
-                            <span className="notification-subtext">
-                              1 week ago
-                            </span>
-                          </div>
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/pages/e-commerce/shoppingCart/`}
-                        >
-                          <div className="me-3 notifyimg  bg-success-gradient brround box-shadow-primary">
-                            <i className="fe fe-shopping-cart"></i>
-                          </div>
-                          <div className="mt-1">
-                            <h5 className="notification-label mb-1">
-                              New Order Received
-                            </h5>
-                            <span className="notification-subtext">
-                              1 day ago
-                            </span>
-                          </div>
-                        </Dropdown.Item>
-                      </div>
+                      { renderNotifs() }
                       <div className="dropdown-divider m-0"></div>
                       <Link
                         to="#"
