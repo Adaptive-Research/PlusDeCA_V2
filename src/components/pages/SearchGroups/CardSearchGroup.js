@@ -16,12 +16,12 @@ export default function CardSearchGroup(props) {
     let sMembres = 'membres'
     let sNombre = '' ;
 
-    if (props.Group.group_number === 0){
+    if (props.Group.group_number <= 0){
         sNombre = '0' + ' '  + sMembre ;
     }else {
         if(props.Group.group_number === 1)
             sNombre = '1' + ' '  + sMembre ;
-        else
+        else if(props.Group.group_number > 1)
             sNombre = props.Group.group_number + ' ' + sMembres ;
     }
 
