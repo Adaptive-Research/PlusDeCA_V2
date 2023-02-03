@@ -4,9 +4,28 @@ import "./index.scss";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {PrintLog} from "./data/customlibs/utils";
 
+import Switcherlayout from "./components/switcherlayout";
+import App from "./components/app";
+import Custompages from "./components/custompages";
+import Dashboard from "./components/pages/Dashboard/Dashboard";
+import Journal from "./components/pages/Journal/Journal";
+import ArticleList from "./components/pages/Articles/ArticleList";
+import SearchGroups from "./components/pages/SearchGroups/SearchGroups";
+import GroupList from "./components/pages/Groups/GroupList";
+import ShowGroup from "./components/pages/SearchGroups/ShowGroup";
+import ShowProfile from "./components/pages/Profile/ShowProfile"; 
+import FormationAvailableList from "./components/pages/FormationsAvailables/FormationAvailableList";
+import FormationList from "./components/pages/Formations/FormationList";
+import ContactList from "./components/pages/BusinessCard/ContactList";
+import InterviewList from "./components/pages/Interviews/InterviewList";
+import InterviewQuestions from "./components/pages/Interviews/InterviewQuestions";
+import CompanyList from "./components/pages/Company/CompanyList";
+import EditProfile from "./components/pages/Profile/EditProfile"; 
+import ManagedUsersList from "./components/pages/ManagedUsers/ManagedUsersList";
+import Login from "./components/CustomPages/Login/Login";
 
+/*
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
-//App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
 
@@ -36,16 +55,17 @@ const ContactList = React.lazy(() => import("./components/pages/BusinessCard/Con
 const InterviewList = React.lazy(() => import("./components/pages/Interviews/InterviewList"));
 const InterviewQuestions = React.lazy(() => import("./components/pages/Interviews/InterviewQuestions"));
 
+
 //pages
 const CompanyList = React.lazy(() => import("./components/pages/Company/CompanyList"));
 
 const EditProfile = React.lazy(() => import("./components/pages/Profile/EditProfile"));
 const ShowProfile = React.lazy(() => import("./components/pages/Profile/ShowProfile"));
 const ManagedUsersList = React.lazy(() => import("./components/pages/ManagedUsers/ManagedUsersList"));
-
+*/
 
 //custom Pages
-const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
+//const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
 const Register = React.lazy(() => import("./components/CustomPages/Register/Register"));
 const ForgotPassword = React.lazy(() => import("./components/CustomPages/ForgotPassword/ForgotPassword"));
 //const LockScreen = React.lazy(() => import("./components/CustomPages/LockScreen/LockScreen"));

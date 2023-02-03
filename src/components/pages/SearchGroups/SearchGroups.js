@@ -158,29 +158,21 @@ export default function SearchGroup() {
     return (
         <div style={{ backgroundColor:"#fff" }}>
 
-            <div className="page-header" >
-                
-            </div>
-
-            <Row id="user-profile">
-                <Col lg={12}>
-                    <Card className=" bg-transparent shadow-none border-0">
-                        <div className="border-top ">
-                            <div className="wideget-user-tab">
-                                <div className="tab-menu-heading">
-                                    <div className="tabs-menu1 ">
-                                        <div className="tab-pane profiletab show">
-                                            <Row className="row-cards ">
-                                                {renderGroups()}
-                                            </Row>
-                                        </div>
-                                    </div>
+            <div className=" bg-transparent shadow-none border-0">
+                <div className="border-top ">
+                    <div className="wideget-user-tab">
+                        <div className="tab-menu-heading">
+                            <div className="tabs-menu1 ">
+                                <div className="tab-pane profiletab show">
+                                    <Row className="row-cards ">
+                                        {renderGroups()}
+                                    </Row>
                                 </div>
                             </div>
                         </div>
-                    </Card>
-                </Col>
-            </Row>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

@@ -17,6 +17,13 @@
 .btnIcon{
     position: relative;
 }
+
+.test {
+    position: absolute;
+    float: right;
+    right: 0px;
+    top: -50px;
+}
 .subscriptionButDiv {
     position: absolute;
     float: right;

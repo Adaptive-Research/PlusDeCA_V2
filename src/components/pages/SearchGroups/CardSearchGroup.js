@@ -35,11 +35,11 @@ export default function CardSearchGroup(props) {
         return <div className="btnIcon">
             { 
                 props.Group.isMember != true  ?
-                    <div className="subscriptionButDiv">
+                    <div className="test">
                         <button className='btn-success p-1 rounded-2' onClick={() => subscribeGroup(storedToken, props.Group.id,props.ForceRenderGroup)}>Rejoindre</button>                    
                     </div>
                 :
-                    <div className="subscriptionButDiv">
+                    <div className="test">
                         <button onClick={() => unSubscribeGroup(storedToken, props.Group.id,props.ForceRenderGroup)} className="btn-danger p-1 rounded-2">Quitter</button>
                     </div>
             }
@@ -47,33 +47,64 @@ export default function CardSearchGroup(props) {
     }
 
 
-    return  <Row key={props.Group.id} className="bigRow">
-                <hr />
-                <Link 
-                    // to={{
-                    // pathname: `${process.env.PUBLIC_URL}/VoirGroup`, 
-                    // query:{idGroup: props.Group.idGroup},
-                    // // state:{idGroup: props.Group.idGroup}
-                    // }}
-                    to={ `${process.env.PUBLIC_URL}/VoirGroup/${props.Group.id}` }
-                    className="rowGroup container col-lg-9 col-md-12 col-sm-12 mb-2"
-                    >
-                    { props.Group.group_image !== '0' ?
-                        <img
-                            className="rowImage col-lg-3 col-md-3 col-sm-2"
-                            src={FichierImage}
-                            alt=""  
-                        /> : null
-                    }
-                    <div className="secondPartGroup col-lg-9 col-md-9">
-                        <h3 className="titleGroup text-xl text-dark font-weight-bold mb-3">{props.Group.nom}</h3>
-                        <h6 as="h6" className="cityGroup mb-3" style={{ color:"rgb(135 116 87)", marginTop:"-10px", fontWeight:"600", textTransform: "uppercase" }}>{props.Group.group_city}</h6>
-                        <p className="textDescript text-justify mb-3" style={{ color:"rgb(135 116 67)" }}>{ props.Group.sdescription.substr(0, 200) + ' ...' }</p>
-                        <p className="text-justify" style={{ color:"rgb(135 116 67)" }}>{ sNombre }</p>
-                    </div>
-                </Link>
-                    
-                { renderSubscriptionButtons() }
+    if (window.screen.width >= 991)
+        return  <Row key={props.Group.id} className="bigRow">
+                    <hr />
+                    <Link 
+                        // to={{
+                        // pathname: `${process.env.PUBLIC_URL}/VoirGroup`, 
+                        // query:{idGroup: props.Group.idGroup},
+                        // // state:{idGroup: props.Group.idGroup}
+                        // }}
+                        to={ `${process.env.PUBLIC_URL}/VoirGroup/${props.Group.id}` }
+                        className="rowGroup container col-lg-9 col-md-12 col-sm-12 mb-2"
+                        >
+                        { props.Group.group_image !== '0' ?
+                            <img
+                                className="rowImage col-lg-3 col-md-3 col-sm-2"
+                                src={FichierImage}
+                                alt=""  
+                            /> : null
+                        }
+                        <div className="secondPartGroup col-lg-9 col-md-9">
+                            <h3 className="titleGroup text-xl text-dark font-weight-bold mb-3">{props.Group.nom}</h3>
+                            <h6 as="h6" className="cityGroup mb-3" style={{ color:"rgb(135 116 87)", marginTop:"-10px", fontWeight:"600", textTransform: "uppercase" }}>{props.Group.group_city}</h6>
+                            <p className="textDescript text-justify mb-3" style={{ color:"rgb(135 116 67)" }}>{ props.Group.sdescription.substr(0, 200) + ' ...' }</p>
+                            <p className="text-justify" style={{ color:"rgb(135 116 67)" }}>{ sNombre }</p>
+                        </div>
+                    </Link>
+                        
+                    { renderSubscriptionButtons() }
 
-            </Row>
+                </Row>
+    else
+        return  <Row key={props.Group.id} className="bigRow">
+                    <hr />
+                    <Link 
+                        // to={{
+                        // pathname: `${process.env.PUBLIC_URL}/VoirGroup`, 
+                        // query:{idGroup: props.Group.idGroup},
+                        // // state:{idGroup: props.Group.idGroup}
+                        // }}
+                        to={ `${process.env.PUBLIC_URL}/VoirGroup/${props.Group.id}` }
+                        className="rowGroup container col-lg-9 col-md-12 col-sm-12 mb-2"
+                        >
+                        { props.Group.group_image !== '0' ?
+                            <img
+                                className="rowImage col-lg-3 col-md-3 col-sm-2"
+                                src={FichierImage}
+                                alt=""  
+                            /> : null
+                        }
+                        <div className="secondPartGroup col-lg-9 col-md-9">
+                            <h3 className="titleGroup text-xl text-dark font-weight-bold mb-3">{props.Group.nom}</h3>
+                            <h6 as="h6" className="cityGroup mb-3" style={{ color:"rgb(135 116 87)", marginTop:"-10px", fontWeight:"600", textTransform: "uppercase" }}>{props.Group.group_city}</h6>
+                            <p className="text-justify" style={{ color:"rgb(135 116 67)" }}>{ sNombre }</p>
+                        </div>
+                    </Link>
+                        
+                    { renderSubscriptionButtons() }
+
+                </Row>
+    
 }
