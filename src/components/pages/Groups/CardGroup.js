@@ -46,7 +46,7 @@ export default function CardGroup(props) {
                 >
                 { props.Group.group_image !== '0' ?
                     <img
-                        className="rowImage col-lg-3 col-md-3"
+                        className="rowImage col-lg-3 col-md-3 col-sm-2"
                         src={FichierImage}
                         alt=""  
                     /> : null

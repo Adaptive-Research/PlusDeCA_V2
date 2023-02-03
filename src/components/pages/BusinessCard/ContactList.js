@@ -10,6 +10,7 @@ import ModalImportBusinessCard from "./ModalImportBusinessCard.js";
 import ModalEditCategoryBusinessCard from "./ModalEditCategoryBusinessCard.js";
 import ModalClassifyBusinessCard from "./ModalClassifyBusinessCard.js";
 import ModalCall from "./ModalCall.js";
+import './ContactList.css';
 
 import '../../../assets/css/GlobalInputbackground.css';
 import {PrintLog} from  "../../../data/customlibs/utils";
@@ -238,19 +239,9 @@ export default function ContactList() {
         if (t !== "Not Found")
           setImportBusinessCard(t) ;
     }
-    
-
-
-
-
-
-
 
     PrintLog("ContactList") ;
     const storedToken = localStorage.getItem('token') ;
-
-
-    
  
     if (reloadTraductions === true) {
         TranslateAll(Translations_Text,"ContactList") ;
@@ -267,8 +258,6 @@ export default function ContactList() {
         reloadInfos.current = false ;
     }
 
-    
-
     function RenderAfterLoad(variable) {
         reloadInfos.current = false ;
         PrintLog("RenderAfterLoad: " + variable ) ;
@@ -283,13 +272,7 @@ export default function ContactList() {
             setCompteur(compteur+1) ; 
         
     }
-  
-
-
-
-
-
-
+    
     // C'est le callback appele quand on ferme ModalEditBusinessCard
     function ModalEditBusinessCardClose(){
         setShowEditBusinessCard(false) ;
@@ -317,8 +300,6 @@ function ModalCallClose(){
     setShowCall(false) ;
 }
 
-
-
     function ClearBusinessCard() {
         PrintLog("ClearBusinessCard") ;
         
@@ -335,10 +316,6 @@ function ModalCallClose(){
         setIdEntreprise("0") ;
         setIdActivite("0") ;
     }
-
-
-
-
 
     // C'est le callback appele quand on clique sur + ou Edit dans CardCompany, il sert a replir la fenetre ModalEditCompany
     function SendBusinessCardData(Mode, BusinessCard) {
@@ -384,15 +361,7 @@ function ModalCallClose(){
         }
 
     }   
-
-
-
-
-
-
-
-
-
+    
     function ForceRenderBusinessCard() {
         setShowEditBusinessCard(false) ;
         setShowImportContact(false);
@@ -400,7 +369,6 @@ function ModalCallClose(){
         downloaded_BusinessCards.current = false ;    
         getUserBusinessCards("userBusinessCards",storedToken, RenderAfterLoad) ;
     }
-
 
     //la fonction de ForceRender des Categories de BusinessCards
     function ForceRenderCategoriesBusinessCards() {
@@ -412,16 +380,9 @@ function ModalCallClose(){
 
     }
 
-
-
     const BusinessCardsCategories = JSON.parse(localStorage.getItem("BusinessCardsCategories"));
     const BusinessCards = JSON.parse(localStorage.getItem("userBusinessCards"));
     
-
-
-
-
-
     const renderBusinessCardsForTab = (idCategorie) => {
         PrintLog("renderBusinessCardsForTab") ;
         //PrintLog("BusinessCards");
@@ -501,19 +462,19 @@ function ModalCallClose(){
         <div>
 
             <div className="page-header" >
-                <div>
+                <div className="">
                     <h1 className="page-title">Contacts</h1>
                 </div>
                 <div className="ms-auto pageheader-btn">
-                    <button className='btn btn-primary' onClick={() => {setShowImportContact(true)  ;}}>
+                    <button className='btn btn-primary btnTop' onClick={() => {setShowImportContact(true)  ;}}>
                         <span style={{marginRight: '5px'}}><FaUpload/></span>
                         {importLeads}
                     </button>
-                    <button className='btn btn-success' onClick={() => {SendBusinessCardData("Add",null)}}  style={{marginLeft: "0.5rem",marginRight: "0.5rem"  }}>
+                    <button className='btn btn-success btnTop' onClick={() => {SendBusinessCardData("Add",null)}}  style={{marginLeft: "0.5rem",marginRight: "0.5rem"  }}>
                         <span> <i className="fe fe-plus"></i></span>
                         {addCard}
                     </button>
-                    <button className='btn btn-success' onClick={() => {setShowEditCategoryBusinessCard(true)}} >
+                    <button className='btn btn-success btnTop' onClick={() => {setShowEditCategoryBusinessCard(true)}} >
                         <span> <i className="fe fe-plus"></i></span>
                         {manageCategories}
                     </button>
