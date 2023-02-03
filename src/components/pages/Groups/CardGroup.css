@@ -8,7 +8,7 @@
 }
 .rowImage {
     min-width: 180px;
-    height: 90px;
+    height: 100px;
     border-radius: 11%;
 } 
 .titleGroup {
@@ -95,8 +95,8 @@
         margin-top: 1%;
     }
     .rowImage {
-        width: 150px;
-        height: 80px;
+        max-width: 90px;
+        height: 90px;
     }
     .titleGroup {
         font-size: 17px;
@@ -117,14 +117,32 @@
 }
 
 @media(max-width: 522px) {
+    .btnIcon {
+        right: -30px;
+    }
     .iconBut1 {
-        margin-top: -15%;
+        margin-top: -10%;
     }
 }
 
 @media(max-width: 442px) {
+    .btnIcon {
+        right: -40px;
+    }
     .iconBut1 {
-        margin-top: -20%;
+        margin-top: -12%;
+    }
+    .iconBut2 {
+        margin-bottom: 8%;
+    }
+}
+
+@media(max-width: 410px) {
+    .iconBut1 {
+        margin-top: -18%;
+    }
+    .iconBut2 {
+        margin-bottom: 8%;
     }
 }
 

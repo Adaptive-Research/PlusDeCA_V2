@@ -66,6 +66,7 @@
 @media(max-width: 668px) {
     .subscriptionButDiv {
         margin-top: -3%;
+        right: -20px;
     }
     .bigRow {
         display: row;
@@ -74,8 +75,8 @@
         max-width: 80%;
     }
     .rowImage {
-        width: 150px;
-        height: 80px;
+        min-width: 90px;
+        height: 90px;
     }
     .titleGroup {
         font-size: 17px;
@@ -113,6 +114,8 @@
         margin-top: -11%;
     }
 }
+
+
 
 
 
