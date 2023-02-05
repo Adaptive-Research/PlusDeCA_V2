@@ -6,11 +6,7 @@
     margin-left: 0;
     display: flex;
 }
-.rowImage {
-    min-width: 180px;
-    height: 90px;
-    border-radius: 11%;
-} 
+
 .titleGroup {
     font-weight: 400;
 }
@@ -21,29 +17,50 @@
 .test {
     position: absolute;
     float: right;
-    right: 0px;
+    right: 10px;
     top: -50px;
 }
-.subscriptionButDiv {
-    position: absolute;
-    float: right;
-    right: 0px;
-    top: -50px;
+
+.img-Dan {
+    width: 150px ;
+    height: 120px;
+    border-radius: 11%;
 }
-.subscriptButDiv {
-    position: relative;
-    left: 51%;
-    margin-bottom: 10px;
+
+
+.secondPartGroup {
+    width: 100%;
+    text-align: justify;
+    align-items: justify;
+    justify-content: flex-start;
+    margin-left: 20px;
+    float: left;
 }
+
+
+
 .imageGroup {
     height: 300px
 }
+
+
+
 
 @media(max-width: 995px) {
     .imageGroup {
         height: 280px
     }
+
+    .img-Dan {
+        width: 130px ;
+        height: 100px;
+        border-radius: 11%;
+    }
+    
 }
+
+
+
 
 @media(max-width: 767px) {
     .bigRow {
@@ -53,23 +70,23 @@
         width: 160px;
         margin-right: 0px;
     } 
-    .secondPartGroup {
-        width: 100%;
-        text-align: justify;
-        align-items: justify;
-        justify-content: flex-start;
-        margin-left: 0px;
-        float: left;
-    }
     .groupContent1 {
         margin-left: 17%;
         margin-right: 15%;
     }
-    .subscriptButDiv {
-        left: 17%;
+
+    .img-Dan {
+        width: 80px ;
+        height: 60px;
+        border-radius: 11%;
     }
+    
 }
   
+
+
+
+
 @media(max-width: 668px) {
     .subscriptionButDiv {
         margin-top: -3%;
@@ -92,8 +109,10 @@
         font-size: 12px;
         text-transform: none;
     }
-    .textDescript {
-        display: none;
+    .img-Dan {
+        width: 60px ;
+        height: 40px;
+        border-radius: 11%;
     }
 }
 
@@ -102,26 +121,7 @@
         margin-left: 2%;
         margin-right: 2%;
     }
-    .subscriptionButDiv {
-        margin-top: -4%;
-    }
-    .subscriptButDiv {
-        left: 2%;
-    }
 }
-
-@media(max-width: 522px) {
-    .subscriptionButDiv {
-        margin-top: -6%;
-    }
-}
-
-@media(max-width: 450px) {
-    .subscriptionButDiv {
-        margin-top: -11%;
-    }
-}
-
 
 
 

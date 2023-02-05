@@ -1,6 +1,6 @@
 import React, {useState, useRef} from "react";
 import { Link, useParams } from "react-router-dom";
-import { FormGroup, Row, Button, Modal} from "react-bootstrap";
+import { Row} from "react-bootstrap";
 import {getASpecificGroup, subscribeGroup, unSubscribeGroup, showAllMembersIntoAGroup, getAGroupCreator} from "../../../data/customlibs/api_angelo";
 import {FindTranslation, PrintLog} from  "../../../data/customlibs/utils" ;
 import '../../../assets/css/GlobalInputbackground.css';
@@ -17,10 +17,8 @@ export default function ShowGroup(props) {
     const [compteur, setCompteur] = useState(0) ;    
  
     // pour le ForceRender
-    const downloaded_Groups = useRef(false) ;
-
+    const downloaded_ShowGroup = useRef(false) ;
     const downloaded_Members = useRef(false) ;
-
     const downloaded_Creator = useRef(false) ;
         
     const { id } = useParams();
@@ -29,62 +27,62 @@ export default function ShowGroup(props) {
         PrintLog("RenderAfterLoad") ;
 
         if (variable === "showGroup")
-            downloaded_Groups.current = true ;
-    
-        if (downloaded_Groups.current === true)
-            setCompteur(compteur+1) ; 
-    
-        downloaded_Groups.current = false ;      
+            downloaded_ShowGroup.current = true ;
 
         if (variable === "allMembers")
             downloaded_Members.current = true ;
-    
-        if (downloaded_Members.current === true)
-            setCompteur(compteur+1) ; 
-    
-        downloaded_Members.current = false ;      
 
         if (variable === "groupCreator")
             downloaded_Creator.current = true ;
     
-        if (downloaded_Creator.current === true)
+
+        if (downloaded_ShowGroup.current === true && downloaded_Members.current === true && downloaded_Creator.current === true)
             setCompteur(compteur+1) ; 
     
-        downloaded_Creator.current = false ;      
     }
 
     // recuperation des informations au depart
     if (reloadInfos.current === true)
     {
         PrintLog("reloadInfos") ;
-        getASpecificGroup("showGroup",id,storedToken,RenderAfterLoad) ;
-        showAllMembersIntoAGroup("allMembers",id, storedToken, RenderAfterLoad)
+
         reloadInfos.current = false ;
+        downloaded_Members.current = false ;      
+        downloaded_Creator.current = false ;  
+        downloaded_ShowGroup.current = false ;         
+
+
+        getASpecificGroup("showGroup",id,storedToken,RenderAfterLoad) ;
+        showAllMembersIntoAGroup("allMembers",id, storedToken, RenderAfterLoad) ;
+        getAGroupCreator("groupCreator",id, storedToken, RenderAfterLoad) ;
+
     }
     
     function ForceRenderGroup() {
-        getASpecificGroup("showGroup", id, storedToken, RenderAfterLoad) ;
-        getAGroupCreator("groupCreator",id, storedToken, RenderAfterLoad)
+        downloaded_Members.current = false ;      
+        showAllMembersIntoAGroup("allMembers",id, storedToken, RenderAfterLoad) ;
     }
     
-    function htmlToText(html) {
-        var temp = document.createElement('p');
-        temp.innerHTML = html;
-        return temp.textContent; // Or return temp.innerText if you need to return only visible text. It's slower.
-    }
 
     const renderGroupCreator = () => {
         const groupCreator = JSON.parse(localStorage.getItem("groupCreator"));
         console.log(groupCreator);
         if(groupCreator != null){
+
             return groupCreator.map((creator) => {
+                    var sFonction = creator.Fonction ;
+                    if (creator.Fonction === null)
+                        sFonction = "" ;
+
                     return <Row key={creator.id}>
                         <Link
                             to={ `${process.env.PUBLIC_URL}/pages/showProfile` } 
-                            className="text-2xl"
                             >{ creator.Prenom + " " + creator.Nom }
                         </Link>
-                        <strong>Fonction : </strong><span>{ creator.Fonction }</span>
+
+                        <Link to={ `${process.env.PUBLIC_URL}/pages/showEntreprise` } >
+                            { sFonction + " " +  creator.Entreprise }
+                        </Link>
                     </Row>
             });
         }
@@ -94,12 +92,20 @@ export default function ShowGroup(props) {
         const allGroupMembers = JSON.parse(localStorage.getItem("allMembers"));
         // console.log(allGroupMembers);
         if(allGroupMembers != null){
+
             return allGroupMembers.map((member) => {
+                    var sFonction = member.Fonction ;
+                    if (member.Fonction === null)
+                        sFonction = "" ;
+    
                     return <Row key={member.id}>
                         <Link
                             to={ `${process.env.PUBLIC_URL}/pages/showProfile` } 
                             className="text-2xl"
                         >{ member.Prenom + " " + member.Nom }
+                        </Link>
+                        <Link to={ `${process.env.PUBLIC_URL}/pages/showEntreprise` } >
+                            { sFonction + " " +  member.Entreprise }
                         </Link>
                     </Row>
             });
@@ -137,7 +143,7 @@ export default function ShowGroup(props) {
             function renderSubscriptionButtons() {
                 return <div className="btnIcon">
                     { 
-                        group[0].isMember != true  ?
+                        group[0].isMember !== true  ?
                             <div className="subscriptButDiv">
                                 <button className='btn-success p-1 rounded-2' onClick={() => subscribeGroup(storedToken, id,ForceRenderGroup)}>Rejoindre le groupe</button>                    
                             </div>
@@ -184,7 +190,7 @@ export default function ShowGroup(props) {
                                 <p className="text-justify">{ group[0].sdescription }</p>
                             </div>
                             <div className="col-lg-5 col-md-5 col-sm-5">
-                                <h3 className=" font-weight-bold">Organisateur</h3>
+                                <h3 className=" font-weight-bold">Créateur</h3>
                                 { renderGroupCreator() }
                                 <h3 className="mt-5 font-weight-bold">Membres</h3>
                                 { renderAllMembersOfGroup() }
